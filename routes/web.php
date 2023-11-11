@@ -15,16 +15,16 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 Route::get('home',[HomeController::class, 'index'])->name('home');
-Route::get('billing',[HomeController::class, 'index'])->name('hobillingme');
-Route::get('dashboard',[HomeController::class, 'index'])->name('dashboard');
-Route::get('notifications',[HomeController::class, 'index'])->name('notifications');
-Route::get('profile',[HomeController::class, 'index'])->name('profile');
-Route::get('rtl',[HomeController::class, 'index'])->name('rtl');
-Route::get('sign-in',[HomeController::class, 'index'])->name('sign-in');
-Route::get('sign-up',[HomeController::class, 'index'])->name('sign-up');
-Route::get('tables',[HomeController::class, 'index'])->name('tables');
-Route::get('virtual-reality',[HomeController::class, 'index'])->name('virtual-reality');
+Route::get('Banque',[HomeController::class, 'Banque'])->name('Banque');
+Route::get('Consultation',[HomeController::class, 'Consultation'])->name('Consultation');
+Route::get('DossierClients',[HomeController::class, 'DossierClients'])->name('DossierClients');
+Route::get('DossierContacts',[HomeController::class, 'DossierContacts'])->name('DossierContacts');
+Route::get('OmondeTeam',[HomeController::class, 'OmondeTeam'])->name('OmondeTeam');
+Route::get('sign-up',[HomeController::class, 'sign-up'])->name('sign-up');
+Route::get('sign-in',[HomeController::class, 'sign-in'])->name('sign-in');
+Route::get('profile',[HomeController::class, 'profile'])->name('profile');
+Route::get('virtual-reality',[HomeController::class, 'virtual-reality'])->name('virtual-reality');
 
