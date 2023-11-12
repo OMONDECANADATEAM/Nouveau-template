@@ -3315,7 +3315,9 @@ textarea.form-control-lg {
     pointer-events: none;
     cursor: default; }
 
-  
+.fa-heart {
+  color: #e91e63;
+}
 
 .nav-tabs {
   border-bottom: 1px solid #dee2e6; }
