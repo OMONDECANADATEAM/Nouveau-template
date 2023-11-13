@@ -278,7 +278,7 @@
                       <h6 class="text-center mb-0">Dépenses</h6>
                       <span class="text-xs">Novembre</span>
                       <hr class="horizontal dark my-3">
-                      <h5 class="mb-0">23.000 FCFA</h5>
+                      <h5 class="mb-0">22.000 FCFA</h5>
                     </div>
                   </div>
                 </div>

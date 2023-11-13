@@ -15,7 +15,7 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('connexion');
 });
 Route::get('home',[HomeController::class, 'index'])->name('home');
 Route::get('Banque',[HomeController::class, 'Banque'])->name('Banque');
@@ -23,7 +23,7 @@ Route::get('Consultation',[HomeController::class, 'Consultation'])->name('Consul
 Route::get('DossierClients',[HomeController::class, 'DossierClients'])->name('DossierClients');
 Route::get('DossierContacts',[HomeController::class, 'DossierContacts'])->name('DossierContacts');
 Route::get('OmondeTeam',[HomeController::class, 'OmondeTeam'])->name('OmondeTeam');
-Route::get('sign-up',[HomeController::class, 'sign-up'])->name('sign-up');
+Route::get('connexion',[HomeController::class, 'connexion'])->name('connexion');
 Route::get('sign-in',[HomeController::class, 'sign-in'])->name('sign-in');
 Route::get('profile',[HomeController::class, 'profile'])->name('profile');
 Route::get('virtual-reality',[HomeController::class, 'virtual-reality'])->name('virtual-reality');
