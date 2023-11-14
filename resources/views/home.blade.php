@@ -52,16 +52,16 @@
                         <div class="card-header p-3 pt-2">
                             <div
                                 class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">weekend</i>
+                                <i class="material-icons opacity-10">wallet</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-xl mb-0 text-capitalize">Caisse</p>
+                                <p class="text-xl mb-0 text-capitalize">Caisse - Novembre</p>
                                 <h4 class="mb-0">$52k</h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55%</span></p>
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55%</span> par rapport au mois precedent</p>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3%</span></p>
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3%</span> par rapport au mois precedent</p>
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span></p>
+                            <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> par rapport au mois precedent</p>
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,9 @@
                         <div class="card-header p-3 pt-2">
                             <div
                                 class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">weekend</i>
+                                <i class="material-icons opacity-10"><span class="material-symbols-outlined">
+                                    account_balance_wallet
+                                    </span></i>
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-xl mb-0 text-capitalize">Caisse Succursale</p>
@@ -115,7 +117,7 @@
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5%</span></p>
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5%</span> par rapport au mois precedent</p>
                         </div>
                     </div>
                 </div>

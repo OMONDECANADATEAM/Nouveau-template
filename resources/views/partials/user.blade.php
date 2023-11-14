@@ -1,8 +1,8 @@
 <li class="nav-item dropdown pe-2 d-flex align-items-center bold cursor-pointer">
     <div style="width: 32px; height: 32px; overflow: hidden; border-radius: 50%; margin-right: 8px;">
-        <img src="../assets/img/ivana-squares.jpg" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+        <img src="https://cdn-kmijh.nitrocdn.com/gfnqmJxHyBvKDHhsVlbZLcBOwySoLpvA/assets/images/optimized/rev-d533326/omondecanada.com/wp-content/uploads/2023/11/BROU-300PX.webp" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
-    <span style="font-weight: bold;">{{ auth()->user()->name }}</span>
+    <span style="font-weight: bold;">{{ auth()->user()->name }} {{auth()->user()->last_name}}</span>
 </li>
 
 <li class="nav-item dropdown pe-2 d-flex align-items-center">
@@ -13,10 +13,10 @@
         <li class="mb-2">
             <form action="{{ route('logout') }}" method="post">
                 @csrf
-                <button type="submit" class="dropdown-item border-radius-md">
-                    <div class="d-flex py-1 align-items-center justify-content-between">
-                        <span class="material-icons fs-3">logout</span>
-                        <h6 class="text-sm font-weight-normal mb-1">
+                <button type="submit" class="dropdown-item border-radius-md bg-danger">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="material-icons fs-2">logout</span>
+                        <h6 class="text-sm font-weight-normal">
                             <span class="font-weight-bold">DECONNEXION</span>
                         </h6>
                     </div>
