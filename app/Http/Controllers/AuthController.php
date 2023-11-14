@@ -26,5 +26,12 @@ class AuthController extends Controller
         // Authentication failed...
         return redirect()->route('Banque');
     }
+
+    public function logout()
+{
+    Auth::logout();
+    return redirect('/');
+}
+
 }
 

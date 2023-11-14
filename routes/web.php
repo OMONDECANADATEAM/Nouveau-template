@@ -33,3 +33,5 @@ Route::post('connexion', [AuthController::class, 'login']);
 Route::get('sign-in', [HomeController::class, 'sign-in'])->name('sign-in');
 Route::get('profile', [HomeController::class, 'profile'])->name('profile');
 Route::get('virtual-reality', [HomeController::class, 'virtual-reality'])->name('virtual-reality');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
