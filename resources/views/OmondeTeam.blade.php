@@ -38,6 +38,16 @@
 
 <body class="g-sidenav-show  bg-gray-200">
   @include('partials.navbar')
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    @include('partials.header' , ['page' => 'OMONDE TEAM'])
+        <!-- End Navbar -->
+        <div class="row">
+            <div class="col-12">
+            </div>
+        </div>
+  
+  </main>
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
