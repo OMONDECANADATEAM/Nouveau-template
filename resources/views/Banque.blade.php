@@ -68,12 +68,14 @@
                       <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
                           <i class="material-icons opacity-10">account_balance_wallet</i>
                       </div>
+                    </div>
+                    <div class="card-body pt-0 p-3 text-center">
+                      <h6 class="text-center mb-0">Dépenses</h6>
+                      <span class="text-xs">Novembre</span>
+                      <hr class="horizontal dark my-3">
+                      <h5 class="mb-0">22.000 FCFA</h5>
+                    </div>
                   </div>
-                  <div class="card-body pt-0 p-3 text-center col-md-6 w-100">
-                    <h5 class="text-center mb-0">Depenses</h5>
-                    <span class="text-xs">Novembre</span>
-                    <hr class="horizontal dark my-3">
-                    <h4 class="mb-5 text-center">12.000 000</h4>
                 </div>
                 
                 

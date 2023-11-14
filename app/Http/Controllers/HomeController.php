@@ -37,9 +37,9 @@ class HomeController extends Controller
         return view('profile');
     }
 
-    public function notifications()
+    public function connexion()
     {
-        return view('notifications');
+        return view('connexion');
     }
     
 }
