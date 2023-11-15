@@ -23,8 +23,8 @@ class AuthController extends Controller
             return redirect()->route('home');
         }
 
-        // Authentication failed...
-        return redirect()->route('Banque');
+        return redirect()->route('connexion.form')->with('error', 'Adresse e-mail ou mot de passe incorrect.');
+
     }
 
     public function logout()
