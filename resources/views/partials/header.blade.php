@@ -6,18 +6,18 @@
         </nav>
 
         <ul class="navbar-nav d-flex  justify-content-between w-auto">
-            <li class="nav-item d-xl-none ps-3 d-flex align-items-center fs-4">
-                <a href="javascript:;" class="nav-link text-body p-0 fs-4 " id="iconNavbarSidenav">
-                    <div class="sidenav-toggler-inner fs-4">
-                        <i class="sidenav-toggler-line"></i>
-                        <i class="sidenav-toggler-line"></i>
-                        <i class="sidenav-toggler-line"></i>
-                    </div>
-                </a>
-            </li>
+           
            @include('partials.user')
           
-            
+           <li class="nav-item d-xl-none ps-3 d-flex align-items-center fs-4">
+            <a href="javascript:;" class="nav-link text-body p-0 fs-4 " id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner fs-4">
+                    <i class="sidenav-toggler-line"></i>
+                    <i class="sidenav-toggler-line"></i>
+                    <i class="sidenav-toggler-line"></i>
+                </div>
+            </a>
+        </li>
         </ul>
     </div>
     </div>
