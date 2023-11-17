@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('statuts_par_type_procedure', function(Blueprint $table){
-            $table->foreignId('id_statut_procedure')->constrained('statuts_procedure')->onUpdate('cascade')->onDelete('cascade');
+        Schema::table('statut_par_type_procedure', function(Blueprint $table){
+            $table->foreignId('id_statut_procedure')->constrained('statut_procedure')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('id_type_procedure')->constrained('type_procedure')->onUpdate('cascade')->onDelete('cascade');
     });
     }
