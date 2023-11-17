@@ -18,7 +18,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href="assets/img/logos/logo-omonde.png">
+    <link rel="icon" type="image/png" href="assets/img/logos/icone-logo.png">
     <title>
         Omonde Canada - CRM
     </title>
@@ -33,7 +33,7 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
-    <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />\
+    <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-Vkoo8q+aEKJL2xlDkzy6viK4jQOpWiFwF8AMIE0fF6EGgU2F9nI1kxy2GRheI" crossorigin="anonymous">
 
@@ -304,6 +304,8 @@
             </div>
 
         </div>
+
+        
         @include('partials.footer')
         </div>
     </main>
