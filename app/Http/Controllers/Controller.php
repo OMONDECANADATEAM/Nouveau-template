@@ -42,6 +42,9 @@ class Controller extends BaseController
             'consultation_payee' => $request->has('consultation_payee'),
             'id_utilisateur' => $idUtilisateur,
         ]);
+
+        return view('DossierContacts');
+
     }
 
     public function selectAllCandidat()

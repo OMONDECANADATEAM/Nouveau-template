@@ -39,6 +39,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //
 
-Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name('DossierContacts');
+Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name('ajoutContact');
 
 
