@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('fiche_consultation', function(Blueprint $table){
-            $table->foreignId('id_candidat')->constrained('candidat')->onUpdate('cascade')->onDelete('cascade');
+        Schema::table('procedure_demande', function(Blueprint $table){
+            $table->foreignId('id_candidat')->constrained('candidats')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('id_type_procedure')->constrained('type_procedure')->onUpdate('cascade')->onDelete('cascade');
     });
     }
 
@@ -22,5 +23,6 @@ return new class extends Migration
     public function down(): void
     {
         $table->dropForeign('id_candidat');
+        $table->foreignId('id_type_procedure');
     }
 };

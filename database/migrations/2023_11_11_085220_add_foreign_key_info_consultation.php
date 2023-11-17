@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_procedure', function (Blueprint $table) {
-            $table->id();
-            $table->string('label');
-            $table->string('montant_type_procedure');
+        Schema::table('infos_consultation', function(Blueprint $table){
+            $table->foreignId('id_consultante')->constrained('consultantes')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -23,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('type_procedure');
+        $table->dropForeign('id_consultante');
     }
 };

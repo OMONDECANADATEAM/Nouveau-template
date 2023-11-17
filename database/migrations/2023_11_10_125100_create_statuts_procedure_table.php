@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('depense', function(Blueprint $table){
-            $table->foreignId('id_utilisateur')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
-    });
+        Schema::create('statuts_procedure', function (Blueprint $table) {
+            $table->id();
+            $table->string('label');
+        });
     }
 
     /**
@@ -21,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        $table->dropForeign('id_utilisateur');
+        Schema::dropIfExists('statuts_procedure');
     }
 };

@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('info_consultation', function(Blueprint $table){
-            $table->foreignId('id_consultante')->constrained('consultante')->onUpdate('cascade')->onDelete('cascade');
+        Schema::create('dossiers_candidat', function (Blueprint $table) {
+            $table->id();
+            $table->string('nom_dossier');
+            $table->dateTime('date_ajout');
         });
     }
 
@@ -21,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        $table->dropForeign('id_consultante');
+        Schema::dropIfExists('dossiers_candidat');
     }
 };

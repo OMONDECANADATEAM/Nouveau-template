@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function(Blueprint $table){
-            $table->foreignId('id_poste_occupe')->constrained('poste_occupe')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('id_role_utilisateur')->constrained('role_utilisateur')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('id_succursale')->constrained('succursale')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('id_poste_occupe')->constrained('postes_occupe')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('id_role_utilisateur')->constrained('roles_utilisateur')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('id_succursale')->constrained('succursales')->onUpdate('cascade')->onDelete('cascade');
     });
 }
 
