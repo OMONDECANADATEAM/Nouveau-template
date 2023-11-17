@@ -43,7 +43,7 @@ class Controller extends BaseController
             'id_utilisateur' => $idUtilisateur,
         ]);
 
-        return view('DossierContacts');
+        return redirect()->route('DossierContacts');
 
     }
 

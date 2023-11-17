@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('nom', 100);
             $table->string('prenom', 100);
-            $table->string('lien_photo')->nullable(true);
             $table->string('numero_telephone');
             $table->string('email');
             $table->string('profession');
