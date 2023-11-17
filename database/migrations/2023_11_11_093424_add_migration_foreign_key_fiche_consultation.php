@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('poste_occupe', function (Blueprint $table) {
-            $table->id();
-            $table->string('label');
-        });
+        Schema::table('fiches_consultation', function(Blueprint $table){
+            $table->foreignId('id_candidat')->constrained('candidats')->onUpdate('cascade')->onDelete('cascade');
+    });
     }
 
     /**
@@ -22,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('poste_occupe');
+        $table->dropForeign('id_candidat');
     }
 };

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dossier_candidat', function (Blueprint $table) {
+        Schema::create('consultantes', function (Blueprint $table) {
             $table->id();
-            $table->string('label');
-            $table->dateTime('date_ajout');
+            $table->string('nom');
+            $table->string('prenoms');
+            $table->string('lien_photo')->nullable(true);
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dossier_candidat');
+        Schema::dropIfExists('consultantes');
     }
 };

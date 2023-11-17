@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('consultante', function (Blueprint $table) {
+        Schema::create('postes_occupe', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('prenoms');
+            $table->string('label');
         });
     }
 
@@ -23,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('consultante');
+        Schema::dropIfExists('postes_occupe');
     }
 };

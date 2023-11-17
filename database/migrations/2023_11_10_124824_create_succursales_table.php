@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('role_utilisateur', function (Blueprint $table) {
+        Schema::create('succursales', function (Blueprint $table) {
             $table->id();
-            $table->string('role');
+            $table->string('label');
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('role_utilisateur');
+        Schema::dropIfExists('succursales');
     }
 };

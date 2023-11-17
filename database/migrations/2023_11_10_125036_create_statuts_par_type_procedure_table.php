@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('depense', function (Blueprint $table) {
+        Schema::create('statuts_par_type_procedure', function (Blueprint $table) {
             $table->id();
-            $table->string('montant');
-            $table->string('raison');
-            $table->string('recu');
-            $table->dateTime('date');
+            $table->string('label');
         });
     }
 
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('depense');
+        Schema::dropIfExists('statuts_par_type_procedure');
     }
 };
