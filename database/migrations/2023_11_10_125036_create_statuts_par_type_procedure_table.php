@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('statuts_par_type_procedure', function (Blueprint $table) {
+        Schema::create('statut_par_type_procedure', function (Blueprint $table) {
             $table->id();
             $table->string('label');
         });
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('statuts_par_type_procedure');
+        Schema::dropIfExists('statut_par_type_procedure');
     }
 };

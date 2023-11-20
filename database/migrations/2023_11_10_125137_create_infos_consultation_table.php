@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('infos_consultation', function (Blueprint $table) {
+        Schema::create('info_consultation', function (Blueprint $table) {
             $table->id();
             $table->string('label');
             $table->string('lien_zoom', 100)->nullable(true);
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('infos_consultation');
+        Schema::dropIfExists('info_consultation');
     }
 };
