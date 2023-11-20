@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\chartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,3 +42,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 //
 
 Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name('ajoutContact');
+
+
+Route::get('/chart-data', [chartController::class, 'getChartData']);

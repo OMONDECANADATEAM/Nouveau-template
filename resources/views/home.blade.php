@@ -35,7 +35,8 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-Vkoo8q+aEKJL2xlDkzy6viK4jQOpWiFwF8AMIE0fF6EGgU2F9nI1kxy2GRheI" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha384-Vkoo8q+aEKJL2xlDkzy6viK4jQOpWiFwF8AMIE0fF6EGgU2F9nI1kxy2GRheI" crossorigin="anonymous">
 
 </head>
 
@@ -47,79 +48,10 @@
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">wallet</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-xl mb-0 text-capitalize">Caisse - Novembre</p>
-                                <h4 class="mb-0">${{ $entree->montant ?? '0' }}</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+{{ $entree->pourcentage ?? '' }}%</span> par rapport au mois précédent</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div
-                                class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">person</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-xl mb-0 text-capitalize">Visiteurs</p>
-                                <h4 class="mb-0">2,300</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3%</span> par rapport au mois precedent</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div
-                                class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">person</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-xl mb-0 text-capitalize">Nouveaux Clients</p>
-                                <h4 class="mb-0">3,462</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> par rapport au mois precedent</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div
-                                class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10"><span class="material-symbols-outlined">
-                                    account_balance_wallet
-                                    </span></i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-xl mb-0 text-capitalize">Caisse Succursale</p>
-                                <h4 class="mb-0">$103,430</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5%</span> par rapport au mois precedent</p>
-                        </div>
-                    </div>
-                </div>
+                @include('partials.caisse')
+               @include('partials.visiteur')
+               @include('partials.client')
+              @include('partials.caisseSuccursale')
             </div>
             <div class="row mt-4">
                 <div class="col-lg-4 col-md-6 mt-4 mb-4">
@@ -243,7 +175,8 @@
                             <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             NOM & PRENOMS
                                         </th>
                                         <th
@@ -259,14 +192,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-      
+
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
-      
-      
+
+
                                                 <h6 class="p-2 text-sm">Github</h6>
-      
+
                                             </div>
                                         </td>
                                         <td>
@@ -280,9 +213,9 @@
                                                 <span class="me-2 text-xs font-weight-bold">100%</span>
                                                 <div>
                                                     <div class="progress">
-                                                        <div class="progress-bar bg-gradient-success" role="progressbar"
-                                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
-                                                            style="width: 100%;"></div>
+                                                        <div class="progress-bar bg-gradient-success"
+                                                            role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                                                            aria-valuemax="100" style="width: 100%;"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -294,7 +227,7 @@
                                             </button>
                                         </td>
                                     </tr>
-                            
+
                                 </tbody>
                             </table>
                         </div>
@@ -308,7 +241,7 @@
         @include('partials.footer')
         </div>
     </main>
-  </body>
-    @include('partials.plugin')
+</body>
+@include('partials.plugin')
 
 </html>
