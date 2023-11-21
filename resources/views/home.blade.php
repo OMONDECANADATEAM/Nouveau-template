@@ -49,9 +49,9 @@
         <div class="container-fluid py-4">
             <div class="row">
                 @include('partials.caisse')
-               @include('partials.visiteur')
-               @include('partials.client')
-              @include('partials.caisseSuccursale')
+                @include('partials.visiteur')
+                @include('partials.client')
+                @include('partials.caisseSuccursale')
             </div>
             <div class="row mt-4">
                 <div class="col-lg-4 col-md-6 mt-4 mb-4">
@@ -143,97 +143,42 @@
         </div>
         </div>
         <div class="row mb-4 p-4">
-            <div class="col-xl-12 col-lg-8 col-md-6 mb-md-0 mb-4">
-                <div class="card">
-                    <div class="card-header pb-0">
-                        <div class="row">
-                            <div class="col-lg-6 col-7">
-                                <h6>HISTORIQUE DES PAIEMENTS</h6>
-                                <p class="text-sm mb-0">
-                                    <i class="fa fa-check text-info" aria-hidden="true"></i>
-                                    <span class="font-weight-bold ms-1">10 derniers paiements</span>
-                                </p>
+            {{-- <tbody>
+                @foreach ($entries as $entry)
+                    <tr>
+                        <td>
+                            <div class="d-flex px-2">
+                                <h6 class="p-2 text-sm">{{ $entry->candidat->nom }}</h6>
                             </div>
-                            <div class="col-lg-6 col-5 my-auto text-end">
-                                <div class="dropdown float-lg-end pe-4">
-                                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class="fa fa-ellipsis-v text-secondary"></i>
-                                    </a>
-                                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"
-                                        aria-labelledby="dropdownTable">
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Voir liste
-                                                complète</a></li>
-
-                                    </ul>
+                        </td>
+                        <td>
+                            <p class="text-sm font-weight-bold mb-0">{{ $entry->montant }}</p>
+                        </td>
+                        <td>
+                            <span class="text-xs font-weight-bold">{{ $entry->type }}</span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <span class="me-2 text-xs font-weight-bold">{{ $entry->pourcentage }}%</span>
+                                <div>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-gradient-success" role="progressbar"
+                                            aria-valuenow="{{ $entry->pourcentage }}" aria-valuemin="0"
+                                            aria-valuemax="100" style="width: {{ $entry->pourcentage }}%;"></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card-body px-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center justify-content-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            NOM & PRENOMS
-                                        </th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            MONTANT</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            TYPE</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                            DATE</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                        </td>
+                        <td class="align-middle">
+                            <button class="btn btn-link text-secondary mb-0" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="fa fa-ellipsis-v text-xs"></i>
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody> --}}
 
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2">
-
-
-                                                <h6 class="p-2 text-sm">Github</h6>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">25,000</p>
-                                        </td>
-                                        <td>
-                                            <span class="text-xs font-weight-bold">done</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <span class="me-2 text-xs font-weight-bold">100%</span>
-                                                <div>
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-gradient-success"
-                                                            role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                                                            aria-valuemax="100" style="width: 100%;"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle">
-                                            <button class="btn btn-link text-secondary mb-0" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
 

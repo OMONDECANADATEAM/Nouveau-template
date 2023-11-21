@@ -17,5 +17,9 @@ class Candidat extends Model
     {
         return self::create($data);
     }
+    public function entrees()
+{
+    return $this->hasMany(Entree::class, 'id_candidat');
+}
 }
 

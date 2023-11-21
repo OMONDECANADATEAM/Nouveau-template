@@ -35,7 +35,7 @@
             </div>
             <div class="text-end">
                 <p class="text-xl mb-0 text-capitalize">Caisse Sucursale</p>
-                <h3 class="mb-0 pt-2">{{ $totalCourant ?? '0' }} FCFA</h3>
+                <h3 class="mb-0 pt-2">{{ number_format($totalCourant, 0, '.', ' ') }} FCFA</h3>
             </div>
         </div>
         <hr class="dark horizontal my-0">

@@ -21,8 +21,11 @@ Route::get('/', function () {
     return view('connexion');
 });
 
+// web.php
 
 Route::get('home', [HomeController::class, 'index'])->name('home');
+Route::get('home/{method}', [HomeController::class, 'callMethod'])->where('method', '.*');
+
 Route::get('Banque', [HomeController::class, 'Banque'])->name('Banque');
 Route::get('Consultation', [HomeController::class, 'Consultation'])->name('Consultation');
 Route::get('DossierClients', [HomeController::class, 'DossierClients'])->name('DossierClients');
@@ -43,5 +46,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name('ajoutContact');
 
+//Chart routes et controller
 
 Route::get('/chart-data', [chartController::class, 'getChartData']);
+Route::get('/chart-month', [chartController::class, 'getChartMonthData']);

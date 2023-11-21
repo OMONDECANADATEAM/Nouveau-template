@@ -80,7 +80,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   @include('partials.tableCandidat')
+                                  @include('partials.tableCandidat')
                                 </tbody>
                             </table>
                         </div>

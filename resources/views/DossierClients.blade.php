@@ -72,7 +72,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                 
+                                 @include('partials.tableClient')
                                 </tbody>
                             </table>
                         </div>

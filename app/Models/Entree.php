@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Entree extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     protected $table = 'entree'; // Assurez-vous de définir le nom de votre table si ce n'est pas le modèle Laravel par défaut
 
@@ -30,9 +31,14 @@ class Entree extends Model
     // Méthode pour ajouter une nouvelle entrée
     public static function ajouterEntree($montant, $autreColonne)
     {
+
+
         return self::create([
             'montant' => $montant,
-            'autre_colonne' => $autreColonne,
+            'date' => $date,
+            'id_utilisateur' => $id_utilisateur,
+            'id_candidat' => $id_candidat, 
+            'id_type_paiement'=> $id_type_paiement
             // Ajoutez d'autres colonnes si nécessaire
         ]);
     }

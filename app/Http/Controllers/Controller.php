@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidat;
+use App\Models\Entree;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -13,8 +15,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    public $timestamps = false;
+
+
     public function soumettreFormulaire(Request $request)
     {
+
+        
+
         $request->validate([
             'nom' => 'required|string|max:255',
             'prenoms' => 'required|string|max:255',
@@ -25,34 +33,44 @@ class Controller extends BaseController
             'profession' => 'required|string|max:255',
             'date_naissance' => 'required|date',
         ]);
-
+    
         // Récupérez l'ID de l'utilisateur connecté
         $idUtilisateur = Auth::id();
-
-        // Appel à la fonction pour sauvegarder les données
-        Candidat::create([
-            'nom' => $request->input('nom'),
-            'prenom' => $request->input('prenoms'),
-            'pays' => $request->input('pays'),
-            'ville' => $request->input('ville'),
+    
+        // Créez le candidat
+        $candidat = Candidat::create([
+            'nom' => ucwords(strtolower($request->input('nom'))),
+            'prenom' => ucwords(strtolower($request->input('prenoms'))),
+            'pays' => ucwords(strtolower($request->input('pays'))),
+            'ville' => ucwords(strtolower($request->input('ville'))),
             'numero_telephone' => $request->input('numero_telephone'),
             'email' => $request->input('email'),
-            'profession' => $request->input('profession'),
+            'profession' => ucwords(strtolower($request->input('profession'))),
             'date_naissance' => $request->input('date_naissance'),
             'consultation_payee' => $request->has('consultation_payee'),
             'id_utilisateur' => $idUtilisateur,
         ]);
-
+    
+        // Si la consultation est payée, créez une entrée
+        if ($candidat->consultation_payee) {
+            Entree::create([
+                'id_candidat' => $candidat->id,
+                'montant' => 50000,
+                'date' => Carbon::now(),
+                'id_utilisateur' => $idUtilisateur,
+                'id_type_paiement' => 2,
+            ]);
+        }
+    
         return redirect()->route('DossierContacts');
-
     }
-
+    
     public function selectAllCandidat()
-{
-    // Obtenir les données des candidats
-    $candidats = Candidat::all();
-
-    // Passer les données à la vue principale
-    return view('DossierContacts', ['candidat' => $candidats]);
-}
+    {
+        // Obtenir les données des candidats
+        $candidats = DB::table('candidat')->get();
+    
+        // Passer les données à la vue principale
+        return ;
+    }
 }
