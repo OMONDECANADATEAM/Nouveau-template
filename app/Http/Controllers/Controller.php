@@ -31,7 +31,6 @@ class Controller extends BaseController
             'numero_telephone' => 'required|string|max:20',
             'email' => 'required|email|max:255',
             'profession' => 'required|string|max:255',
-            'date_naissance' => 'required|date',
         ]);
     
         // Récupérez l'ID de l'utilisateur connecté
@@ -46,7 +45,6 @@ class Controller extends BaseController
             'numero_telephone' => $request->input('numero_telephone'),
             'email' => $request->input('email'),
             'profession' => ucwords(strtolower($request->input('profession'))),
-            'date_naissance' => $request->input('date_naissance'),
             'consultation_payee' => $request->has('consultation_payee'),
             'id_utilisateur' => $idUtilisateur,
         ]);

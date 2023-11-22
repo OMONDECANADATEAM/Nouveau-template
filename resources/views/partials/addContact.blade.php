@@ -62,12 +62,6 @@
                             <input type="text" name="profession" id="profession" class="form-control" required>
                         </div>
 
-                        <div class="input-group input-group-outline w-50 mb-3 p-2">
-                            <label for="date_naissance" class="form-label">Date de Naissance</label>
-                            <input type="date" name="date_naissance" id="date_naissance" class="form-control"
-                                required>
-                        </div>
-
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" name="consultation_payee"
                                 id="consultation_payee">
