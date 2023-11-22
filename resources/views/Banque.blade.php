@@ -54,8 +54,6 @@
 
                         $totalCaisseMoisActuel = \App\Models\Entree::whereMonth('date', $moisActuel)->sum('montant');
 
-                       
-
                     @endphp
                     <div class="row">
                         <div class="col-xl-6 mb-4">
@@ -70,12 +68,31 @@
                                     <h5 class="text-center mb-0">Paiements</h5>
                                     <span class="text-xs">{{ Carbon::now()->format('F') }}</span>
                                     <hr class="horizontal dark my-3">
-                                    <h4 class="mb-5 text-center">{{ number_format($totalCaisseMoisActuel, 0, '.', ' ') }} FCFA</h4>
-                                  </div>
+                                    <h4 class="mb-5 text-center text-success">
+                                        {{ number_format($totalCaisseMoisActuel, 0, '.', ' ') }} FCFA</h4>
+                                </div>
 
                             </div>
                         </div>
 
+
+                        @php
+
+                            $moisActuel = Carbon::now()->format('m');
+
+                            $totalDepenseMoisActuel = \App\Models\Depense::whereMonth('date', $moisActuel)->sum('montant');
+
+                            // Date de début et de fin de la période
+                            $dateDebut = Carbon::now();
+                            $dateFin = Carbon::now();
+
+                            // Date de début et de fin de semaine
+                            $dateDebutSemaine = $dateDebut->startOfWeek();
+                            $dateFinSemaine = $dateFin->endOfWeek();
+
+                          
+
+                        @endphp
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-header mx-4 p-3 text-center">
@@ -88,7 +105,8 @@
                                     <h5 class="text-center mb-0">Depenses</h5>
                                     <span class="text-xs">{{ Carbon::now()->format('F') }}</span>
                                     <hr class="horizontal dark my-3">
-                                    <h4 class="mb-5 text-center">12.000.500 FCFA</h4>
+                                    <h4 class="mb-5 text-center text-danger">
+                                        {{ number_format($totalDepenseMoisActuel, 0, '.', ' ') }} FCFA</h4>
                                 </div>
 
                             </div>
@@ -193,113 +211,86 @@
                                 <div
                                     class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
                                     <i class="material-icons me-2 text-lg">date_range</i>
-                                    <small>23 - 30 March 2020</small>
+                                    <small>{{ $dateDebutSemaine->format('d F') }} -
+                                        {{ $dateFinSemaine->format('d F') }}</small>
+
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body pt-4 p-3">
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Aujourd'hui</h6>
-                            <ul class="list-group">
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">expand_more</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Netflix</h6>
-                                            <span class="text-xs">27 March 2020, at 12:30 PM</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                        - $ 2,500
-                                    </div>
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">expand_less</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Apple</h6>
-                                            <span class="text-xs">27 March 2020, at 04:30 AM</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 2,000
-                                    </div>
-                                </li>
-                            </ul>
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Yesterday</h6>
-                            <ul class="list-group">
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">expand_less</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Stripe</h6>
-                                            <span class="text-xs">26 March 2020, at 13:45 PM</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 750
-                                    </div>
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">expand_less</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">HubSpot</h6>
-                                            <span class="text-xs">26 March 2020, at 12:30 PM</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 1,000
-                                    </div>
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">expand_less</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Creative Tim</h6>
-                                            <span class="text-xs">26 March 2020, at 08:30 AM</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 2,500
-                                    </div>
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">priority_high</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Webflow</h6>
-                                            <span class="text-xs">26 March 2020, at 05:00 AM</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center text-dark text-sm font-weight-bold">
-                                        Pending
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                        @php
+                        $startOfWeek = now()->startOfWeek();
+                        $endOfWeek = now()->endOfWeek();
+                    
+                        $depenses = \App\Models\Depense::whereBetween('date', [$startOfWeek, $endOfWeek])->get();
+                        $entrees = \App\Models\Entree::whereBetween('date', [$startOfWeek, $endOfWeek])->get();
+                    
+                        // Organiser les dépenses par jour
+                        $depensesParJour = [];
+                        foreach ($depenses as $depense) {
+                            $jour = Carbon::parse($depense->date)->format('l');
+                            // 'l' donne le nom du jour de la semaine
+                            $depensesParJour[$jour][] = $depense;
+                        }
+                    
+                        // Organiser les entrées par jour
+                        $entreesParJour = [];
+                        foreach ($entrees as $entree) {
+                            $jour = Carbon::parse($entree->date)->format('l');
+                            $entreesParJour[$jour][] = $entree;
+                        }
+                    @endphp
+                    <div class="card-body pt-4 p-3">
+                        <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Cette semaine</h6>
+                    
+                        @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $jour)
+                            @if (isset($depensesParJour[$jour]) || isset($entreesParJour[$jour]))
+                                <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">{{ $jour }}</h6>
+                                <ul class="list-group">
+                                    @foreach ($depensesParJour[$jour] ?? [] as $depense)
+                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                                                    <i class="material-icons text-lg">expand_more</i>
+                                                </button>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">{{ $depense->raison }}</h6>
+                                                    <span class="text-xs">{{ $depense->date }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                - ${{ abs($depense->montant) }}
+                                            </div>
+                                        </li>
+                                    @endforeach
+                    
+                                    @foreach ($entreesParJour[$jour] ?? [] as $entree)
+                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                                                    <i class="material-icons text-lg">expand_less</i>
+                                                </button>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">
+                                                        @php
+                                                            $label = \App\Models\TypePaiement::where('id', $entree->id_type_paiement)->value('label');
+                                                        @endphp
+                                                        {{ $label }}
+                                                    </h6>
+                                                    <span class="text-xs">{{ $entree->date }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                                + ${{ $entree->montant }}
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        @endforeach
+                    </div>
+                    
+
+
                     </div>
                 </div>
             </div>

@@ -39,7 +39,7 @@ class Entree extends Model
             'id_utilisateur' => $id_utilisateur,
             'id_candidat' => $id_candidat, 
             'id_type_paiement'=> $id_type_paiement
-            // Ajoutez d'autres colonnes si nécessaire
+           
         ]);
     }
 
