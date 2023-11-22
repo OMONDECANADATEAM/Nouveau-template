@@ -12,15 +12,30 @@
             <span class="text-md font-weight-bold">{{ $candidat->profession }}</span>
         </td>
         <td class="align-middle text-center">
-            @php
-                $derniereDatePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)
-                    ->max('date');
-            @endphp
-            </td>
-        <td class="align-middle">
-            <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-ellipsis-v text-xs"></i>
-            </button>
+
+            <span class="text-md font-weight-bold"> {{  date('Y-m-d', strtotime(  $derniereDatePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)
+                ->max('date')))
+               }}</span>
         </td>
+            
+        <td class="align-middle text-center">
+
+            @php
+    // Récupérez l'ID du type de paiement
+    $idTypePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)
+        ->where('date', $derniereDatePaiement)
+        ->value('id_type_paiement');
+
+    // Récupérez le libellé du type de paiement
+    $libelleTypePaiement = \App\Models\TypePaiement::where('id', $idTypePaiement)->value('label');
+@endphp
+
+
+            <span class="text-md font-weight-bold"> {{
+            
+            $libelleTypePaiement}}
+               </span>
+        </td>
+            
     </tr>
 @endforeach

@@ -62,6 +62,8 @@
                             <input type="text" name="profession" id="profession" class="form-control" required>
                         </div>
 
+                       
+
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" name="consultation_payee"
                                 id="consultation_payee">
@@ -85,9 +87,45 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+    // Interceptez le formulaire
+    $('#contactForm').submit(function(event) {
+        event.preventDefault();
 
+        // Effectuez la soumission du formulaire avec AJAX
+        $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(response) {
+                // Affichez le message de succès
+                $('#success-message').text(response.message).show();
 
-  
+                // Vous pouvez également mettre à jour d'autres parties de la page ici si nécessaire
+
+                // Masquez le bloc d'erreurs s'il est visible
+                $('.alert-danger').hide();
+            },
+            error: function(error) {
+                // Gérez les erreurs si nécessaire
+                console.log(error);
+
+                // Affichez les erreurs dans le bloc d'erreurs
+                var errors = error.responseJSON.errors;
+                var errorHtml = '<ul>';
+                $.each(errors, function(key, value) {
+                    errorHtml += '<li>' + value + '</li>';
+                });
+                errorHtml += '</ul>';
+                $('.alert-danger').html(errorHtml).show();
+            }
+        });
+    });
+
+    // Gérez le clic sur le bouton d'ajout
+    $('#submitFormButton').click(function() {
+        // Soumettez le formulaire
+        $('#contactForm').submit();
+    });
 </script>
