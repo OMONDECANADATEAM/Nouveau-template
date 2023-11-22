@@ -71,4 +71,14 @@ class Entree extends Model
     {
         return $this->belongsTo(User::class, 'id_utilisateur');
     }
+
+    public function candidat()
+    {
+        return $this->belongsTo(Candidat::class, 'id_candidat', 'id');
+    }
+
+    public function typePaiement()
+    {
+        return $this->belongsTo(TypePaiement::class, 'id_type_paiement');
+    }
 }

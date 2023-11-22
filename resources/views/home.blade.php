@@ -65,12 +65,9 @@
                         </div>
                         <div class="card-body">
                             <h6 class="mb-0 ">Indice visite par jour de la semaine</h6>
-                            <p class="text-sm ">Lundi au Samedi</p>
-                            <hr class="dark horizontal">
-                            <div class="d-flex ">
-                                <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                <p class="mb-0 text-sm"> Dernière mise à jour </p>
-                            </div>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -85,12 +82,7 @@
                         </div>
                         <div class="card-body">
                             <h6 class="mb-0 "> Indice vente par mois </h6>
-                            <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) than lask month </p>
-                            <hr class="dark horizontal">
-                            <div class="d-flex ">
-                                <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                <p class="mb-0 text-sm"> updated 4 min ago </p>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -142,48 +134,91 @@
             </div>
         </div>
         </div>
-        <div class="row mb-4 p-4">
-            {{-- <tbody>
-                @foreach ($entries as $entry)
-                    <tr>
-                        <td>
-                            <div class="d-flex px-2">
-                                <h6 class="p-2 text-sm">{{ $entry->candidat->nom }}</h6>
+        <div class="row col-lg-12 p-2">
+            <div class="col-lg-12 col-md-10">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h4>Historique des paiements</h4>
+                                <p class="text-sm mb-0">
+                                    <i class="fa fa-check text-info" aria-hidden="true"></i>
+                                    <span class="font-weight-bold ms-1">10 derniers paiements</span>
+                                </p>
                             </div>
-                        </td>
-                        <td>
-                            <p class="text-sm font-weight-bold mb-0">{{ $entry->montant }}</p>
-                        </td>
-                        <td>
-                            <span class="text-xs font-weight-bold">{{ $entry->type }}</span>
-                        </td>
-                        <td class="align-middle text-center">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <span class="me-2 text-xs font-weight-bold">{{ $entry->pourcentage }}%</span>
-                                <div>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-gradient-success" role="progressbar"
-                                            aria-valuenow="{{ $entry->pourcentage }}" aria-valuemin="0"
-                                            aria-valuemax="100" style="width: {{ $entry->pourcentage }}%;"></div>
-                                    </div>
+                            <div class="col-lg-6 col-5 my-auto text-end">
+                                <div class="dropdown float-lg-end pe-4">
+                                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v text-secondary"></i>
+                                    </a>
+                                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Voir liste
+                                                complète</a></li>
+
+                                    </ul>
                                 </div>
                             </div>
-                        </td>
-                        <td class="align-middle">
-                            <button class="btn btn-link text-secondary mb-0" aria-haspopup="true"
-                                aria-expanded="false">
-                                <i class="fa fa-ellipsis-v text-xs"></i>
-                            </button>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody> --}}
+                        </div>
+                    </div>
+                    @php
+                        $entries = \App\Models\Entree::orderBy('date', 'desc')
+                            ->take(10)
+                            ->get();
+                    @endphp
+
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                            Nom et Prénom(s)</th>
+                                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                            Montant</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                            Type de paiement</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                            Date de paiement</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($entries as $entry)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-md">{{ $entry->candidat->nom }}
+                                                            {{ $entry->candidat->prenom }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-md font-weight-bold mb-0">{{ $entry->montant }} FCFA </p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="text-md font-weight-bold">{{ $entry->typePaiement->label }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="me-2 text-md font-weight-bold">{{ date('Y-m-d', strtotime($entry->date)) }}</span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
 
 
-        </div>
-
-
-        @include('partials.footer')
+            @include('partials.footer')
         </div>
     </main>
 </body>
