@@ -43,7 +43,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 //
-
+Route::put('/modifierContact/{id}', [Controller::class, 'modifierFormulaire'])->name('modifierContact');
 Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name('ajoutContact');
 
 //Chart routes et controller

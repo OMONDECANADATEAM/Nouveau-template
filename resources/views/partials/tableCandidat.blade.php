@@ -18,10 +18,10 @@
 
     </td>
     <td class="align-middle">
-        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true"
-            aria-expanded="false">
-            <i class="fa fa-ellipsis-v text-xs"></i>
+        <button class="btn btn-link text-secondary mb-0" data-bs-toggle="modal" data-bs-target="#modifierContactModal{{ $candidat->id }}">
+            <i class="fa fa-pencil text-xs"></i> Modifier
         </button>
     </td>
+    @include('partials.modifierContact' , ['candidat' => $candidat ])
 </tr>
 @endforeach
