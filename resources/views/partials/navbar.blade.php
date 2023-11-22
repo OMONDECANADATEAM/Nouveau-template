@@ -1,76 +1,58 @@
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
-    <div class="sidenav-header">
-      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-        <img src="./assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">OMONDE CANADA</span>
-      </a>
-    </div>
-    <hr class="horizontal light mt-0 mb-2">
-    <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-primary" href="home">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">dashboard</i>
-            </div>
-            <span class="nav-link-text ms-1">Tableau de bord</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="DossierContacts">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">contacts</i>
-            </div>
-            <span class="nav-link-text ms-1">Dossier Contacts</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="DossierClients">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">table_view</i>
-            </div>
-            <span class="nav-link-text ms-1">Dossier Clients</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="Banque">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">receipt_long</i>
-            </div>
-            <span class="nav-link-text ms-1">Banque</span>
-          </a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link text-white " href="OmondeTeam">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">people</i>
-            </div>
-            <span class="nav-link-text ms-1">L' équipe</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="Consultation">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">videocam</i>
-            </div>
-            <span class="nav-link-text ms-1">Consultations</span>
-          </a>
-        </li>
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="profile">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
-            </div>
-            <span class="nav-link-text ms-1">Profile</span>
-          </a>
-        </li>
-        
-      </ul>
+<aside
+    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
+    id="sidenav-main">
+    <div class="sidenav-header center">
+        <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand m-0" href="home" target="_blank">
+            <img src="./assets/img/logos/logo-omonde.png" class="navbar-brand-img h-200 mx-auto d-block" alt="main_logo">
+        </a>
     </div>
     
-  </aside>
+    <hr class="horizontal light mt-0 mb-2">
+    <div class="w-auto max-height-vh-100" id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+            @php
+                $pages = [
+                    'home' => 'Dashboard',
+                    'DossierContacts' => 'Contacts',
+                    'DossierClients' => 'Dossier Clients',
+                    'Banque' => 'Banque',
+                    'OmondeTeam' => 'L\'équipe',
+                    'Consultation' => 'Consultations',
+                ];
+
+                $currentRoute = \Request::route()->getName();
+            @endphp
+
+            @foreach ($pages as $page => $pageTitle)
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}"
+                        href="{{ $page }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">
+                                @if ($page === 'DossierClients')
+                                    table_view
+                                @elseif($page === 'home')
+                                    dashboard
+                                @elseif($page === 'DossierContacts')
+                                    contacts
+                                @elseif($page === 'Banque')
+                                    receipt_long
+                                @elseif($page === 'OmondeTeam')
+                                    people
+                                @elseif($page === 'Consultation')
+                                    videocam
+                                @else
+                                    {{ $page }}
+                                @endif
+                            </i>
+                        </div>
+                        <span class="nav-link-text ms-1">{{ $pageTitle }}</span>
+                    </a>
+                </li>
+            @endforeach
+
+           
+        </ul>
+    </div>
+</aside>

@@ -1,7 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\chartController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,18 +17,36 @@ use App\Http\Controllers\HomeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::get('/', function () {
     return view('connexion');
 });
-Route::get('home',[HomeController::class, 'index'])->name('home');
-Route::get('Banque',[HomeController::class, 'Banque'])->name('Banque');
-Route::get('Consultation',[HomeController::class, 'Consultation'])->name('Consultation');
-Route::get('DossierClients',[HomeController::class, 'DossierClients'])->name('DossierClients');
-Route::get('DossierContacts',[HomeController::class, 'DossierContacts'])->name('DossierContacts');
-Route::get('OmondeTeam',[HomeController::class, 'OmondeTeam'])->name('OmondeTeam');
-Route::get('connexion',[HomeController::class, 'connexion'])->name('connexion');
-Route::get('sign-in',[HomeController::class, 'sign-in'])->name('sign-in');
-Route::get('profile',[HomeController::class, 'profile'])->name('profile');
-Route::get('virtual-reality',[HomeController::class, 'virtual-reality'])->name('virtual-reality');
 
+// web.php
+
+Route::get('home', [HomeController::class, 'index'])->name('home');
+Route::get('home/{method}', [HomeController::class, 'callMethod'])->where('method', '.*');
+
+Route::get('Banque', [HomeController::class, 'Banque'])->name('Banque');
+Route::get('Consultation', [HomeController::class, 'Consultation'])->name('Consultation');
+Route::get('DossierClients', [HomeController::class, 'DossierClients'])->name('DossierClients');
+Route::get('DossierContacts', [HomeController::class, 'DossierContacts'])->name('DossierContacts');
+Route::get('OmondeTeam', [HomeController::class, 'OmondeTeam'])->name('OmondeTeam');
+
+// Routes d'authentification
+
+Route::get('connexion', [AuthController::class, 'showLoginForm'])->name('connexion.form');
+Route::post('connexion', [AuthController::class, 'login']);
+Route::get('sign-in', [HomeController::class, 'sign-in'])->name('sign-in');
+Route::get('profile', [HomeController::class, 'profile'])->name('profile');
+Route::get('virtual-reality', [HomeController::class, 'virtual-reality'])->name('virtual-reality');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+//
+
+Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name('ajoutContact');
+
+//Chart routes et controller
+
+Route::get('/chart-data', [chartController::class, 'getChartData']);
+Route::get('/chart-month', [chartController::class, 'getChartMonthData']);

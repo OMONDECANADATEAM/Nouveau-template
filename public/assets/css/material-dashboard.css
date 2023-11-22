@@ -4559,7 +4559,6 @@ textarea.form-control-lg {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1050;
   display: none;
   width: 100%;
   height: 100%;
@@ -4612,7 +4611,6 @@ textarea.form-control-lg {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1040;
   width: 100vw;
   height: 100vh;
   background-color: #000; }
@@ -4658,7 +4656,7 @@ textarea.form-control-lg {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 500px;
+    max-width: 50%;
     margin: 1.75rem auto; }
   .modal-dialog-scrollable {
     height: calc(100% - 3.5rem); }

@@ -41,5 +41,23 @@ class HomeController extends Controller
     {
         return view('connexion');
     }
-    
+    public function getLastEntries()
+{
+
+    $entries = \App\Models\Entree::with('candidat')->orderBy('date', 'desc')->take(10)->get();
+
+    // Retournez les données à la vue
+    return view('home', compact('entries'));
+}
+
+public function callMethod($method)
+{
+    if (method_exists($this, $method)) {
+        // Appeler la méthode dynamiquement
+        return $this->{$method}();
+    } else {
+        // Gérer le cas où la méthode n'existe pas
+        abort(404);
+    }
+}
 }

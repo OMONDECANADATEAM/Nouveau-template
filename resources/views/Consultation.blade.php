@@ -13,7 +13,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="utf-8" />
@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Omonde Canada - CRM
+    Omonde Canada | CONSULATATIONS
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -38,11 +38,95 @@
 
 <body class="g-sidenav-show  bg-gray-200">
   @include('partials.navbar')
-  </script>
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.min.js?v=3.0.0"></script>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    @include('partials.header' , ['page' => 'CONSULTATIONS'])
+    <!-- End Navbar -->
+    <div class="row">
+      <div class="col-12">
+          <div class="card my-4">
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div
+                      class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
+                      <h6 class="text-white text-capitalize ps-3 mb-0">DOSSIER CONTACTS</h6>
+                      <button class="btn bg-gradient-dark circle" data-bs-toggle="modal"
+                          data-bs-target="#addContactModal">
+                          <i class="fas fa-plus fa-lg"></i>
+                      </button>
+
+                      @include('partials.addContact')
+                  </div>
+              </div>
+
+              <div class="card-body px-0 pb-2">
+                  <div class="table-responsive p-0">
+                      <table class="table align-items-center justify-content-center mb-0">
+                          <thead>
+                              <tr>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                      NOM & PRENOMS
+                                  </th>
+                                  <th
+                                      class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                      NUMERO</th>
+                                  <th
+                                      class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                      CONSULTANTE</th>
+                                  <th
+                                      class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                      DATE</th>
+                                  <th></th>
+                              </tr>
+                          </thead>
+                          <tbody>
+
+                              <tr>
+                                  <td>
+                                      <div class="d-flex px-2">
+
+
+                                          <h6 class="p-2 text-sm">Github</h6>
+
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <p class="text-sm font-weight-bold mb-0">25,000</p>
+                                  </td>
+                                  <td>
+                                      <span class="text-xs font-weight-bold">done</span>
+                                  </td>
+                                  <td class="align-middle text-center">
+                                      <div class="d-flex align-items-center justify-content-center">
+                                          <span class="me-2 text-xs font-weight-bold">100%</span>
+                                          <div>
+                                              <div class="progress">
+                                                  <div class="progress-bar bg-gradient-success" role="progressbar"
+                                                      aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                                                      style="width: 100%;"></div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  <td class="align-middle">
+                                      <button class="btn btn-link text-secondary mb-0" aria-haspopup="true"
+                                          aria-expanded="false">
+                                          <i class="fa fa-ellipsis-v text-xs"></i>
+                                      </button>
+                                  </td>
+                              </tr>
+                      
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+      
+     @include('partials.footer')
+    </div>
+  </main>
+  @include('partials.plugin')
 </body>
 
 </html>
