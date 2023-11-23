@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Candidat;
+use App\Models\Entree;
 
 class HomeController extends Controller
 {
@@ -41,23 +43,37 @@ class HomeController extends Controller
     {
         return view('connexion');
     }
-    public function getLastEntries()
-{
 
-    $entries = \App\Models\Entree::with('candidat')->orderBy('date', 'desc')->take(10)->get();
+    public function allCandidat()
+    {
+    // Obtenir les données des candidats
+    $candidats = Candidat::orderBy('date_enregistrement', 'desc')->get();
 
-    // Retournez les données à la vue
-    return view('home', compact('entries'));
-}
-
-public function callMethod($method)
-{
-    if (method_exists($this, $method)) {
-        // Appeler la méthode dynamiquement
-        return $this->{$method}();
-    } else {
-        // Gérer le cas où la méthode n'existe pas
-        abort(404);
+    // Passer les données à la vue principale
+    return view('DossierContacts', ['data_candidat' => $candidats]);
     }
-}
+
+ 
+    
+    public function allClient() {
+        // Récupérer la liste des entrees de type 2
+        $entreesType2 = Entree::where('id_type_paiement', 2)->get();
+    
+        // Récupérer les candidats liés à ces entrées
+        $candidats = Candidat::whereIn('id', $entreesType2->pluck('id_candidat'))->get();
+    
+        // Créer un tableau associatif pour stocker la date de paiement correspondante à chaque candidat
+        $datesPaiement = [];
+        foreach ($entreesType2 as $entree) {
+            $datesPaiement[$entree->id_candidat] = $entree->date;
+        }
+    
+        // Trier les candidats par date de paiement (de la plus récente à la plus ancienne)
+        $candidats = $candidats->sortByDesc(function ($candidat) use ($datesPaiement) {
+            return $datesPaiement[$candidat->id];
+        });
+    
+        return view('DossierClients', ['data_client' => $candidats, 'dates_paiement' => $datesPaiement]);
+    }
+    
 }

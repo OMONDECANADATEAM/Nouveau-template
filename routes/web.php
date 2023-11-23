@@ -28,8 +28,8 @@ Route::get('home/{method}', [HomeController::class, 'callMethod'])->where('metho
 
 Route::get('Banque', [HomeController::class, 'Banque'])->name('Banque');
 Route::get('Consultation', [HomeController::class, 'Consultation'])->name('Consultation');
-Route::get('DossierClients', [HomeController::class, 'DossierClients'])->name('DossierClients');
-Route::get('DossierContacts', [HomeController::class, 'DossierContacts'])->name('DossierContacts');
+Route::get('DossierClients', [HomeController::class, 'allClient'])->name('DossierClients');
+Route::get('DossierContacts', [HomeController::class, 'allCandidat'])->name('DossierContacts');
 Route::get('OmondeTeam', [HomeController::class, 'OmondeTeam'])->name('OmondeTeam');
 
 // Routes d'authentification

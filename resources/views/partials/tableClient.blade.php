@@ -1,4 +1,4 @@
-@foreach(\App\Models\Candidat::where('consultation_payee', true)->get() as $candidat)
+@foreach($data_client as $candidat)
     <tr>
         <td>
             <div class="d-flex px-2">
