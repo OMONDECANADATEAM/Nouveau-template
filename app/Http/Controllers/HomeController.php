@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Candidat;
 use App\Models\Entree;
+use App\Models\consultante;
+use App\Models\InfoConsultation;
 
 class HomeController extends Controller
 {
@@ -75,5 +77,16 @@ class HomeController extends Controller
     
         return view('DossierClients', ['data_client' => $candidats, 'dates_paiement' => $datesPaiement]);
     }
-    
+
+
+ 
+    public function listeConsultantes()
+    {
+        
+        $consultantes = Consultante::all();
+
+        return view('Consultation', ['data_consultante' => $consultantes]);
+    }
+
+
 }

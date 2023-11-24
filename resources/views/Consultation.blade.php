@@ -48,77 +48,70 @@
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div
                       class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
-                      <h6 class="text-white text-capitalize ps-3 mb-0">DOSSIER CONTACTS</h6>
+                      <h6 class="text-white text-capitalize ps-3 mb-0">LISTE DES CONSULTATIONS</h6>
                       <button class="btn bg-gradient-dark circle" data-bs-toggle="modal"
-                          data-bs-target="#addContactModal">
+                          data-bs-target="#addConsultationModal">
                           <i class="fas fa-plus fa-lg"></i>
                       </button>
 
-                      @include('partials.addContact')
+                      @include('partials.addConsultation')
                   </div>
               </div>
 
               <div class="card-body px-0 pb-2">
-                  <div class="table-responsive p-0">
-                      <table class="table align-items-center justify-content-center mb-0">
-                          <thead>
-                              <tr>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                      NOM & PRENOMS
-                                  </th>
-                                  <th
-                                      class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                      NUMERO</th>
-                                  <th
-                                      class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                      CONSULTANTE</th>
-                                  <th
-                                      class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                      DATE</th>
-                                  <th></th>
-                              </tr>
-                          </thead>
-                          <tbody>
-
-                              <tr>
-                                  <td>
-                                      <div class="d-flex px-2">
-
-
-                                          <h6 class="p-2 text-sm">Github</h6>
-
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <p class="text-sm font-weight-bold mb-0">25,000</p>
-                                  </td>
-                                  <td>
-                                      <span class="text-xs font-weight-bold">done</span>
-                                  </td>
-                                  <td class="align-middle text-center">
-                                      <div class="d-flex align-items-center justify-content-center">
-                                          <span class="me-2 text-xs font-weight-bold">100%</span>
-                                          <div>
-                                              <div class="progress">
-                                                  <div class="progress-bar bg-gradient-success" role="progressbar"
-                                                      aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
-                                                      style="width: 100%;"></div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td class="align-middle">
-                                      <button class="btn btn-link text-secondary mb-0" aria-haspopup="true"
-                                          aria-expanded="false">
-                                          <i class="fa fa-ellipsis-v text-xs"></i>
-                                      </button>
-                                  </td>
-                              </tr>
-                      
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center justify-content-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    LABEL
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    DATE
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    CONSULTANTE
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                    NOMBRE DE PARTICIPANTS
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (\App\Models\InfoConsultation::all() as $consultation)
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2">
+                                        <h6 class="p-2 text-sm">{{ $consultation->label }}</h6>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-sm font-weight-bold mb-0">{{ $consultation->date_heure}}</p>
+                                </td>
+                                <td>
+                                
+                                        <span class="text-xs font-weight-bold">{{ $consultation->consultante->nom }} {{ $consultation->consultante->prenoms }}</span>
+                                   
+                                </td>
+                                
+                                <td class="align-middle text-center">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <span class="me-2 text-xs font-weight-bold">{{ $consultation->nombre_candidats }}</span>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v text-xs"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
           </div>
       </div>
   </div>

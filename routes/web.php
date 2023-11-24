@@ -27,7 +27,7 @@ Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('home/{method}', [HomeController::class, 'callMethod'])->where('method', '.*');
 
 Route::get('Banque', [HomeController::class, 'Banque'])->name('Banque');
-Route::get('Consultation', [HomeController::class, 'Consultation'])->name('Consultation');
+Route::get('Consultation', [HomeController::class, 'listeConsultantes'])->name('Consultation');
 Route::get('DossierClients', [HomeController::class, 'allClient'])->name('DossierClients');
 Route::get('DossierContacts', [HomeController::class, 'allCandidat'])->name('DossierContacts');
 Route::get('OmondeTeam', [HomeController::class, 'OmondeTeam'])->name('OmondeTeam');
@@ -50,3 +50,8 @@ Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name
 
 Route::get('/chart-data', [chartController::class, 'getChartData']);
 Route::get('/chart-month', [chartController::class, 'getChartMonthData']);
+
+
+//
+Route::post('Consultation', [Controller::class, 'ajoutConsultation'])->name('ajoutConsultation');
+Route::get('listeConsultantes', [HomeController::class, 'listeConsultantes'])->name('listeConsultantes');

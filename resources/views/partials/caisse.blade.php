@@ -1,17 +1,25 @@
 @php
     use Carbon\Carbon;
+    use Illuminate\Support\Facades\Auth;
+
+    // Obtenez l'utilisateur connecté
+    $utilisateurConnecte = Auth::user();
 
     // Obtenez le mois actuel
     $moisActuel = Carbon::now()->format('m');
 
-    // Obtenez le total du mois en cours
-    $totalCourant = \App\Models\Entree::whereMonth('date', $moisActuel)->sum('montant');
+    // Obtenez le total du mois en cours pour l'utilisateur connecté
+    $totalCourant = \App\Models\Entree::whereMonth('date', $moisActuel)
+        ->where('id_utilisateur', $utilisateurConnecte->id)
+        ->sum('montant');
 
     // Obtenez le mois précédent
     $moisPrecedent = Carbon::now()->subMonth()->format('m');
 
-    // Obtenez le total du mois précédent
-    $totalMoisPrecedent = \App\Models\Entree::whereMonth('date', $moisPrecedent)->sum('montant');
+    // Obtenez le total du mois précédent pour l'utilisateur connecté
+    $totalMoisPrecedent = \App\Models\Entree::whereMonth('date', $moisPrecedent)
+        ->where('id_utilisateur', $utilisateurConnecte->id)
+        ->sum('montant');
 
     // Calculez le pourcentage d'évolution
     $pourcentageEvolution = ($totalCourant - $totalMoisPrecedent) / $totalMoisPrecedent * 100;

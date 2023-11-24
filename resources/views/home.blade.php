@@ -65,9 +65,6 @@
                         </div>
                         <div class="card-body">
                             <h6 class="mb-0 ">Indice visite par jour de la semaine</h6>
-
-
-
                         </div>
                     </div>
                 </div>
