@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidat;
 use App\Models\Entree;
 use App\Models\InfoConsultation;
+use App\Models\FicheConsultation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,23 +49,50 @@ class Controller extends BaseController
             'id_utilisateur' => $idUtilisateur,
         ]);
     
-        // Si la consultation est payée, créez une entrée
+
+        $cvPath = $request->file('cv')->storeAs('cv', 'cv_utilisateur_' . $candidat->id . '.pdf', 'public');
+
+        // Si la consultation est payée, créez une entrée et la fiche de consultation
         if ($candidat->consultation_payee) {
-            Entree::create([
+            $entree = Entree::create([
                 'id_candidat' => $candidat->id,
                 'montant' => 50000,
                 'date' => Carbon::now(),
                 'id_utilisateur' => $idUtilisateur,
                 'id_type_paiement' => 2,
             ]);
+    
+            FicheConsultation::create([
+                'id_candidat' => $candidat->id,
+                'lien_cv' => $cvPath,
+                'reponse1' => $request->input('statut_matrimonial'),
+                'reponse2' => $request->has('passeport_valide') ? $request->input('date_expiration_passeport') : null,
+                'reponse3' => $request->has('casier_judiciaire') ? $request->input('reponse_casier_judiciaire') : null,
+                'reponse4' => $request->has('soucis_sante') ? $request->input('reponse_soucis_sante') : null,
+                'reponse5' => $request->has('enfants') ? $request->input('age_enfants') : null,
+                'reponse6' => $request->input('profession_domaine_travail'),
+                'reponse7' => $request->input('temps_travail_actuel'),
+                'reponse8' => $request->has('documents_emploi') ? 1 : 0,
+                'reponse9' => $request->has('procedure_immigration') ? $request->input('questions-procedure-immigration1') : null,
+                'reponse10' => $request->has('procedure_immigration') ? $request->input('questions-procedure-immigration2') : null,
+                'reponse11' => $request->has('diplome_etudes') ? $request->input('annee_obtention_diplome') : null,
+                'reponse12' => $request->has('membre_famille_canada') ? 1 : 0,
+                'reponse13' => $request->has('immigrer_seul_ou_famille') ? 1 : 0,
+                'reponse14' => $request->has('langues_parlees') ? 1 : 0,
+                'reponse15' => $request->has('test_connaissances_linguistiques') ? 1 : 0,
+                'reponse16' => $request->input('niveau_scolarite_conjoint'),
+                'reponse17' => $request->input('domaine_formation_conjoint'),
+                'reponse18' => $request->input('age_conjoint'),
+                'reponse19' => $request->input('niveau_francais'),
+                'reponse20' => $request->input('niveau_anglais'),
+                'reponse21' => $request->input('age_enfants_linguistique'),
+                'reponse22' => $request->input('niveau_scolarite_enfants'),
+            ]);
         }
-        
-        //redirection vers dossier contact
+    
+        // Redirection vers le dossier contact
         return redirect()->route('DossierContacts');
     }
-
-
-
     public function modifierFormulaire(Request $request, $idCandidat)
 {
     // Validation du formulaire
