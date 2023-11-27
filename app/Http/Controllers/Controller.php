@@ -93,6 +93,7 @@ class Controller extends BaseController
         // Redirection vers le dossier contact
         return redirect()->route('DossierContacts');
     }
+
     public function modifierFormulaire(Request $request, $idCandidat)
 {
     // Validation du formulaire
@@ -112,7 +113,6 @@ class Controller extends BaseController
     // Récupération du candidat à modifier
     $candidat = Candidat::find($idCandidat);
 
-
     // Modification des informations du candidat
     $candidat->update([
         'nom' => ucwords(strtolower($request->input('nom'))),
@@ -125,8 +125,10 @@ class Controller extends BaseController
         'profession' => ucwords(strtolower($request->input('profession'))),
     ]);
 
-    // Si la consultation est payée, mettez à jour ou créez une entrée
+    // Si la consultation est payée, mettez à jour ou créez une entrée et une fiche de consultation
     if ($candidat->consultation_payee) {
+        $cvPath = $request->file('cv')->storeAs('cv', 'cv_utilisateur_' . $candidat->id . '.pdf', 'public');
+
         $entree = Entree::updateOrCreate(
             ['id_candidat' => $candidat->id],
             [
@@ -136,14 +138,45 @@ class Controller extends BaseController
                 'id_type_paiement' => 2,
             ]
         );
+
+        FicheConsultation::updateOrCreate([
+            'id_candidat' => $candidat->id,
+            'lien_cv' => $cvPath,
+            'reponse1' => $request->input('statut_matrimonial'),
+            'reponse2' => $request->has('passeport_valide') ? $request->input('date_expiration_passeport') : null,
+            'reponse3' => $request->has('casier_judiciaire') ? $request->input('reponse_casier_judiciaire') : null,
+            'reponse4' => $request->has('soucis_sante') ? $request->input('reponse_soucis_sante') : null,
+            'reponse5' => $request->has('enfants') ? $request->input('age_enfants') : null,
+            'reponse6' => $request->input('profession_domaine_travail'),
+            'reponse7' => $request->input('temps_travail_actuel'),
+            'reponse8' => $request->has('documents_emploi') ? 1 : 0,
+            'reponse9' => $request->has('procedure_immigration') ? $request->input('questions-procedure-immigration1') : null,
+            'reponse10' => $request->has('procedure_immigration') ? $request->input('questions-procedure-immigration2') : null,
+            'reponse11' => $request->has('diplome_etudes') ? $request->input('annee_obtention_diplome') : null,
+            'reponse12' => $request->has('membre_famille_canada') ? 1 : 0,
+            'reponse13' => $request->has('immigrer_seul_ou_famille') ? 1 : 0,
+            'reponse14' => $request->has('langues_parlees') ? 1 : 0,
+            'reponse15' => $request->has('test_connaissances_linguistiques') ? 1 : 0,
+            'reponse16' => $request->input('niveau_scolarite_conjoint'),
+            'reponse17' => $request->input('domaine_formation_conjoint'),
+            'reponse18' => $request->input('age_conjoint'),
+            'reponse19' => $request->input('niveau_francais'),
+            'reponse20' => $request->input('niveau_anglais'),
+            'reponse21' => $request->input('age_enfants_linguistique'),
+            'reponse22' => $request->input('niveau_scolarite_enfants'),
+        ]);
     } else {
         // Si la consultation n'est pas payée, vérifiez s'il existe une entrée et supprimez-la
         Entree::where('id_candidat', $candidat->id)->delete();
+        
+        // Supprimez également la fiche de consultation s'il en existe une
+        FicheConsultation::where('id_candidat', $candidat->id)->delete();
     }
 
     // Redirection vers dossier contact
-    return redirect()->route('DossierContacts')->with('success', 'Les informations du candidat ont été modifiées avec succès.');
+    return redirect()->route('DossierContacts');
 }
+
 
 public function ajoutConsultation(Request $request)
 {

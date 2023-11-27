@@ -1,4 +1,4 @@
-@foreach($data_client as $candidat)
+@foreach ($data_client as $candidat)
     <tr>
         <td>
             <div class="d-flex px-2">
@@ -13,29 +13,29 @@
         </td>
         <td class="align-middle text-center">
 
-            <span class="text-md font-weight-bold"> {{  date('Y-m-d', strtotime(  $derniereDatePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)
-                ->max('date')))
-               }}</span>
+            <span class="text-md font-weight-bold">
+                {{ date(
+                    'Y-m-d',
+                    strtotime($derniereDatePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)->max('date')),
+                ) }}</span>
         </td>
-            
+
         <td class="align-middle text-center">
 
             @php
-    // Récupérez l'ID du type de paiement
-    $idTypePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)
-        ->where('date', $derniereDatePaiement)
-        ->value('id_type_paiement');
+                // Récupérez l'ID du type de paiement
+$idTypePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)
+    ->where('date', $derniereDatePaiement)
+    ->value('id_type_paiement');
 
-    // Récupérez le libellé du type de paiement
-    $libelleTypePaiement = \App\Models\TypePaiement::where('id', $idTypePaiement)->value('label');
-@endphp
+// Récupérez le libellé du type de paiement
+$libelleTypePaiement = \App\Models\TypePaiement::where('id', $idTypePaiement)->value('label');
+            @endphp
 
 
-            <span class="text-md font-weight-bold"> {{
-            
-            $libelleTypePaiement}}
-               </span>
+            <span class="text-md font-weight-bold"> {{ $libelleTypePaiement }}
+            </span>
         </td>
-            
+
     </tr>
 @endforeach

@@ -57,7 +57,6 @@
                                 data-bs-target="#addContactModal">
                                 <i class="fas fa-plus fa-lg"></i>
                             </button>
-
                             @include('partials.addContact')
                         </div>
                     </div>
@@ -85,8 +84,6 @@
                             </table>
                         </div>
                     </div>
-                    
-                    
                 </div>
             </div>
         </div>

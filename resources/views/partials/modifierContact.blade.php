@@ -58,10 +58,13 @@
                         </div>
 
                         <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" name="consultation_payee" id="consultation_payee" {{ $candidat->consultation_payee ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" name="consultation_payee" id="consultation-payee" {{ $candidat->consultation_payee ? 'checked' : '' }}>
                             <label class="form-check-label" for="consultation_payee">Consultation payée</label>
                         </div>
                     </div>
+
+                    @include('partials.questionnaireConsultation')
+
 
                     <div class="text-center">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -72,3 +75,25 @@
         </div>
     </div>
 </div>
+
+
+<!-- Ajoutez cette section de script à la fin de votre code HTML, après avoir inclus jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Cacher le questionnaire supplémentaire au chargement de la page
+        $('.questionnaire-form').hide();
+
+        // Écouter le changement de la checkbox consultation_payee
+        $('#consultation-payee').change(function() {
+            if (this.checked) {
+                // Afficher le questionnaire supplémentaire si la checkbox est cochée
+                $('.questionnaire-form').show();
+            } else {
+                // Cacher le questionnaire supplémentaire si la checkbox est décochée
+                $('.questionnaire-form').hide();
+            }
+        });
+    });
+</script>
