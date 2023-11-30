@@ -49,7 +49,7 @@ class HomeController extends Controller
     public function allCandidat()
     {
     // Obtenir les données des candidats
-    $candidats = Candidat::orderBy('date_enregistrement', 'desc')->get();
+    $candidats = Candidat::orderBy('date_enregistrement', 'desc')->take(10)->get();
 
     // Passer les données à la vue principale
     return view('DossierContacts', ['data_candidat' => $candidats]);
