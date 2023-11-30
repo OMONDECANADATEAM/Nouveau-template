@@ -72,7 +72,6 @@
                     <div class="text-center">
                         <button type="submit" class="btn bg-gradient-primary w-40 my-4 mb-2"
                             id="submitFormButton">AJOUTER</button>
-
                         @if (session('error'))
                             <div class="alert text-sm text-danger" role="alert">
                                 {{ session('error') }}

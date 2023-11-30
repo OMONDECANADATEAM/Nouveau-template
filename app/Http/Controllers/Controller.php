@@ -50,8 +50,9 @@ class Controller extends BaseController
         ]);
     
 
-        $cvPath = $request->file('cv')->storeAs('cv', 'cv_utilisateur_' . $candidat->id . '.pdf', 'public');
-
+        if ($request->hasFile('cv') && $request->file('cv')->isValid()) {
+            $cvPath = $request->file('cv')->storeAs('cv', 'cv_utilisateur_' . $candidat->id . '.pdf', 'public');
+        }    
         // Si la consultation est payée, créez une entrée et la fiche de consultation
         if ($candidat->consultation_payee) {
             $entree = Entree::create([
@@ -175,6 +176,8 @@ class Controller extends BaseController
 
     // Redirection vers dossier contact
     return redirect()->route('DossierContacts');
+
+    
 }
 
 
@@ -201,5 +204,25 @@ public function ajoutConsultation(Request $request)
     // Rediriger avec un message de succès
     return redirect()->route('Consultation');
 }
+
+public function rechercheCandidat(Request $request)
+{
+    $term = $request->input('term'); // Terme de recherche
+
+    // Effectuez la recherche dans la base de données et renvoyez les résultats au format JSON
+    $candidats = Candidat::where('nom', 'LIKE', "%$term%")->orWhere('prenom', 'LIKE', "%$term%")->get();
+
+    $formattedCandidats = [];
+
+    foreach ($candidats as $candidat) {
+        $formattedCandidats[] = [
+            'id' => $candidat->id,
+            'text' => $candidat->nom . ' ' . $candidat->prenom,
+        ];
+    }
+
+    return response()->json($formattedCandidats);
+}
+
 
 }

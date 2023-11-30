@@ -1,5 +1,10 @@
 <?php
 
+
+
+use App\Http\Controllers\DepenseController;
+use App\Http\Controllers\EntreeController;
+use App\Http\Controllers\DepenseControllerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -26,6 +31,9 @@ Route::get('/', function () {
 Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('home/{method}', [HomeController::class, 'callMethod'])->where('method', '.*');
 
+
+Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');
+Route::post('Banque', [EntreeController::class, 'ajoutEntree'])->name('ajoutEntree');
 Route::get('Banque', [HomeController::class, 'Banque'])->name('Banque');
 Route::get('Consultation', [HomeController::class, 'listeConsultantes'])->name('Consultation');
 Route::get('DossierClients', [HomeController::class, 'allClient'])->name('DossierClients');
@@ -55,3 +63,7 @@ Route::get('/chart-month', [chartController::class, 'getChartMonthData']);
 //
 Route::post('Consultation', [Controller::class, 'ajoutConsultation'])->name('ajoutConsultation');
 Route::get('listeConsultantes', [HomeController::class, 'listeConsultantes'])->name('listeConsultantes');
+
+
+// Exemple de route dans votre fichier web.php
+Route::get('/recherche-candidat', [Controller::class , 'rechercheCandidat'])->name('rechercheCandidat');

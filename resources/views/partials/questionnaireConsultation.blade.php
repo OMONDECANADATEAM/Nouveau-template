@@ -5,7 +5,7 @@
     <!-- Question 1 -->
     <div class="input-group input-group-outline mb-3 p-2">
         <label for="statut_matrimonial" class="form-label">1- Statut matrimonial</label>
-        <input type="text" name="statut_matrimonial" id="statut_matrimonial" class="form-control" required>
+        <input type="text" name="statut_matrimonial" id="statut_matrimonial" class="form-control">
     </div>
 
     <!-- Question 2 -->
@@ -138,19 +138,19 @@
     <!-- Question 1 -->
     <div class="input-group input-group-outline mb-3 p-2">
         <label for="niveau_scolarite_conjoint" class="form-label">1- Quel est son niveau de scolarité ?</label>
-        <input type="text" name="niveau_scolarite_conjoint" id="niveau_scolarite_conjoint" class="form-control" required>
+        <input type="text" name="niveau_scolarite_conjoint" id="niveau_scolarite_conjoint" class="form-control">
     </div>
 
     <!-- Question 2 -->
     <div class="input-group input-group-outline mb-3 p-2">
         <label for="domaine_formation_conjoint" class="form-label">2- Quel est votre domaine de formation ?</label>
-        <input type="text" name="domaine_formation_conjoint" id="domaine_formation_conjoint" class="form-control" required>
+        <input type="text" name="domaine_formation_conjoint" id="domaine_formation_conjoint" class="form-control">
     </div>
 
     <!-- Question 3 -->
     <div class="input-group input-group-outline mb-3 p-2">
         <label for="age_conjoint" class="form-label">3- Quel est votre âge ?</label>
-        <input type="text" name="age_conjoint" id="age_conjoint" class="form-control" required>
+        <input type="text" name="age_conjoint" id="age_conjoint" class="form-control">
     </div>
 
     <!-- CONNAISSANCES LINGUISTIQUES -->
@@ -159,30 +159,30 @@
     <!-- Question 1 -->
     <div class="input-group input-group-outline mb-3 p-2">
         <label for="niveau_francais" class="form-label">1- Niveau en français</label>
-        <input type="text" name="niveau_francais" id="niveau_francais" class="form-control" required>
+        <input type="text" name="niveau_francais" id="niveau_francais" class="form-control">
     </div>
 
     <!-- Question 2 -->
     <div class="input-group input-group-outline mb-3 p-2">
         <label for="niveau_anglais" class="form-label">2- Niveau en anglais</label>
-        <input type="text" name="niveau_anglais" id="niveau_anglais" class="form-control" required>
+        <input type="text" name="niveau_anglais" id="niveau_anglais" class="form-control">
     </div>
 
     <!-- Question 3 -->
     <div class="input-group input-group-outline mb-3 p-2">
         <label for="age_enfants_linguistique" class="form-label">3- Quel est l'âge de vos enfants ?</label>
-        <input type="text" name="age_enfants_linguistique" id="age_enfants_linguistique" class="form-control" required>
+        <input type="text" name="age_enfants_linguistique" id="age_enfants_linguistique" class="form-control">
     </div>
 
     <!-- Question 4 -->
     <div class="input-group input-group-outline mb-3 p-2">
         <label for="niveau_scolarite_enfants" class="form-label">4- Quel est leur niveau de scolarité ?</label>
-        <input type="text" name="niveau_scolarite_enfants" id="niveau_scolarite_enfants" class="form-control" required>
+        <input type="text" name="niveau_scolarite_enfants" id="niveau_scolarite_enfants" class="form-control">
     </div>
 
     <div class="form-group">
         <label for="cv">Télécharger votre CV (PDF uniquement) :</label>
-        <input type="file" name="cv" accept=".pdf" required>
+        <input type="file" name="cv" accept=".pdf">
     </div>
 
 </div>

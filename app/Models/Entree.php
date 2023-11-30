@@ -35,10 +35,10 @@ class Entree extends Model
 
         return self::create([
             'montant' => $montant,
-            'date' => $date,
-            'id_utilisateur' => $id_utilisateur,
-            'id_candidat' => $id_candidat, 
-            'id_type_paiement'=> $id_type_paiement
+            // 'date' => $date,
+            // 'id_utilisateur' => $id_utilisateur,
+            // 'id_candidat' => $id_candidat, 
+            // 'id_type_paiement'=> $id_type_paiement,
            
         ]);
     }

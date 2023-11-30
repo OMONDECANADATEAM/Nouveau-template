@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Depense extends Model
 {
 
+
+    public $timestamps = false;
      protected $table = 'depense' ;
     protected $fillable = [
         'id',

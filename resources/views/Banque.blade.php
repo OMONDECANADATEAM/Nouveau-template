@@ -35,6 +35,16 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+
+    <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" integrity="sha256-g8CHiBpZ2yM5x6wv+eBS5ixvlL11GRl9YL/FgjzxpKA=" crossorigin="anonymous" />
+
+<!-- Select2 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js" integrity="sha256-+QiYzEw3vFwDZ/5Dp0uTZJLWiIjvu2/KY1aAQa4lWao=" crossorigin="anonymous"></script>
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -71,6 +81,14 @@
                                     <h4 class="mb-5 text-center text-success">
                                         {{ number_format($totalCaisseMoisActuel, 0, '.', ' ') }} FCFA</h4>
                                 </div>
+                                <div class="col-12 d-flex justify-content-center align-item-center w-100">
+                                    <button class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#ajouterEntreeModal">
+                                        <i class="material-icons">add</i> Ajouter une entrée
+                                    </button>
+                                </div>
+                               @include('partials.addEntree')
+                                
 
                             </div>
                         </div>
@@ -108,6 +126,14 @@
                                     <h4 class="mb-5 text-center text-danger">
                                         {{ number_format($totalDepenseMoisActuel, 0, '.', ' ') }} FCFA</h4>
                                 </div>
+
+                                <div class="col-12 d-flex justify-content-center align-item-center w-100">
+                                    <button class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#ajouterDepenseModal">
+                                        <i class="material-icons">add</i> Ajouter une depense
+                                    </button>
+                                </div>
+                                @include('partials.addDepenses')
 
                             </div>
                         </div>
@@ -239,56 +265,56 @@
                             $entreesParJour[$jour][] = $entree;
                         }
                     @endphp
-                    <div class="card-body pt-4 p-3">
-                        <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Cette semaine</h6>
-                    
-                        @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $jour)
-                            @if (isset($depensesParJour[$jour]) || isset($entreesParJour[$jour]))
-                                <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">{{ $jour }}</h6>
-                                <ul class="list-group">
-                                    @foreach ($depensesParJour[$jour] ?? [] as $depense)
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                            <div class="d-flex align-items-center">
-                                                <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                                                    <i class="material-icons text-lg">expand_more</i>
-                                                </button>
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm">{{ $depense->raison }}</h6>
-                                                    <span class="text-xs">{{ $depense->date }}</span>
-                                                </div>
+                  <div class="card-body pt-4 p-3">
+                    <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Cette semaine</h6>
+                
+                    @foreach (array_reverse(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']) as $jour)
+                        @if (isset($depensesParJour[$jour]) || isset($entreesParJour[$jour]))
+                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">{{ $jour }}</h6>
+                            <ul class="list-group">
+                                @foreach ($depensesParJour[$jour] ?? [] as $depense)
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                        <div class="d-flex align-items-center">
+                                            <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                                                <i class="material-icons text-lg">expand_more</i>
+                                            </button>
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-1 text-dark text-sm">{{ $depense->raison }}</h6>
+                                                <span class="text-xs">{{ $depense->date }}</span>
                                             </div>
-                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                - ${{ abs($depense->montant) }}
+                                        </div>
+                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                            - ${{ abs($depense->montant) }}
+                                        </div>
+                                    </li>
+                                @endforeach
+                
+                                @foreach ($entreesParJour[$jour] ?? [] as $entree)
+                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                        <div class="d-flex align-items-center">
+                                            <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                                                <i class="material-icons text-lg">expand_less</i>
+                                            </button>
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-1 text-dark text-sm">
+                                                    @php
+                                                        $label = \App\Models\TypePaiement::where('id', $entree->id_type_paiement)->value('label');
+                                                    @endphp
+                                                    {{ $label }}
+                                                </h6>
+                                                <span class="text-xs">{{ $entree->date }}</span>
                                             </div>
-                                        </li>
-                                    @endforeach
-                    
-                                    @foreach ($entreesParJour[$jour] ?? [] as $entree)
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                            <div class="d-flex align-items-center">
-                                                <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                                                    <i class="material-icons text-lg">expand_less</i>
-                                                </button>
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm">
-                                                        @php
-                                                            $label = \App\Models\TypePaiement::where('id', $entree->id_type_paiement)->value('label');
-                                                        @endphp
-                                                        {{ $label }}
-                                                    </h6>
-                                                    <span class="text-xs">{{ $entree->date }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                                + ${{ $entree->montant }}
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
-                        @endforeach
-                    </div>
-                    
+                                        </div>
+                                        <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                            + ${{ $entree->montant }}
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    @endforeach
+                </div>
+                
 
 
                     </div>
