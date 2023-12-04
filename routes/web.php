@@ -46,6 +46,8 @@ Route::get('connexion', [AuthController::class, 'showLoginForm'])->name('connexi
 Route::post('connexion', [AuthController::class, 'login']);
 Route::get('sign-in', [HomeController::class, 'sign-in'])->name('sign-in');
 Route::get('adminDashboard', [HomeController::class, 'adminDashboard'])->name('adminDashboard');
+Route::get('prochainesConsultations', [HomeController::class, 'prochainesConsultations'])->name('prochainesConsultations');
+
 Route::get('virtual-reality', [HomeController::class, 'virtual-reality'])->name('virtual-reality');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -67,3 +69,8 @@ Route::get('listeConsultantes', [HomeController::class, 'listeConsultantes'])->n
 
 // Exemple de route dans votre fichier web.php
 Route::get('/recherche-candidat', [Controller::class , 'rechercheCandidat'])->name('rechercheCandidat');
+
+// routes/web.php
+
+Route::post('/ajouterCandidatAConsultation', [Controller::class, 'ajouterCandidatAConsultation']);
+

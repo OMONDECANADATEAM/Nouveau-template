@@ -20,4 +20,9 @@ class InfoConsultation extends Model
 {
     return $this->belongsTo(Consultante::class, 'id_consultante');
 }
+
+public function candidats()
+{
+    return $this->hasMany(Candidat::class, 'id_info_consultation');
+}
 }

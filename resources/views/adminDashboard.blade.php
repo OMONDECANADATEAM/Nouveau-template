@@ -34,6 +34,9 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
+  
 </head>
 
 
@@ -49,10 +52,11 @@
     @include('partials.tableauSuccursale')
   </main>
 
-  <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.0.0"></script>
+
 </body>
+@include('partials.plugin')
 
 </html>
