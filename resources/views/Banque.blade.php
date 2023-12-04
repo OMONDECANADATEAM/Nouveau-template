@@ -37,13 +37,15 @@
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
 
     <!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Select2 CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" integrity="sha256-g8CHiBpZ2yM5x6wv+eBS5ixvlL11GRl9YL/FgjzxpKA=" crossorigin="anonymous" />
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css"
+        integrity="sha256-g8CHiBpZ2yM5x6wv+eBS5ixvlL11GRl9YL/FgjzxpKA=" crossorigin="anonymous" />
 
-<!-- Select2 JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js" integrity="sha256-+QiYzEw3vFwDZ/5Dp0uTZJLWiIjvu2/KY1aAQa4lWao=" crossorigin="anonymous"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"
+        integrity="sha256-+QiYzEw3vFwDZ/5Dp0uTZJLWiIjvu2/KY1aAQa4lWao=" crossorigin="anonymous"></script>
 
 </head>
 
@@ -54,17 +56,47 @@
         @include('partials.header', ['page' => 'BANQUE'])
         <!-- End Navbar -->
         <div class="container-fluid py-4">
+
             <div class="row">
                 <div class="col-lg-12">
 
+
                     @php
                         use Carbon\Carbon;
+                        use Illuminate\Support\Facades\Auth;
 
                         $moisActuel = Carbon::now()->format('m');
 
-                        $totalCaisseMoisActuel = \App\Models\Entree::whereMonth('date', $moisActuel)->sum('montant');
+                        $utilisateurConnecte = Auth::user();
+
+                        $totalCaisseMoisActuel = \App\Models\Entree::whereMonth('date', $moisActuel)
+                            ->whereHas('utilisateur', function ($query) use ($utilisateurConnecte) {
+                                $query->where('id_succursale', $utilisateurConnecte->id_succursale);
+                            })
+                            ->sum('montant');
+
+                        $totalDepenseMoisActuel = \App\Models\Depense::whereMonth('date', $moisActuel)
+                            ->whereHas('utilisateur', function ($query) use ($utilisateurConnecte) {
+                                $query->where('id_succursale', $utilisateurConnecte->id_succursale);
+                            })
+                            ->sum('montant');
+                    @endphp
+                    @php
+
+                        $moisActuel = Carbon::now()->format('m');
+
+                        $totalDepenseMoisActuel = \App\Models\Depense::whereMonth('date', $moisActuel)->sum('montant');
+
+                        // Date de début et de fin de la période
+                        $dateDebut = Carbon::now();
+                        $dateFin = Carbon::now();
+
+                        // Date de début et de fin de semaine
+                        $dateDebutSemaine = $dateDebut->startOfWeek();
+                        $dateFinSemaine = $dateFin->endOfWeek();
 
                     @endphp
+
                     <div class="row">
                         <div class="col-xl-6 mb-4">
                             <div class="card">
@@ -83,34 +115,14 @@
                                 </div>
                                 <div class="col-12 d-flex justify-content-center align-item-center w-100">
                                     <button class="btn btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#ajouterEntreeModal">
+                                        data-bs-target="#ajouterEntreeModal">
                                         <i class="material-icons">add</i> Ajouter une entrée
                                     </button>
                                 </div>
-                               @include('partials.addEntree')
-                                
-
+                                @include('partials.addEntree')
                             </div>
                         </div>
 
-
-                        @php
-
-                            $moisActuel = Carbon::now()->format('m');
-
-                            $totalDepenseMoisActuel = \App\Models\Depense::whereMonth('date', $moisActuel)->sum('montant');
-
-                            // Date de début et de fin de la période
-                            $dateDebut = Carbon::now();
-                            $dateFin = Carbon::now();
-
-                            // Date de début et de fin de semaine
-                            $dateDebutSemaine = $dateDebut->startOfWeek();
-                            $dateFinSemaine = $dateFin->endOfWeek();
-
-                          
-
-                        @endphp
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-header mx-4 p-3 text-center">
@@ -120,7 +132,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body pt-0 p-3 text-center">
-                                    <h5 class="text-center mb-0">Depenses</h5>
+                                    <h5 class="text-center mb-0">Dépenses</h5>
                                     <span class="text-xs">{{ Carbon::now()->format('F') }}</span>
                                     <hr class="horizontal dark my-3">
                                     <h4 class="mb-5 text-center text-danger">
@@ -129,102 +141,18 @@
 
                                 <div class="col-12 d-flex justify-content-center align-item-center w-100">
                                     <button class="btn btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#ajouterDepenseModal">
-                                        <i class="material-icons">add</i> Ajouter une depense
+                                        data-bs-target="#ajouterDepenseModal">
+                                        <i class="material-icons">add</i> Ajouter une dépense
                                     </button>
                                 </div>
                                 @include('partials.addDepenses')
-
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-                {{-- <div class="col-lg-4">
-                    <div class="card h-100">
-                        <div class="card-header pb-0 p-3">
-                            <div class="row">
-                                <div class="col-6 d-flex align-items-center">
-                                    <h6 class="mb-0">Invoices</h6>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <button class="btn btn-outline-primary btn-sm mb-0">View All</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-3 pb-0">
-                            <ul class="list-group">
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark font-weight-bold text-sm">March, 01, 2020</h6>
-                                        <span class="text-xs">#MS-415646</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        $180
-                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                                class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
-                                            PDF</button>
-                                    </div>
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="text-dark mb-1 font-weight-bold text-sm">February, 10, 2021</h6>
-                                        <span class="text-xs">#RV-126749</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        $250
-                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                                class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
-                                            PDF</button>
-                                    </div>
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="text-dark mb-1 font-weight-bold text-sm">April, 05, 2020</h6>
-                                        <span class="text-xs">#FB-212562</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        $560
-                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                                class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
-                                            PDF</button>
-                                    </div>
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="text-dark mb-1 font-weight-bold text-sm">June, 25, 2019</h6>
-                                        <span class="text-xs">#QW-103578</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        $120
-                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                                class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
-                                            PDF</button>
-                                    </div>
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="text-dark mb-1 font-weight-bold text-sm">March, 01, 2019</h6>
-                                        <span class="text-xs">#AR-803481</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        $300
-                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                                class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
-                                            PDF</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
+
+
             <div class="row">
 
                 <div class="col-md-12 mt-6">
@@ -244,77 +172,84 @@
                             </div>
                         </div>
                         @php
-                        $startOfWeek = now()->startOfWeek();
-                        $endOfWeek = now()->endOfWeek();
-                    
-                        $depenses = \App\Models\Depense::whereBetween('date', [$startOfWeek, $endOfWeek])->get();
-                        $entrees = \App\Models\Entree::whereBetween('date', [$startOfWeek, $endOfWeek])->get();
-                    
-                        // Organiser les dépenses par jour
-                        $depensesParJour = [];
-                        foreach ($depenses as $depense) {
-                            $jour = Carbon::parse($depense->date)->format('l');
-                            // 'l' donne le nom du jour de la semaine
-                            $depensesParJour[$jour][] = $depense;
-                        }
-                    
-                        // Organiser les entrées par jour
-                        $entreesParJour = [];
-                        foreach ($entrees as $entree) {
-                            $jour = Carbon::parse($entree->date)->format('l');
-                            $entreesParJour[$jour][] = $entree;
-                        }
-                    @endphp
-                  <div class="card-body pt-4 p-3">
-                    <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Cette semaine</h6>
-                
-                    @foreach (array_reverse(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']) as $jour)
-                        @if (isset($depensesParJour[$jour]) || isset($entreesParJour[$jour]))
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">{{ $jour }}</h6>
-                            <ul class="list-group">
-                                @foreach ($depensesParJour[$jour] ?? [] as $depense)
-                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                        <div class="d-flex align-items-center">
-                                            <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                                                <i class="material-icons text-lg">expand_more</i>
-                                            </button>
-                                            <div class="d-flex flex-column">
-                                                <h6 class="mb-1 text-dark text-sm">{{ $depense->raison }}</h6>
-                                                <span class="text-xs">{{ $depense->date }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                            - ${{ abs($depense->montant) }}
-                                        </div>
-                                    </li>
-                                @endforeach
-                
-                                @foreach ($entreesParJour[$jour] ?? [] as $entree)
-                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                        <div class="d-flex align-items-center">
-                                            <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                                                <i class="material-icons text-lg">expand_less</i>
-                                            </button>
-                                            <div class="d-flex flex-column">
-                                                <h6 class="mb-1 text-dark text-sm">
-                                                    @php
-                                                        $label = \App\Models\TypePaiement::where('id', $entree->id_type_paiement)->value('label');
-                                                    @endphp
-                                                    {{ $label }}
-                                                </h6>
-                                                <span class="text-xs">{{ $entree->date }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                            + ${{ $entree->montant }}
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
-                    @endforeach
-                </div>
-                
+                            $startOfWeek = now()->startOfWeek();
+                            $endOfWeek = now()->endOfWeek();
+
+                            $depenses = \App\Models\Depense::whereBetween('date', [$startOfWeek, $endOfWeek])->get();
+                            $entrees = \App\Models\Entree::whereBetween('date', [$startOfWeek, $endOfWeek])->get();
+
+                            // Organiser les dépenses par jour
+                            $depensesParJour = [];
+                            foreach ($depenses as $depense) {
+                                $jour = Carbon::parse($depense->date)->format('l');
+                                // 'l' donne le nom du jour de la semaine
+                                $depensesParJour[$jour][] = $depense;
+                            }
+
+                            // Organiser les entrées par jour
+                            $entreesParJour = [];
+                            foreach ($entrees as $entree) {
+                                $jour = Carbon::parse($entree->date)->format('l');
+                                $entreesParJour[$jour][] = $entree;
+                            }
+                        @endphp
+                        <div class="card-body pt-4 p-3">
+                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Cette semaine</h6>
+
+                            @foreach (array_reverse(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']) as $jour)
+                                @if (isset($depensesParJour[$jour]) || isset($entreesParJour[$jour]))
+                                    <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">
+                                        {{ $jour }}</h6>
+                                    <ul class="list-group">
+                                        @foreach ($depensesParJour[$jour] ?? [] as $depense)
+                                            <li
+                                                class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                <div class="d-flex align-items-center">
+                                                    <button
+                                                        class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                                                        <i class="material-icons text-lg">expand_more</i>
+                                                    </button>
+                                                    <div class="d-flex flex-column">
+                                                        <h6 class="mb-1 text-dark text-sm">{{ $depense->raison }}</h6>
+                                                        <span class="text-xs">{{ $depense->date }}</span>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                    - ${{ abs($depense->montant) }}
+                                                </div>
+                                            </li>
+                                        @endforeach
+
+                                        @foreach ($entreesParJour[$jour] ?? [] as $entree)
+                                            <li
+                                                class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                <div class="d-flex align-items-center">
+                                                    <button
+                                                        class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                                                        <i class="material-icons text-lg">expand_less</i>
+                                                    </button>
+                                                    <div class="d-flex flex-column">
+                                                        <h6 class="mb-1 text-dark text-sm">
+                                                            @php
+                                                                $label = \App\Models\TypePaiement::where('id', $entree->id_type_paiement)->value('label');
+                                                            @endphp
+                                                            {{ $label }}
+                                                        </h6>
+                                                        <span class="text-xs">{{ $entree->date }}</span>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                                    + ${{ $entree->montant }}
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            @endforeach
+                        </div>
+
 
 
                     </div>

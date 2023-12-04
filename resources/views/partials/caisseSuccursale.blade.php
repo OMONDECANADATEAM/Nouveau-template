@@ -4,20 +4,23 @@
     // Obtenez le mois actuel
     $moisActuel = Carbon::now()->format('m');
 
-    // Obtenez le total du mois en cours pour l'utilisateur avec la succursale à Abidjan
+    // Obtenez l'id de la succursale de l'utilisateur connecté
+    $idSuccursaleUtilisateur = auth()->user()->id_succursale;
+
+    // Obtenez le total du mois en cours pour l'utilisateur avec la succursale de l'utilisateur connecté
     $totalCourant = \App\Models\Entree::whereMonth('date', $moisActuel)
-        ->whereHas('utilisateur', function ($query) {
-            $query->where('id_succursale', '1'); // Assurez-vous que c'est la clé correcte
+        ->whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
+            $query->where('id_succursale', $idSuccursaleUtilisateur);
         })
         ->sum('montant');
 
     // Obtenez le mois précédent
     $moisPrecedent = Carbon::now()->subMonth()->format('m');
 
-    // Obtenez le total du mois précédent pour l'utilisateur avec la succursale à Abidjan
+    // Obtenez le total du mois précédent pour l'utilisateur avec la succursale de l'utilisateur connecté
     $totalMoisPrecedent = \App\Models\Entree::whereMonth('date', $moisPrecedent)
-        ->whereHas('utilisateur', function ($query) {
-            $query->where('id_succursale', '1'); // Assurez-vous que c'est la clé correcte
+        ->whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
+            $query->where('id_succursale', $idSuccursaleUtilisateur);
         })
         ->sum('montant');
 
@@ -34,7 +37,7 @@
                 <i class="material-icons opacity-10">account_balance</i>
             </div>
             <div class="text-end">
-                <p class="text-xl mb-0 text-capitalize">Caisse Sucursale</p>
+                <p class="text-xl mb-0 text-capitalize">Caisse Succursale</p>
                 <h3 class="mb-0 pt-2">{{ number_format($totalCourant, 0, '.', ' ') }} FCFA</h3>
             </div>
         </div>

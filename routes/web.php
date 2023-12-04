@@ -45,7 +45,7 @@ Route::get('OmondeTeam', [HomeController::class, 'OmondeTeam'])->name('OmondeTea
 Route::get('connexion', [AuthController::class, 'showLoginForm'])->name('connexion.form');
 Route::post('connexion', [AuthController::class, 'login']);
 Route::get('sign-in', [HomeController::class, 'sign-in'])->name('sign-in');
-Route::get('profile', [HomeController::class, 'profile'])->name('profile');
+Route::get('adminDashboard', [HomeController::class, 'adminDashboard'])->name('adminDashboard');
 Route::get('virtual-reality', [HomeController::class, 'virtual-reality'])->name('virtual-reality');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

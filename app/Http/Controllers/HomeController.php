@@ -36,9 +36,9 @@ class HomeController extends Controller
         return view('OmondeTeam');
     }
 
-    public function profile()
+    public function adminDashboard()
     {
-        return view('profile');
+        return view('adminDashboard');
     }
 
     public function connexion()
@@ -48,18 +48,35 @@ class HomeController extends Controller
 
     public function allCandidat()
     {
-    // Obtenir les données des candidats
-    $candidats = Candidat::orderBy('date_enregistrement', 'desc')->take(10)->get();
-
-    // Passer les données à la vue principale
-    return view('DossierContacts', ['data_candidat' => $candidats]);
+        // Obtenir l'utilisateur connecté
+        $idSuccursaleUtilisateur = auth()->user()->id_succursale;
+    
+            // Obtenir les données des candidats liés à la succursale de l'utilisateur
+            $candidats = Candidat::whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
+                $query->where('id_succursale', $idSuccursaleUtilisateur);
+            })
+            ->orderBy('date_enregistrement', 'desc')
+            ->take(10)
+            ->get();
+    
+            // Passer les données à la vue principale
+            return view('DossierContacts', ['data_candidat' => $candidats]);
+     
     }
+    
 
  
     
     public function allClient() {
-        // Récupérer la liste des entrees de type 2
-        $entreesType2 = Entree::where('id_type_paiement', 2)->get();
+        // Récupérer l'id de la succursale de l'utilisateur en cours
+        $idSuccursaleUtilisateur = auth()->user()->id_succursale;
+    
+        // Récupérer la liste des entrees de type 2 liées à la succursale de l'utilisateur
+        $entreesType2 = Entree::where('id_type_paiement', 2)
+            ->whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
+                $query->where('id_succursale', $idSuccursaleUtilisateur);
+            })
+            ->get();
     
         // Récupérer les candidats liés à ces entrées
         $candidats = Candidat::whereIn('id', $entreesType2->pluck('id_candidat'))->get();
@@ -77,6 +94,7 @@ class HomeController extends Controller
     
         return view('DossierClients', ['data_client' => $candidats, 'dates_paiement' => $datesPaiement]);
     }
+    
 
 
  

@@ -36,9 +36,19 @@
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
 </head>
 
+
 <body class="g-sidenav-show  bg-gray-200">
   @include('partials.navbar')
-  </script>
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    @include('partials.header', ['page' => "Vue d'ensemble"])
+
+    @include('partials.vueDensembleSuccursale')
+
+    @include('partials.tableauSuccursale')
+  </main>
+
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->

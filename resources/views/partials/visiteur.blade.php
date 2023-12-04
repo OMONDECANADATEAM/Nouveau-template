@@ -4,16 +4,27 @@
     // Obtenez le mois actuel
     $moisActuel = Carbon::now()->format('m');
 
-    // Obtenez le total du mois en cours pour tous les candidats
-    $totalCandidatsCourant = \App\Models\Candidat::whereMonth('date_enregistrement', $moisActuel)->count();
+    // Obtenez l'utilisateur connecté
+    $utilisateurConnecte = auth()->user();
+
+    // Obtenez le total du mois en cours pour tous les candidats de la succursale de l'utilisateur connecté
+    $totalCandidatsCourant = \App\Models\Candidat::whereMonth('date_enregistrement', $moisActuel)
+        ->whereHas('utilisateur', function ($query) use ($utilisateurConnecte) {
+            $query->where('id_succursale', $utilisateurConnecte->id_succursale);
+        })
+        ->count();
 
     // Obtenez le mois précédent
     $moisPrecedent = Carbon::now()->subMonth()->format('m');
 
-    // Obtenez le total du mois précédent pour tous les candidats
-    $totalCandidatsMoisPrecedent = \App\Models\Candidat::whereMonth('date_enregistrement', $moisPrecedent)->count();
+    // Obtenez le total du mois précédent pour tous les candidats de la succursale de l'utilisateur connecté
+    $totalCandidatsMoisPrecedent = \App\Models\Candidat::whereMonth('date_enregistrement', $moisPrecedent)
+        ->whereHas('utilisateur', function ($query) use ($utilisateurConnecte) {
+            $query->where('id_succursale', $utilisateurConnecte->id_succursale);
+        })
+        ->count();
 
-    // Calculez le pourcentage d'évolution pour tous les candidats
+    // Calculez le pourcentage d'évolution pour tous les candidats de la succursale de l'utilisateur connecté
     $pourcentageEvolutionCandidats = ($totalCandidatsMoisPrecedent != 0)
         ? (($totalCandidatsCourant - $totalCandidatsMoisPrecedent) / $totalCandidatsMoisPrecedent) * 100
         : 0;

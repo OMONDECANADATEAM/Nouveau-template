@@ -125,11 +125,12 @@ class Controller extends BaseController
         'consultation_payee' => $request->has('consultation_payee'),
         'profession' => ucwords(strtolower($request->input('profession'))),
     ]);
-
+    if ($request->hasFile('cv') && $request->file('cv')->isValid()) {
+        $cvPath = $request->file('cv')->storeAs('cv', 'cv_utilisateur_' . $candidat->id . '.pdf', 'public');
+    } 
     // Si la consultation est payée, mettez à jour ou créez une entrée et une fiche de consultation
     if ($candidat->consultation_payee) {
-        $cvPath = $request->file('cv')->storeAs('cv', 'cv_utilisateur_' . $candidat->id . '.pdf', 'public');
-
+       
         $entree = Entree::updateOrCreate(
             ['id_candidat' => $candidat->id],
             [

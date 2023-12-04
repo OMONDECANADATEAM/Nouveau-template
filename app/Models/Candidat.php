@@ -21,5 +21,11 @@ class Candidat extends Model
 {
     return $this->hasMany(Entree::class, 'id_candidat');
 }
+
+public function utilisateur()
+{
+    return $this->belongsTo(User::class, 'id_utilisateur'); // Assurez-vous d'ajuster la clé étrangère si nécessaire
+}
+
 }
 

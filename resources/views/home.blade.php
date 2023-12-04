@@ -146,60 +146,51 @@
                         </div>
                     </div>
                     @php
-                        $entries = \App\Models\Entree::orderBy('date', 'desc')
-                            ->take(10)
-                            ->get();
-                    @endphp
-
-                    <div class="card-body px-0 pb-2">
-                        <div class="table-responsive">
-                            <table class="table align-items-center mb-0">
-                                <thead>
+                    $utilisateurConnecte = Auth::user();
+                    $entries = \App\Models\Entree::whereHas('candidat.utilisateur', function ($query) use ($utilisateurConnecte) {
+                        $query->where('id_succursale', $utilisateurConnecte->id_succursale);
+                    })
+                    ->orderBy('date', 'desc')
+                    ->take(10)
+                    ->get();
+                @endphp
+        
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <!-- ... (rest of the code remains unchanged) ... -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($entries as $entry)
                                     <tr>
-                                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                            Nom et Prénom(s)</th>
-                                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                            Montant</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                            Type de paiement</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                            Date de paiement</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($entries as $entry)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-md">{{ $entry->candidat->nom }}
-                                                            {{ $entry->candidat->prenom }}</h6>
-                                                    </div>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-md">{{ $entry->candidat->nom }}
+                                                        {{ $entry->candidat->prenom }}</h6>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <p class="text-md font-weight-bold mb-0">{{ $entry->montant }} FCFA </p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span
-                                                    class="text-md font-weight-bold">{{ $entry->typePaiement->label }}</span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span
-                                                    class="me-2 text-md font-weight-bold">{{ date('Y-m-d', strtotime($entry->date)) }}</span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-md font-weight-bold mb-0">{{ $entry->montant }} FCFA </p>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-md font-weight-bold">{{ $entry->typePaiement->label }}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="me-2 text-md font-weight-bold">{{ date('Y-m-d', strtotime($entry->date)) }}</span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-
                 </div>
-
             </div>
+        </div>
 
 
             @include('partials.footer')

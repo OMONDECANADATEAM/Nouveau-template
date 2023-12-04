@@ -48,4 +48,16 @@ class User extends Authenticatable
 {
     return $this->belongsTo(PosteOccupe::class, 'id_poste_occupe');
 }
+
+public function candidat()
+{
+    
+    return $this->hasOne(Candidat::class);
 }
+
+public function succursale()
+    {
+        return $this->belongsTo(Succursale::class, 'id_succursale');
+    }
+
+}   

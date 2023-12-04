@@ -22,7 +22,13 @@
         ->sum('montant');
 
     // Calculez le pourcentage d'évolution
+if ($totalMoisPrecedent != 0) {
     $pourcentageEvolution = ($totalCourant - $totalMoisPrecedent) / $totalMoisPrecedent * 100;
+} else {
+    // Si le total du mois précédent est zéro, définissez le pourcentage d'évolution à zéro ou une autre valeur appropriée
+    $pourcentageEvolution = 0; // ou une autre valeur par défaut
+}
+
 @endphp
 
 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">

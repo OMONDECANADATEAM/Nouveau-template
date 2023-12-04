@@ -45,41 +45,8 @@
         <!-- End Navbar -->
         <div class="row">
             <div class="col-12">
-                <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h4 class="text-white text-capitalize ps-3">Dossier Client</h4>
-                        </div>
-                    </div>
-                    <div class="card-body px-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center justify-content-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            NOM
-                                        </th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            NUMERO</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            PROFFESSION</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                            DATE DE PAIEMENT</th>
-                                            <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                            TYPE PAIEMENT </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                 @include('partials.tableClient')
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+               
+                @include('partials.tableClient')
             </div>
         </div>
 

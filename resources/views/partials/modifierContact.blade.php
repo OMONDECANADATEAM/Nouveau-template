@@ -247,7 +247,7 @@
                         
                             <div class="form-group">
                                 <label for="cv">Télécharger votre CV (PDF uniquement) :</label>
-                                <input type="file" name="cv" accept=".pdf" required>
+                                <input type="file" name="cv" accept=".pdf">
                             </div>
                         
                         </div>
