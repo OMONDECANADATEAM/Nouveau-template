@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Entree;
-use App\Models\Candidat; // Assurez-vous d'importer le modèle Entree
 
 class EntreeController extends Controller
 {
@@ -35,10 +34,10 @@ class EntreeController extends Controller
                 // Ajoutez d'autres champs selon vos besoins
             ]);
     
-            return redirect()->route('Banque')->with('success', 'Entrée enregistrée avec succès.');
+            return redirect()->back()->with('success', 'Entrée enregistrée avec succès.');
     
         } catch (\Exception $e) {
-            return redirect()->route('Banque')->with('error', $e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
     

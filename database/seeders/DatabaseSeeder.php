@@ -15,15 +15,15 @@ class DatabaseSeeder extends Seeder
     {
         // Create a specific user
         User::factory()->create([
-            'name' => 'Demson',
-            'last_name' => 'Laura',
-            'email' => 'dl@yopmail.com',
+            'name' => 'Kouassi',
+            'last_name' => 'Michelle',
+            'email' => 'km@omonde.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('demsong223'), // Utilisez bcrypt pour hacher le mot de passe
+            'password' => bcrypt('km225'), // Utilisez bcrypt pour hacher le mot de passe
             'remember_token' => Str::random(10),
-            'id_poste_occupe' => '1',
-        'id_role_utilisateur' =>  '1' , 
-               'id_succursale' => '4',
+            'id_poste_occupe' => '4',
+        'id_role_utilisateur' =>  '2' , 
+               'id_succursale' => '1',
         ]);
     }
 }

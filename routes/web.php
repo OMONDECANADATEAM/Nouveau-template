@@ -38,7 +38,7 @@ Route::get('Banque', [HomeController::class, 'Banque'])->name('Banque');
 Route::get('Consultation', [HomeController::class, 'listeConsultantes'])->name('Consultation');
 Route::get('DossierClients', [HomeController::class, 'allClient'])->name('DossierClients');
 Route::get('DossierContacts', [HomeController::class, 'allCandidat'])->name('DossierContacts');
-Route::get('OmondeTeam', [HomeController::class, 'OmondeTeam'])->name('OmondeTeam');
+Route::get('dashBoardConsultante', [HomeController::class, 'dashBoardConsultante'])->name('dashBoardConsultante');
 
 // Routes d'authentification
 

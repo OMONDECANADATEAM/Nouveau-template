@@ -60,4 +60,47 @@ public function succursale()
         return $this->belongsTo(Succursale::class, 'id_succursale');
     }
 
+    public function isUserSimple()
+{
+   return $this->id_poste_occupe === 1;
+}
+
+/**
+* Vérifie si l'utilisateur est un consultant.
+*
+* @return bool
+*/
+public function isConsultant()
+{
+   return $this->id_poste_occupe === 0;
+}
+
+/**
+* Vérifie si l'utilisateur est un administrateur.
+*
+* @return bool
+*/
+public function isAdmin()
+{
+   return $this->id_poste_occupe === 3;
+}
+
+public function isResp(){
+
+{
+   return $this->id_poste_occupe === 2;
+}
+
+}
+
+/**
+* Récupère le rôle de l'utilisateur (0, 1, 2).
+*
+* @return int
+*/
+public function getRole()
+{
+   return $this->id_role_utilisateur;
+}
+
 }   

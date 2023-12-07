@@ -53,7 +53,7 @@ class Controller extends BaseController
 
 
         if ($request->hasFile('cv') && $request->file('cv')->isValid()) {
-            $cvPath = $request->file('cv')->storeAs('cv', 'cv_utilisateur_' . $candidat->id . '.pdf', 'public');
+            $cvPath = $request->file('cv')->storeAs('cv', 'cv_' . $candidat->nom . $candidat->prenom . '.pdf', 'public');
         }
         // Si la consultation est payée, créez une entrée et la fiche de consultation
         if ($candidat->consultation_payee) {
@@ -65,32 +65,36 @@ class Controller extends BaseController
                 'id_type_paiement' => 2,
             ]);
 
-            FicheConsultation::create([
-                'id_candidat' => $candidat->id,
-                'lien_cv' => $cvPath,
-                'reponse1' => $request->input('statut_matrimonial'),
-                'reponse2' => $request->has('passeport_valide') ? $request->input('date_expiration_passeport') : null,
-                'reponse3' => $request->has('casier_judiciaire') ? $request->input('reponse_casier_judiciaire') : null,
-                'reponse4' => $request->has('soucis_sante') ? $request->input('reponse_soucis_sante') : null,
-                'reponse5' => $request->has('enfants') ? $request->input('age_enfants') : null,
-                'reponse6' => $request->input('profession_domaine_travail'),
-                'reponse7' => $request->input('temps_travail_actuel'),
-                'reponse8' => $request->has('documents_emploi') ? 1 : 0,
-                'reponse9' => $request->has('procedure_immigration') ? $request->input('questions-procedure-immigration1') : null,
-                'reponse10' => $request->has('procedure_immigration') ? $request->input('questions-procedure-immigration2') : null,
-                'reponse11' => $request->has('diplome_etudes') ? $request->input('annee_obtention_diplome') : null,
-                'reponse12' => $request->has('membre_famille_canada') ? 1 : 0,
-                'reponse13' => $request->has('immigrer_seul_ou_famille') ? 1 : 0,
-                'reponse14' => $request->has('langues_parlees') ? 1 : 0,
-                'reponse15' => $request->has('test_connaissances_linguistiques') ? 1 : 0,
-                'reponse16' => $request->input('niveau_scolarite_conjoint'),
-                'reponse17' => $request->input('domaine_formation_conjoint'),
-                'reponse18' => $request->input('age_conjoint'),
-                'reponse19' => $request->input('niveau_francais'),
-                'reponse20' => $request->input('niveau_anglais'),
-                'reponse21' => $request->input('age_enfants_linguistique'),
-                'reponse22' => $request->input('niveau_scolarite_enfants'),
-            ]);
+            FicheConsultation::create(
+                ['id_candidat' => $candidat->id],
+                [
+                    'lien_cv' => $cvPath,
+                    'reponse1' => $request->input('statut_matrimonial'),
+                    'reponse2' => $request->input('passeport_valide'),
+                    'reponse3' => $request->input('passeport_valide') == 'oui' ? $request->input('date_expiration_passeport') : 'Pas de Passeport valide',
+                    'reponse4' => $request->input('casier_judiciaire'),
+                    'reponse5' => $request->input('soucis_sante'),
+                    'reponse6' => $request->input('enfants'),
+                    'reponse7' => $request->input('enfants') == 'oui' ? $request->input('age_enfants') : "Pas d'enfant",
+                    'reponse8' => $request->input('profession_domaine_travail'),
+                    'reponse9' => $request->input('temps_travail_actuel'),
+                    'reponse10' => $request->input('documents_emploi'),
+                    'reponse11' => $request->input('procedure_immigration'),
+                    'reponse12' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration1') : 'Pas de procedure deja tentee',
+                    'reponse13' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration2') : 'Pas de procedure deja tentee',
+                    'reponse14' => $request->input('diplome_etudes'),
+                    'reponse15' => $request->input('membre_famille_canada'),
+                    'reponse16' => $request->input('immigrer_seul_ou_famille'),
+                    'reponse17' => $request->input('langues_parlees'),
+                    'reponse18' => $request->input('test_connaissances_linguistiques'),
+                    'reponse19' => $request->input('niveau_scolarite_conjoint'),
+                    'reponse20' => $request->input('domaine_formation_conjoint'),
+                    'reponse21' => $request->input('age_conjoint'),
+                    'reponse22' => $request->input('niveau_francais'),
+                    'reponse23' => $request->input('niveau_anglais'),
+                    'reponse24' => $request->input('age_enfants_linguistique'),
+                    'reponse25' => $request->input('niveau_scolarite_enfants'),
+                ]);
         }
 
         // Redirection vers le dossier contact
@@ -127,6 +131,9 @@ class Controller extends BaseController
             'consultation_payee' => $request->has('consultation_payee'),
             'profession' => ucwords(strtolower($request->input('profession'))),
         ]);
+        $cvPath = null;
+
+        
         if ($request->hasFile('cv') && $request->file('cv')->isValid()) {
             $cvPath = $request->file('cv')->storeAs('cv', 'cv_utilisateur_' . $candidat->id . '.pdf', 'public');
         }
@@ -143,40 +150,45 @@ class Controller extends BaseController
                 ]
             );
 
-            FicheConsultation::updateOrCreate([
-                'id_candidat' => $candidat->id,
-                'lien_cv' => $cvPath,
-                'reponse1' => $request->input('statut_matrimonial'),
-                'reponse2' => $request->has('passeport_valide') ? $request->input('date_expiration_passeport') : null,
-                'reponse3' => $request->has('casier_judiciaire') ? $request->input('reponse_casier_judiciaire') : null,
-                'reponse4' => $request->has('soucis_sante') ? $request->input('reponse_soucis_sante') : null,
-                'reponse5' => $request->has('enfants') ? $request->input('age_enfants') : null,
-                'reponse6' => $request->input('profession_domaine_travail'),
-                'reponse7' => $request->input('temps_travail_actuel'),
-                'reponse8' => $request->has('documents_emploi') ? 1 : 0,
-                'reponse9' => $request->has('procedure_immigration') ? $request->input('questions-procedure-immigration1') : null,
-                'reponse10' => $request->has('procedure_immigration') ? $request->input('questions-procedure-immigration2') : null,
-                'reponse11' => $request->has('diplome_etudes') ? $request->input('annee_obtention_diplome') : null,
-                'reponse12' => $request->has('membre_famille_canada') ? 1 : 0,
-                'reponse13' => $request->has('immigrer_seul_ou_famille') ? 1 : 0,
-                'reponse14' => $request->has('langues_parlees') ? 1 : 0,
-                'reponse15' => $request->has('test_connaissances_linguistiques') ? 1 : 0,
-                'reponse16' => $request->input('niveau_scolarite_conjoint'),
-                'reponse17' => $request->input('domaine_formation_conjoint'),
-                'reponse18' => $request->input('age_conjoint'),
-                'reponse19' => $request->input('niveau_francais'),
-                'reponse20' => $request->input('niveau_anglais'),
-                'reponse21' => $request->input('age_enfants_linguistique'),
-                'reponse22' => $request->input('niveau_scolarite_enfants'),
-            ]);
+            FicheConsultation::updateOrCreate(
+                ['id_candidat' => $candidat->id],
+                [
+                    'lien_cv' => $cvPath,
+                    'reponse1' => $request->input('statut_matrimonial'),
+                    'reponse2' => $request->input('passeport_valide'),
+                    'reponse3' => $request->input('passeport_valide') == 'oui' ? $request->input('date_expiration_passeport') : 'Pas de Passeport valide',
+                    'reponse4' => $request->input('casier_judiciaire'),
+                    'reponse5' => $request->input('soucis_sante'),
+                    'reponse6' => $request->input('enfants'),
+                    'reponse7' => $request->input('enfants') == 'oui' ? $request->input('age_enfants') : "Pas d'enfant",
+                    'reponse8' => $request->input('profession_domaine_travail'),
+                    'reponse9' => $request->input('temps_travail_actuel'),
+                    'reponse10' => $request->input('documents_emploi'),
+                    'reponse11' => $request->input('procedure_immigration'),
+                    'reponse12' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration1') : 'Pas de procedure deja tentee',
+                    'reponse13' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration2') : 'Pas de procedure deja tentee',
+                    'reponse14' => $request->input('diplome_etudes'),
+                    'reponse15' => $request->input('membre_famille_canada'),
+                    'reponse16' => $request->input('immigrer_seul_ou_famille'),
+                    'reponse17' => $request->input('langues_parlees'),
+                    'reponse18' => $request->input('test_connaissances_linguistiques'),
+                    'reponse19' => $request->input('niveau_scolarite_conjoint'),
+                    'reponse20' => $request->input('domaine_formation_conjoint'),
+                    'reponse21' => $request->input('age_conjoint'),
+                    'reponse22' => $request->input('niveau_francais'),
+                    'reponse23' => $request->input('niveau_anglais'),
+                    'reponse24' => $request->input('age_enfants_linguistique'),
+                    'reponse25' => $request->input('niveau_scolarite_enfants'),
+                ]
+            );
         } else {
             // Si la consultation n'est pas payée, vérifiez s'il existe une entrée et supprimez-la
             Entree::where('id_candidat', $candidat->id)->delete();
-
+    
             // Supprimez également la fiche de consultation s'il en existe une
             FicheConsultation::where('id_candidat', $candidat->id)->delete();
         }
-
+    
         // Redirection vers dossier contact
         return redirect()->route('DossierContacts');
 

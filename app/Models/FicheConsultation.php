@@ -37,11 +37,14 @@ class FicheConsultation extends Model
         'reponse20',
         'reponse21',
         'reponse22',
+        'reponse23',
+        'reponse24',
+        'reponse25',
     ];
 
     public function candidat()
-    {
-        return $this->belongsTo(Candidat::class, 'id_candidat', 'id');
-    }
+{
+    return $this->belongsTo(Candidat::class, 'id_candidat');
+}
 
 }

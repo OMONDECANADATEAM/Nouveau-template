@@ -55,8 +55,13 @@
                             <h6 class="text-white text-capitalize ps-3 mb-0">DOSSIER CONTACTS</h6>
                             <button class="btn bg-gradient-dark circle" data-bs-toggle="modal"
                                 data-bs-target="#addContactModal">
-                                <i class="fas fa-plus fa-lg"></i>
+                                <i class="material-icons">add</i> Ajouter un candidat
                             </button>
+                            <button class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#ajouterEntreeModal">
+                            <i class="material-icons">add</i> Ajouter une entrée
+                            </button>
+                            @include('partials.addEntree')
                             @include('partials.addContact')
                         </div>
                     </div>

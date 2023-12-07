@@ -15,46 +15,55 @@
                     'DossierContacts' => 'Contacts',
                     'DossierClients' => 'Dossier Clients',
                     'Banque' => 'Banque',
-                    'OmondeTeam' => 'L\'équipe',
+                    'dashBoardConsultante' => 'Consultante',
                     'Consultation' => 'Consultations',
                     'adminDashboard' => "Vue d'ensemble"
                 ];
 
                 $currentRoute = \Request::route()->getName();
+                $currentUserRole = auth()->user()->getRole();
             @endphp
 
-            @foreach ($pages as $page => $pageTitle)
-                <li class="nav-item">
-                    <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}" href="{{ $page }}">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            @if ($page === 'adminDashboard')
-                                <i class="material-icons opacity-10">
-                                    dashboard
-                                </i>
-                            @else
-                                <i class="material-icons opacity-10">
-                                    @if ($page === 'DossierClients')
-                                        table_view
-                                    @elseif($page === 'home')
-                                        dashboard
-                                    @elseif($page === 'DossierContacts')
-                                        contacts
-                                    @elseif($page === 'Banque')
-                                        receipt_long
-                                    @elseif($page === 'OmondeTeam')
-                                        people
-                                    @elseif($page === 'Consultation')
-                                        videocam
-                                    @else
-                                        {{ $page }}
-                                    @endif
-                                </i>
-                            @endif
-                        </div>
-                        <span class="nav-link-text ms-1">{{ $pageTitle }}</span>
-                    </a>
-                </li>
-            @endforeach
+@foreach ($pages as $page => $pageTitle)
+@if (
+    ($currentUserRole == 0 && $page == 'dashBoardConsultante') ||
+    ($currentUserRole == 1 && in_array($page, ['home', 'DossierContacts', 'DossierClients'])) ||
+    ($currentUserRole == 2 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque'])) ||
+    ($currentUserRole == 3 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque' , 'Consultation' , 'adminDashboard'])) // Admin a accès à toutes les pages
+)
+    <li class="nav-item">
+        <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}" href="{{ $page }}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                @if ($page === 'adminDashboard')
+                    <i class="material-icons opacity-10">
+                        dashboard
+                    </i>
+                @else
+                    <i class="material-icons opacity-10">
+                        @if ($page === 'DossierClients')
+                            table_view
+                        @elseif($page === 'home')
+                            dashboard
+                        @elseif($page === 'DossierContacts')
+                            contacts
+                        @elseif($page === 'Banque')
+                            receipt_long
+                        @elseif($page === 'dashBoardConsultante')
+                            videocam
+                        @elseif($page === 'Consultation')
+                            videocam
+                        @else
+                            {{ $page }}
+                        @endif
+                    </i>
+                @endif
+            </div>
+            <span class="nav-link-text ms-1">{{ $pageTitle }}</span>
+        </a>
+    </li>
+@endif
+@endforeach
+
         </ul>
     </div>
 </aside>

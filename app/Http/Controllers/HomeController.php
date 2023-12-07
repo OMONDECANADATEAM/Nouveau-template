@@ -2,18 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Candidat;
 use App\Models\Entree;
 use App\Models\consultante;
-use App\Models\InfoConsultation;
+
 
 class HomeController extends Controller
 {
+
     public function index()
     {
-        return view('home');
+        // Vérifiez si l'utilisateur est connecté
+        if (Auth::check()) {
+            // Obtenez le rôle de l'utilisateur
+            $userRole = Auth::user()->id_role_utilisateur;
+    
+            // Redirigez l'utilisateur en fonction de son rôle
+            switch ($userRole) {
+                case 0:
+                    // Consultante, redirigez-la vers la page "OmondeTeam"
+                    return redirect()->route('dashBoardConsultante');
+                case 1:
+                case 2:
+                case 3:
+                    // Utilisateur simple, redirigez-le vers la page "home"
+                    return view('home');
+                default:
+                    // Si le rôle n'est pas reconnu, redirigez-le vers la page de connexion
+                    return redirect()->route('login');
+            }
+        }
+    
+        // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
+        return redirect()->route('login');
     }
+    
+    
     public function DossierContacts()
     {
         return view('DossierContacts');
@@ -31,9 +56,9 @@ class HomeController extends Controller
     {
         return view('Consultation');
     }
-    public function OmondeTeam()
+    public function dashBoardConsultante()
     {
-        return view('OmondeTeam');
+        return view('dashBoardConsultante');
     }
 
     public function adminDashboard()
