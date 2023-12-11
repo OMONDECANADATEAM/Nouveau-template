@@ -76,3 +76,8 @@ Route::post('/ajouterCandidatAConsultation', [Controller::class, 'ajouterCandida
 
 Route::get('/creer-utilisateur', [UtilisateurController::class, 'formulaireCreation'])->name('creer-utilisateur.formulaire');
 Route::post('/creer-utilisateur', [UtilisateurController::class, 'creer'])->name('creer-utilisateur.creer');
+
+
+
+Route::post('/save-remarques', [HomeController::class, 'saveRemarques']);
+

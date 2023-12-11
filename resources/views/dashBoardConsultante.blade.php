@@ -19,7 +19,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href= {{ asset('assets/img/logos/icon.png') }}>     
+    <link rel="icon" type="image/png" href={{ asset('assets/img/logos/icon.png') }}>
 
     <title>Omonde Canada - CRM
     </title>
@@ -34,6 +34,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+    <!-- Ajoutez ces liens CDN à la section head de votre fichier Blade -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
 
 </head>
 
@@ -43,6 +48,18 @@
         <!-- Navbar -->
         @include('partials.header', ['page' => 'Consultante'])
         <!-- End Navbar -->
+            @php
+            use Illuminate\Support\Facades\Auth;
+            use Illuminate\Support\Carbon;
+
+            $userId = Auth::id();
+            $consultanteId = App\Models\consultante::where('id_utilisateur', $userId)->value('id');
+
+            $consultations = App\Models\InfoConsultation::with(['consultante', 'candidats'])
+                ->where('id_consultante', $consultanteId)
+                ->orderBy('date_heure', 'desc')
+                ->get();
+            @endphp
         <div class="row">
             <div class="col-12">
                 <div class="card my-4">
@@ -50,25 +67,14 @@
                         <div class="bg-gradient-primary shadow-primary border-radius-lg w-auto">
                             <h4 class="text-white text-capitalize p-2">Vos prochaines consultations</h4>
                         </div>
-                        @php
-                            use Illuminate\Support\Facades\Auth;
-                            use Illuminate\Support\Carbon;
-
-                            $userId = Auth::id();
-
-                            $consultations = App\Models\InfoConsultation::with(['consultante', 'candidats'])
-                                ->orderBy('date_heure', 'desc')
-                                ->get();
-                        @endphp
-                    </div>
-
-                    <div class="table-responsive p-0">
+                        
+                        <div class="table-responsive p-0" style="max-height: 400px; overflow-y: auto;">                          
                         <table class="table align-items-center justify-content-center mb-0" id="candidatsTable">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                                         style="width: 15%;">
-                                        ID
+                                        DEMARRER
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
                                         style="width: 30%;">
@@ -86,41 +92,46 @@
                             </thead>
                             <tbody>
                                 @php
-                                $questions = [
-                                    1 => 'Statut Matrimonial',
-                                    2 => 'Avez-vous un passeport valide ?',
-                                    3 => 'Date d\'expiration du passeport',
-                                    4 => 'Avez-vous un casier judiciaire ?',
-                                    5 => 'Avez-vous un des soucis de santé ?',
-                                    6 => 'Avez-vous des enfants ?',
-                                    7 => 'Si oui, quel est l\'âge de vos enfants ?',
-                                    8 => 'Quel est votre profession/domaine de travail ?',
-                                    9 => 'Depuis combien de temps ?',
-                                    10 => 'Avez-vous une attestation de travail, bulletin de salaire et tous les autres documents relatifs à votre emploi ?',
-                                    11 => 'Avez-vous déjà entamé une procédure d\'immigration au Canada ?',
-                                    12 => 'Depuis quand ?',
-                                    13 => 'Quel programme ? et quelle a été la décision ?',
-                                    14 => 'Avez-vous un diplôme d\'études (secondaire, professionnel, universitaire) ?',
-                                    15 => 'Avez-vous un membre de votre famille déjà au Canada ?',
-                                    16 => 'Comptez-vous immigrer seul(e) ou en famille ?',
-                                    17 => 'Parlez-vous d\'autres langues à part le français ?',
-                                    18 => 'Avez-vous fait un test de connaissances linguistiques ?',
-                                    19 => 'Quel est son niveau de scolarité ?',
-                                    20 => 'Quel est votre domaine de formation ?',
-                                    21 => 'Quel est votre âge ?',
-                                    22 => 'Niveau en français',
-                                    23 => 'Niveau en anglais',
-                                    24 => 'Quel est l\'âge de vos enfants ?',
-                                    25 => 'Quel est leur niveau de scolarité ?',
-                                ];
-                            @endphp
-                            
+                                    $questions = [
+                                        1 => 'Statut Matrimonial',
+                                        2 => 'Avez-vous un passeport valide ?',
+                                        3 => 'Date d\'expiration du passeport',
+                                        4 => 'Avez-vous un casier judiciaire ?',
+                                        5 => 'Avez-vous un des soucis de santé ?',
+                                        6 => 'Avez-vous des enfants ?',
+                                        7 => 'Si oui, quel est l\'âge de vos enfants ?',
+                                        8 => 'Quel est votre profession/domaine de travail ?',
+                                        9 => 'Depuis combien de temps ?',
+                                        10 => 'Avez-vous une attestation de travail, bulletin de salaire et tous les autres documents relatifs à votre emploi ?',
+                                        11 => 'Avez-vous déjà entamé une procédure d\'immigration au Canada ?',
+                                        12 => 'Depuis quand ?',
+                                        13 => 'Quel programme ? et quelle a été la décision ?',
+                                        14 => 'Avez-vous un diplôme d\'études (secondaire, professionnel, universitaire) ?',
+                                        15 => 'Avez-vous un membre de votre famille déjà au Canada ?',
+                                        16 => 'Comptez-vous immigrer seul(e) ou en famille ?',
+                                        17 => 'Parlez-vous d\'autres langues à part le français ?',
+                                        18 => 'Avez-vous fait un test de connaissances linguistiques ?',
+                                        19 => 'Quel est son niveau de scolarité ?',
+                                        20 => 'Quel est votre domaine de formation ?',
+                                        21 => 'Quel est votre âge ?',
+                                        22 => 'Niveau en français',
+                                        23 => 'Niveau en anglais',
+                                        24 => 'Quel est l\'âge de vos enfants ?',
+                                        25 => 'Quel est leur niveau de scolarité ?',
+                                    ];
+                                @endphp
+
 
                                 @foreach ($consultations as $consultation)
                                     <tr data-candidat-id="{{ $consultation->id }}"
                                         class="{{ Carbon::parse($consultation->date_heure)->isPast() ? 'table-danger' : '' }}">
                                         <td>
-                                            <h6 class="p-2 text-md">{{ $consultation->id }}</h6>
+
+                                            <h6 class="p-2 text-md"> <a href="{{ $consultation->lien_zoom }}"
+                                                    target="_blank">
+                                                    <i class="fas fa-video"></i>
+                                                </a></h6>
+
                                         </td>
                                         <td>
                                             <h6 class="p-2 text-md">{{ $consultation->label }}</h6>
@@ -161,54 +172,76 @@
                                                                     <!-- Affichez ici les informations de la fiche de consultation pour ce candidat -->
                                                                     <!-- Utilisez les champs de la ficheConsultation associée au candidat -->
                                                                     @if ($candidat->ficheConsultation)
+                                                                        <div class="container">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    @for ($i = 1; $i <= 13; $i++)
+                                                                                        <div class="mb-3">
+                                                                                            <p
+                                                                                                class="text-secondary fs-6 mb-1 fw-bold text-wrap">
+                                                                                                {{ $i }}-
+                                                                                                {{ $questions[$i] }}
+                                                                                            </p>
+                                                                                            <p
+                                                                                                class="text-dark text-truncate">
+                                                                                                {{ $candidat->ficheConsultation->{'reponse' . $i} ?? 'Non renseigné' }}
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    @endfor
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    @for ($i = 14; $i <= 25; $i++)
+                                                                                        <div class="mb-3">
+                                                                                            <p
+                                                                                                class="text-secondary fs-6 mb-1 fw-bold text-wrap">
+                                                                                                {{ $i }}-
+                                                                                                {{ $questions[$i] }}
+                                                                                            </p>
+                                                                                            <p
+                                                                                                class="text-dark text-truncate">
+                                                                                                {{ $candidat->ficheConsultation->{'reponse' . $i} ?? 'Non renseigné' }}
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    @endfor
+                                                                                </div>
+                                                                            </div>
 
-                                                                    <div class="container">
-                                                                        <div class="row">
-                                                                            <div class="col-md-6">
-                                                                                @for ($i = 1; $i <= 13; $i++)
-                                                                                    <div class="mb-3">
-                                                                                        <p class="text-secondary fs-6 mb-1 fw-bold text-wrap">{{ $i }}- {{ $questions[$i] }}</p>
-                                                                                        <p class="text-dark text-truncate">
-                                                                                            {{ $candidat->ficheConsultation->{'reponse' . $i} ?? 'Non renseigné' }}
-                                                                                        </p>
-                                                                                    </div>
-                                                                                @endfor
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    @if ($candidat->ficheConsultation->lien_cv)
+                                                                                        <p
+                                                                                            class="text-secondary fs-6 mb-1 fw-bold text-truncate">
+                                                                                            Candidat CV:</p>
+                                                                                        <a href="{{ asset('storage/' . $candidat->ficheConsultation->lien_cv) }}"
+                                                                                            class="btn btn-primary"
+                                                                                            target="_blank">
+                                                                                            <i class="fa fa-eye"></i>
+                                                                                            Voir le CV
+                                                                                        </a>
+                                                                                    @else
+                                                                                        <p
+                                                                                            class="text-secondary fs-6 mb-1 fw-bold text-truncate">
+                                                                                            Aucun CV téléchargé</p>
+                                                                                    @endif
+                                                                                </div>
+
+                                                                                <div class="col-md-6">
+                                                                                    <p
+                                                                                        class="text-secondary fs-6 mb-1 fw-bold text-wrap">
+                                                                                        Remarque de l'agent:</p>
+                                                                                    <p class="text-dark text-truncate">
+                                                                                        {{ $candidat->remarque_agent ?? 'Non renseigné' }}
+                                                                                    </p>
+                                                                                </div>
+
                                                                             </div>
-                                                                            <div class="col-md-6">
-                                                                                @for ($i = 14; $i <= 25; $i++)
-                                                                                    <div class="mb-3">
-                                                                                        <p class="text-secondary fs-6 mb-1 fw-bold text-wrap">{{ $i }}- {{ $questions[$i] }}</p>
-                                                                                        <p class="text-dark text-truncate">
-                                                                                            {{ $candidat->ficheConsultation->{'reponse' . $i} ?? 'Non renseigné' }}
-                                                                                        </p>
-                                                                                    </div>
-                                                                                @endfor
-                                                                            </div>
+
+
+
+
+
                                                                         </div>
-                                                                    
-                                                                        <div class="row">
-                                                                            <div class="col-md-6">
-                                                                                @if ($candidat->ficheConsultation->lien_cv)
-                                                                                    <p class="text-secondary fs-6 mb-1 fw-bold text-truncate">Candidat CV:</p>
-                                                                                    <a href="{{ asset('storage/' . $candidat->ficheConsultation->lien_cv) }}" class="btn btn-primary" target="_blank">
-                                                                                        <i class="fa fa-eye"></i> Voir le CV
-                                                                                    </a>
-                                                                                @else
-                                                                                    <p class="text-secondary fs-6 mb-1 fw-bold text-truncate">Aucun CV téléchargé</p>
-                                                                                @endif
-                                                                            </div>
 
-                                                                            <div class="col-md-6">
-                                                                                <p class="text-secondary fs-6 mb-1 fw-bold text-wrap">Remarque de l'agent:</p>
-                                                                                <p class="text-dark text-truncate">
-                                                                                    {{ $candidat->remarque_agent ?? 'Non renseigné' }}
-                                                                                </p>
-                                                                            </div>  
-
-                                                                              </div>
-                                                                        
-                                                                    </div>
-                                                                    
                                                                         <!-- Ajoutez plus de champs au besoin -->
                                                                     @else
                                                                         <p>Aucune fiche_Consultation</p>
@@ -233,6 +266,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

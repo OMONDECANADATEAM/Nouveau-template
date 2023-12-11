@@ -77,7 +77,9 @@
                                 <div class="text-center">
                                     <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">CONNEXION</button>
                                 </div>
-
+                                <div class="mt-3">
+                                  <p class="text-muted text-sm">Vous n'avez pas de compte? <a href="{{ route('creer-utilisateur.formulaire') }}">Créer un compte</a></p>
+                              </div>
                                 {{-- Si la conexion a echoue --}}
                                 @if(session('error'))
                                 <div class="alert text-sm text-danger" role="alert">
@@ -94,9 +96,6 @@
 </main>
 
   
-  
-  
-  connexion doesnt exist
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>

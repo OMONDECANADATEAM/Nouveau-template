@@ -104,7 +104,12 @@
     </div>
 </div>
 
+
+
 <script>
+     document.addEventListener('DOMContentLoaded', function () {
+        $('#candidatsTable').DataTable();
+    });
     function filtrerCandidats() {
         var rows = document.querySelectorAll("#candidatsTable tbody tr");
 

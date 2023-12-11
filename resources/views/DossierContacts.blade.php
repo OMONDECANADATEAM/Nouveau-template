@@ -63,7 +63,7 @@
                             @include('partials.addEntree')
                             @include('partials.addContact')
                         </div>
-                    </div>
+                    
 
                     <div class="card-body px-0 pb-2">
                         <div class="table-responsive p-0" style="max-height: 400px; overflow-y: auto;">
@@ -91,6 +91,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         @include('partials.footer')
     </main>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Candidat;
 use App\Models\Entree;
@@ -128,6 +129,23 @@ class HomeController extends Controller
         $consultantes = Consultante::all();
 
         return view('Consultation', ['data_consultante' => $consultantes]);
+    }
+
+
+    public function saveRemarques(Request $request)
+    {
+        $candidatId = $request->input('candidatId');
+        $remarques = $request->input('remarques');
+
+        $candidat = Candidat::find($candidatId);
+        if ($candidat) {
+            $candidat->remarque_consultante = $remarques;
+            $candidat->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
     }
 
 
