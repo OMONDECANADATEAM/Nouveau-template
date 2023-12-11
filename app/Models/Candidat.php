@@ -10,7 +10,7 @@ class Candidat extends Model
     public $timestamps = false;
     protected $table = 'candidat';
     protected $fillable = [
-        'nom', 'prenom', 'pays', 'ville', 'numero_telephone', 'email', 'profession', 'consultation_payee', "date_naissance" , "id_utilisateur"
+        'nom', 'prenom', 'pays', 'ville', 'numero_telephone', 'email', 'profession', 'consultation_payee', "date_naissance" , "id_utilisateur", 'remarque_agent'
     ];
 
     public static function sauvegarderCandidat($data)

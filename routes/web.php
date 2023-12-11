@@ -4,10 +4,9 @@
 
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\EntreeController;
-use App\Http\Controllers\DepenseControllerController;
+use App\Http\Controllers\UtilisateurController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\chartController;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +42,7 @@ Route::get('dashBoardConsultante', [HomeController::class, 'dashBoardConsultante
 // Routes d'authentification
 
 Route::get('connexion', [AuthController::class, 'showLoginForm'])->name('connexion.form');
-Route::post('connexion', [AuthController::class, 'login']);
+Route::post('connexion', [AuthController::class, 'login'])->name('login');
 Route::get('sign-in', [HomeController::class, 'sign-in'])->name('sign-in');
 Route::get('adminDashboard', [HomeController::class, 'adminDashboard'])->name('adminDashboard');
 Route::get('prochainesConsultations', [HomeController::class, 'prochainesConsultations'])->name('prochainesConsultations');
@@ -74,3 +73,6 @@ Route::get('/recherche-candidat', [Controller::class , 'rechercheCandidat'])->na
 
 Route::post('/ajouterCandidatAConsultation', [Controller::class, 'ajouterCandidatAConsultation']);
 
+
+Route::get('/creer-utilisateur', [UtilisateurController::class, 'formulaireCreation'])->name('creer-utilisateur.formulaire');
+Route::post('/creer-utilisateur', [UtilisateurController::class, 'creer'])->name('creer-utilisateur.creer');

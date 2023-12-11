@@ -18,8 +18,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href="assets/img/logos/icone-logo.png">
-    <title>
+    <link rel="icon" type="image/png" href= {{ asset('assets/img/logos/icon.png') }}> <title>
         Omonde Canada - CRM
     </title>
     <!--     Fonts and icons     -->
@@ -95,7 +94,8 @@
                                 <div class="timeline timeline-one-side">
                                     <div class="timeline-block mb-3">
                                         <span class="timeline-step">
-                                            <i class="material-icons text-success text-gradient">videocam</i>
+                                            
+                                            <a href="{{$consultation->lien_zoom}}"><i class="material-icons text-success text-gradient" >videocam</i></a>
                                         </span>
                                         <div class="timeline-content">
                                             <h6 class="text-dark text-sm font-weight-bold mb-0">
@@ -175,7 +175,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-md font-weight-bold mb-0">{{ $entry->montant }} FCFA </p>
+                                            <p class="text-md font-weight-bold mb-0"> {{ number_format($entry->montant , 0, ',', ' ')}} FCFA </p>
                                         </td>
                                         <td class="align-middle text-center">
                                             <span class="text-md font-weight-bold">{{ $entry->typePaiement->label }}</span>

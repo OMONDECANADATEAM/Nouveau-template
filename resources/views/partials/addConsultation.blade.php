@@ -35,7 +35,7 @@
                             required>
                     </div>
 
-                    <div class="input-group input-group-outline mb-3 p-2 h-25">
+                    <div class="form-select-group form-select-group-outline mb-3 p-2 h-25">
                         <label for="id_consultante" class="form-label">Consultante</label>
                         <select name="id_consultante" id="id_consultante" class="form-select" placeholder="" required>
                             @foreach ($data_consultante as $consultante)

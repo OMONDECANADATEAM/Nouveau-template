@@ -13,14 +13,13 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-    <title>
+    <link rel="icon" type="image/png" href= {{ asset('assets/img/logos/icon.png') }}> <title>
         Omonde Canada - CRM
     </title>
     <!--     Fonts and icons     -->
@@ -216,7 +215,8 @@
                                                 </div>
                                                 <div
                                                     class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                    - ${{ abs($depense->montant) }}
+                                                    {{ number_format(abs($depense->montant), 0, ',', ' ') }}
+                                                    FCFA
                                                 </div>
                                             </li>
                                         @endforeach
@@ -241,7 +241,8 @@
                                                 </div>
                                                 <div
                                                     class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                                    + ${{ $entree->montant }}
+                                                    {{ number_format($entree->montant, 0, ',', ' ') }}
+                                                    FCFA
                                                 </div>
                                             </li>
                                         @endforeach

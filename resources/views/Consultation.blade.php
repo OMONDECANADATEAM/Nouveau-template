@@ -19,8 +19,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-  <title>
+  <link rel="icon" type="image/png" href= {{ asset('assets/img/logos/icon.png') }}>  <title>
     Omonde Canada | CONSULATATIONS
   </title>
   <!--     Fonts and icons     -->
@@ -101,10 +100,11 @@
                                     </div>
                                 </td>
                                 <td class="align-middle">
-                                    <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-ellipsis-v text-xs"></i>
-                                    </button>
+                                    <a href="{{ $consultation->lien_zoom}}" target="blank" class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-video text-xs"></i>
+                                    </a>
                                 </td>
+                                
                             </tr>
                             @endforeach
                         </tbody>

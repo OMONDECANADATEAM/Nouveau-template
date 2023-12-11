@@ -19,9 +19,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-    <title>
-        Omonde Canada - CRM
+    <link rel="icon" type="image/png" href= {{ asset('assets/img/logos/icon.png') }}>     
+
+    <title>Omonde Canada - CRM
     </title>
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -187,7 +187,7 @@
                                                                         </div>
                                                                     
                                                                         <div class="row">
-                                                                            <div class="col-md-12">
+                                                                            <div class="col-md-6">
                                                                                 @if ($candidat->ficheConsultation->lien_cv)
                                                                                     <p class="text-secondary fs-6 mb-1 fw-bold text-truncate">Candidat CV:</p>
                                                                                     <a href="{{ asset('storage/' . $candidat->ficheConsultation->lien_cv) }}" class="btn btn-primary" target="_blank">
@@ -197,7 +197,15 @@
                                                                                     <p class="text-secondary fs-6 mb-1 fw-bold text-truncate">Aucun CV téléchargé</p>
                                                                                 @endif
                                                                             </div>
-                                                                        </div>
+
+                                                                            <div class="col-md-6">
+                                                                                <p class="text-secondary fs-6 mb-1 fw-bold text-wrap">Remarque de l'agent:</p>
+                                                                                <p class="text-dark text-truncate">
+                                                                                    {{ $candidat->remarque_agent ?? 'Non renseigné' }}
+                                                                                </p>
+                                                                            </div>  
+
+                                                                              </div>
                                                                         
                                                                     </div>
                                                                     

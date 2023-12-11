@@ -352,6 +352,23 @@
             <label class="custom-file-label" for="cv">Choisir un fichier</label>
         </div>
     </div>
+
+    <div class="form-group input-group input-group-outline mb-3 p-2">
+        <label for="remarques" class="form-label">Remarques de l'agent :</label>
+        <textarea class="form-control" id="remarques" name="remarques" rows="4" oninput="handleTextareaInput(this)"></textarea>
+    </div>
+    
+    <script>
+        function handleTextareaInput(textarea) {
+            const label = document.querySelector('label[for="remarques"]');
+            if (textarea.value.trim() !== '') {
+                label.classList.add('d-none');
+            } else {
+                label.classList.remove('d-none');
+            }
+        }
+    </script>
+    
     
 </div>
 

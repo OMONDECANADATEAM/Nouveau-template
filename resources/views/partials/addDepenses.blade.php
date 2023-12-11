@@ -24,7 +24,8 @@
                         <!-- Champ Date -->
                         <div class="input-group input-group-outline mb-3 p-2">
                             <label for="date" class="form-label">Date :</label>
-                            <input type="datetime-local" name="date" id="date" class="form-control" required>
+                            <input type="date" name="date" id="date" class="form-control" value="{{ now()->format('Y-m-d') }}" required>
+
                         </div>
                     </div>
 

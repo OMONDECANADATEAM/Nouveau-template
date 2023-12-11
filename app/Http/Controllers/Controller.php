@@ -49,11 +49,15 @@ class Controller extends BaseController
             'profession' => ucwords(strtolower($request->input('profession'))),
             'consultation_payee' => $request->has('consultation_payee'),
             'id_utilisateur' => $idUtilisateur,
+            'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : null,
+
         ]);
 
+        $cvPath = null;
 
+        
         if ($request->hasFile('cv') && $request->file('cv')->isValid()) {
-            $cvPath = $request->file('cv')->storeAs('cv', 'cv_' . $candidat->nom . $candidat->prenom . '.pdf', 'public');
+            $cvPath = $request->file('cv')->storeAs('cv', 'cv' . $candidat->nom .$candidat->prenom . '.pdf', 'public');
         }
         // Si la consultation est payée, créez une entrée et la fiche de consultation
         if ($candidat->consultation_payee) {
@@ -66,8 +70,7 @@ class Controller extends BaseController
             ]);
 
             FicheConsultation::create(
-                ['id_candidat' => $candidat->id],
-                [
+                ['id_candidat' => $candidat->id,
                     'lien_cv' => $cvPath,
                     'reponse1' => $request->input('statut_matrimonial'),
                     'reponse2' => $request->input('passeport_valide'),
@@ -130,6 +133,7 @@ class Controller extends BaseController
             'email' => $request->input('email'),
             'consultation_payee' => $request->has('consultation_payee'),
             'profession' => ucwords(strtolower($request->input('profession'))),
+            'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : null,
         ]);
         $cvPath = null;
 
@@ -151,8 +155,8 @@ class Controller extends BaseController
             );
 
             FicheConsultation::updateOrCreate(
-                ['id_candidat' => $candidat->id],
-                [
+                ['id_candidat' => $candidat->id,
+                
                     'lien_cv' => $cvPath,
                     'reponse1' => $request->input('statut_matrimonial'),
                     'reponse2' => $request->input('passeport_valide'),

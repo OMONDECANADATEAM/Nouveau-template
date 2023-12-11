@@ -70,8 +70,9 @@
                             <input class="form-check-input consultation-payee" type="checkbox" name="consultation_payee"
                                 id="consultation-payee-{{ $candidat->id }}"
                                 {{ $candidat->consultation_payee ? 'checked' : '' }}>
-                            <label class="form-check-label" for="consultation_payee">Consultation payée</label>
+                            <label class="form-check-label" for="consultation-payee-{{ $candidat->id }}">Consultation payée</label>
                         </div>
+                        
                     </div>
 
                     <div class="questionnaire-form" id="questionnaire-form-{{ $candidat->id }}" style="display: none;">
@@ -105,7 +106,7 @@
                                 <!-- Option "Oui" -->
                                 <input class="form-check-input" type="radio" name="passeport_valide"
                                     id="passeport_valide_oui" value="oui">
-                                <label class="form-check-label" for="passeport_valide_oui">Oui</label>
+                                <label class="form-check-label" for="passeport_valide_oui" >Oui</label>
 
                             </div>
 
@@ -429,6 +430,22 @@
                                 <label class="custom-file-label" for="cv">Choisir un fichier</label>
                             </div>
                         </div>
+
+                        <div class="form-group input-group input-group-outline mb-3 p-2">
+                            <label for="remarques" class="form-label">Remarques de l'agent :</label>
+                            <textarea class="form-control" id="remarques" name="remarques" rows="4" oninput="handleTextareaInput(this)"></textarea>
+                        </div>
+                        
+                        <script>
+                            function handleTextareaInput(textarea) {
+                                const label = document.querySelector('label[for="remarques"]');
+                                if (textarea.value.trim() !== '') {
+                                    label.classList.add('d-none');
+                                } else {
+                                    label.classList.remove('d-none');
+                                }
+                            }
+                        </script>
                         
                     </div>
 

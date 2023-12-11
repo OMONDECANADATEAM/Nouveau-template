@@ -2,8 +2,13 @@
 <li class="nav-item dropdown pe-2 d-flex align-items-center bold cursor-pointer">
     <!-- Avatar de l'utilisateur -->
     <div style="width: 32px; height: 32px; overflow: hidden; border-radius: 50%; margin-right: 8px;">
-        <img src="https://cdn-kmijh.nitrocdn.com/gfnqmJxHyBvKDHhsVlbZLcBOwySoLpvA/assets/images/optimized/rev-d533326/omondecanada.com/wp-content/uploads/2023/11/BROU-300PX.webp" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
-    </div>
+       <!-- Assurez-vous que $utilisateur contient les données de l'utilisateur connecté -->
+@if (auth()->user() && auth()->user()->lien_photo)
+<img src="{{ asset('storage/'. auth()->user()->lien_photo) }}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+@else
+<!-- Si l'utilisateur n'a pas de photo, affichez une image par défaut ou un espace réservé -->
+<img src="{{ asset('chemin/vers/image/default.jpg') }}" alt="Avatar par défaut" style="width: 100%; height: 100%; object-fit: cover;">
+@endif   </div>
 
     <!-- Informations textuelles de l'utilisateur -->
     <div class="d-flex flex-column justify-content-around">
