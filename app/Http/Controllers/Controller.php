@@ -135,7 +135,8 @@ class Controller extends BaseController
             'profession' => ucwords(strtolower($request->input('profession'))),
             'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : null,
         ]);
-        $cvPath = null;
+        $cvPath = $candidat->ficheConsultation->lien_cv ?? null;
+
 
         
         if ($request->hasFile('cv') && $request->file('cv')->isValid()) {

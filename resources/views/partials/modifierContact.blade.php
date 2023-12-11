@@ -84,293 +84,263 @@
                             <label class="form-label">1- Statut matrimonial</label>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="statut_matrimonial"
-                                    id="celibataire" value="Celibataire" {{ $candidat->ficheConsultation &&  $candidat->ficheConsultation->reponse1 === 'Célibataire' ? 'checked' : '' }}>
+                                    id="celibataire" value="Celibataire"
+                                    {{ $candidat->ficheConsultation &&  $candidat->ficheConsultation->reponse1 === 'Celibataire' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="celibataire">Célibataire</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="statut_matrimonial"
-                                    id="marie" value="Marie" {{  $candidat->ficheConsultation && $candidat->ficheConsultation->reponse1 === 'Marié' ? 'checked' : '' }}>
+                                    id="marie" value="Marie"
+                                    {{  $candidat->ficheConsultation && $candidat->ficheConsultation->reponse1 === 'Marie' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="marie">Marié</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="statut_matrimonial"
-                                    id="fiance" value="Fiance" {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse1 === 'Fiancé(e)' ? 'checked' : '' }}>
+                                    id="fiance" value="Fiance"
+                                    {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse1 === 'Fiance' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="fiance">Fiancé(e)</label>
                             </div>
                         </div>
+                        
                         
                         <!-- Question 2  et 3n- Avez-vous un passeport valide ? -->
                         <div class="mb-3">
                             <label class="form-label">2- Avez-vous un passeport valide ?</label>
                             <div class="form-check">
                                 <!-- Option "Oui" -->
-                                <input class="form-check-input" type="radio" name="passeport_valide"
-                                    id="passeport_valide_oui" value="oui">
-                                <label class="form-check-label" for="passeport_valide_oui" >Oui</label>
-
+                                <input class="form-check-input" type="radio" name="passeport_valide" id="passeport_valide_oui" value="oui"
+                                    {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse2 === 'oui' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="passeport_valide_oui">Oui</label>
                             </div>
-
+                        
                             <div class="form-check">
                                 <!-- Option "Non" -->
-                                <input class="form-check-input" type="radio" name="passeport_valide"
-                                    id="passeport_valide_non" value="non">
+                                <input class="form-check-input" type="radio" name="passeport_valide" id="passeport_valide_non" value="non"
+                                    {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse2 === 'non' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="passeport_valide_non">Non</label>
-
                             </div>
-
+                        
                             <!-- Condition pour afficher la question 3 si la réponse est oui -->
                             <div class="question-passeport">
                                 <div class="input-group input-group-outline mb-3 p-2">
-                                    <label for="date_expiration_passeport" class="form-label">3- Si oui, quelle est la
-                                        date d'expiration
-                                        ?</label>
-                                    <input type="text" name="date_expiration_passeport"
-                                        id="date_expiration_passeport" class="form-control">
+                                    <label for="date_expiration_passeport" class="form-label">3- Si oui, quelle est la date d'expiration ?</label>
+                                    <input type="text" name="date_expiration_passeport" id="date_expiration_passeport" class="form-control"
+                                        value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse2 === 'oui' ? $candidat->ficheConsultation->reponse3 ?? null : null }}">
                                 </div>
                             </div>
-
                         </div>
+                        
 
                         <!-- Question 4 - Avez-vous un passeport valide ? -->
                         <div class="mb-3">
                             <label class="form-label">4- Avez-vous un casier judiciaire ?</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="casier_judiciaire"
-                                    id="casier_judiciaire_oui" value="oui">
+                                <input class="form-check-input" type="radio" name="casier_judiciaire" id="casier_judiciaire_oui" value="oui"
+                                    {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse4 === 'oui' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="casier_judiciaire_oui">Oui</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="casier_judiciaire"
-                                    id="casier_judiciaire_non" value="non">
+                                <input class="form-check-input" type="radio" name="casier_judiciaire" id="casier_judiciaire_non" value="non"
+                                    {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse4 === 'non' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="casier_judiciaire_non">Non</label>
                             </div>
                         </div>
+                        
 
-                        <!-- Question 5 - Avez-vous un des soucis de santé ? -->
                         <div class="mb-3">
                             <label class="form-label">5- Avez-vous un des soucis de santé ?</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="soucis_sante"
-                                    id="soucis_sante_oui" value="oui">
+                                <input class="form-check-input" type="radio" name="soucis_sante" id="soucis_sante_oui" value="oui"
+                                    {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse5 === 'oui' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="soucis_sante_oui">Oui</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="soucis_sante"
-                                    id="soucis_sante_non" value="non">
+                                <input class="form-check-input" type="radio" name="soucis_sante" id="soucis_sante_non" value="non"
+                                    {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse5 === 'non' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="soucis_sante_non">Non</label>
                             </div>
                         </div>
-
-                        <!-- Question 6 - 7 Avez-vous des enfants ? -->
                         <div class="mb-3">
                             <label class="form-label">6- Avez-vous des enfants ?</label>
-
                             <div class="form-check">
                                 <!-- Option "Oui" -->
-                                <input class="form-check-input" type="radio" name="enfants" id="enfants_oui"
-                                    value="oui">
+                                <input class="form-check-input" type="radio" name="enfants" id="enfants_oui" value="oui"
+                                    {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse6 === 'oui' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="enfants_oui">Oui</label>
-
                             </div>
                             <!-- Option "Non" -->
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="enfants" id="enfants_non"
-                                    value="non">
+                                <input class="form-check-input" type="radio" name="enfants" id="enfants_non" value="non"
+                                    {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse6 === 'non' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="enfants_non">Non</label>
-
                             </div>
                             <!-- Condition pour afficher la question 7 si la réponse est oui -->
-                            <div class="question-enfants">
+                            <div class="question-enfants" {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse6 === 'oui' ? '' : 'style=display:none;' }}>
                                 <div class="input-group input-group-outline mb-3 p-2">
-                                    <label for="age_enfants" class="form-label">7- Si oui, quel est l'âge de vos
-                                        enfants ?</label>
-                                    <input type="text" name="age_enfants" id="age_enfants" class="form-control">
+                                    <label for="age_enfants" class="form-label">7- Si oui, quel est l'âge de vos enfants ?</label>
+                                    <input type="text" name="age_enfants" id="age_enfants" class="form-control"
+                                        value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse7 ?? null : null }}">
                                 </div>
                             </div>
                         </div>
+                        
 
-                        <!-- Question 8 -->
-                        <div class="input-group input-group-outline mb-3 p-2">
-                            <label for="profession_domaine_travail" class="form-label">8- Quel est votre
-                                profession/domaine de travail
-                                ?</label>
-                            <input type="text" name="profession_domaine_travail" id="profession_domaine_travail"
-                                class="form-control">
-                        </div>
+                      <!-- Question 8 -->
+<div class="input-group input-group-outline mb-3 p-2">
+    <label for="profession_domaine_travail" class="form-label">8- Quel est votre profession/domaine de travail ?</label>
+    <input type="text" name="profession_domaine_travail" id="profession_domaine_travail" class="form-control"
+        value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse8 ?? null : null }}">
+</div>
 
-                        <!-- Question 9 -->
-                        <div class="input-group input-group-outline mb-3 p-2">
-                            <label for="temps_travail_actuel" class="form-label">9- Depuis combien de temps ?</label>
-                            <input type="text" name="temps_travail_actuel" id="temps_travail_actuel"
-                                class="form-control">
-                        </div>
+<!-- Question 9 -->
+<div class="input-group input-group-outline mb-3 p-2">
+    <label for="temps_travail_actuel" class="form-label">9- Depuis combien de temps ?</label>
+    <input type="text" name="temps_travail_actuel" id="temps_travail_actuel" class="form-control"
+        value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse9 ?? null : null }}">
+</div>
+
 
                         <!-- Question 10 -->
-                        <div class="mb-3">
-                            <label class="form-label">10- Avez-vous une attestation de travail, bulletin de salaire et
-                                tous les autres
-                                documents relatifs à votre emploi ?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="documents_emploi"
-                                    id="documents_emploi_oui" value="oui">
-                                <label class="form-check-label" for="documents_emploi_oui">Oui</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="documents_emploi"
-                                    id="documents_emploi_non" value="non">
-                                <label class="form-check-label" for="documents_emploi_non">Non</label>
-                            </div>
-                        </div>
+                        <!-- Question 10 -->
+<div class="mb-3">
+    <label class="form-label">10- Avez-vous une attestation de travail, bulletin de salaire et tous les autres documents relatifs à votre emploi ?</label>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="documents_emploi" id="documents_emploi_oui" value="oui"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse10 === 'oui' ? 'checked' : '' }}>
+        <label class="form-check-label" for="documents_emploi_oui">Oui</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="documents_emploi" id="documents_emploi_non" value="non"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse10 === 'non' ? 'checked' : '' }}>
+        <label class="form-check-label" for="documents_emploi_non">Non</label>
+    </div>
+</div>
 
-                        <div class="mb-3">
-                            <label class="form-check-label" for="procedure_immigration">11-Avez-vous déjà entamé une
-                                procédure
-                                d'immigration au Canada ?</label>
-
-                            <!-- Option "Oui" -->
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="procedure_immigration"
-                                    id="procedure_immigration_oui" value="oui">
-                                <label class="form-check-label" for="procedure_immigration_oui">Oui</label>
-
-                            </div>
-                            <!-- Questions supplémentaires (à afficher conditionnellement) -->
-                            <div class="questions-procedure_immigration" style="display: none;">
-                                <div class="input-group input-group-outline mb-3 p-2">
-                                    <label for="questions-procedure_immigration1" class="form-label">12- Depuis quand
-                                        ?</label>
-                                    <input type="text" name="questions-procedure-immigration1"
-                                        id="questions-procedure_immigration1" class="form-control">
-                                </div>
-                                <div class="input-group input-group-outline mb-3 p-2">
-                                    <label for="questions-procedure_immigration2" class="form-label">13- Quel
-                                        programme ? et quelle a été
-                                        la décision ?</label>
-                                    <input type="text" name="questions-procedure-immigration2"
-                                        id="questions-procedure_immigration2" class="form-control">
-                                </div>
-                            </div>
-                            <!-- Option "Non" -->
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="procedure_immigration"
-                                    id="procedure_immigration_non" value="non">
-                                <label class="form-check-label" for="procedure_immigration_non">Non</label>
-
-                            </div>
-
-                        </div>
-
-                        <!-- Question 14 - Avez-vous un diplôme d'études (secondaire, professionnel, universitaire) ? -->
-                        <div class="mb-3">
-                            <label class="form-label">14- Avez-vous un diplôme d'études (secondaire, professionnel,
-                                universitaire)
-                                ?</label>
-
-                            <div class="form-check">
-                                <!-- Option "Oui" -->
-                                <input class="form-check-input" type="radio" name="diplome_etudes"
-                                    id="diplome_etudes_oui" value="oui">
-                                <label class="form-check-label" for="diplome_etudes_oui">Oui</label>
-
-                                <!-- Condition pour afficher la question sur l'année d'obtention si la réponse est "Oui" -->
-                                <div class="question-diplome-etudes" style="display: none;">
-                                    <div class="input-group input-group-outline mb-3 p">
-                                        <label for="annee_obtention_diplome" class="form-label">Si oui, quelle est
-                                            l'année d'obtention du
-                                            diplôme ?</label>
-                                        <input type="text" name="annee_obtention_diplome"
-                                            id="annee_obtention_diplome" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-check">
-                                <!-- Option "Non" -->
-                                <input class="form-check-input" type="radio" name="diplome_etudes"
-                                    id="diplome_etudes_non" value="non">
-                                <label class="form-check-label" for="diplome_etudes_non">Non</label>
-                            </div>
-                        </div>
+<!-- Question 11 -->
+<div class="mb-3">
+    <label class="form-check-label" for="procedure_immigration">11-Avez-vous déjà entamé une procédure d'immigration au Canada ?</label>
+    <!-- Option "Oui" -->
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="procedure_immigration" id="procedure_immigration_oui" value="oui"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse11 === 'oui' ? 'checked' : '' }}>
+        <label class="form-check-label" for="procedure_immigration_oui">Oui</label>
+    </div>
+    <!-- Questions supplémentaires (à afficher conditionnellement) -->
+    <div class="questions-procedure_immigration" style="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse11 === 'oui' ? '' : 'display:none;' }}">
+        <div class="input-group input-group-outline mb-3 p-2">
+            <label for="questions-procedure_immigration1" class="form-label">12- Depuis quand ?</label>
+            <input type="text" name="questions-procedure-immigration1" id="questions-procedure_immigration1" class="form-control"
+                value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse12 ?? null : null }}">
+        </div>
+        <div class="input-group input-group-outline mb-3 p-2">
+            <label for="questions-procedure_immigration2" class="form-label">13- Quel programme ? et quelle a été la décision ?</label>
+            <input type="text" name="questions-procedure-immigration2" id="questions-procedure_immigration2" class="form-control"
+                value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse13 ?? null : null }}">
+        </div>
+    </div>
+    <!-- Option "Non" -->
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="procedure_immigration" id="procedure_immigration_non" value="non"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse11 === 'non' ? 'checked' : '' }}>
+        <label class="form-check-label" for="procedure_immigration_non">Non</label>
+    </div>
+</div>
 
 
-                        <!-- Question 15 - Avez-vous un membre de votre famille déjà au Canada ? -->
-                        <div class="mb-3">
-                            <label class="form-label">15- Avez-vous un membre de votre famille déjà au Canada ?</label>
+                    <!-- Question 14 -->
+<div class="mb-3">
+    <label class="form-label">14- Avez-vous un diplôme d'études (secondaire, professionnel, universitaire) ?</label>
+    <div class="form-check">
+        <!-- Option "Oui" -->
+        <input class="form-check-input" type="radio" name="diplome_etudes" id="diplome_etudes_oui" value="oui"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? 'checked' : '' }}>
+        <label class="form-check-label" for="diplome_etudes_oui">Oui</label>
+        <!-- Condition to show the question on the year of obtaining the diploma if the answer is "Yes" -->
+        <div class="question-diplome-etudes" style="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? '' : 'display:none;' }}">
+            <div class="input-group input-group-outline mb-3 p">
+                <label for="annee_obtention_diplome" class="form-label">Si oui, quelle est l'année d'obtention du diplôme ?</label>
+                <input type="text" name="annee_obtention_diplome" id="annee_obtention_diplome" class="form-control"
+                    value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse15 ?? null : null }}">
+            </div>
+        </div>
+    </div>
+    <!-- Option "Non" -->
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="diplome_etudes" id="diplome_etudes_non" value="non"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'non' ? 'checked' : '' }}>
+        <label class="form-check-label" for="diplome_etudes_non">Non</label>
+    </div>
+</div>
 
-                            <div class="form-check">
-                                <!-- Option "Oui" -->
-                                <input class="form-check-input" type="radio" name="membre_famille_canada"
-                                    id="membre_famille_canada_oui" value="oui">
-                                <label class="form-check-label" for="membre_famille_canada_oui">Oui</label>
-                            </div>
+<!-- Question 15 -->
+<div class="mb-3">
+    <label class="form-label">15- Avez-vous un membre de votre famille déjà au Canada ?</label>
+    <div class="form-check">
+        <!-- Option "Oui" -->
+        <input class="form-check-input" type="radio" name="membre_famille_canada" id="membre_famille_canada_oui" value="oui"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse15 === 'oui' ? 'checked' : '' }}>
+        <label class="form-check-label" for="membre_famille_canada_oui">Oui</label>
+    </div>
+    <!-- Option "Non" -->
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="membre_famille_canada" id="membre_famille_canada_non" value="non"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse15 === 'non' ? 'checked' : '' }}>
+        <label class="form-check-label" for="membre_famille_canada_non">Non</label>
+    </div>
+</div>
 
-                            <div class="form-check">
-                                <!-- Option "Non" -->
-                                <input class="form-check-input" type="radio" name="membre_famille_canada"
-                                    id="membre_famille_canada_non" value="non">
-                                <label class="form-check-label" for="membre_famille_canada_non">Non</label>
-                            </div>
-                        </div>
+<!-- Question 16 -->
+<div class="mb-3">
+    <label class="form-label">16- Comptez-vous immigrer seul(e) ou en famille ?</label>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="immigrer_seul_ou_famille" id="immigrer_seul" value="seul"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse16 === 'seul' ? 'checked' : '' }}>
+        <label class="form-check-label" for="immigrer_seul">Seul(e)</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="immigrer_seul_ou_famille" id="immigrer_en_famille" value="famille"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse16 === 'famille' ? 'checked' : '' }}>
+        <label class="form-check-label" for="immigrer_en_famille">En famille</label>
+    </div>
+</div>
 
-                        <!-- Question 16 -->
-                        <div class="mb-3">
-                            <label class="form-label">16- Comptez-vous immigrer seul(e) ou en famille ?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="immigrer_seul_ou_famille"
-                                    id="immigrer_seul" value="seul">
-                                <label class="form-check-label" for="immigrer_seul">Seul(e)</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="immigrer_seul_ou_famille"
-                                    id="immigrer_en_famille" value="famille">
-                                <label class="form-check-label" for="immigrer_en_famille">En famille</label>
-                            </div>
-                        </div>
+<!-- Question 17 -->
+<div class="mb-3">
+    <label class="form-check-label">17- Parlez-vous d'autres langues à part le français ?</label>
+    <!-- Option "Oui" -->
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="langues_parlees" value="oui"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse17 === 'oui' ? 'checked' : '' }}>
+        <label class="form-check-label" for="langues_parlees_oui">Oui</label>
+    </div>
+    <!-- Option "Non" -->
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="langues_parlees" value="non"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse17 === 'non' ? 'checked' : '' }}>
+        <label class="form-check-label" for="langues_parlees_non">Non</label>
+    </div>
+</div>
 
-                        <!-- Question 17 -->
-                        <div class="mb-3">
-                            <label class="form-check-label">17- Parlez-vous d'autres langues à part le français
-                                ?</label>
-                            <!-- Option "Oui" -->
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="langues_parlees"
-                                    value="oui">
-                                <label class="form-check-label" for="langues_parlees_oui">Oui</label>
-                            </div>
-                            <!-- Option "Non" -->
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="langues_parlees"
-                                    value="non">
-                                <label class="form-check-label" for="langues_parlees_non">Non</label>
-
-                            </div>
-                        </div>
-
-                        <!-- Question 18 -->
-                        <div class="mb-3">
-                            <label class="form-check-label">18- Avez-vous fait un test de connaissances linguistiques
-                                ?</label>
-                            <!-- Option "Oui" -->
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio"
-                                    name="test_connaissances_linguistiques" value="oui">
-                                <label class="form-check-label" for="test_connaissances_linguistiques_oui">Oui</label>
-
-                            </div>
-                            <!-- Option "Non" -->
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio"
-                                    name="test_connaissances_linguistiques" value="non">
-                                <label class="form-check-label" for="test_connaissances_linguistiques_non">Non</label>
-
-                            </div>
-                        </div>
+<!-- Question 18 -->
+<div class="mb-3">
+    <label class="form-check-label">18- Avez-vous fait un test de connaissances linguistiques ?</label>
+    <!-- Option "Oui" -->
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="test_connaissances_linguistiques" value="oui"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse18 === 'oui' ? 'checked' : '' }}>
+        <label class="form-check-label" for="test_connaissances_linguistiques_oui">Oui</label>
+    </div>
+    <!-- Option "Non" -->
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="test_connaissances_linguistiques" value="non"
+            {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse18 === 'non' ? 'checked' : '' }}>
+        <label class="form-check-label" for="test_connaissances_linguistiques_non">Non</label>
+    </div>
+</div>
 
                         <h4>CONJOINT / EPOUX / EPOUSE</h4>
 
-                        <!-- Question 1 -->
+                        <!-- Question 19 -->
                         <div class="input-group input-group-outline mb-3 p-2">
                             <label for="niveau_scolarite_conjoint" class="form-label">1- Quel est son niveau de
                                 scolarité ?</label>
@@ -378,7 +348,7 @@
                                 class="form-control">
                         </div>
 
-                        <!-- Question 2 -->
+                        <!-- Question 20 -->
                         <div class="input-group input-group-outline mb-3 p-2">
                             <label for="domaine_formation_conjoint" class="form-label">2- Quel est votre domaine de
                                 formation ?</label>
@@ -386,7 +356,7 @@
                                 class="form-control">
                         </div>
 
-                        <!-- Question 3 -->
+                        <!-- Question 21 -->
                         <div class="input-group input-group-outline mb-3 p-2">
                             <label for="age_conjoint" class="form-label">3- Quel est votre âge ?</label>
                             <input type="text" name="age_conjoint" id="age_conjoint" class="form-control">
@@ -395,46 +365,61 @@
                         <!-- CONNAISSANCES LINGUISTIQUES -->
                         <h4>CONNAISSANCES LINGUISTIQUES</h4>
 
-                        <!-- Question 1 -->
-                        <div class="input-group input-group-outline mb-3 p-2">
-                            <label for="niveau_francais" class="form-label">1- Niveau en français</label>
-                            <input type="text" name="niveau_francais" id="niveau_francais" class="form-control">
-                        </div>
+<!-- Question 22 -->
+<div class="input-group input-group-outline mb-3 p-2">
+    <label for="niveau_francais" class="form-label">1- Niveau en français</label>
+    <input type="text" name="niveau_francais" id="niveau_francais" class="form-control" value="{{ $candidat->ficheConsultation->reponse22 ?? '' }}">
+</div>
 
-                        <!-- Question 2 -->
-                        <div class="input-group input-group-outline mb-3 p-2">
-                            <label for="niveau_anglais" class="form-label">2- Niveau en anglais</label>
-                            <input type="text" name="niveau_anglais" id="niveau_anglais" class="form-control">
-                        </div>
+<!-- Question 23 -->
+<div class="input-group input-group-outline mb-3 p-2">
+    <label for="niveau_anglais" class="form-label">2- Niveau en anglais</label>
+    <input type="text" name="niveau_anglais" id="niveau_anglais" class="form-control" value="{{ $candidat->ficheConsultation->reponse23 ?? '' }}">
+</div>
 
-                        <!-- Question 3 -->
-                        <div class="input-group input-group-outline mb-3 p-2">
-                            <label for="age_enfants_linguistique" class="form-label">3- Quel est l'âge de vos enfants
-                                ?</label>
-                            <input type="text" name="age_enfants_linguistique" id="age_enfants_linguistique"
-                                class="form-control">
-                        </div>
+<!-- Question 24 -->
+<div class="input-group input-group-outline mb-3 p-2">
+    <label for="age_enfants_linguistique" class="form-label">3- Quel est l'âge de vos enfants ?</label>
+    <input type="text" name="age_enfants_linguistique" id="age_enfants_linguistique" class="form-control" value="{{ $candidat->ficheConsultation->reponse24 ?? '' }}">
+</div>
 
-                        <!-- Question 4 -->
-                        <div class="input-group input-group-outline mb-3 p-2">
-                            <label for="niveau_scolarite_enfants" class="form-label">4- Quel est leur niveau de
-                                scolarité ?</label>
-                            <input type="text" name="niveau_scolarite_enfants" id="niveau_scolarite_enfants"
-                                class="form-control">
-                        </div>
+<!-- Question 25 -->
+<div class="input-group input-group-outline mb-3 p-2">
+    <label for="niveau_scolarite_enfants" class="form-label">4- Quel est leur niveau de scolarité ?</label>
+    <input type="text" name="niveau_scolarite_enfants" id="niveau_scolarite_enfants" class="form-control" value="{{ $candidat->ficheConsultation->reponse25 ?? '' }}">
+</div>
 
-                        <div class="form-group">
-                            <label for="cv" class="form-label">Télécharger votre CV (PDF uniquement) :</label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="cv" name="cv" accept=".pdf">
-                                <label class="custom-file-label" for="cv">Choisir un fichier</label>
-                            </div>
-                        </div>
+<div class="form-group">
+    <label for="cv" class="form-label">Fichier CV actuel :</label>
+    @if ($candidat->ficheConsultation && $candidat->ficheConsultation->lien_cv)
+        <p>
+            <a href="{{ asset('storage/' . $candidat->ficheConsultation->lien_cv) }}" target="_blank">
+                Voir le CV
+            </a>
+        </p>
+    @else
+        <p>Aucun fichier CV téléchargé</p>
+    @endif
+</div>
 
-                        <div class="form-group input-group input-group-outline mb-3 p-2">
-                            <label for="remarques" class="form-label">Remarques de l'agent :</label>
-                            <textarea class="form-control" id="remarques" name="remarques" rows="4" oninput="handleTextareaInput(this)"></textarea>
-                        </div>
+
+<!-- File input for updating CV -->
+<div class="form-group">
+    <label for="cv" class="form-label">Télécharger un nouveau CV (PDF uniquement) :</label>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="cv" name="cv" accept=".pdf">
+        <label class="custom-file-label" for="cv">Choisir un fichier</label>
+    </div>
+</div>
+
+
+{{-- Remarque agent --}}
+<div class="form-group input-group input-group-outline mb-3 p-2">
+    <label for="remarques" class="form-label">Remarques de l'agent :</label>
+    <textarea  class="form-control" id="remarques" name="remarques" rows="4" oninput="handleTextareaInput(this)" >
+        {{$candidat->remarque_agent ?? '' }}</textarea>
+</div>
+
                         
                         <script>
                             function handleTextareaInput(textarea) {

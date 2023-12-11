@@ -81,7 +81,6 @@ class HomeController extends Controller
                 $query->where('id_succursale', $idSuccursaleUtilisateur);
             })
             ->orderBy('date_enregistrement', 'desc')
-            ->take(10)
             ->get();
     
             // Passer les données à la vue principale
