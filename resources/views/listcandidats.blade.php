@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href={{ asset('assets/img/logos/icon.png') }}>
 
-    <title>Omonde Canada - CRM
+    <title>Liste des candidats - Omonde Canada - CRM
     </title>
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -65,7 +65,9 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg w-auto">
-                            <h4 class="text-white text-capitalize p-2">Vos prochaines consultations</h4>
+                            <h4 class="text-white text-capitalize p-2">Consultation du {{date(
+                                    'l j F Y',
+                                    strtotime($info_consultation->date_heure))}}</h4>
                         </div>
                         
                         <div class="table-responsive p-0" style="max-height: 400px; overflow-y: auto;">                          
@@ -144,7 +146,7 @@
                                         <td>
                                             <div class="list-group">
                                                 @forelse ($consultation->candidats as $candidat)
-                                                    <a href="Consultation/{{$consultation->id}}">
+                                                    <a href="{{$consultation->id}}/{{ $candidat->id }}">
                                                     Voir liste candidats</a>
                                                      Modal pour la fiche de consultation 
                                                     <div class="modal fade z-index-1" id="ficheModal{{ $candidat->id }}"

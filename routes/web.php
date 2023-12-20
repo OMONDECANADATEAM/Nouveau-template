@@ -68,6 +68,8 @@ Route::get('listeConsultantes', [HomeController::class, 'listeConsultantes'])->n
 
 // Exemple de route dans votre fichier web.php
 Route::get('/recherche-candidat', [Controller::class , 'rechercheCandidat'])->name('rechercheCandidat');
+Route::get('/Consultation/{id}', [HomeController::class , 'getListCandidatByConsultation'])->name('listcandidats');
+Route::get('/Consultation/{id}/{id_candidat}', [HomeController::class , 'getCandidatByConsultation'])->name('candidat');
 
 // routes/web.php
 
