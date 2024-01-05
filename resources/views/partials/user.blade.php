@@ -7,7 +7,7 @@
 <img src="{{ asset('storage/'. auth()->user()->lien_photo) }}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
 @else
 <!-- Si l'utilisateur n'a pas de photo, affichez une image par défaut ou un espace réservé -->
-<img src="{{ asset('chemin/vers/image/default.jpg') }}" alt="Avatar par défaut" style="width: 100%; height: 100%; object-fit: cover;">
+<img src='{{ asset('assets/img/logos/logo-icon.png')  }}' alt="Avatar par défaut" style="width: 100%; height: 100%; object-fit: cover;">
 @endif   </div>
 
     <!-- Informations textuelles de l'utilisateur -->

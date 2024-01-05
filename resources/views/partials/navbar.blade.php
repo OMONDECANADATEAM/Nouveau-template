@@ -2,7 +2,7 @@
     <div class="sidenav-header center">
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href="home" target="_blank">
-            <img src="./assets/img/logos/logo-omonde.png" class="navbar-brand-img h-200 mx-auto d-block" alt="main_logo">
+            <img src="{{ asset('assets/img/logos/logo-omonde.png') }}" class="navbar-brand-img h-200 mx-auto d-block" alt="main_logo">
         </a>
     </div>
 
@@ -29,10 +29,10 @@
     ($currentUserRole == 0 && $page == 'dashBoardConsultante') ||
     ($currentUserRole == 1 && in_array($page, ['home', 'DossierContacts', 'DossierClients'])) ||
     ($currentUserRole == 2 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque'])) ||
-    ($currentUserRole == 3 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque' , 'Consultation' , 'adminDashboard'])) // Admin a accès à toutes les pages
+    ($currentUserRole == 3 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque' , 'Consultation' , 'adminDashboard']))
 )
     <li class="nav-item">
-        <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}" href="{{ $page }}">
+        <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}" href="/{{ $page }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 @if ($page === 'adminDashboard')
                     <i class="material-icons opacity-10">

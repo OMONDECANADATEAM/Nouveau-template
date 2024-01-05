@@ -33,11 +33,8 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
-    <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+    <link id="pagestyle" href="../../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
     <!-- Ajoutez ces liens CDN à la section head de votre fichier Blade -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 
 </head>
@@ -48,18 +45,7 @@
         <!-- Navbar -->
         @include('partials.header', ['page' => 'Consultante'])
         <!-- End Navbar -->
-            @php
-            use Illuminate\Support\Facades\Auth;
-            use Illuminate\Support\Carbon;
-
-            $userId = Auth::id();
-            $consultanteId = App\Models\consultante::where('id_utilisateur', $userId)->value('id');
-
-            $consultations = App\Models\InfoConsultation::with(['consultante', 'candidats'])
-                ->where('id_consultante', $consultanteId)
-                ->orderBy('date_heure', 'desc')
-                ->get();
-            @endphp
+        
         <div class="row">
             <div class="col-12">
                 <div class="card my-4">
@@ -76,189 +62,50 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                                         style="width: 15%;">
-                                        DEMARRER
+                                        N°
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
                                         style="width: 30%;">
-                                        LABEL
+                                        NOM
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
                                         style="width: 30%;">
-                                        DATE ET HEURE
+                                        PRENOMS
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
                                         style="width: 60%;">
-                                        PARTICIPANTS
+                                        VOIR FICHE DE CONSULTATION
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    $questions = [
-                                        1 => 'Statut Matrimonial',
-                                        2 => 'Avez-vous un passeport valide ?',
-                                        3 => 'Date d\'expiration du passeport',
-                                        4 => 'Avez-vous un casier judiciaire ?',
-                                        5 => 'Avez-vous un des soucis de santé ?',
-                                        6 => 'Avez-vous des enfants ?',
-                                        7 => 'Si oui, quel est l\'âge de vos enfants ?',
-                                        8 => 'Quel est votre profession/domaine de travail ?',
-                                        9 => 'Depuis combien de temps ?',
-                                        10 => 'Avez-vous une attestation de travail, bulletin de salaire et tous les autres documents relatifs à votre emploi ?',
-                                        11 => 'Avez-vous déjà entamé une procédure d\'immigration au Canada ?',
-                                        12 => 'Depuis quand ?',
-                                        13 => 'Quel programme ? et quelle a été la décision ?',
-                                        14 => 'Avez-vous un diplôme d\'études (secondaire, professionnel, universitaire) ?',
-                                        15 => 'Avez-vous un membre de votre famille déjà au Canada ?',
-                                        16 => 'Comptez-vous immigrer seul(e) ou en famille ?',
-                                        17 => 'Parlez-vous d\'autres langues à part le français ?',
-                                        18 => 'Avez-vous fait un test de connaissances linguistiques ?',
-                                        19 => 'Quel est son niveau de scolarité ?',
-                                        20 => 'Quel est votre domaine de formation ?',
-                                        21 => 'Quel est votre âge ?',
-                                        22 => 'Niveau en français',
-                                        23 => 'Niveau en anglais',
-                                        24 => 'Quel est l\'âge de vos enfants ?',
-                                        25 => 'Quel est leur niveau de scolarité ?',
-                                    ];
-                                @endphp
-
-
-                                @foreach ($consultations as $consultation)
-                                    <tr data-candidat-id="{{ $consultation->id }}"
-                                        class="{{ Carbon::parse($consultation->date_heure)->isPast() ? 'table-danger' : '' }}">
+                              
+                                @foreach ($info_consultation->candidats  as $candidat)
+                                    <tr data-candidat-id="{{ $candidat->id }}">
                                         <td>
 
-                                            <h6 class="p-2 text-md"> <a href="{{ $consultation->lien_zoom }}"
-                                                    target="_blank">
-                                                    <i class="fas fa-video"></i>
-                                                </a></h6>
+                                            <h6 class="p-2 text-md"> 
+                                                Candidat n° {{$candidat->id}}    
+                                            </h6>
 
                                         </td>
                                         <td>
-                                            <h6 class="p-2 text-md">{{ $consultation->label }}</h6>
+                                            <h6 class="p-2 text-md">{{ $candidat->nom }}</h6>
                                         </td>
                                         <td>
-                                            <p class="text-md font-weight-bold mb-0">
-                                                {{ $consultation->date_heure }}
-                                            </p>
+                                            <h6 class="p-2 text-md">{{ $candidat->prenom }}</h6>
                                         </td>
                                         <td>
-                                            <div class="list-group">
-                                                @forelse ($consultation->candidats as $candidat)
-                                                    <a href="{{$consultation->id}}/{{ $candidat->id }}">
-                                                    Voir liste candidats</a>
-                                                     Modal pour la fiche de consultation 
-                                                    <div class="modal fade z-index-1" id="ficheModal{{ $candidat->id }}"
-                                                        tabindex="-1"
-                                                        aria-labelledby="ficheModal{{ $candidat->id }}Label"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title"
-                                                                        id="ficheModal{{ $candidat->id }}Label">Fiche
-                                                                        de
-                                                                        consultation pour {{ $candidat->prenom }}
-                                                                        {{ $candidat->nom }}</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                        <a href="?id="$consultations->id>Voir liste des candidats</a>
-                                </div>
-                                                                <div class="modal-body">
-                                                                    <!-- Affichez ici les informations de la fiche de consultation pour ce candidat -->
-                                                                    <!-- Utilisez les champs de la ficheConsultation associée au candidat -->
-                                                                    @if ($candidat->ficheConsultation)
-                                                                        <div class="container">
-                                                                            <div class="row">
-                                                                                <div class="col-md-6">
-                                                                                    @for ($i = 1; $i <= 13; $i++)
-                                                                                        <div class="mb-3">
-                                                                                            <p
-                                                                                                class="text-secondary fs-6 mb-1 fw-bold text-wrap">
-                                                                                                {{ $i }}-
-                                                                                                {{ $questions[$i] }}
-                                                                                            </p>
-                                                                                            <p
-                                                                                                class="text-dark text-truncate">
-                                                                                                {{ $candidat->ficheConsultation->{'reponse' . $i} ?? 'Non renseigné' }}
-                                                                                            </p>
-                                                                                        </div>
-                                                                                    @endfor
-                                                                                </div>
-                                                                                <div class="col-md-6">
-                                                                                    @for ($i = 14; $i <= 25; $i++)
-                                                                                        <div class="mb-3">
-                                                                                            <p
-                                                                                                class="text-secondary fs-6 mb-1 fw-bold text-wrap">
-                                                                                                {{ $i }}-
-                                                                                                {{ $questions[$i] }}
-                                                                                            </p>
-                                                                                            <p
-                                                                                                class="text-dark text-truncate">
-                                                                                                {{ $candidat->ficheConsultation->{'reponse' . $i} ?? 'Non renseigné' }}
-                                                                                            </p>
-                                                                                        </div>
-                                                                                    @endfor
-                                                                                </div>
-                                                                            </div>
+                                        
+                                            <a href="{{$info_consultation->id}}/{{$candidat->id}}">
+                                            
+                                                <button class="btn bg-gradient-primary">
+                                                    Voir fiche de consultation
+                                                </button>
+                                            </a>
 
-                                                                            <div class="row">
-                                                                                <div class="col-md-6">
-                                                                                    @if ($candidat->ficheConsultation->lien_cv)
-                                                                                        <p
-                                                                                            class="text-secondary fs-6 mb-1 fw-bold text-truncate">
-                                                                                            Candidat CV:</p>
-                                                                                        <a href="{{ asset('storage/' . $candidat->ficheConsultation->lien_cv) }}"
-                                                                                            class="btn btn-primary"
-                                                                                            target="_blank">
-                                                                                            <i class="fa fa-eye"></i>
-                                                                                            Voir le CV
-                                                                                        </a>
-                                                                                    @else
-                                                                                        <p
-                                                                                            class="text-secondary fs-6 mb-1 fw-bold text-truncate">
-                                                                                            Aucun CV téléchargé</p>
-                                                                                    @endif
-                                                                                </div>
-
-                                                                                <div class="col-md-6">
-                                                                                    <p
-                                                                                        class="text-secondary fs-6 mb-1 fw-bold text-wrap">
-                                                                                        Remarque de l'agent:</p>
-                                                                                    <p class="text-dark text-truncate">
-                                                                                        {{ $candidat->remarque_agent ?? 'Non renseigné' }}
-                                                                                    </p>
-                                                                                </div>
-
-                                                                            </div>
-
-
-
-
-
-                                                                        </div>
-
-                                                                        <!-- Ajoutez plus de champs au besoin -->
-                                                                    @else
-                                                                        <p>Aucune fiche_Consultation</p>
-                                                                    @endif
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Fermer</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Fin du modal pour la fiche de consultation -->
-                                                @empty
-                                                    <a href="#"
-                                                        class="list-group-item list-group-item-action text-center w-100">Aucun
-                                                        candidat</a>
-                                                @endforelse
-                                            </div>
+                                           
+                                            
                                         </td>
                                     </tr>
                                 @endforeach
@@ -272,7 +119,12 @@
 
         <script async defer src="https://buttons.github.io/buttons.js"></script>
         <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-        <script src="../assets/js/material-dashboard.min.js?v=3.0.0"></script>
+        <script src="../../assets/js/material-dashboard.min.js?v=3.0.0"></script>
+        <script src="./assets/js/core/popper.min.js"></script>
+<script src="../../assets/js/core/bootstrap.min.js"></script>
+<script src="../../assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="../../assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="../../assets/js/plugins/chartjs.min.js"></script>
 
 
     </main>

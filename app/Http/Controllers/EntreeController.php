@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Entree;
+use App\Notifications\VersementNotification;
+use App\Models\User;
 
 class EntreeController extends Controller
 {
@@ -33,6 +35,13 @@ class EntreeController extends Controller
                 'id_type_paiement' => $request->input('type') // Assurez-vous que les IDs correspondent à votre logique
                 // Ajoutez d'autres champs selon vos besoins
             ]);
+            $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
+            $montant = $request->input('montant');
+            
+
+            // Envoyez la notification avec le montant
+            $user = User::find(2); // Vous pouvez obtenir l'utilisateur à notifier ici
+            $user->notify(new VersementNotification($montant, $agent));
     
             return redirect()->back()->with('success', 'Entrée enregistrée avec succès.');
     
