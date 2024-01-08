@@ -108,5 +108,16 @@ public function getRole()
 {
    return $this->id_role_utilisateur;
 }
+public function role()
+{
+    return $this->belongsTo(Role::class, 'id_role_utilisateur');
+}
+public function getUsersByRole($roleId)
+{
+    // Utilisez Eloquent pour récupérer les utilisateurs ayant le rôle spécifié
+    $utilisateurs = User::where('id_role_utilisateur', $roleId)->get();
+
+    return $utilisateurs;
+}
 
 }   

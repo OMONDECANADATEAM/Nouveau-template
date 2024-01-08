@@ -29,7 +29,7 @@ class HomeController extends Controller
                 case 2:
                 case 3:
                     // Utilisateur simple, redirigez-le vers la page "home"
-                    return view('home');
+                    return view('Dashboard.home');
                 default:
                     // Si le rôle n'est pas reconnu, redirigez-le vers la page de connexion
                     return redirect()->route('login');

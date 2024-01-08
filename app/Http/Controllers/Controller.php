@@ -24,84 +24,95 @@ class Controller extends BaseController
 
     public function soumettreFormulaire(Request $request)
     {
-        //Validation du formulaire
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenoms' => 'required|string|max:255',
-            'pays' => 'required|string|max:255',
-            'ville' => 'required|string|max:255',
-            'numero_telephone' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
-            'profession' => 'required|string|max:255',
-        ]);
-
-        // Récupération l'ID de l'utilisateur connecté
-        $idUtilisateur = Auth::id();
-
-        // Création du candidat
-        $candidat = Candidat::create([
-            'nom' => ucwords(strtolower($request->input('nom'))),
-            'prenom' => ucwords(strtolower($request->input('prenoms'))),
-            'pays' => ucwords(strtolower($request->input('pays'))),
-            'ville' => ucwords(strtolower($request->input('ville'))),
-            'numero_telephone' => $request->input('numero_telephone'),
-            'email' => $request->input('email'),
-            'profession' => ucwords(strtolower($request->input('profession'))),
-            'consultation_payee' => $request->has('consultation_payee'),
-            'id_utilisateur' => $idUtilisateur,
-            'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : null,
-
-        ]);
-
-        $cvPath = null;
-
-        
-        if ($request->hasFile('cv') && $request->file('cv')->isValid()) {
-            $cvPath = $request->file('cv')->storeAs('cv', 'cv' . $candidat->nom .$candidat->prenom . '.pdf', 'public');
-        }
-        // Si la consultation est payée, créez une entrée et la fiche de consultation
-        if ($candidat->consultation_payee) {
-            $entree = Entree::create([
-                'id_candidat' => $candidat->id,
-                'montant' => 50000,
-                'date' => Carbon::now(),
-                'id_utilisateur' => $idUtilisateur,
-                'id_type_paiement' => 2,
+        try {
+            $request->validate([
+                'nom' => 'required|string|max:255',
+                'prenoms' => 'required|string|max:255',
+                'pays' => 'required|string|max:255',
+                'ville' => 'required|string|max:255',
+                'numero_telephone' => 'required|string|max:20',
+                'email' => 'required|email|max:255',
+                'profession' => 'required|string|max:255',
             ]);
-
-            FicheConsultation::create(
-                ['id_candidat' => $candidat->id,
-                    'lien_cv' => $cvPath,
-                    'reponse1' => $request->input('statut_matrimonial'),
-                    'reponse2' => $request->input('passeport_valide'),
-                    'reponse3' => $request->input('passeport_valide') == 'oui' ? $request->input('date_expiration_passeport') : 'Pas de Passeport valide',
-                    'reponse4' => $request->input('casier_judiciaire'),
-                    'reponse5' => $request->input('soucis_sante'),
-                    'reponse6' => $request->input('enfants'),
-                    'reponse7' => $request->input('enfants') == 'oui' ? $request->input('age_enfants') : "Pas d'enfant",
-                    'reponse8' => $request->input('profession_domaine_travail'),
-                    'reponse9' => $request->input('temps_travail_actuel'),
-                    'reponse10' => $request->input('documents_emploi'),
-                    'reponse11' => $request->input('procedure_immigration'),
-                    'reponse12' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration1') : 'Pas de procedure deja tentee',
-                    'reponse13' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration2') : 'Pas de procedure deja tentee',
-                    'reponse14' => $request->input('diplome_etudes'),
-                    'reponse15' => $request->input('membre_famille_canada'),
-                    'reponse16' => $request->input('immigrer_seul_ou_famille'),
-                    'reponse17' => $request->input('langues_parlees'),
-                    'reponse18' => $request->input('test_connaissances_linguistiques'),
-                    'reponse19' => $request->input('niveau_scolarite_conjoint'),
-                    'reponse20' => $request->input('domaine_formation_conjoint'),
-                    'reponse21' => $request->input('age_conjoint'),
-                    'reponse22' => $request->input('niveau_francais'),
-                    'reponse23' => $request->input('niveau_anglais'),
-                    'reponse24' => $request->input('age_enfants_linguistique'),
-                    'reponse25' => $request->input('niveau_scolarite_enfants'),
+    
+            // Récupération l'ID de l'utilisateur connecté
+            $idUtilisateur = Auth::id();
+    
+            // Création du candidat
+            $candidat = Candidat::create([
+                'nom' => ucwords(strtolower($request->input('nom'))),
+                'prenom' => ucwords(strtolower($request->input('prenoms'))),
+                'pays' => ucwords(strtolower($request->input('pays'))),
+                'ville' => ucwords(strtolower($request->input('ville'))),
+                'numero_telephone' => $request->input('numero_telephone'),
+                'email' => $request->input('email'),
+                'profession' => ucwords(strtolower($request->input('profession'))),
+                'consultation_payee' => $request->has('consultation_payee'),
+                'id_utilisateur' => $idUtilisateur,
+                'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : null,
+    
+            ]);
+    
+            $cvPath = null;
+    
+            
+            if ($request->hasFile('cv') && $request->file('cv')->isValid()) {
+                $cvPath = $request->file('cv')->storeAs('cv', 'cv' . $candidat->nom .$candidat->prenom . '.pdf', 'public');
+            }
+            // Si la consultation est payée, créez une entrée et la fiche de consultation
+            if ($candidat->consultation_payee) {
+                $entree = Entree::create([
+                    'id_candidat' => $candidat->id,
+                    'montant' => 50000,
+                    'date' => Carbon::now(),
+                    'id_utilisateur' => $idUtilisateur,
+                    'id_type_paiement' => 2,
                 ]);
+    
+                FicheConsultation::create(
+                    ['id_candidat' => $candidat->id,
+                        'lien_cv' => $cvPath,
+                        'reponse1' => $request->input('statut_matrimonial'),
+                        'reponse2' => $request->input('passeport_valide'),
+                        'reponse3' => $request->input('passeport_valide') == 'oui' ? $request->input('date_expiration_passeport') : 'Pas de Passeport valide',
+                        'reponse4' => $request->input('casier_judiciaire'),
+                        'reponse5' => $request->input('soucis_sante'),
+                        'reponse6' => $request->input('enfants'),
+                        'reponse7' => $request->input('enfants') == 'oui' ? $request->input('age_enfants') : "Pas d'enfant",
+                        'reponse8' => $request->input('profession_domaine_travail'),
+                        'reponse9' => $request->input('temps_travail_actuel'),
+                        'reponse10' => $request->input('documents_emploi'),
+                        'reponse11' => $request->input('procedure_immigration'),
+                        'reponse12' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration1') : 'Pas de procedure deja tentee',
+                        'reponse13' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration2') : 'Pas de procedure deja tentee',
+                        'reponse14' => $request->input('diplome_etudes'),
+                        'reponse15' => $request->input('membre_famille_canada'),
+                        'reponse16' => $request->input('immigrer_seul_ou_famille'),
+                        'reponse17' => $request->input('langues_parlees'),
+                        'reponse18' => $request->input('test_connaissances_linguistiques'),
+                        'reponse19' => $request->input('niveau_scolarite_conjoint'),
+                        'reponse20' => $request->input('domaine_formation_conjoint'),
+                        'reponse21' => $request->input('age_conjoint'),
+                        'reponse22' => $request->input('niveau_francais'),
+                        'reponse23' => $request->input('niveau_anglais'),
+                        'reponse24' => $request->input('age_enfants_linguistique'),
+                        'reponse25' => $request->input('niveau_scolarite_enfants'),
+                    ]);
+            }
+    
+            // Redirection vers le dossier contact
+            return redirect()->route('DossierContacts');
+        } catch (ValidationException $e) {
+            // Gérer les erreurs de validation
+            // Vous pouvez rediriger en arrière avec les erreurs ou les gérer de toute autre manière
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (Exception $e) {
+            // Gérer les autres exceptions
+            // Journalisez l'exception ou gérez-la en fonction des besoins de votre application
+            return redirect()->back()->withErrors(['error' => 'Une erreur inattendue s\'est produite.'])->withInput();
         }
-
-        // Redirection vers le dossier contact
-        return redirect()->route('DossierContacts');
+        //Validation du formulaire
+      
     }
 
     public function modifierFormulaire(Request $request, $idCandidat)

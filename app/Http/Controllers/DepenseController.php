@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Depense;
+use App\Models\User;
+use App\Notifications\DepenseNotification;
+use Illuminate\Http\Request; // Ajoutez cette ligne
+use Illuminate\Support\Facades\DB;
 
 class DepenseController extends Controller
 {
@@ -20,7 +23,7 @@ class DepenseController extends Controller
         $utilisateurId = auth()->user()->id;
     
         // Créez une nouvelle dépense avec l'ID de l'utilisateur
-        Depense::create([
+        $depense = Depense::create([
             'montant' => $request->input('montant'),
             'date' => $request->input('date'),
             'raison' => $request->input('raison'),
@@ -28,7 +31,27 @@ class DepenseController extends Controller
             // Ajoutez d'autres champs selon vos besoins
         ]);
     
+        $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
+        $montant = $request->input('montant');
+        $raison = $request->input('raison');
+    
+        // Utilisez la fonction pour récupérer les utilisateurs par rôle
+        $utilisateursNotifies = $this->getUsersByRole(3); // Remplacez $roleId par l'ID du rôle que vous souhaitez
+    
+        DB::transaction(function () use ($utilisateursNotifies, $montant, $agent, $raison) {
+            foreach ($utilisateursNotifies as $utilisateur) {
+                $utilisateur->notify(new DepenseNotification($montant, $agent, $raison));
+            }
+        });
+    
         return redirect()->route('Banque'); // Redirigez après la création (ajustez la route selon votre besoin)
     }
     
+    public function getUsersByRole($roleId)
+    {
+        // Utilisez Eloquent pour récupérer les utilisateurs ayant le rôle spécifié
+        $utilisateurs = User::where('id_role_utilisateur', $roleId)->get();
+    
+        return $utilisateurs;
+    }
 }
