@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Entree;
 use App\Notifications\VersementNotification;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class EntreeController extends Controller
 {
@@ -38,16 +39,26 @@ class EntreeController extends Controller
             $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
             $montant = $request->input('montant');
             
-
-            // Envoyez la notification avec le montant
-            $user = User::find(2); // Vous pouvez obtenir l'utilisateur à notifier ici
-            $user->notify(new VersementNotification($montant, $agent));
+            // Utilisez la fonction pour récupérer les utilisateurs par rôle
+            $utilisateursNotifies = $this->getUsersByRole(3); // Remplacez $roleId par l'ID du rôle que vous souhaitez
+    
+            DB::transaction(function () use ($utilisateursNotifies, $montant, $agent) {
+                foreach ($utilisateursNotifies as $utilisateur) {
+                    $utilisateur->notify(new VersementNotification($montant, $agent));
+                }
+            });
     
             return redirect()->back()->with('success', 'Entrée enregistrée avec succès.');
     
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    } public function getUsersByRole($roleId)
+    {
+        // Utilisez Eloquent pour récupérer les utilisateurs ayant le rôle spécifié
+        $utilisateurs = User::where('id_role_utilisateur', $roleId)->get();
+    
+        return $utilisateurs;
     }
     
 }
