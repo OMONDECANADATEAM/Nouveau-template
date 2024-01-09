@@ -1,6 +1,29 @@
 <div class="questionnaire-form" style="display: none;">
                     
     <h4>Questionnaire supplémentaire</h4>
+
+ <!-- Type de visa -->
+    <div class="mb-3">
+        <label class="form-label">Quel type de visa desirez-vous ?</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="type_visa" id="etudiant" value="etudiant">
+            <label class="form-check-label" for="etudiant">Étudiant</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="type_visa" id="travailleur" value="travailleur">
+            <label class="form-check-label" for="travailleur">Travailleur</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="type_visa" id="visiteur" value="visiteur">
+            <label class="form-check-label" for="visiteur">Visiteur</label>
+        </div>
+    </div>
+    <div class="input-group input-group-outline mb-3 p-2">
+        <label for="date_naissance_conjoint" class="form-label">2- Quelle est votre date de naissance ?</label>
+        <input type="date" name="date_naissance" id="date_naissance" class="form-control">
+    </div>
+    
+    
     <!-- Question 1 -->
     <div class="mb-3">
         <label class="form-label">1- Statut matrimonial</label>
@@ -55,7 +78,7 @@
 
     <!-- Question 4 - Avez-vous un passeport valide ? -->
     <div class="mb-3">
-        <label class="form-label">4- Avez-vous un casier judiciaire ?</label>
+        <label class="form-label">4- Avez-vous eut des problèmes avec la justice ?</label>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="casier_judiciaire"
                 id="casier_judiciaire_oui" value="oui">
@@ -184,32 +207,23 @@
 
     <!-- Question 14 - Avez-vous un diplôme d'études (secondaire, professionnel, universitaire) ? -->
     <div class="mb-3">
-        <label class="form-label">14- Avez-vous un diplôme d'études (secondaire, professionnel,
-            universitaire)
-            ?</label>
-
+        <label class="form-label">14- Avez-vous un diplôme d'études (secondaire, professionnel, universitaire) ?</label>
+    
         <div class="form-check">
             <!-- Option "Oui" -->
-            <input class="form-check-input" type="radio" name="diplome_etudes"
-                id="diplome_etudes_oui" value="oui">
+            <input class="form-check-input" type="radio" name="diplome_etudes" id="diplome_etudes_oui" value="oui">
             <label class="form-check-label" for="diplome_etudes_oui">Oui</label>
-
-            <!-- Condition pour afficher la question sur l'année d'obtention si la réponse est "Oui" -->
-            <div class="question-diplome-etudes" style="display: none;">
-                <div class="input-group input-group-outline mb-3 p">
-                    <label for="annee_obtention_diplome" class="form-label">Si oui, quelle est
-                        l'année d'obtention du
-                        diplôme ?</label>
-                    <input type="text" name="annee_obtention_diplome"
-                        id="annee_obtention_diplome" class="form-control">
-                </div>
+    
+            <!-- Question supplémentaire -->
+            <div class="input-group input-group-outline mb-3 p question-diplome-etudes" style="display: none;">
+                <label for="annee_obtention_diplome" class="form-label">Si oui, quelle est l'année d'obtention du diplôme ?</label>
+                <input type="text" name="annee_obtention_diplome" id="annee_obtention_diplome" class="form-control">
             </div>
         </div>
-
+    
         <div class="form-check">
             <!-- Option "Non" -->
-            <input class="form-check-input" type="radio" name="diplome_etudes"
-                id="diplome_etudes_non" value="non">
+            <input class="form-check-input" type="radio" name="diplome_etudes" id="diplome_etudes_non" value="non">
             <label class="form-check-label" for="diplome_etudes_non">Non</label>
         </div>
     </div>
@@ -382,6 +396,8 @@
     // Cacher la question de la date d'expiration au chargement de la page
     $('.question-passeport').hide();
 
+    $('.anne_obtention_diplome').hide();
+
     // Cacher la question sur la procédure d'immigration au Canada au chargement de la page
     $('.questions-procedure_immigration').hide();
 
@@ -417,6 +433,18 @@
             $('.question-enfants').hide();
         }
     });
+
+    $('input[name="diplome_etudes"]').change(function() {
+    // Récupérer la valeur sélectionnée
+    var valeurSelectionnee = $(this).val();
+
+    // Afficher ou masquer la question sur l'année d'obtention en fonction de la réponse
+    if (valeurSelectionnee === 'oui') {
+        $('.question-diplome-etudes').show();
+    } else {
+        $('.question-diplome-etudes').hide();
+    }
+});
 });
 
 </script>

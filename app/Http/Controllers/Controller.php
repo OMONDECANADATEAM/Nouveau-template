@@ -49,7 +49,8 @@ class Controller extends BaseController
                 'profession' => ucwords(strtolower($request->input('profession'))),
                 'consultation_payee' => $request->has('consultation_payee'),
                 'id_utilisateur' => $idUtilisateur,
-                'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : null,
+                'date_naissance' => $request->input('date_naissance'),
+                'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : 'Sans Objet',
     
             ]);
     
@@ -72,6 +73,7 @@ class Controller extends BaseController
                 FicheConsultation::create(
                     ['id_candidat' => $candidat->id,
                         'lien_cv' => $cvPath,
+                        'type_visa' => $request->input('type_visa'),
                         'reponse1' => $request->input('statut_matrimonial'),
                         'reponse2' => $request->input('passeport_valide'),
                         'reponse3' => $request->input('passeport_valide') == 'oui' ? $request->input('date_expiration_passeport') : 'Pas de Passeport valide',
@@ -86,17 +88,18 @@ class Controller extends BaseController
                         'reponse12' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration1') : 'Pas de procedure deja tentee',
                         'reponse13' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration2') : 'Pas de procedure deja tentee',
                         'reponse14' => $request->input('diplome_etudes'),
-                        'reponse15' => $request->input('membre_famille_canada'),
-                        'reponse16' => $request->input('immigrer_seul_ou_famille'),
-                        'reponse17' => $request->input('langues_parlees'),
-                        'reponse18' => $request->input('test_connaissances_linguistiques'),
-                        'reponse19' => $request->input('niveau_scolarite_conjoint'),
-                        'reponse20' => $request->input('domaine_formation_conjoint'),
-                        'reponse21' => $request->input('age_conjoint'),
-                        'reponse22' => $request->input('niveau_francais'),
-                        'reponse23' => $request->input('niveau_anglais'),
-                        'reponse24' => $request->input('age_enfants_linguistique'),
-                        'reponse25' => $request->input('niveau_scolarite_enfants'),
+                        'reponse15' => $request->input('annee_obtention_diplome'),
+                        'reponse16' => $request->input('membre_famille_canada'),
+                        'reponse17' => $request->input('immigrer_seul_ou_famille'),
+                        'reponse18' => $request->input('langues_parlees'),
+                        'reponse19' => $request->input('test_connaissances_linguistiques'),
+                        'reponse20' => $request->input('niveau_scolarite_conjoint'),
+                        'reponse21' => $request->input('domaine_formation_conjoint'),
+                        'reponse22' => $request->input('age_conjoint'),
+                        'reponse23' => $request->input('niveau_francais'),
+                        'reponse24' => $request->input('niveau_anglais'),
+                        'reponse25' => $request->input('age_enfants_linguistique'),
+                        'reponse26' => $request->input('niveau_scolarite_enfants'),
                     ]);
             }
     
@@ -137,15 +140,17 @@ class Controller extends BaseController
         // Modification des informations du candidat
         $candidat->update([
             'nom' => ucwords(strtolower($request->input('nom'))),
-            'prenom' => ucwords(strtolower($request->input('prenoms'))),
-            'pays' => ucwords(strtolower($request->input('pays'))),
-            'ville' => ucwords(strtolower($request->input('ville'))),
-            'numero_telephone' => $request->input('numero_telephone'),
-            'email' => $request->input('email'),
-            'consultation_payee' => $request->has('consultation_payee'),
-            'profession' => ucwords(strtolower($request->input('profession'))),
-            'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : null,
-        ]);
+                'prenom' => ucwords(strtolower($request->input('prenoms'))),
+                'pays' => ucwords(strtolower($request->input('pays'))),
+                'ville' => ucwords(strtolower($request->input('ville'))),
+                'numero_telephone' => $request->input('numero_telephone'),
+                'email' => $request->input('email'),
+                'profession' => ucwords(strtolower($request->input('profession'))),
+                'consultation_payee' => $request->has('consultation_payee'),
+                'id_utilisateur' => $idUtilisateur,
+                'date_naissance' => $request->input('date_naissance'),
+                'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : 'Sans Objet',
+    ]);
         $cvPath = $candidat->ficheConsultation->lien_cv ?? null;
 
 
@@ -168,34 +173,35 @@ class Controller extends BaseController
 
             FicheConsultation::updateOrCreate(
                 ['id_candidat' => $candidat->id,
-                
-                    'lien_cv' => $cvPath,
-                    'reponse1' => $request->input('statut_matrimonial'),
-                    'reponse2' => $request->input('passeport_valide'),
-                    'reponse3' => $request->input('passeport_valide') == 'oui' ? $request->input('date_expiration_passeport') : 'Pas de Passeport valide',
-                    'reponse4' => $request->input('casier_judiciaire'),
-                    'reponse5' => $request->input('soucis_sante'),
-                    'reponse6' => $request->input('enfants'),
-                    'reponse7' => $request->input('enfants') == 'oui' ? $request->input('age_enfants') : "Pas d'enfant",
-                    'reponse8' => $request->input('profession_domaine_travail'),
-                    'reponse9' => $request->input('temps_travail_actuel'),
-                    'reponse10' => $request->input('documents_emploi'),
-                    'reponse11' => $request->input('procedure_immigration'),
-                    'reponse12' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration1') : 'Pas de procedure deja tentee',
-                    'reponse13' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration2') : 'Pas de procedure deja tentee',
-                    'reponse14' => $request->input('diplome_etudes'),
-                    'reponse15' => $request->input('membre_famille_canada'),
-                    'reponse16' => $request->input('immigrer_seul_ou_famille'),
-                    'reponse17' => $request->input('langues_parlees'),
-                    'reponse18' => $request->input('test_connaissances_linguistiques'),
-                    'reponse19' => $request->input('niveau_scolarite_conjoint'),
-                    'reponse20' => $request->input('domaine_formation_conjoint'),
-                    'reponse21' => $request->input('age_conjoint'),
-                    'reponse22' => $request->input('niveau_francais'),
-                    'reponse23' => $request->input('niveau_anglais'),
-                    'reponse24' => $request->input('age_enfants_linguistique'),
-                    'reponse25' => $request->input('niveau_scolarite_enfants'),
-                ]
+                'lien_cv' => $cvPath,
+                'type_visa' => $request->input('type_visa'),
+                'reponse1' => $request->input('statut_matrimonial'),
+                'reponse2' => $request->input('passeport_valide'),
+                'reponse3' => $request->input('passeport_valide') == 'oui' ? $request->input('date_expiration_passeport') : 'Pas de Passeport valide',
+                'reponse4' => $request->input('casier_judiciaire'),
+                'reponse5' => $request->input('soucis_sante'),
+                'reponse6' => $request->input('enfants'),
+                'reponse7' => $request->input('enfants') == 'oui' ? $request->input('age_enfants') : "Pas d'enfant",
+                'reponse8' => $request->input('profession_domaine_travail'),
+                'reponse9' => $request->input('temps_travail_actuel'),
+                'reponse10' => $request->input('documents_emploi'),
+                'reponse11' => $request->input('procedure_immigration'),
+                'reponse12' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration1') : 'Pas de procedure deja tentee',
+                'reponse13' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration2') : 'Pas de procedure deja tentee',
+                'reponse14' => $request->input('diplome_etudes'),
+                'reponse15' => $request->input('annee_obtention_diplome'),
+                'reponse16' => $request->input('membre_famille_canada'),
+                'reponse17' => $request->input('immigrer_seul_ou_famille'),
+                'reponse18' => $request->input('langues_parlees'),
+                'reponse19' => $request->input('test_connaissances_linguistiques'),
+                'reponse20' => $request->input('niveau_scolarite_conjoint'),
+                'reponse21' => $request->input('domaine_formation_conjoint'),
+                'reponse22' => $request->input('age_conjoint'),
+                'reponse23' => $request->input('niveau_francais'),
+                'reponse24' => $request->input('niveau_anglais'),
+                'reponse25' => $request->input('age_enfants_linguistique'),
+                'reponse26' => $request->input('niveau_scolarite_enfants'),
+            ]
             );
         } else {
             // Si la consultation n'est pas payée, vérifiez s'il existe une entrée et supprimez-la

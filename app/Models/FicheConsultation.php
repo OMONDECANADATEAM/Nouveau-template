@@ -15,6 +15,7 @@ class FicheConsultation extends Model
     protected $fillable = [
         'id_candidat',
         'lien_cv',
+        'type_visa',
         'reponse1',
         'reponse2',
         'reponse3',
@@ -40,6 +41,7 @@ class FicheConsultation extends Model
         'reponse23',
         'reponse24',
         'reponse25',
+        'reponse26',
     ];
 
     public function candidat()
