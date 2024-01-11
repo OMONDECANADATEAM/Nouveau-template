@@ -1,16 +1,14 @@
 <div class="card my-4">
     <div
-        class="card-header p-0 position-relative mt-n4 mx-3 z-index-1 d-flex justify-content-between align-items-center">
-        <div class="bg-gradient-primary shadow-primary border-radius-lg w-auto">
-            <h4 class="text-white text-capitalize p-2">Vue d'ensemble</h4>
+        class="card-header p-2 position-relative mt-n4 mx-3 z-index-1 d-flex justify-content-between align-items-center">
+        <div class="p-2 border-radius-lg w-40 bg-gradient-dark">
+            <input type="text" id="searchInput" class="form-control text-white  text-lg bg-transparent border-0 p-1" placeholder="Rechercher...">
         </div>
-
-        <div class="p-2">
-            <button class="btn btn-primary" onclick="filtrerCandidats('Pas de consultation')">Pas de consultation</button>
-            <button class="btn btn-primary" onclick="filtrerCandidats('10 derniers')">10 derniers</button>
-            <button class="btn btn-primary" onclick="filtrerCandidats('Consultation effectuée')">Consultation
+        
+        <div class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
+            <button class="btn bg-gradient-dark" onclick="filtrerCandidats('Consultation effectuée')">Consultation
                 effectuée</button>
-            <button class="btn btn-primary" onclick="afficherTousLesCandidats()">Tous les candidats</button>
+            <button class="btn bg-gradient-dark" onclick="afficherTousLesCandidats()">Tous les candidats</button>
         </div>
     </div>
 
@@ -24,8 +22,7 @@
                         </th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                             NUMERO</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            PROFFESSION</th>
+                       
                         <th
                             class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             TYPE PAIEMENT </th>
@@ -35,6 +32,9 @@
                         <th
                             class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             AGENT</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                FICHE DE CONSULTATION
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,9 +48,7 @@
                             <td>
                                 <p class="text-md font-weight-bold mb-0">{{ $candidat->numero_telephone }}</p>
                             </td>
-                            <td>
-                                <span class="text-md font-weight-bold">{{ $candidat->profession }}</span>
-                            </td>
+                           
                             <td class="align-middle text-center">
                                 @php
                                     $derniereDatePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)->max('date');
@@ -68,6 +66,15 @@
                             <td class="align-middle text-center">
                                 <span class="text-md font-weight-bold">{{ $candidat->utilisateur->name }}
                                     {{ $candidat->utilisateur->last_name }}</span>
+                            </td>
+                            <td>
+                                <span class="text-md font-weight-bold">
+                                    <a onclick="redirectToConsultation({{$candidat->id_info_consultation}}, {{$candidat->id}})">
+                                        <button class="btn btn-primary">
+                                            Fiche de consultation
+                                        </button>
+                                    </a>      
+                                </span>
                             </td>
                             <td class="align-middle text-center">
                                 @if ($candidat->consultation_payee && !$candidat->consultation_effectuee)
@@ -273,5 +280,44 @@
         setTimeout(function() {
             alertDiv.alert('close');
         }, 3000);
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        // Récupérer la table et les lignes
+        var table = document.getElementById("candidatsTable");
+        var rows = table.getElementsByTagName("tr");
+
+        // Récupérer l'input de recherche
+        var searchInput = document.getElementById("searchInput");
+
+        // Ajouter un gestionnaire d'événement pour le changement dans le champ de recherche
+        searchInput.addEventListener("input", function () {
+            var searchTerm = searchInput.value.toLowerCase();
+
+            // Parcourir toutes les lignes de la table
+            for (var i = 1; i < rows.length; i++) {
+                var row = rows[i];
+                var nom = row.cells[0].innerText.toLowerCase();
+                var numero = row.cells[1].innerText.toLowerCase();
+
+                // Vérifier si le terme de recherche est présent dans le nom ou le numéro
+                if (nom.includes(searchTerm) || numero.includes(searchTerm)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        });
+    });
+</script>
+<script>
+    function redirectToConsultation(infoConsultationId, candidatId) {
+        if (infoConsultationId) {
+            // Rediriger vers le lien avec les ID
+            window.location.href = `Consultation/${infoConsultationId}/${candidatId}`;
+        } else {
+            console.log("infoConsultationId est null ou undefined");
+    alert("Ce candidat n'est inscrit à aucune consultation.");
+
+        }
     }
 </script>
