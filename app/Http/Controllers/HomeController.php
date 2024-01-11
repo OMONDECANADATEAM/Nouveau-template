@@ -173,4 +173,15 @@ class HomeController extends Controller
             return view('candidat', compact('info_consultation', 'consultation'));
        
     }
+
+    public function getCandidatFiche($id_candidat)
+    {
+
+        $consultation = Candidat::find($id_candidat);
+
+        // Récupérer la liste des consultations liées (exemple : consultations du même patient)
+        
+            return view('ficheConsultation', compact('consultation'));
+       
+    }
 }

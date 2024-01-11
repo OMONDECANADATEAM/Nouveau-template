@@ -71,8 +71,12 @@ Route::get('/recherche-candidat', [Controller::class , 'rechercheCandidat'])->na
 Route::get('/Consultation/{id}', [HomeController::class , 'getListCandidatByConsultation'])->name('listcandidats');
 Route::get('/Consultation/{id}/{id_candidat}', [HomeController::class , 'getCandidatByConsultation'])->name('candidat');
 
-// routes/web.php
+//Fiche de consultation
 
+Route::get('/ficheConsultation/{id_candidat}', [HomeController::class , 'getCandidatFiche'])->name('candidatFiche');
+
+
+// routes/web.php
 Route::post('/ajouterCandidatAConsultation', [Controller::class, 'ajouterCandidatAConsultation']);
 
 

@@ -58,7 +58,7 @@
               </div>
 
               <div class="card-body px-0 pb-2">
-                <div class="table-responsive p-0">
+                <div class="table-responsive p-0"  style="max-height: 750px;">
                     <table class="table align-items-center justify-content-center mb-0">
                         <thead>
                             <tr>
@@ -115,8 +115,7 @@
           </div>
       </div>
   </div>
-      
-     @include('partials.footer')
+    
     </div>
   </main>
   @include('partials.plugin')

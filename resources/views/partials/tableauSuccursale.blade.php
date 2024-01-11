@@ -63,7 +63,7 @@
                                 <span
                                     class="text-md font-weight-bold">{{ $candidat->utilisateur->succursale->label }}</span>
                             </td>
-                            <td class="align-middle text-center">
+                            <td class="align-middle text-align-right">
                                 <span class="text-md font-weight-bold">{{ $candidat->utilisateur->name }}
                                     {{ $candidat->utilisateur->last_name }}</span>
                             </td>
@@ -95,8 +95,7 @@
                                                     $dateHeure = \Carbon\Carbon::parse($consultation['date_heure']);
                                                     $formattedDateHeure = $dateHeure->format('d M Y H:i'); // Format à ajuster selon vos besoins
                                                     echo '<a class="dropdown-item consultation-link" href="#" data-consultation-id="' . $consultation->id . '">' . $consultation['label'] . ' - ' . $formattedDateHeure . '</a>';
-                                                    // Ajoutez d'autres champs ou personnalisez selon vos besoins
-                                                }
+                                                            }
                                             @endphp
                                         </div>
                                     </div>
@@ -310,14 +309,15 @@
     });
 </script>
 <script>
-    function redirectToConsultation(infoConsultationId, candidatId) {
-        if (infoConsultationId) {
-            // Rediriger vers le lien avec les ID
-            window.location.href = `Consultation/${infoConsultationId}/${candidatId}`;
-        } else {
-            console.log("infoConsultationId est null ou undefined");
-    alert("Ce candidat n'est inscrit à aucune consultation.");
 
-        }
+
+   function redirectToConsultation(infoConsultationId, candidatId) {
+    if (candidatId && infoConsultationId !== null) {
+        // Rediriger vers le lien avec les ID
+        window.location.href = `ficheConsultation/${candidatId}`;
     }
+    if (infoConsultationId === null) {
+        alert("Une erreur est survenue")
+    }
+}
 </script>
