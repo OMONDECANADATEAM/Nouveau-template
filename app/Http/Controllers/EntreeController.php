@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidat; 
 use Illuminate\Http\Request;
 use App\Models\Entree;
 use App\Notifications\VersementNotification;
@@ -33,15 +34,28 @@ class EntreeController extends Controller
                 'date' => $request->input('date'),
                 'id_utilisateur' => $utilisateurId,
                 'id_candidat' => $candidatId,
-                'id_type_paiement' => $request->input('type') // Assurez-vous que les IDs correspondent à votre logique
+                'id_type_paiement' => $request->input('type')
                 // Ajoutez d'autres champs selon vos besoins
             ]);
+    
+         
+            $candidat = Candidat::find($candidatId);
+
+            // Si c'est un versement, mettez à jour la colonne 'versement_effectue' à vrai si ce n'est pas déjà le cas
+            if ($request->input('type') == 1) {
+                // Ajoutez des logs pour déboguer
+              
+                if (!$candidat->versement_effectuee) {
+                    $candidat->update(['versement_effectuee' => 1]);
+                }
+            }
+    
             $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
-            $montant = $request->input('montant');
-            
+    
             // Utilisez la fonction pour récupérer les utilisateurs par rôle
             $utilisateursNotifies = $this->getUsersByRole(3); // Remplacez $roleId par l'ID du rôle que vous souhaitez
     
+            // Utilisez une transaction pour garantir la cohérence de la base de données lors de l'envoi des notifications
             DB::transaction(function () use ($utilisateursNotifies, $montant, $agent) {
                 foreach ($utilisateursNotifies as $utilisateur) {
                     $utilisateur->notify(new VersementNotification($montant, $agent));
@@ -53,7 +67,11 @@ class EntreeController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-    } public function getUsersByRole($roleId)
+    }
+    
+    
+    
+    public function getUsersByRole($roleId)
     {
         // Utilisez Eloquent pour récupérer les utilisateurs ayant le rôle spécifié
         $utilisateurs = User::where('id_role_utilisateur', $roleId)->get();

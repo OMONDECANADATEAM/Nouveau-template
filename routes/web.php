@@ -84,6 +84,8 @@ Route::get('/creer-utilisateur', [UtilisateurController::class, 'formulaireCreat
 Route::post('/creer-utilisateur', [UtilisateurController::class, 'creer'])->name('creer-utilisateur.creer');
 
 
+Route::get('/dossier', [HomeController::class, 'dossier'])->name('dossier');
+
 
 Route::post('/save-remarques', [HomeController::class, 'saveRemarques']);
 

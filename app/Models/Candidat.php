@@ -10,7 +10,7 @@ class Candidat extends Model
     public $timestamps = false;
     protected $table = 'candidat';
     protected $fillable = [
-        'nom', 'prenom', 'pays', 'ville', 'numero_telephone', 'email', 'profession', 'consultation_payee', "date_naissance" , "id_utilisateur", 'remarque_agent'
+        'nom', 'prenom', 'pays', 'ville', 'numero_telephone', 'email', 'profession', 'consultation_payee', "date_naissance" , "id_utilisateur", 'remarque_agent', 'versement_effectuee'
     ];
 
     public static function sauvegarderCandidat($data)
@@ -31,9 +31,10 @@ class Candidat extends Model
     {
         return $this->hasOne(FicheConsultation::class, 'id_candidat');
     }
-public function infoConsultation()
-{
-    return $this->belongsTo(InfoConsultation::class, 'id_info_consultation');
-}
+    public function infoConsultation()
+    {
+        return $this->hasOne(InfoConsultation::class, 'id_candidat'); // Correction ici
+    }
+    
 }
 

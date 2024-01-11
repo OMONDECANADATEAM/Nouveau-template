@@ -56,7 +56,7 @@
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="type" id="consultation"
-                                value="1" required>
+                                value="2" required>
                             <label class="form-check-label" for="consultation">Consultation</label>
                         </div>
                     </div>

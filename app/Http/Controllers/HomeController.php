@@ -73,6 +73,11 @@ class HomeController extends Controller
         return view('connexion');
     }
 
+    public function dossier()
+    {
+        return view('dossier');
+    }
+
     public function allCandidat()
     {
         // Obtenir l'utilisateur connecté
@@ -184,4 +189,6 @@ class HomeController extends Controller
             return view('ficheConsultation', compact('consultation'));
        
     }
+
+   
 }

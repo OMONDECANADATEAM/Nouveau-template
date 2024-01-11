@@ -51,5 +51,16 @@ class UtilisateurController extends Controller
          ? redirect()->route('login')
          : redirect()->route('creer-utilisateur.formulaire')->with('error', 'Une erreur s\'est produite lors de la création de l\'utilisateur.');
  }
+
+ public function getPersonsByUserWithVersementEntries()
+{
+    $user = auth()->user();
+
+    $clients = $user->persons()->whereHas('entries', function ($query) {
+        $query->where('type', 'versement');
+    })->get();
+
+    return $persons;
+}
  
 }

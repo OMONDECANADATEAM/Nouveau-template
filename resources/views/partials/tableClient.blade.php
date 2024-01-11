@@ -13,35 +13,32 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                             NOM
                         </th>
-                        <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            NUMERO</th>
-                        <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            PROFFESSION</th>
+                      
                         <th
                             class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            DATE DE PAIEMENT</th>
-                            <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            TYPE PAIEMENT </th>
+                            TYPE VISA
+                         </th>
+
+                         <th
+                         class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                         VOIR DOSSIER
+                        </th>
+
+                        <th
+                         class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                         AJOUTER DOCUMENT
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data_client->sortByDesc('date') as $candidat)
-  
                     <tr>
                         <td>
                             <div class="d-flex px-2">
                                 <h6 class="p-2 text-md">{{ $candidat->nom }} {{ $candidat->prenom }}</h6>
                             </div>
                         </td>
-                        <td>
-                            <p class="text-md font-weight-bold mb-0">{{ $candidat->numero_telephone }}</p>
-                        </td>
-                        <td>
-                            <span class="text-md font-weight-bold">{{ $candidat->profession }}</span>
-                        </td>
+                       
                         <td class="align-middle text-center">
                 
                             <span class="text-md font-weight-bold">
@@ -50,23 +47,21 @@
                                     strtotime($derniereDatePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)->max('date')),
                                 ) }}</span>
                         </td>
-                
+                        
                         <td class="align-middle text-center">
-                
-                            @php
-                                // Récupérez l'ID du type de paiement
-                $idTypePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)
-                    ->where('date', $derniereDatePaiement)
-                    ->value('id_type_paiement');
-                
-                // Récupérez le libellé du type de paiement
-                $libelleTypePaiement = \App\Models\TypePaiement::where('id', $idTypePaiement)->value('label');
-                            @endphp
-                
-                
-                            <span class="text-md font-weight-bold"> {{ $libelleTypePaiement }}
-                            </span>
+
+                            <button class="btn bg-gradient-dark">
+                                Voir Le Dossier
+                            </button>
                         </td>
+
+                        <td class="align-middle text-center">
+
+                            <button class="btn bg-gradient-success">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </td>
+                        
                 
                     </tr>
                 @endforeach

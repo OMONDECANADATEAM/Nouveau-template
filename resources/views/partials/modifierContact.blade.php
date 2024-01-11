@@ -520,7 +520,7 @@
 
 
                     <div class="text-center">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                         <button type="button" class="btn btn-primary"
                             onclick="$('#modifierContactForm{{ $candidat->id }}').submit()">Enregistrer les
                             modifications</button>

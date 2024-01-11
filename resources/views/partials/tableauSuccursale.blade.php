@@ -26,14 +26,10 @@
                         <th
                             class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             TYPE PAIEMENT </th>
-                        <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            SUCCURSALE</th>
-                        <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             AGENT</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                FICHE DE CONSULTATION
+                            FICHE DE CONSULTATION
                         </th>
                     </tr>
                 </thead>
@@ -59,10 +55,7 @@
                                 @endphp
                                 <span class="text-md font-weight-bold"> {{ $libelleTypePaiement }}</span>
                             </td>
-                            <td class="align-middle text-center">
-                                <span
-                                    class="text-md font-weight-bold">{{ $candidat->utilisateur->succursale->label }}</span>
-                            </td>
+                            
                             <td class="align-middle text-align-right">
                                 <span class="text-md font-weight-bold">{{ $candidat->utilisateur->name }}
                                     {{ $candidat->utilisateur->last_name }}</span>
