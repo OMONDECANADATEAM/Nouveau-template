@@ -5,6 +5,7 @@
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\EntreeController;
 use App\Http\Controllers\UtilisateurController;
+use App\Http\Controllers\consultationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Controller;
@@ -88,4 +89,7 @@ Route::get('/dossier', [HomeController::class, 'dossier'])->name('dossier');
 
 
 Route::post('/save-remarques', [HomeController::class, 'saveRemarques']);
+
+
+Route::get('/toggle-consultation/{candidatId}', [consultationController::class, 'toggleConsultation'])->name('toggleConsultation');
 

@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div class="icon icon-md icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                        <i class="material-icons opacity-10">person_add</i>
+                        <i class="material-icons opacity-10">description</i>
                     </div>
                     <div class="text-end">
                         <p class="text-xl mb-0 text-capitalize">{{ $candidat->nom }} {{ $candidat->prenom }}</p>

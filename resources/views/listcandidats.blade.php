@@ -18,7 +18,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href={{ asset('assets/img/logos/icon.png') }}>
 
     <title>Liste des candidats - Omonde Canada - CRM
@@ -34,7 +33,14 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="../../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+    <!-- Inclure le script SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<!-- Inclure les stylesheets SweetAlert2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
     <!-- Ajoutez ces liens CDN à la section head de votre fichier Blade -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
 </head>
@@ -76,39 +82,51 @@
                                         style="width: 60%;">
                                         VOIR FICHE DE CONSULTATION
                                     </th>
+
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                                        style="width: 60%;">
+                                        CONSULTATION EFFECTUÉE
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                              
-                                @foreach ($info_consultation->candidats  as $candidat)
-                                    <tr data-candidat-id="{{ $candidat->id }}">
-                                        <td>
+                                @foreach ($info_consultation->candidats as $candidat)
+                                <tr data-candidat-id="{{ $candidat->id }}">
+                                    <td>
+                                        <h6 class="p-2 text-md">
+                                            Candidat n° {{$candidat->id}}
+                                        </h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="p-2 text-md">{{ $candidat->nom }}</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="p-2 text-md">{{ $candidat->prenom }}</h6>
+                                    </td>
+                                    <td>
+                                        <a href="{{$info_consultation->id}}/{{$candidat->id}}">
+                                            <button class="btn bg-gradient-primary">
+                                                Voir fiche de consultation
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                      <div class="d-flex align-items-center justify-content-around">
 
-                                            <h6 class="p-2 text-md"> 
-                                                Candidat n° {{$candidat->id}}    
-                                            </h6>
-
-                                        </td>
-                                        <td>
-                                            <h6 class="p-2 text-md">{{ $candidat->nom }}</h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="p-2 text-md">{{ $candidat->prenom }}</h6>
-                                        </td>
-                                        <td>
+                                        <a href="{{ route('toggleConsultation', ['candidatId' => $candidat->id, 'status' => "yes"]) }}" data-status="yes" data-candidat-id="{{ $candidat->id }}">
+                                            <i class="material-icons text-success text-bolder icon-large toggle-consultation" style="font-size: 2rem;">check</i>
+                                        </a>
                                         
-                                            <a href="{{$info_consultation->id}}/{{$candidat->id}}">
-                                            
-                                                <button class="btn bg-gradient-primary">
-                                                    Voir fiche de consultation
-                                                </button>
-                                            </a>
+                                        <a href="{{ route('toggleConsultation', ['candidatId' => $candidat->id, 'status' => "no"]) }}" data-status="no" data-candidat-id="{{ $candidat->id }}">
+                                            <i class="material-icons text-danger icon-large text-bolder toggle-consultation"  style="font-size: 2rem">close</i>
+                                        </a>
 
-                                           
-                                            
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                      </div>
+                                    
+                                    </td>
+                                </tr>
+                            @endforeach
+              
                             </tbody>
                         </table>
                         </div>
@@ -128,7 +146,43 @@
 
 
     </main>
-
+  
+    <script>
+        $(document).ready(function () {
+            $('.toggle-consultation').click(function (e) {
+                e.preventDefault();
+    
+                var status = $(this).data('status');
+                var candidatId = $(this).data('candidat-id');
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    
+                $.ajax({
+                    url: '/toggle-consultation/' + candidatId,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    data: { status: status },
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Statut de consultation mis à jour avec succès.');
+    
+                            // Vous pouvez ajouter d'autres actions ici si nécessaire
+                        } else {
+                            alert('Erreur : ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert('Erreur lors de la mise à jour du statut de consultation. Veuillez réessayer.');
+                    }
+                });
+            });
+        });
+    </script>
+    
+    
+    
 </body>
 
 @include('partials.plugin')

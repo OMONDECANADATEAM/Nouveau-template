@@ -97,12 +97,9 @@
                                     <tr data-candidat-id="{{ $consultation->id }}"
                                         class="{{ Carbon::parse($consultation->date_heure)->isPast() ? 'table-danger' : '' }}">
                                         <td>
-
-                                            <h6 class="p-2 text-md"> <a href="{{ $consultation->lien_zoom }}"
-                                                    target="_blank">
+                                            <h6 class="p-2 text-md"> <a href="{{ $consultation->lien_zoom }}" target="_blank">
                                                     <i class="fas fa-video"></i>
                                                 </a></h6>
-
                                         </td>
                                         <td>
                                             <h6 class="p-2 text-md">{{ $consultation->label }}</h6>
@@ -113,22 +110,25 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <div class="list-group">
-                                                @forelse ($consultation->candidats as $candidat)
-                                                 
-
-                                                    <a href="Consultation/{{$consultation->id}}"
-                                                        class="list-group-item list-group-item-action text-center w-100">Voir candidats</a>
-                                                  
-                                                @empty
-                                                    <a href="#"
-                                                        class="list-group-item list-group-item-action text-center w-100">Aucun
-                                                        candidat</a>
-                                                @endforelse
-                                            </div>
+                                            @if ($consultation->candidats->isNotEmpty())
+                                                <a href="Consultation/{{$consultation->id}}">
+                                                    <button class="btn bg-gradient-dark">
+                                                        Voir les candidat(s)
+                                                    </button>
+                                                </a>
+                                            @else
+                                                <a href="#">
+                                                
+                                                <button class="btn bg-gradient-dark">
+                                                    Voir les candidat(s)
+                                                </button>
+                                                
+                                            </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
+
                             </tbody>
                         </table>
                         </div>
