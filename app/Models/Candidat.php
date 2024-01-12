@@ -35,9 +35,10 @@ class Candidat extends Model
     {
         return $this->hasOne(InfoConsultation::class, 'id_candidat'); // Correction ici
     }
-    public function procedure()
+  
+     public function proceduresDemandees()
     {
-        return $this->belongsTo(Procedure::class);
+        return $this->hasMany(Procedure::class, 'id_candidat');
     }
     
 }

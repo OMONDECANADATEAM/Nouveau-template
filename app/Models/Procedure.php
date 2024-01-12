@@ -13,11 +13,15 @@ class Procedure extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id', 'id_candidat', 'id_procedure' ];
+        'id', 'id_candidat', 'id_type_procedure' ];
 
-
-    public function candidats()
+    public function candidat()
     {
-        return $this->hasMany(Candidat::class);
+        return $this->belongsTo(Candidat::class, 'id_candidat');
+    }
+
+    public function typeProcedure()
+    {
+        return $this->belongsTo(TypeProcedure::class, 'id_type_procedure');
     }
 }

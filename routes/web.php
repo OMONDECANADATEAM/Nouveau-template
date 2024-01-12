@@ -79,6 +79,7 @@ Route::get('/ficheConsultation/{id_candidat}', [HomeController::class , 'getCand
 
 // routes/web.php
 Route::post('/ajouterCandidatAConsultation', [Controller::class, 'ajouterCandidatAConsultation']);
+Route::post('/ajouterTypeDeVisa', [Controller::class, 'ajouterTypeDeVisa']);
 
 
 Route::get('/creer-utilisateur', [UtilisateurController::class, 'formulaireCreation'])->name('creer-utilisateur.formulaire');

@@ -12,8 +12,8 @@
         </div>
     </div>
 
-    <div class="card-body px-0 pb-2">
-        <div class="table-responsive p-0">
+    <div class="card-body px-0 pb-2"  style="min-height: 400px;">
+        <div class="table-responsive p-0 style="  style="min-height: 400px;">
             <table class="table align-items-center justify-content-center mb-0" id="candidatsTable">
                 <thead>
                     <tr>
@@ -21,13 +21,14 @@
                             NOM
                         </th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            NUMERO</th>
-                       
-                        <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            TYPE PAIEMENT </th>
-                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            AGENT</th>
+                            NUMERO
+                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                            TYPE PAIEMENT
+                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                            AGENT
+                        </th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                             FICHE DE CONSULTATION
                         </th>
@@ -36,15 +37,12 @@
                 <tbody>
                     @foreach (App\Models\Candidat::all() as $candidat)
                         <tr data-candidat-id="{{ $candidat->id }}">
-                            <td>
-
+                            <td class="align-middle">
                                 <h6 class="p-2 text-md">{{ $candidat->nom }} {{ $candidat->prenom }}</h6>
-
                             </td>
-                            <td>
+                            <td class="align-middle">
                                 <p class="text-md font-weight-bold mb-0">{{ $candidat->numero_telephone }}</p>
                             </td>
-                           
                             <td class="align-middle text-center">
                                 @php
                                     $derniereDatePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)->max('date');
@@ -53,20 +51,19 @@
                                         ->value('id_type_paiement');
                                     $libelleTypePaiement = \App\Models\TypePaiement::where('id', $idTypePaiement)->value('label');
                                 @endphp
-                                <span class="text-md font-weight-bold"> {{ $libelleTypePaiement }}</span>
+                                <span class="text-md font-weight-bold">{{ $libelleTypePaiement }}</span>
                             </td>
-                            
-                            <td class="align-middle text-align-right">
+                            <td class="align-middle text-right">
                                 <span class="text-md font-weight-bold">{{ $candidat->utilisateur->name }}
                                     {{ $candidat->utilisateur->last_name }}</span>
                             </td>
-                            <td>
+                            <td class="align-middle text-center">
                                 <span class="text-md font-weight-bold">
-                                    <a onclick="redirectToConsultation({{$candidat->id_info_consultation}}, {{$candidat->id}})">
+                                    <a onclick="redirectToConsultation({{ $candidat->id_info_consultation }}, {{ $candidat->id }})">
                                         <button class="btn btn-primary">
                                             Fiche de consultation
                                         </button>
-                                    </a>      
+                                    </a>
                                 </span>
                             </td>
                             <td class="align-middle text-center">
@@ -76,31 +73,30 @@
                                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="material-icons">add</i>
                                         </button>
-                                        
-                                        <div class="dropdown-menu" id="dropdownMenu"
-                                            data-candidat-id="{{ $candidat->id }}">
+                                        <div class="dropdown-menu" id="dropdownMenu" data-candidat-id="{{ $candidat->id }}">
                                             @php
                                                 $prochainesConsultations = App\Models\InfoConsultation::whereDate('date_heure', '>', now())
                                                     ->take(3)
                                                     ->get();
-
+    
                                                 foreach ($prochainesConsultations as $consultation) {
                                                     $dateHeure = \Carbon\Carbon::parse($consultation['date_heure']);
-                                                    $formattedDateHeure = $dateHeure->format('d M Y H:i'); // Format à ajuster selon vos besoins
+                                                    $formattedDateHeure = $dateHeure->format('d M Y H:i');
                                                     echo '<a class="dropdown-item consultation-link" href="#" data-consultation-id="' . $consultation->id . '">' . $consultation['label'] . ' - ' . $formattedDateHeure . '</a>';
-                                                            }
+                                                }
                                             @endphp
                                         </div>
                                     </div>
                                 @endif
                             </td>
+                            @include('partials.addTypeDeVisa')
                         </tr>
                     @endforeach
                 </tbody>
-
             </table>
         </div>
     </div>
+    
 </div>
 
 
@@ -313,4 +309,80 @@
         alert("Une erreur est survenue")
     }
 }
+</script>
+
+{{-- SCRIPT POUR AJOUR VISA --}}
+<script>
+   $(document).ready(function() {
+    $('body').on('click', '.typeDeVisaLink', function(event) {
+            event.preventDefault(); // Empêcher le comportement par défaut du lien
+
+            // Récupérer l'ID du type de visa depuis l'attribut de données
+            var visaId = $(this).data('visa-id');
+
+            // Récupérer l'ID du candidat depuis l'attribut de données
+            var candidatId = $(this).closest('tr').data('candidat-id');
+
+            // Récupérer le jeton CSRF depuis la balise meta
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Fermer toutes les alertes précédentes
+            $('.alert').alert('close');
+
+            // Faire une requête AJAX pour ajouter le type de visa au candidat
+            $.ajax({
+                url: '/ajouterTypeDeVisa',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                data: {
+                visaId: visaId,
+                candidatId: candidatId, // Envoyer l'ID du candidat
+                },
+                success: function(response) {
+                    // Gérer la réponse du serveur
+                    if (response.success) {
+                        // Le type de visa a été ajouté avec succès au candidat
+                        alert('Type de visa ajouté avec succès au candidat');
+                    } else {
+                        // Il y a eu une erreur lors de l'ajout du type de visa au candidat
+                        if (response.message.includes('déjà inscrit')) {
+                            // Gérer le cas où le candidat est déjà inscrit à un type de visa
+                            if (confirm('Le candidat est déjà inscrit à un type de visa. Voulez-vous changer de type de visa ?')) {
+                                // L'utilisateur a choisi de changer de type de visa
+                                // Vous pouvez ajouter ici la logique pour gérer le changement de type de visa
+                                console.log('Changer de type de visa...');
+                            } else {
+                                // L'utilisateur a annulé le changement de type de visa
+                                console.log('Annuler le changement de type de visa...');
+                            }
+                        } else {
+                            // Gérer d'autres erreurs
+                            alert('Erreur : ' + response.message);
+                        }
+                    }
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Il y a eu une erreur lors de la requête AJAX
+                    alert('Erreur lors de la requête AJAX : ' + error);
+                }
+            });
+        });
+    });
+
+    function afficherAlerte(message) {
+        // Créer une div pour l'alerte
+        var alertDiv = $('<div class="alert alert-success alert-dismissible fade show" role="alert">' + message +
+            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+
+        // Ajouter l'alerte à un conteneur (par exemple, le corps du document)
+        $('body').append(alertDiv);
+
+        // Fermer l'alerte après 3 secondes
+        setTimeout(function() {
+            alertDiv.alert('close');
+        }, 3000);
+    }
 </script>

@@ -156,30 +156,56 @@
                 var candidatId = $(this).data('candidat-id');
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
     
-                $.ajax({
-                    url: '/toggle-consultation/' + candidatId,
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    data: { status: status },
-                    success: function (response) {
-                        if (response.success) {
-                            alert('Statut de consultation mis à jour avec succès.');
+                // Utilisation de l'opérateur ternaire pour déterminer l'action à effectuer
+                var action = (status === 'enable') ? 'activer' : 'désactiver';
     
-                            // Vous pouvez ajouter d'autres actions ici si nécessaire
-                        } else {
-                            alert('Erreur : ' + response.message);
+                // Confirmation avec l'utilisateur
+                if (confirm('Voulez-vous vraiment ' + action + ' la consultation pour ce candidat ?')) {
+                    $.ajax({
+                        url: '/toggle-consultation/' + candidatId,
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        data: { status: status },
+                        success: function (response) {
+                            // Gérer la réponse du serveur
+                            if (response.success) {
+                                // La consultation a été activée ou désactivée avec succès pour le candidat
+                                afficherAlerte('Consultation ' + action + 'e avec succès pour ce candidat');
+                            } else {
+                                // Il y a eu une erreur lors du basculement de la consultation pour le candidat
+                                afficherAlerte('Erreur : ' + response.message);
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            // Il y a eu une erreur lors de la requête AJAX
+                            afficherAlerte('Erreur lors de la requête AJAX : ' + error);
                         }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(xhr.responseText);
-                        alert('Erreur lors de la mise à jour du statut de consultation. Veuillez réessayer.');
-                    }
-                });
+                    });
+                } else {
+                    // L'utilisateur a annulé l'action
+                    console.log('Action annulée par l\'utilisateur');
+                }
             });
         });
+    
+        function afficherAlerte(message) {
+            // Créer une div pour l'alerte
+            var alertDiv = $('<div class="alert alert-success alert-dismissible fade show" role="alert">' + message +
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+    
+            // Ajouter l'alerte à un conteneur (par exemple, le corps du document)
+            $('body').append(alertDiv);
+    
+            // Fermer l'alerte après 3 secondes
+            setTimeout(function () {
+                alertDiv.alert('close');
+            }, 3000);
+        }
     </script>
+    
     
     
     

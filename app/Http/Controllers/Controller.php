@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DataTables;
 use App\Models\Candidat;
 use App\Models\Entree;
+use App\Models\Procedure;
 use App\Models\InfoConsultation;
 use App\Models\FicheConsultation;
 use Carbon\Carbon;
@@ -306,6 +307,40 @@ class Controller extends BaseController
             return response()->json(['success' => false, 'message' => 'Erreur lors de l\'ajout du candidat à la nouvelle consultation ' . $e->getMessage()]);
         }
     }
+    public function ajouterTypeDeVisa(Request $request)
+    {
+        try {
+            // Récupérer les données de la requête AJAX
+            $visaId = $request->input('visaId');
+            $candidatId = $request->input('candidatId');
+    
+            // Vérifier si le candidat est déjà inscrit à un type de visa
+            if (Procedure::where('id_candidat', $candidatId)->exists()) {
+                // Le candidat est déjà inscrit à un type de visa
+                // Vous pourriez renvoyer ici une liste des types de visa disponibles ou d'autres informations
+                return response()->json(['success' => false, 'message' => 'Le candidat est déjà inscrit à un type de visa.']);
+            }
+    
+            // Vérifier si $visaId est non nul
+            if ($visaId === null) {
+                return response()->json(['success' => false, 'message' => 'L\'ID du type de visa est manquant.']);
+            }
+    
+            Procedure::create([
+                'id_candidat' => $candidatId,
+                'id_type_procedure' => $visaId,
+            ]);
+    
+            return response()->json(['success' => true, 'message' => 'Candidat ajouté avec succès au nouveau type de visa']);
+        } catch (\Exception $e) {
+            // Log l'erreur pour un débogage ultérieur
+            \Log::error('Erreur lors de l\'ajout du candidat au nouveau type de visa: ' . $e->getMessage());
+    
+            return response()->json(['success' => false, 'message' => 'Erreur lors de l\'ajout du candidat au nouveau type de visa ' . $e->getMessage()]);
+        }
+    }
+    
+    
     
 
 }

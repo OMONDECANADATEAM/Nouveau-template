@@ -42,11 +42,17 @@
                         <td class="align-middle text-center">
                 
                             <span class="text-md font-weight-bold">
-                                {{ date(
-                                    'd-m-Y',
-                                    strtotime($derniereDatePaiement = \App\Models\Entree::where('id_candidat', $candidat->id)->max('date')),
-                                ) }}</span>
-                        </td>
+                                @if($candidat->proceduresDemandees->isNotEmpty())
+                                    @foreach($candidat->proceduresDemandees as $procedure)
+                                        {{ $procedure->typeProcedure->label }}
+                                        {{-- Vous pouvez ajouter une virgule ou un autre séparateur ici s'il y a plusieurs procédures --}}
+                                    @endforeach
+                                @else
+                                    Sans objet
+                                @endif
+                            </span>
+                            
+                                    </td>
                         
                         <td class="align-middle text-center">
 
