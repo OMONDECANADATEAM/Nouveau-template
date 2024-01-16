@@ -44,9 +44,9 @@
                             <span class="text-md font-weight-bold">
                                 @if($candidat->proceduresDemandees->isNotEmpty())
                                     @foreach($candidat->proceduresDemandees as $procedure)
-                                        {{ $procedure->typeProcedure->label }}
-                                        {{-- Vous pouvez ajouter une virgule ou un autre séparateur ici s'il y a plusieurs procédures --}}
-                                    @endforeach
+                                        {{ $procedure->typeProcedure->label}}
+                                    
+                                        @endforeach
                                 @else
                                     Sans objet
                                 @endif

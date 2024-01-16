@@ -32,6 +32,12 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                             FICHE DE CONSULTATION
                         </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                            AJOUTER À UNE CONSULTATION
+                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                            TYPE DE VISA
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
