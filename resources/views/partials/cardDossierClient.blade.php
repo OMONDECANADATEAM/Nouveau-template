@@ -7,29 +7,61 @@
         <div class="col-xl-4 col-sm-6 mb-xl-0 mt-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
-                    <div class="icon icon-md icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">description</i>
                     </div>
                     <div class="text-end">
-                        <p class="text-xl mb-0 text-capitalize">{{ $candidat->nom }} {{ $candidat->prenom }}</p>
-                        <h3 class="mb-0 pt-2">Ici des icônes qui représentent les dossiers du candidat</h3>
+                        <p class="text-xl text-bold mb-0 text-capitalize">{{ $candidat->nom }} {{ $candidat->prenom }}</p>
+                        <h3 class="mb-0 pt-2"></h3>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
-                    <p class="mb-0">
-                        Ici on doit avoir une barre pour l'évolution
-                    </p>
-                    {{-- <a href="{{ route('ajouterDossier', ['candidatId' => $candidat->id]) }}" class="btn btn-primary">Ajouter un dossier</a> --}}
+                    
+
+                    {{-- Afficher les icônes des fichiers dans le dossier du client --}}
+                    @php
+                    $dossierPath = storage_path('app/public/dossierClient/' . substr($candidat->nom, 0, 2) . substr($candidat->prenom, 0, 1) . $candidat->id);
+                    $files = glob($dossierPath . '/*');
+                @endphp
+                
+                @if (!empty($files))
+                    <ul>
+                        @foreach ($files as $file)
+                            <li>
+                                <i class="material-icons mr-1">insert_drive_file</i>
+                                <a href="{{ asset('storage/' . str_replace(storage_path('app/public'), '', $file)) }}" target="_blank">
+                                    {{ basename($file) }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p>Aucun fichier trouvé.</p>
+                @endif
+                
+
+                    {{-- Bouton pour ajouter un nouveau fichier --}}
+                    <div class="text-left  d-flex align-items-center justify-content-around">
+                        <p class="mb-0">
+                            Ici on doit avoir une barre pour l'évolution
+                        </p>
+                        
+                        {{-- href="{{ route('ajouterDossier', ['candidatId' => $candidat->id]) }}" --}}
+                        <a  class="btn btn-success btn-sm">
+                            <i class="material-icons opacity-10" style="font-size: 24px;">
+                                add
+                            </i>
+                        </a>
+                    </div>
+                    
                 </div>
             </div>
         </div>
 
         {{-- Ajoutez une nouvelle ligne après chaque quatrième carte --}}
-        @if($loop->iteration % 4 == 0)
+        @if($loop->iteration % 3 == 0)
             </div><div class="row">
         @endif
     @endforeach
 </div>
-
-
