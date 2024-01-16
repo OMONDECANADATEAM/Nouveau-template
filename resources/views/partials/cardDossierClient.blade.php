@@ -2,6 +2,15 @@
     $candidatsVersementEffectue = App\Models\Candidat::where('versement_effectuee', true)->get();
 @endphp
 
+<style>
+    .card.show {
+    display: block;
+}
+
+.card.hidden {
+    display: none;
+}
+</style>
 <div class="row">
     @foreach($candidatsVersementEffectue as $candidat)
         <div class="col-xl-4 col-sm-6 mb-xl-0 mt-4">
@@ -65,3 +74,45 @@
         @endif
     @endforeach
 </div>
+
+
+<!-- Ajoutez ce script à l'endroit où vous chargez vos scripts JavaScript, avant la balise de fermeture du corps </body> -->
+<script>
+    // Fonction pour filtrer les cartes en fonction du texte de recherche
+    function filterCards() {
+    // Récupérer la valeur saisie dans l'input de recherche
+    var searchText = document.getElementById('searchInput').value.toLowerCase();
+
+    // Récupérer toutes les cartes
+    var cards = document.querySelectorAll('.card');
+
+    // Réinitialiser la classe pour toutes les cartes
+    cards.forEach(function(card) {
+        card.classList.remove('show');
+        card.classList.add('hidden');
+    });
+
+    // Compter le nombre de cartes affichées
+    var displayedCards = 0;
+
+    // Parcourir toutes les cartes
+    cards.forEach(function(card) {
+        // Récupérer le nom du candidat dans la carte
+        var candidateName = card.querySelector('.text-xl').innerText.toLowerCase();
+
+        // Afficher ou masquer la carte en fonction de la correspondance avec le texte de recherche
+        if (candidateName.includes(searchText) && displayedCards < 3) {
+            card.classList.remove('hidden');
+            card.classList.add('show');
+            displayedCards++;
+        }
+    });
+}
+
+// Ajouter un gestionnaire d'événement pour déclencher la fonction de filtrage lors de la saisie dans l'input de recherche
+document.getElementById('searchInput').addEventListener('input', filterCards);
+
+
+    // Ajouter un gestionnaire d'événement pour déclencher la fonction de filtrage lors de la saisie dans l'input de recherche
+    document.getElementById('searchInput').addEventListener('input', filterCards);
+</script>
