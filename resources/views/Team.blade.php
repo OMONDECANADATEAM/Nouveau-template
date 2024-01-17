@@ -19,9 +19,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    
-  <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
-   <title>
+
+    <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
+    <title>
         Omonde Canada - CRM
     </title>
     <!--     Fonts and icons     -->
@@ -54,210 +54,70 @@
     @include('partials.navbar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        @include('partials.header', ['page' => 'BANQUE'])
+        @include('partials.header', ['page' => "L'ÉQUIPE"])
         <!-- End Navbar -->
         <div class="container-fluid py-4">
 
             <div class="row">
                 <div class="col-lg-12">
-
-
                     @php
-                        use Carbon\Carbon;
-                        use Illuminate\Support\Facades\Auth;
-
-                        $moisActuel = Carbon::now()->format('m');
-
-                        $utilisateurConnecte = Auth::user();
-
-                        $totalCaisseMoisActuel = \App\Models\Entree::whereMonth('date', $moisActuel)
-                            ->whereHas('utilisateur', function ($query) use ($utilisateurConnecte) {
-                                $query->where('id_succursale', $utilisateurConnecte->id_succursale);
-                            })
-                            ->sum('montant');
-
-                        $totalDepenseMoisActuel = \App\Models\Depense::whereMonth('date', $moisActuel)
-                            ->whereHas('utilisateur', function ($query) use ($utilisateurConnecte) {
-                                $query->where('id_succursale', $utilisateurConnecte->id_succursale);
-                            })
-                            ->sum('montant');
+                        $users = \App\Models\User::all();
                     @endphp
-                    @php
-
-                        $moisActuel = Carbon::now()->format('m');
-
-                        $totalDepenseMoisActuel = \App\Models\Depense::whereMonth('date', $moisActuel)->sum('montant');
-
-                        // Date de début et de fin de la période
-                        $dateDebut = Carbon::now();
-                        $dateFin = Carbon::now();
-
-                        // Date de début et de fin de semaine
-                        $dateDebutSemaine = $dateDebut->startOfWeek();
-                        $dateFinSemaine = $dateFin->endOfWeek();
-
-                    @endphp
-
-                    <div class="row">
-                        <div class="col-xl-6 mb-4">
-                            <div class="card">
-                                <div class="card-header mx-4 p-3 text-center">
-                                    <div
-                                        class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
-                                        <i class="material-icons opacity-10">account_balance</i>
-                                    </div>
-                                </div>
-                                <div class="card-body pt-0 p-3 text-center">
-                                    <h5 class="text-center mb-0">Paiements</h5>
-                                    <span class="text-xs">{{ Carbon::now()->format('F') }}</span>
-                                    <hr class="horizontal dark my-3">
-                                    <h4 class="mb-5 text-center text-success">
-                                        {{ number_format($totalCaisseMoisActuel, 0, '.', ' ') }} FCFA</h4>
-                                </div>
-                                <div class="col-12 d-flex justify-content-center align-item-center w-100">
-                                    <button class="btn btn-success" data-bs-toggle="modal"
-                                        data-bs-target="#ajouterEntreeModal">
-                                        <i class="material-icons">add</i> Ajouter une entrée
-                                    </button>
-                                </div>
-                                @include('partials.addEntree')
+            
+                    <div class="card my-4">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                <h4 class="text-white text-capitalize ps-3">Dossier Client</h4>
                             </div>
                         </div>
-
-                        <div class="col-xl-6">
-                            <div class="card">
-                                <div class="card-header mx-4 p-3 text-center">
-                                    <div
-                                        class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
-                                        <i class="material-icons opacity-10">wallet</i>
-                                    </div>
-                                </div>
-                                <div class="card-body pt-0 p-3 text-center">
-                                    <h5 class="text-center mb-0">Dépenses</h5>
-                                    <span class="text-xs">{{ Carbon::now()->format('F') }}</span>
-                                    <hr class="horizontal dark my-3">
-                                    <h4 class="mb-5 text-center text-danger">
-                                        {{ number_format($totalDepenseMoisActuel, 0, '.', ' ') }} FCFA</h4>
-                                </div>
-
-                                <div class="col-12 d-flex justify-content-center align-item-center w-100">
-                                    <button class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#ajouterDepenseModal">
-                                        <i class="material-icons">add</i> Ajouter une dépense
-                                    </button>
-                                </div>
-                                @include('partials.addDepenses')
+                        <div class="card-body px-0 pb-2">
+                            <div class="table-responsive p-0" style="max-height: 750px; overflow-y: auto;">
+                                <table class="table align-items-center justify-content-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                NOM
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                                POSTE
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                                SUCCURSALE
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                                DOCUMENT
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($users as $user)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex px-2">
+                                                        <h6 class="p-2 text-xl">{{ $user->name }} {{ $user->last_name }}</h6>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle text-left">
+                                                    <h6 class="p-2 text-xl">{{ $user->posteOccupe->label }} </h6>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <h6 class="p-2 text-xl">{{ $user->succursale->label }} </h6>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <button class="btn bg-gradient-success">
+                                                        <i class="material-icons">add</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-            <div class="row">
-
-                <div class="col-md-12 mt-6">
-                    <div class="card h-100 mb-4">
-                        <div class="card-header pb-0 px-3">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6 class="mb-0">TRANSACTIONS</h6>
-                                </div>
-                                <div
-                                    class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
-                                    <i class="material-icons me-2 text-lg">date_range</i>
-                                    <small>{{ $dateDebutSemaine->format('d F') }} -
-                                        {{ $dateFinSemaine->format('d F') }}</small>
-
-                                </div>
-                            </div>
-                        </div>
-                        @php
-                            $startOfWeek = now()->startOfWeek();
-                            $endOfWeek = now()->endOfWeek();
-
-                            $depenses = \App\Models\Depense::whereBetween('date', [$startOfWeek, $endOfWeek])->get();
-                            $entrees = \App\Models\Entree::whereBetween('date', [$startOfWeek, $endOfWeek])->get();
-
-                            // Organiser les dépenses par jour
-                            $depensesParJour = [];
-                            foreach ($depenses as $depense) {
-                                $jour = Carbon::parse($depense->date)->format('l');
-                                // 'l' donne le nom du jour de la semaine
-                                $depensesParJour[$jour][] = $depense;
-                            }
-
-                            // Organiser les entrées par jour
-                            $entreesParJour = [];
-                            foreach ($entrees as $entree) {
-                                $jour = Carbon::parse($entree->date)->format('l');
-                                $entreesParJour[$jour][] = $entree;
-                            }
-                        @endphp
-                        <div class="card-body pt-4 p-3">
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Cette semaine</h6>
-
-                            @foreach (array_reverse(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']) as $jour)
-                                @if (isset($depensesParJour[$jour]) || isset($entreesParJour[$jour]))
-                                    <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">
-                                        {{ $jour }}</h6>
-                                    <ul class="list-group">
-                                        @foreach ($depensesParJour[$jour] ?? [] as $depense)
-                                            <li
-                                                class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                                <div class="d-flex align-items-center">
-                                                    <button
-                                                        class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                                                        <i class="material-icons text-lg">expand_more</i>
-                                                    </button>
-                                                    <div class="d-flex flex-column">
-                                                        <h6 class="mb-1 text-dark text-sm">{{ $depense->raison }}</h6>
-                                                        <span class="text-xs">{{ $depense->date }}</span>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                    {{ number_format(abs($depense->montant), 0, ',', ' ') }}
-                                                    FCFA
-                                                </div>
-                                            </li>
-                                        @endforeach
-
-                                        @foreach ($entreesParJour[$jour] ?? [] as $entree)
-                                            <li
-                                                class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                                <div class="d-flex align-items-center">
-                                                    <button
-                                                        class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                                                        <i class="material-icons text-lg">expand_less</i>
-                                                    </button>
-                                                    <div class="d-flex flex-column">
-                                                        <h6 class="mb-1 text-dark text-sm">
-                                                            @php
-                                                                $label = \App\Models\TypePaiement::where('id', $entree->id_type_paiement)->value('label');
-                                                            @endphp
-                                                            {{ $label }}
-                                                        </h6>
-                                                        <span class="text-xs">{{ $entree->date }}</span>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                                    {{ number_format($entree->montant, 0, ',', ' ') }}
-                                                    FCFA
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            @endforeach
-                        </div>
-
-
-
-                    </div>
-                </div>
-            </div>
+            
             @include('partials.footer')
         </div>
 

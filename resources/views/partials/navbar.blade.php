@@ -5,7 +5,7 @@
             <img src="{{ asset('assets/img/logos/logo-omonde.png') }}" class="navbar-brand-img h-200 mx-auto d-block" alt="main_logo">
         </a>
     </div>
-
+    
     <hr class="horizontal light mt-0 mb-2">
     <div class="w-auto max-height-vh-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
@@ -18,19 +18,19 @@
                     'dashBoardConsultante' => 'Consultante',
                     'Consultation' => 'Consultations',
                     'adminDashboard' => "Vue d'ensemble",
-                    'dossier' => 'Document'
+                    'dossier' => 'Document',
+                    'equipeView' => "L'equipe",
                 ];
-
                 $currentRoute = \Request::route()->getName();
                 $currentUserRole = auth()->user()->getRole();
             @endphp
-
+    
             @foreach ($pages as $page => $pageTitle)
                 @if (
                     ($currentUserRole == 0 && $page == 'dashBoardConsultante') ||
                     ($currentUserRole == 1 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'dossier'])) ||
                     ($currentUserRole == 2 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque', 'dossier'])) ||
-                    ($currentUserRole == 3 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque' , 'Consultation' , 'adminDashboard', 'dossier' ,]))
+                    ($currentUserRole == 3 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque' , 'Consultation' , 'adminDashboard', 'dossier' , 'equipeView']))
                 )
                     <li class="nav-item">
                         <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}" href="{{ url($page) }}">
@@ -60,6 +60,9 @@
                                             @break
                                         @case('dossier')
                                             folder
+                                            @break
+                                        @case('equipeView')
+                                            groups
                                             @break
                                         @default
                                             {{ $page }}

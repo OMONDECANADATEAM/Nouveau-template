@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\EquipeController;
 use App\Http\Controllers\DossierController;
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\EntreeController;
@@ -39,7 +39,7 @@ Route::get('Consultation', [HomeController::class, 'listeConsultantes'])->name('
 Route::get('DossierClients', [HomeController::class, 'allClient'])->name('DossierClients');
 Route::get('DossierContacts', [HomeController::class, 'allCandidat'])->name('DossierContacts');
 Route::get('dashBoardConsultante', [HomeController::class, 'dashBoardConsultante'])->name('dashBoardConsultante');
-Route::get('lequipe', [EquipeController::class, 'equipeView'])->name('equipeView');
+Route::get('equipeView', [HomeController::class, 'equipeView'])->name('equipeView');
 
 
 // Routes d'authentification

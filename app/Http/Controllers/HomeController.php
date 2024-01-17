@@ -77,6 +77,10 @@ class HomeController extends Controller
     {
         return view('dossier');
     }
+    public function equipeView()
+    {
+        return view('Team');
+    }
 
     public function allCandidat()
     {
