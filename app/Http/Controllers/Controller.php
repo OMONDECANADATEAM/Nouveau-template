@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use DataTables;
 use App\Models\Candidat;
 use App\Models\Entree;
 use App\Models\Procedure;
@@ -335,8 +334,7 @@ class Controller extends BaseController
             }
         } catch (\Exception $e) {
             // Log l'erreur pour un débogage ultérieur
-            \Log::error('Erreur lors de l\'ajout du candidat à la nouvelle consultation: ' . $e->getMessage());
-    
+           
             return response()->json(['success' => false, 'message' => 'Erreur lors de l\'ajout du candidat à la nouvelle consultation ' . $e->getMessage()]);
         }
     }
@@ -367,8 +365,7 @@ class Controller extends BaseController
             return response()->json(['success' => true, 'message' => 'Candidat ajouté avec succès au nouveau type de visa']);
         } catch (\Exception $e) {
             // Log l'erreur pour un débogage ultérieur
-            \Log::error('Erreur lors de l\'ajout du candidat au nouveau type de visa: ' . $e->getMessage());
-    
+            
             return response()->json(['success' => false, 'message' => 'Erreur lors de l\'ajout du candidat au nouveau type de visa ' . $e->getMessage()]);
         }
     }  

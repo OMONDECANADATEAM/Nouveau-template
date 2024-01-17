@@ -1,7 +1,7 @@
 <?php
 
 
-
+use App\Http\Controllers\DossierController;
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\EntreeController;
 use App\Http\Controllers\UtilisateurController;
@@ -39,6 +39,8 @@ Route::get('Consultation', [HomeController::class, 'listeConsultantes'])->name('
 Route::get('DossierClients', [HomeController::class, 'allClient'])->name('DossierClients');
 Route::get('DossierContacts', [HomeController::class, 'allCandidat'])->name('DossierContacts');
 Route::get('dashBoardConsultante', [HomeController::class, 'dashBoardConsultante'])->name('dashBoardConsultante');
+Route::get('lequipe', [EquipeController::class, 'equipeView'])->name('equipeView');
+
 
 // Routes d'authentification
 
@@ -90,6 +92,8 @@ Route::get('/dossier', [HomeController::class, 'dossier'])->name('dossier');
 
 
 Route::post('/save-remarques', [HomeController::class, 'saveRemarques']);
+
+Route::post('/ajouter-fichiers/{candidatId}', [DossierController::class, 'ajouterFichiers'])->name('ajoutFichiers');
 
 
 Route::get('/toggle-consultation/{candidatId}', [consultationController::class, 'toggleConsultation'])->name('toggleConsultation');
