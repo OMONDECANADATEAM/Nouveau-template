@@ -51,7 +51,9 @@
                     <div class="card-header p-0 position-relative mt-n4 mx-3">
                         <div
                             class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
-                            <h6 class="text-white text-capitalize ps-3 mb-0">DOSSIER CONTACTS</h6>
+                            <div class="p-2 border-radius-lg w-40 bg-gradient-dark">
+                                <input type="text" id="searchInput" class="form-control text-white  text-lg bg-transparent border-0 p-1" placeholder="Rechercher...">
+                            </div>
                             <button class="btn bg-gradient-dark circle" data-bs-toggle="modal"
                                 data-bs-target="#addContactModal">
                                 <i class="material-icons">add</i> Ajouter un candidat
