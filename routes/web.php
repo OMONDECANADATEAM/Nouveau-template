@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function () {
-    return view('connexion');
+    return view('Connexion.connexionPage');
 });
 
 // web.php

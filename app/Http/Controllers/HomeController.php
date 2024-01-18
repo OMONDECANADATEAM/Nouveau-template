@@ -70,7 +70,7 @@ class HomeController extends Controller
 
     public function connexion()
     {
-        return view('connexion');
+        return view('Connexion.connexionPage');
     }
 
     public function dossier()
