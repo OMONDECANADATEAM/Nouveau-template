@@ -51,7 +51,7 @@
     navbar-scroll="true">
     <div class="container-fluid py-1 px-3 d-flex justify-content-between xl-12">
         <nav aria-label="breadcrumb">
-            <h2 class="font-weight-bolder mb-0">DOCUMENT CLIENTS </h2>
+            <h2 class="font-weight-bolder mb-0">DOCUMENT AGENT </h2>
         </nav>
         <div class="p-2 border-radius-lg w-40 bg-gradient-dark">
             <input type="text" id="searchInput" class="form-control text-white  text-lg bg-transparent border-0 p-1" placeholder="Rechercher...">
@@ -77,7 +77,7 @@
 
 <div class="container-fluid py-4">
     <div class="row">
-        @include('partials.cardDossierClient')
+        @include('partials.cardDossierAgent')
     </div>
     
 

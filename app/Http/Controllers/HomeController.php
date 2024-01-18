@@ -81,6 +81,10 @@ class HomeController extends Controller
     {
         return view('Team');
     }
+    public function documentAgent()
+    {
+        return view('documentAgent');
+    }
 
     public function allCandidat()
     {

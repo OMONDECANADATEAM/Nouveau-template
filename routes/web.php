@@ -40,6 +40,7 @@ Route::get('DossierClients', [HomeController::class, 'allClient'])->name('Dossie
 Route::get('DossierContacts', [HomeController::class, 'allCandidat'])->name('DossierContacts');
 Route::get('dashBoardConsultante', [HomeController::class, 'dashBoardConsultante'])->name('dashBoardConsultante');
 Route::get('equipeView', [HomeController::class, 'equipeView'])->name('equipeView');
+Route::get('documentAgent', [HomeController::class, 'documentAgent'])->name('documentAgent');
 
 
 // Routes d'authentification
@@ -94,6 +95,7 @@ Route::get('/dossier', [HomeController::class, 'dossier'])->name('dossier');
 Route::post('/save-remarques', [HomeController::class, 'saveRemarques']);
 
 Route::post('/ajouter-fichiers/{candidatId}', [DossierController::class, 'ajouterFichiers'])->name('ajoutFichiers');
+Route::post('/ajouter-fichiers/{userId}', [DossierController::class, 'ajouterFichiersAgent'])->name('ajoutFichiersAgent');
 
 
 Route::get('/toggle-consultation/{candidatId}', [consultationController::class, 'toggleConsultation'])->name('toggleConsultation');
