@@ -49,8 +49,8 @@ class EntreeController extends Controller
                     $candidat->update(['versement_effectuee' => 1]);
                 }
             }
-            
-            $montant = $request->input('montant');
+             
+            $montant = number_format($request->input('montant'), 0, '.', ' ');
             $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
     
             // Utilisez la fonction pour récupérer les utilisateurs par rôle

@@ -34,11 +34,7 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="../../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
     <!-- Inclure le script SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-<!-- Inclure les stylesheets SweetAlert2 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-
+  
     <!-- Ajoutez ces liens CDN à la section head de votre fichier Blade -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -51,84 +47,97 @@
         <!-- Navbar -->
         @include('partials.header', ['page' => 'Consultante'])
         <!-- End Navbar -->
-        
+
         <div class="row">
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg w-auto">
-                            <h4 class="text-white text-capitalize p-2">Consultation du {{date(
-                                    'l j F Y',
-                                    strtotime($info_consultation->date_heure))}}</h4>
+                            <h4 class="text-white text-capitalize p-2">Consultation du
+                                {{ date('l j F Y', strtotime($info_consultation->date_heure)) }}
+                            </h4>
                         </div>
-                        
-                        <div class="table-responsive p-0" style="max-height: 400px; overflow-y: auto;">                          
-                        <table class="table align-items-center justify-content-center mb-0" id="candidatsTable">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                                        style="width: 15%;">
-                                        N°
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
-                                        style="width: 30%;">
-                                        NOM
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
-                                        style="width: 30%;">
-                                        PRENOMS
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
-                                        style="width: 60%;">
-                                        VOIR FICHE DE CONSULTATION
-                                    </th>
 
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
-                                        style="width: 60%;">
-                                        CONSULTATION EFFECTUÉE
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($info_consultation->candidats as $candidat)
-                                <tr data-candidat-id="{{ $candidat->id }}">
-                                    <td>
-                                        <h6 class="p-2 text-md">
-                                            Candidat n° {{$candidat->id}}
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="p-2 text-md">{{ $candidat->nom }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="p-2 text-md">{{ $candidat->prenom }}</h6>
-                                    </td>
-                                    <td>
-                                        <a href="{{$info_consultation->id}}/{{$candidat->id}}">
-                                            <button class="btn bg-gradient-primary">
-                                                Voir fiche de consultation
-                                            </button>
-                                        </a>
-                                    </td>
-                                    <td>
-                                      <div class="d-flex align-items-center justify-content-around">
+                        <div class="table-responsive p-0" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table align-items-center justify-content-center mb-0" id="candidatsTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                                            style="width: 15%;">
+                                            N°
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                                            style="width: 30%;">
+                                            NOM
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                                            style="width: 30%;">
+                                            PRENOMS
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                                            style="width: 60%;">
+                                            VOIR FICHE DE CONSULTATION
+                                        </th>
 
-                                        <a href="{{ route('toggleConsultation', ['candidatId' => $candidat->id, 'status' => "yes"]) }}" data-status="yes" data-candidat-id="{{ $candidat->id }}">
-                                            <i class="material-icons text-success text-bolder icon-large toggle-consultation" style="font-size: 2rem;">check</i>
-                                        </a>
-                                        
-                                        <a href="{{ route('toggleConsultation', ['candidatId' => $candidat->id, 'status' => "no"]) }}" data-status="no" data-candidat-id="{{ $candidat->id }}">
-                                            <i class="material-icons text-danger icon-large text-bolder toggle-consultation"  style="font-size: 2rem">close</i>
-                                        </a>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                                            style="width: 60%;">
+                                            CONSULTATION EFFECTUÉE
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                                      </div>
-                                    
-                                    </td>
-                                </tr>
-                            @endforeach
-              
-                            </tbody>
-                        </table>
+                                    @foreach ($info_consultation->candidats as $candidat)
+
+                                    @php
+                                    $consultationStatusClass = $candidat->consultation_effectuee ? 'table-success' : '';
+                                      @endphp
+
+                                        <tr data-candidat-id="{{ $candidat->id }}">
+                                            <td>
+                                                <h6 class="p-2 text-md">
+                                                    Candidat n° {{ $candidat->id }}
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <h6 class="p-2 text-md">{{ $candidat->nom }}</h6>
+                                            </td>
+                                            <td>
+                                                <h6 class="p-2 text-md">{{ $candidat->prenom }}</h6>
+                                            </td>
+                                            <td>
+                                                <a href="{{ $info_consultation->id }}/{{ $candidat->id }}">
+                                                    <button class="btn bg-gradient-primary">
+                                                        Voir fiche de consultation
+                                                    </button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-around">
+                                                    @if (!$candidat->consultation_effectuee)
+                                                        <a href="{{ route('toggleConsultation', ['candidatId' => $candidat->id, 'status' => 'yes']) }}"
+                                                            data-status="yes" data-candidat-id="{{ $candidat->id }}">
+                                                            <i class="material-icons text-success text-bolder icon-large toggle-consultation"
+                                                                style="font-size: 2rem;">check</i>
+                                                        </a>
+                                
+                                                        <a href="{{ route('toggleConsultation', ['candidatId' => $candidat->id, 'status' => 'no']) }}"
+                                                            data-status="no" data-candidat-id="{{ $candidat->id }}">
+                                                            <i class="material-icons text-danger icon-large text-bolder toggle-consultation"
+                                                                style="font-size: 2rem">close</i>
+                                                        </a>
+                                                    @else
+                                                        <i class="material-icons text-success text-bolder icon-large"
+                                                            style="font-size: 2rem;">check</i>
+                                                    @endif
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -139,26 +148,26 @@
         <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="../../assets/js/material-dashboard.min.js?v=3.0.0"></script>
         <script src="./assets/js/core/popper.min.js"></script>
-<script src="../../assets/js/core/bootstrap.min.js"></script>
-<script src="../../assets/js/plugins/perfect-scrollbar.min.js"></script>
-<script src="../../assets/js/plugins/smooth-scrollbar.min.js"></script>
-<script src="../../assets/js/plugins/chartjs.min.js"></script>
+        <script src="../../assets/js/core/bootstrap.min.js"></script>
+        <script src="../../assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="../../assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <script src="../../assets/js/plugins/chartjs.min.js"></script>
 
 
     </main>
-  
+
     <script>
-        $(document).ready(function () {
-            $('.toggle-consultation').click(function (e) {
+        $(document).ready(function() {
+            $('.toggle-consultation').click(function(e) {
                 e.preventDefault();
-    
+
                 var status = $(this).data('status');
                 var candidatId = $(this).data('candidat-id');
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
-    
+
                 // Utilisation de l'opérateur ternaire pour déterminer l'action à effectuer
                 var action = (status === 'enable') ? 'activer' : 'désactiver';
-    
+
                 // Confirmation avec l'utilisateur
                 if (confirm('Voulez-vous vraiment ' + action + ' la consultation pour ce candidat ?')) {
                     $.ajax({
@@ -167,19 +176,22 @@
                         headers: {
                             'X-CSRF-TOKEN': csrfToken
                         },
-                        data: { status: status },
-                        success: function (response) {
+                        data: {
+                            status: status
+                        },
+                        success: function(response) {
                             // Gérer la réponse du serveur
                             if (response.success) {
                                 // La consultation a été activée ou désactivée avec succès pour le candidat
-                                afficherAlerte('Consultation ' + action + 'e avec succès pour ce candidat');
+                                afficherAlerte('Consultation ' + action +
+                                    'e avec succès pour ce candidat');
                             } else {
                                 // Il y a eu une erreur lors du basculement de la consultation pour le candidat
                                 afficherAlerte('Erreur : ' + response.message);
                             }
                             console.log(response);
                         },
-                        error: function (xhr, status, error) {
+                        error: function(xhr, status, error) {
                             // Il y a eu une erreur lors de la requête AJAX
                             afficherAlerte('Erreur lors de la requête AJAX : ' + error);
                         }
@@ -190,25 +202,25 @@
                 }
             });
         });
-    
+
         function afficherAlerte(message) {
             // Créer une div pour l'alerte
             var alertDiv = $('<div class="alert alert-success alert-dismissible fade show" role="alert">' + message +
                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
-    
+
             // Ajouter l'alerte à un conteneur (par exemple, le corps du document)
             $('body').append(alertDiv);
-    
+
             // Fermer l'alerte après 3 secondes
-            setTimeout(function () {
+            setTimeout(function() {
                 alertDiv.alert('close');
             }, 3000);
         }
     </script>
-    
-    
-    
-    
+
+
+
+
 </body>
 
 @include('partials.plugin')

@@ -41,13 +41,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Select2 CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css"
-        integrity="sha256-g8CHiBpZ2yM5x6wv+eBS5ixvlL11GRl9YL/FgjzxpKA=" crossorigin="anonymous" />
-
-    <!-- Select2 JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"
-        integrity="sha256-+QiYzEw3vFwDZ/5Dp0uTZJLWiIjvu2/KY1aAQa4lWao=" crossorigin="anonymous"></script>
-
+   
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">

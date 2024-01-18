@@ -61,6 +61,7 @@
                                             @break
                                         @case('dossier')
                                             folder
+                                         
                                             @break
                                         @case('equipeView')
                                             groups

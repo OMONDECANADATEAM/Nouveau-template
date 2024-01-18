@@ -32,7 +32,7 @@ class DepenseController extends Controller
         ]);
     
         $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
-        $montant = $request->input('montant');
+        $montant = number_format($request->input('montant'), 0, '.', ' ');
         $raison = $request->input('raison');
     
         // Utilisez la fonction pour récupérer les utilisateurs par rôle
