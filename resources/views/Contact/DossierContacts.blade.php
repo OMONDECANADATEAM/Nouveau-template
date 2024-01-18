@@ -18,24 +18,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href= {{ asset('assets/img/logos/icon.png') }}> <title>
-        Omonde Canada - CRM
+    <title>
+        Omonde Canada - CRM | DOSSIER CONTACTS
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <!-- Nucleo Icons -->
-    <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
-    <link rel="stylesheet" href="app.css">
-    <script src="./assets/js/addContact.js"></script>
+    <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
@@ -52,56 +48,58 @@
                         <div
                             class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
                             <div class="p-2 border-radius-lg w-40 bg-gradient-dark">
-                                <input type="text" id="searchInput" class="form-control text-white  text-lg bg-transparent border-0 p-1" placeholder="Rechercher...">
+                                <input type="text" id="searchInput"
+                                    class="form-control text-white  text-lg bg-transparent border-0 p-1"
+                                    placeholder="Rechercher...">
                             </div>
                             <button class="btn bg-gradient-dark circle" data-bs-toggle="modal"
                                 data-bs-target="#addContactModal">
                                 <i class="material-icons">add</i> Ajouter un candidat
                             </button>
-                            <button class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#ajouterEntreeModal">
-                            <i class="material-icons">add</i> Ajouter une entrée
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ajouterEntreeModal">
+                                <i class="material-icons">add</i> Ajouter une entrée
                             </button>
                             @include('partials.addEntree')
                             @include('partials.addContact')
                         </div>
-                    
 
-                    <div class="card-body px-0 pb-2">
-                        <div class="table-responsive p-0" style="max-height: 750px; overflow-y: auto;">
-                            <table class="table align-items-center justify-content-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            NOM
-                                        </th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            NUMERO</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            PROFFESSION</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                            DATE</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @include('partials.tableCandidat')
-                                </tbody>
-                            </table>
+
+                        <div class="card-body px-0 pb-2">
+                            <div class="table-responsive p-0" style="max-height: 750px; overflow-y: auto;">
+                                <table class="table align-items-center justify-content-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                NOM
+                                            </th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                NUMERO</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                PROFFESSION</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                                DATE</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @include('partials.tableCandidat')
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
-                        
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-       
+
     </main>
     @include('partials.plugin')
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    
 </body>
 
 

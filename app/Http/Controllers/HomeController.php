@@ -43,7 +43,7 @@ class HomeController extends Controller
     
     public function DossierContacts()
     {
-        return view('DossierContacts');
+        return view('Contact.DossierContacts');
     }
     public function DossierClients()
     {
@@ -99,7 +99,7 @@ class HomeController extends Controller
             ->get();
     
             // Passer les données à la vue principale
-            return view('DossierContacts', ['data_candidat' => $candidats]);
+            return view('Contact.DossierContacts', ['data_candidat' => $candidats]);
      
     }
     
