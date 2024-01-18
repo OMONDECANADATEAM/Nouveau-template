@@ -18,24 +18,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href={{ asset('assets/img/logos/icon.png') }}>
 
     <title>Liste des candidats - Omonde Canada - CRM
     </title>
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-    <!-- Nucleo Icons -->
-    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
-    <link id="pagestyle" href="../../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
-    <!-- Inclure le script SweetAlert2 -->
-  
-    <!-- Ajoutez ces liens CDN à la section head de votre fichier Blade -->
+    <!-- Assurez-vous que le chemin est correct en fonction de votre structure de dossiers -->
+    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/logos/logo-icon.png') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
@@ -88,10 +84,9 @@
                                 <tbody>
 
                                     @foreach ($info_consultation->candidats as $candidat)
-
-                                    @php
-                                    $consultationStatusClass = $candidat->consultation_effectuee ? 'table-success' : '';
-                                      @endphp
+                                        @php
+                                            $consultationStatusClass = $candidat->consultation_effectuee ? 'table-success' : '';
+                                        @endphp
 
                                         <tr data-candidat-id="{{ $candidat->id }}">
                                             <td>
@@ -120,7 +115,7 @@
                                                             <i class="material-icons text-success text-bolder icon-large toggle-consultation"
                                                                 style="font-size: 2rem;">check</i>
                                                         </a>
-                                
+
                                                         <a href="{{ route('toggleConsultation', ['candidatId' => $candidat->id, 'status' => 'no']) }}"
                                                             data-status="no" data-candidat-id="{{ $candidat->id }}">
                                                             <i class="material-icons text-danger icon-large text-bolder toggle-consultation"
@@ -146,83 +141,20 @@
 
         <script async defer src="https://buttons.github.io/buttons.js"></script>
         <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-        <script src="../../assets/js/material-dashboard.min.js?v=3.0.0"></script>
-        <script src="./assets/js/core/popper.min.js"></script>
-        <script src="../../assets/js/core/bootstrap.min.js"></script>
-        <script src="../../assets/js/plugins/perfect-scrollbar.min.js"></script>
-        <script src="../../assets/js/plugins/smooth-scrollbar.min.js"></script>
-        <script src="../../assets/js/plugins/chartjs.min.js"></script>
+       <script src="{{ asset('/assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
+        <script src="{{ asset('/assets/js/core/popper.min.js') }}"></script>
+        <script src="{{ asset('/assets/js/core/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+        <script src="{{ asset('/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+        <script src="{{ asset('/assets/js/plugins/chartjs.min.js') }}"></script>
 
 
     </main>
-
-    <script>
-        $(document).ready(function() {
-            $('.toggle-consultation').click(function(e) {
-                e.preventDefault();
-
-                var status = $(this).data('status');
-                var candidatId = $(this).data('candidat-id');
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-                // Utilisation de l'opérateur ternaire pour déterminer l'action à effectuer
-                var action = (status === 'enable') ? 'activer' : 'désactiver';
-
-                // Confirmation avec l'utilisateur
-                if (confirm('Voulez-vous vraiment ' + action + ' la consultation pour ce candidat ?')) {
-                    $.ajax({
-                        url: '/toggle-consultation/' + candidatId,
-                        type: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': csrfToken
-                        },
-                        data: {
-                            status: status
-                        },
-                        success: function(response) {
-                            // Gérer la réponse du serveur
-                            if (response.success) {
-                                // La consultation a été activée ou désactivée avec succès pour le candidat
-                                afficherAlerte('Consultation ' + action +
-                                    'e avec succès pour ce candidat');
-                            } else {
-                                // Il y a eu une erreur lors du basculement de la consultation pour le candidat
-                                afficherAlerte('Erreur : ' + response.message);
-                            }
-                            console.log(response);
-                        },
-                        error: function(xhr, status, error) {
-                            // Il y a eu une erreur lors de la requête AJAX
-                            afficherAlerte('Erreur lors de la requête AJAX : ' + error);
-                        }
-                    });
-                } else {
-                    // L'utilisateur a annulé l'action
-                    console.log('Action annulée par l\'utilisateur');
-                }
-            });
-        });
-
-        function afficherAlerte(message) {
-            // Créer une div pour l'alerte
-            var alertDiv = $('<div class="alert alert-success alert-dismissible fade show" role="alert">' + message +
-                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
-
-            // Ajouter l'alerte à un conteneur (par exemple, le corps du document)
-            $('body').append(alertDiv);
-
-            // Fermer l'alerte après 3 secondes
-            setTimeout(function() {
-                alertDiv.alert('close');
-            }, 3000);
-        }
-    </script>
 
 
 
 
 </body>
 
-@include('partials.plugin')
 
 </html>
