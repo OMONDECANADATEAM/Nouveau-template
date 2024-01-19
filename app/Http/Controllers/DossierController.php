@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Candidat; // Assurez-vous d'importer le modèle Candidat
+use App\Models\Candidat; 
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class DossierController extends Controller
 {
-    public function ajouterFichiersAgent(Request $request, $candidatId)
+    public function ajouterFichiersCandidat(Request $request, $candidatId)
     {
         // Récupérez le candidat en fonction de l'ID
         $candidat = Candidat::find($candidatId);
@@ -38,7 +38,7 @@ class DossierController extends Controller
         return response()->json(['message' => 'Fichiers ajoutés avec succès']);
     }
 
-    public function ajouterFichiers(Request $request, $userId)
+    public function ajouterFichiersAgent(Request $request, $userId)
     {
         // Récupérez le candidat en fonction de l'ID
         $user = User::find($userId);

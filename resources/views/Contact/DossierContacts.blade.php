@@ -23,10 +23,11 @@
     </title>
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"> 
-    <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
     <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -53,39 +54,13 @@
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ajouterEntreeModal">
                                 <i class="material-icons">add</i> Ajouter une entrée
                             </button>
-                            @include('partials.addEntree')
-                            @include('partials.addContact')
+                            @include('partials.Banque.addEntree')
+                            @include('partials.Contact.addContact')
                         </div>
 
 
-                        <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0" style="max-height: 750px; overflow-y: auto;">
-                                <table class="table align-items-center justify-content-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                NOM
-                                            </th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                NUMERO</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                PROFFESSION</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                                DATE</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @include('partials.tableCandidat')
-                                    </tbody>
-                                </table>
-                            </div>
+                        @include('partials.Contact.tableCandidat')
 
-                        </div>
                     </div>
                 </div>
             </div>
@@ -93,7 +68,6 @@
 
     </main>
     @include('partials.plugin')
-
 </body>
 
 

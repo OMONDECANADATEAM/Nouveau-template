@@ -18,18 +18,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href= {{ asset('assets/img/logos/icon.png') }}>  <title>
-    Omonde Canada | CONSULATATIONS
+  <link rel="icon" type="image/png" href= {{ asset('assets/img/logos/logo-icon.png') }}>  <title>
+    Omonde Canada Crm | CONSULATATIONS
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-  <!-- Nucleo Icons -->
-  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <!-- Material Icons -->
+   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
@@ -50,10 +44,11 @@
                       <h6 class="text-white text-capitalize ps-3 mb-0">LISTE DES CONSULTATIONS</h6>
                       <button class="btn bg-gradient-dark circle" data-bs-toggle="modal"
                           data-bs-target="#addConsultationModal">
-                          <i class="fas fa-plus fa-lg"></i>
+                          <i class="material-icons text-white" style="font-size: 2rem;">add</i>
+
                       </button>
 
-                      @include('partials.addConsultation')
+                      @include('partials.Consultation.addConsultation')
                   </div>
               </div>
 

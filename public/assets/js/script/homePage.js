@@ -174,5 +174,3 @@ $.get('/chart-month', function(data) {
     });
 });
 });
-
- 

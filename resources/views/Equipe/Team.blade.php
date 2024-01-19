@@ -18,8 +18,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-
+   
     <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
     <title>
         Omonde Canada - CRM
@@ -27,26 +26,13 @@
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-    <!-- Nucleo Icons -->
-    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
-    <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
+    <script src={{ asset('assets/js/script/equipe.js') }}></script>
+    <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Select2 CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css"
-        integrity="sha256-g8CHiBpZ2yM5x6wv+eBS5ixvlL11GRl9YL/FgjzxpKA=" crossorigin="anonymous" />
-
-    <!-- Select2 JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"
-        integrity="sha256-+QiYzEw3vFwDZ/5Dp0uTZJLWiIjvu2/KY1aAQa4lWao=" crossorigin="anonymous"></script>
 
 </head>
 
@@ -65,7 +51,7 @@
                     @endphp
             
                     <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h4 class="text-white text-capitalize ps-3">Dossier Client</h4>
                             </div>
@@ -104,10 +90,13 @@
                                                     <h6 class="p-2 text-xl">{{ $user->succursale->label }} </h6>
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    <button class="btn bg-gradient-success">
-                                                        <i class="material-icons">add</i>
+                                                    <button class="btn bg-gradient-success" data-bs-toggle="modal" data-bs-target="#ajouterFichierModal{{ $user->id }}">
+                                                        <i class="material-icons opacity-10" style="font-size: 24px;">add</i>
                                                     </button>
+                                                    <!-- Modal -->
+                                                    @include('partials.DocumentsAgents.ajoutFicherAgent')
                                                 </td>
+                                                
                                             </tr>
                                         @endforeach
                                     </tbody>

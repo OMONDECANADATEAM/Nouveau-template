@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\EquipeController;
+
 use App\Http\Controllers\DossierController;
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\EntreeController;
@@ -35,16 +35,15 @@ Route::get('home/{method}', [HomeController::class, 'callMethod'])->where('metho
 Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');
 Route::post('Banque', [EntreeController::class, 'ajoutEntree'])->name('ajoutEntree');
 Route::get('Banque', [HomeController::class, 'Banque'])->name('Banque');
-Route::get('Consultation', [HomeController::class, 'listeConsultantes'])->name('Consultation');
 Route::get('DossierClients', [HomeController::class, 'allClient'])->name('DossierClients');
 Route::get('DossierContacts', [HomeController::class, 'allCandidat'])->name('DossierContacts');
+Route::get('Consultation', [consultationController::class, 'listeConsultantes'])->name('Consultation');
 Route::get('dashBoardConsultante', [HomeController::class, 'dashBoardConsultante'])->name('dashBoardConsultante');
 Route::get('equipeView', [HomeController::class, 'equipeView'])->name('equipeView');
 Route::get('documentAgent', [HomeController::class, 'documentAgent'])->name('documentAgent');
 
 
 // Routes d'authentification
-
 Route::get('connexion', [AuthController::class, 'showLoginForm'])->name('connexion.form');
 Route::post('connexion', [AuthController::class, 'login'])->name('login');
 Route::get('sign-in', [HomeController::class, 'sign-in'])->name('sign-in');
@@ -67,7 +66,6 @@ Route::get('/chart-month', [chartController::class, 'getChartMonthData']);
 
 //
 Route::post('Consultation', [Controller::class, 'ajoutConsultation'])->name('ajoutConsultation');
-Route::get('listeConsultantes', [HomeController::class, 'listeConsultantes'])->name('listeConsultantes');
 
 
 // Exemple de route dans votre fichier web.php
@@ -94,8 +92,8 @@ Route::get('/dossier', [HomeController::class, 'dossier'])->name('dossier');
 
 Route::post('/save-remarques', [HomeController::class, 'saveRemarques']);
 
-Route::post('/ajouter-fichiers/{candidatId}', [DossierController::class, 'ajouterFichiers'])->name('ajoutFichiers');
-Route::post('/ajouter-fichiers/{userId}', [DossierController::class, 'ajouterFichiersAgent'])->name('ajoutFichiersAgent');
+Route::post('/ajouterFichiersCandidat/{candidatId}', [DossierController::class, 'ajouterFichiers'])->name('ajoutFichiersCandidat');
+Route::post('/ajouterFichiersAgent/{userId}', [DossierController::class, 'ajouterFichiersAgent'])->name('ajoutFichiersAgent');
 
 
 Route::get('/toggle-consultation/{candidatId}', [consultationController::class, 'toggleConsultation'])->name('toggleConsultation');

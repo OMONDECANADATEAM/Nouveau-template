@@ -1,5 +1,5 @@
 <div class="card my-4">
-    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+    <div class="card-header p-0 position-relative mt-n4 mx-3">
         <div
             class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
             <div class="p-2 border-radius-lg w-40 bg-gradient-dark">
@@ -65,9 +65,14 @@
 
                             <td class="align-middle text-center">
 
-                                <button class="btn bg-gradient-success">
-                                    <i class="material-icons">add</i>
-                                </button>
+                                
+                        <a class="btn btn-success btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#ajouterFichierModal{{ $candidat->id }}">
+                        <i class="material-icons opacity-10" style="font-size: 24px;">add</i>
+                    </a>
+
+                    @include('partials.DocumentsClients.ajoutFichierClient')
+       
                             </td>
 
 
@@ -82,30 +87,4 @@
     </div>
 
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Récupérez la référence de l'élément de saisie
-        var searchInput = document.getElementById('searchInput');
 
-        // Récupérez toutes les lignes du tableau
-        var rows = document.querySelectorAll('table tbody tr');
-
-        // Ajoutez un gestionnaire d'événement pour la saisie
-        searchInput.addEventListener('input', function() {
-            var searchText = searchInput.value.toLowerCase();
-
-            // Parcours de chaque ligne du tableau
-            rows.forEach(function(row) {
-                // Récupérez le texte de chaque cellule dans la ligne
-                var rowData = row.textContent.toLowerCase();
-
-                // Affiche ou masque la ligne en fonction de la correspondance de la recherche
-                if (rowData.includes(searchText)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-    });
-</script>

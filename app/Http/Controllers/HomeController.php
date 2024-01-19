@@ -12,7 +12,7 @@ use App\Models\consultante;
 
 class HomeController extends Controller
 {
-
+    //Si auth Valider il ramene les pages en fonctions des roles
     public function index()
     {
         // Vérifiez si l'utilisateur est connecté
@@ -39,19 +39,18 @@ class HomeController extends Controller
         // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
         return redirect()->route('login');
     }
-    
-    
+        
     public function DossierContacts()
     {
         return view('Contact.DossierContacts');
     }
     public function DossierClients()
     {
-        return view('DossierClients');
+        return view('Client.DossierClients');
     }
     public function Banque()
     {
-        return view('Banque');
+        return view('Banque.Banque');
     }
    
     public function Consultation()
@@ -65,7 +64,7 @@ class HomeController extends Controller
 
     public function adminDashboard()
     {
-        return view('adminDashboard');
+        return view('AdminDashboard.adminDashboard');
     }
 
     public function connexion()
@@ -75,17 +74,19 @@ class HomeController extends Controller
 
     public function dossier()
     {
-        return view('dossier');
+        return view('DocumentClients.documentClients');
     }
     public function equipeView()
     {
-        return view('Team');
+        return view('Equipe.Team');
     }
     public function documentAgent()
     {
-        return view('documentAgent');
+        return view('DocumentsAgents.documentAgent');
     }
 
+
+    // Recuperer tous candidats
     public function allCandidat()
     {
         // Obtenir l'utilisateur connecté
@@ -103,9 +104,8 @@ class HomeController extends Controller
      
     }
     
-
  
-    
+    // Recuperer tous clients
     public function allClient() {
         // Récupérer l'id de la succursale de l'utilisateur en cours
         $idSuccursaleUtilisateur = auth()->user()->id_succursale;
@@ -131,18 +131,7 @@ class HomeController extends Controller
             return $datesPaiement[$candidat->id];
         });
     
-        return view('DossierClients', ['data_client' => $candidats, 'dates_paiement' => $datesPaiement]);
-    }
-    
-
-
- 
-    public function listeConsultantes()
-    {
-        
-        $consultantes = Consultante::all();
-
-        return view('Consultation', ['data_consultante' => $consultantes]);
+        return view('Client.DossierClients', ['data_client' => $candidats, 'dates_paiement' => $datesPaiement]);
     }
 
 

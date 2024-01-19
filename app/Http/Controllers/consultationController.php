@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidat;
+use App\Models\consultante;
 
 class consultationController extends Controller
 {
@@ -24,6 +25,13 @@ class consultationController extends Controller
         return redirect()->back()->with('success', $message);
     }
     
+    public function listeConsultantes()
+    {
+        
+        $consultantes = Consultante::all();
+
+        return view('Consultation.Consultation', ['data_consultante' => $consultantes]);
+    }
     
     
     
