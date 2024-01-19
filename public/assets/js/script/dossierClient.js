@@ -54,5 +54,28 @@ function filterCards() {
     });
 }
 
-document.getElementById('searchInput').addEventListener('input', filterCards);
+    document.addEventListener('DOMContentLoaded', function () {
+        // Récupérer l'élément de champ de recherche
+        var searchInput = document.getElementById('searchInput');
+
+        // Récupérer tous les éléments de la table que vous souhaitez filtrer
+        var rows = document.querySelectorAll('tbody tr');
+
+        // Ajouter un gestionnaire d'événements pour l'événement input du champ de recherche
+        searchInput.addEventListener('input', function () {
+            var searchTerm = searchInput.value.toLowerCase();
+
+            // Parcourir toutes les lignes de la table
+            rows.forEach(function (row) {
+                var nom = row.querySelector('td:first-child').textContent.toLowerCase();
+
+                // Afficher ou masquer la ligne en fonction de la correspondance du terme de recherche
+                if (nom.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
 
