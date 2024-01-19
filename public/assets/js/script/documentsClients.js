@@ -54,5 +54,9 @@
         });
     }
 
-    document.getElementById('searchInput').addEventListener('input', filterCards);
+   
+    document.addEventListener('DOMContentLoaded', function () {
+        // Récupérer l'élément de champ de recherche
+        document.getElementById('searchInput').addEventListener('input', filterCards);
 
+    });
