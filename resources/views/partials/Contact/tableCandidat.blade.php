@@ -43,7 +43,7 @@
                                 <i class="fa fa-pencil text-xs"></i> Modifier
                             </button>
                         </td>
-                        @include('partials.modifierContact', ['candidat' => $candidat])
+                        @include('partials.Contact.modifierContact', ['candidat' => $candidat])
                     </tr>
                 @endforeach
             </tbody>
