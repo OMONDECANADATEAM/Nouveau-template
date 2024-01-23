@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ajouterEntreeModalLabel">Ajouter une entrée</h5>
-                
+
             </div>
             <div class="modal-body">
                 <!-- Formulaire pour ajouter une entrée -->
@@ -25,12 +25,11 @@
 
                         <div class="input-group input-group-outline mb-3 p-2">
                             <label for="date" class="form-label">Date:</label>
-                            <input type="date" name="date" id="date" class="form-control"  value="{{ now()->format('Y-m-d') }}" required>
+                            <input type="date" name="date" id="date" class="form-control"
+                                value="{{ now()->format('Y-m-d') }}" required>
                         </div>
 
                     </div>
-
-
                     <!-- Champs Candidat -->
                     <div class="input-group input-group-outline mb-3 p-2">
                         <label for="candidat" class="form-label">Candidat :</label>
@@ -38,20 +37,19 @@
                             <!-- Option vide au début pour laisser le choix par défaut -->
                             <option value="" disabled selected>Choisissez un candidat</option>
                     
-                            <!-- Boucle sur la liste des candidats pour créer les options -->
-                            @foreach (App\Models\Candidat::all() as $candidat)
+                            <!-- Récupérer la liste des candidats triés par nom -->
+                            @foreach (App\Models\Candidat::orderBy('nom')->get() as $candidat)
                                 <option value="{{ $candidat->id }}">{{ $candidat->nom }} {{ $candidat->prenom }}</option>
                             @endforeach
                         </select>
                     </div>
-
-
+                    
                     <!-- Champ Type (Versement ou Consultation) -->
                     <div class="input-group input-group-outline d-flex">
                         <label for="type">Type :</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="type" id="versement"
-                                value="1" required>
+                            <input class="form-check-input" type="radio" name="type" id="versement" value="1"
+                                required>
                             <label class="form-check-label" for="versement">Versement</label>
                         </div>
                         <div class="form-check">
@@ -60,17 +58,15 @@
                             <label class="form-check-label" for="consultation">Consultation</label>
                         </div>
                     </div>
-                    @if(session('error'))
-                    <div class="alert text-sm text-danger" role="alert">
-                        {{ session('error') }}
-                    </div>
-                @endif
+                    @if (session('error'))
+                        <div class="alert text-sm text-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
 
                     <!-- Bouton Enregistrer -->
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
                 </form>
-
-
             </div>
         </div>
     </div>

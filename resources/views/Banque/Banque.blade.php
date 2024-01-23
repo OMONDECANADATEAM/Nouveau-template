@@ -111,7 +111,8 @@
                                         <i class="material-icons">add</i> Ajouter une entrée
                                     </button>
                                 </div>
-                                @include('partials.Banque.addEntree')
+                                <!-- Modal pour ajouter une entrée -->
+                               @include('partials.Banque.addEntree')
                             </div>
                         </div>
 
@@ -144,13 +145,10 @@
                 </div>
             </div>
             @include('partials.Banque.tableauTransactionParSemaine')
-
-           
-            @include('partials.footer')
         </div>
 
     </main>
-    
+    @include('partials.plugin')
 </body>
 
 </html>

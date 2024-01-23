@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Candidat;
-use App\Models\InfoConsultation;
 use App\Models\Entree;
-use App\Models\consultante;
+
 
 
 class HomeController extends Controller
@@ -59,7 +58,7 @@ class HomeController extends Controller
     }
     public function dashBoardConsultante()
     {
-        return view('dashBoardConsultante');
+        return view('Consultante.dashBoardConsultante');
     }
 
     public function adminDashboard()
@@ -151,41 +150,6 @@ class HomeController extends Controller
         return response()->json(['success' => false]);
     }
 
-
-    public function getListCandidatByConsultation($id)
-    {
-        // Récupérer la consultation par son ID
-        $info_consultation = InfoConsultation::find($id);
-
-        // Récupérer la liste des consultations liées (exemple : consultations du même patient)
-        $consultationsList = Candidat::where('id_info_consultation', $info_consultation->id)
-            ->get();
-
-        return view('listcandidats', compact('info_consultation', 'consultationsList'));
-    }
-
-    public function getCandidatByConsultation($id, $id_candidat)
-    {
-        // Récupérer la consultation par son ID
-        $info_consultation = InfoConsultation::find($id);
-        $consultation = Candidat::find($id_candidat);
-
-        // Récupérer la liste des consultations liées (exemple : consultations du même patient)
-        
-            return view('candidat', compact('info_consultation', 'consultation'));
-       
-    }
-
-    public function getCandidatFiche($id_candidat)
-    {
-
-        $consultation = Candidat::find($id_candidat);
-
-        // Récupérer la liste des consultations liées (exemple : consultations du même patient)
-        
-            return view('ficheConsultation', compact('consultation'));
-       
-    }
 
    
 }

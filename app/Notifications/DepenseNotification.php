@@ -11,18 +11,12 @@ class DepenseNotification extends Notification
 {
     use Queueable;
 
-    private $montant;
-    private $agent;
-    private $raison;
+    public $montant;
+    public $agent;
+    public $raison;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @param float $montant
-     * @param string $agent
-     * @param string $raison
-     */
-    public function __construct(float $montant, string $agent, string $raison)
+    
+    public function __construct($montant, $agent, $raison)
     {
         $this->montant = $montant;
         $this->agent = $agent;
@@ -61,9 +55,6 @@ class DepenseNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'montant' => $this->montant,
-            'agent' => $this->agent,
-            'raison' => $this->raison,
-        ];
+           ];
     }
 }

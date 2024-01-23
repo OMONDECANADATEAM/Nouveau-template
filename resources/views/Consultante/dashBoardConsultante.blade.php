@@ -38,11 +38,7 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
 
-    <!-- Inclure ces liens CDN à la section head de votre fichier Blade -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/jquery.dataTables.js') }}"></script>
-</head>
+  </head>
 
 <body class="g-sidenav-show  bg-gray-200">
     @include('partials.navbar')

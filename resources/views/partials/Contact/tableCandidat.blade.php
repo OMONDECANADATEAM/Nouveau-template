@@ -40,7 +40,7 @@
                         <td class="align-middle">
                             <button class="btn btn-link text-secondary mb-0" data-bs-toggle="modal"
                                 data-bs-target="#modifierContactModal{{ $candidat->id }}">
-                                <i class="fa fa-pencil text-xs"></i> Modifier
+                                <span class="material-icons text-xl">create</span> Modifier
                             </button>
                         </td>
                         @include('partials.Contact.modifierContact', ['candidat' => $candidat])

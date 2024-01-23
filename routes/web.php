@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\chartController;
+use App\Http\Controllers\ConsultanteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,12 +71,9 @@ Route::post('Consultation', [Controller::class, 'ajoutConsultation'])->name('ajo
 
 // Exemple de route dans votre fichier web.php
 Route::get('/recherche-candidat', [Controller::class , 'rechercheCandidat'])->name('rechercheCandidat');
-Route::get('/Consultation/{id}', [HomeController::class , 'getListCandidatByConsultation'])->name('listcandidats');
-Route::get('/Consultation/{id}/{id_candidat}', [HomeController::class , 'getCandidatByConsultation'])->name('candidat');
-
-//Fiche de consultation
-
-Route::get('/ficheConsultation/{id_candidat}', [HomeController::class , 'getCandidatFiche'])->name('candidatFiche');
+Route::get('/Consultation/{id}', [ConsultanteController::class , 'getListCandidatByConsultation'])->name('listcandidats');
+Route::get('/Consultation/{id}/{id_candidat}', [ConsultanteController::class , 'getCandidatByConsultation'])->name('candidat');
+Route::get('/ficheConsultation/{id_candidat}', [ConsultanteController::class , 'getCandidatFiche'])->name('candidatFiche');
 
 
 // routes/web.php
