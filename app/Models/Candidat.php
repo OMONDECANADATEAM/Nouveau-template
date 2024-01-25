@@ -33,8 +33,9 @@ class Candidat extends Model
     }
     public function infoConsultation()
     {
-        return $this->hasOne(InfoConsultation::class, 'id_candidat'); // Correction ici
+        return $this->belongsTo(InfoConsultation::class, 'id_info_consultation');
     }
+    
   
      public function proceduresDemandees()
     {
