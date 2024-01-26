@@ -120,7 +120,6 @@
 
 
 
-
         <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
         <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
