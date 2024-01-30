@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidat;
 use App\Models\consultante;
+use App\Models\InfoConsultation;
 
 class consultationController extends Controller
 {
@@ -32,6 +33,13 @@ class consultationController extends Controller
 
         return view('Consultation.Consultation', ['data_consultante' => $consultantes]);
     }
+    
+    public function getConsultationWaitingList($consultationId)
+    {
+        $consultationInfo = InfoConsultation::with('candidats')->where('id', $consultationId)->first();
+        return view('Consultation.waitingList', ['data_candidat' => $consultationInfo->candidats]);
+    }
+    
     
     
     

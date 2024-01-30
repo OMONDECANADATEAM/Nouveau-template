@@ -99,6 +99,11 @@
                                         <i class="fa fa-video text-xs"></i>
                                     </a>
                                 </td>
+                                <td class="align-middle">
+                                    <a href="{{ url('/waiting-list/'.$consultation->id) }}" class="btn bg-dark text-white">
+                                        Liste d'attente
+                                    </a>
+                                </td>
                                 
                             </tr>
                             @endforeach

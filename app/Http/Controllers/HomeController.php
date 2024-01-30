@@ -24,9 +24,12 @@ class HomeController extends Controller
                 case 0:
                     // Consultante, redirigez-la vers la page "OmondeTeam"
                     return redirect()->route('dashBoardConsultante');
+                case 3:
+                    return redirect()->route('adminDashboard');
+            
+         
                 case 1:
                 case 2:
-                case 3:
                     // Utilisateur simple, redirigez-le vers la page "home"
                     return view('Dashboard.home');
                 default:

@@ -73,6 +73,8 @@ Route::post('Consultation', [Controller::class, 'ajoutConsultation'])->name('ajo
 Route::get('/recherche-candidat', [Controller::class , 'rechercheCandidat'])->name('rechercheCandidat');
 Route::get('/Consultation/{id}', [ConsultanteController::class , 'getListCandidatByConsultation'])->name('listcandidats');
 Route::get('/Consultation/{id}/{id_candidat}', [ConsultanteController::class , 'getCandidatByConsultation'])->name('candidat');
+
+
 Route::get('/ficheConsultation/{id_candidat}', [ConsultanteController::class , 'getCandidatFiche'])->name('candidatFiche');
 
 
@@ -96,3 +98,4 @@ Route::post('/ajouterFichiersAgent/{userId}', [DossierController::class, 'ajoute
 
 Route::get('/toggle-consultation/{candidatId}', [consultationController::class, 'toggleConsultation'])->name('toggleConsultation');
 
+Route::get('/waiting-list/{consultation_id}', [ConsultationController::class , 'getConsultationWaitingList'])->name('listedattente');
