@@ -36,7 +36,12 @@ class consultationController extends Controller
     
     public function getConsultationWaitingList($consultationId)
     {
-        $consultationInfo = InfoConsultation::with('candidats')->where('id', $consultationId)->first();
+        $consultationInfo = InfoConsultation::with(['candidats' => function ($query) {
+            // Ajoutez une condition pour filtrer les candidats avec un statut différent de 1
+            $query->where('consultation_effectuee', '!==', 1);
+        }])->find($consultationId);
+        
+    
         return view('Consultation.waitingList', ['data_candidat' => $consultationInfo->candidats]);
     }
     

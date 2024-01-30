@@ -32,11 +32,20 @@
     @include('partials.navbar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        @include('partials.header', ['page' => 'LISTE D\'ATTENTE'])
-        <div class="col-12 d-flex align-items-center justify-content-center flex-column">
+        @include('partials.header', ['page' => 'BIENVENUE CHEZ OMONDE CANADA'])
+        <div class="col-12 d-flex align-items-top justify-content-center">
+
+            <div class="col-8 d-flex align-items-center m-1">
+                <iframe width="1000" height="500"
+                    src="https://www.youtube.com/embed/NfcpZXCg3Mg?si=NXdEfWlTcesMglIu" title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+
+            </div>
 
 
-            <div class="col-6">
+            <div class="col-3">
                 <div class="card my-4 bg-dark">
                     <div class="card-header">
                         <div class="d-flex align-items-center justify-content-between">
@@ -50,7 +59,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h1 class="text-xl text-white font-weight-bold mb-0 mt-2" id="candidatNom"></h1>
+                        <h3 class="text-xl text-white font-weight-bold mb-0 mt-2" id="candidatNom"></h3>
                     </div>
                     <div class="col-12 d-flex align-items-center justify-content-end p-4">
                         <button id="nextButton" class="btn btn-primary btn-sm">Next</button>
@@ -88,15 +97,8 @@
                 showCandidat(currentIndex);
             </script>
 
-            <div class="col-6 d-flex align-items-center">
-                <iframe width="700" height="315"
-                    src="https://www.youtube.com/embed/NfcpZXCg3Mg?si=NXdEfWlTcesMglIu" title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
 
-            </div>
-
+          
 
 
 

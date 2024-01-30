@@ -104,6 +104,23 @@
                                         Liste d'attente
                                     </a>
                                 </td>
+                                <td>
+                                    @if ($consultation->candidats->isNotEmpty())
+                                        <a href="Consultation/{{ $consultation->id }}">
+                                            <button class="btn bg-gradient-dark">
+                                                Voir les candidat(s)
+                                            </button>
+                                        </a>
+                                    @else
+                                        <a href="#">
+
+                                            <button class="btn bg-gradient-dark">
+                                                Voir les candidat(s)
+                                            </button>
+
+                                        </a>
+                                    @endif
+                                </td>
                                 
                             </tr>
                             @endforeach
