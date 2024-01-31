@@ -11,7 +11,7 @@
         <ul class="navbar-nav">
             @php
                 $pages = [
-                    'home' => 'Dashboard',
+                    'Commercial.Dashboard' => 'Dashboard',
                     'DossierContacts' => 'Contacts',
                     'DossierClients' => 'Dossier Clients',
                     'Banque' => 'Banque',
@@ -29,12 +29,12 @@
             @foreach ($pages as $page => $pageTitle)
                 @if (
                     ($currentUserRole == 0 && $page == 'dashBoardConsultante') ||
-                    ($currentUserRole == 1 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'dossier'])) ||
+                    ($currentUserRole == 1 && in_array($page, ['Commercial.Dashboard', 'DossierContacts'])) ||
                     ($currentUserRole == 2 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque', 'dossier'])) ||
                     ($currentUserRole == 3 && in_array($page, ['DossierContacts', 'DossierClients', 'Banque' , 'Consultation' , 'adminDashboard', 'dossier' , 'equipeView' , 'documentAgent']))
                 )
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}" href="{{ url($page) }}">
+                        <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}" href="{{ route($page) }}">
                             <div class="text-white text-left me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">
                                     @switch($page)
@@ -44,7 +44,7 @@
                                         @case('DossierClients')
                                             table_view
                                             @break
-                                        @case('home')
+                                        @case('Commercial.Dashboard')
                                             dashboard
                                             @break
                                         @case('DossierContacts')

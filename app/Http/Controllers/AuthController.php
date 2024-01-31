@@ -20,7 +20,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
-            return redirect()->route('home');
+            return redirect()->route('Dashboard');
         }
 
         return redirect()->route('connexion.form')->with('error', 'Adresse e-mail ou mot de passe incorrect.');

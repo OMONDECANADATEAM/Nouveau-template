@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\CommercialController;
 use App\Http\Controllers\DossierController;
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\EntreeController;
@@ -29,8 +29,12 @@ Route::get('/', function () {
 
 // web.php
 
-Route::get('home', [HomeController::class, 'index'])->name('home');
-Route::get('home/{method}', [HomeController::class, 'callMethod'])->where('method', '.*');
+//Route Qui Ramene la page d'acceuil
+Route::get('Dashboard', [HomeController::class, 'index'])->name('Dashboard');
+
+
+
+Route::get('/Commercial/Dashboard', [CommercialController::class, 'Dashboard'])->name('Commercial.Dashboard');
 
 
 Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');

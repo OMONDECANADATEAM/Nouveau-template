@@ -11,7 +11,9 @@ use App\Models\Entree;
 
 class HomeController extends Controller
 {
-    //Si auth Valider il ramene les pages en fonctions des roles
+
+
+    //Fonction qui ramene les dashbords en fonctions des roles
     public function index()
     {
         // Vérifiez si l'utilisateur est connecté
@@ -22,16 +24,21 @@ class HomeController extends Controller
             // Redirigez l'utilisateur en fonction de son rôle
             switch ($userRole) {
                 case 0:
-                    // Consultante, redirigez-la vers la page "OmondeTeam"
-                    return redirect()->route('dashBoardConsultante');
-                case 3:
-                    return redirect()->route('adminDashboard');
-            
-         
+                    // Consultante, redirigez-la vers la page "Dashboard Consultante"
+                    return view('Consultante.Views.Dashboard');
                 case 1:
+                    // Commercial, redirigez-le vers le dashboard Commercial
+                    return redirect()->route('Commercial.Dashboard');
+                    
                 case 2:
-                    // Utilisateur simple, redirigez-le vers la page "home"
-                    return view('Dashboard.home');
+                    // Administratif, redirigez-le vers le dashboard Administratif
+                    return view('Administratif.Views.Dashboard');
+                case 3:
+                    // Informatique, redirigez-le vers le dashboard Informatique
+                    return view('Informatique.Views.Dashboard');
+                case 4:
+                    // Direction, redirigez-le vers le dashboard Direction
+                    return view('Direction.Views.Dashboard');
                 default:
                     // Si le rôle n'est pas reconnu, redirigez-le vers la page de connexion
                     return redirect()->route('login');
@@ -41,6 +48,9 @@ class HomeController extends Controller
         // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
         return redirect()->route('login');
     }
+    
+
+
         
     public function DossierContacts()
     {
