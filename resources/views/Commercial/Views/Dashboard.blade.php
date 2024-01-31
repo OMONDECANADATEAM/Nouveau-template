@@ -30,7 +30,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-    <script src="{{ asset('assets/js/script/homePage.js') }}"></script>
+    <script src="{{ asset('assets/js/script/DashboardCommercial.js') }}"></script>
 
 </head>
 
@@ -56,68 +56,14 @@
 
 
             </div>
-            <div class="row mt-4">
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                    <div class="card z-index-2 ">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                                <div class="chart">
-                                    <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="mb-0 ">Indice visite par jour de la semaine</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                    <div class="card z-index-2  ">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                            <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
-                                <div class="chart">
-                                    <canvas id="chart-line" class="chart-canvas" height="170"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="mb-0 "> Indice vente par mois </h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mt-4 mb-3">
-                    <div class="card h-100">
-                        <div class="card-header pb-0">
-                            <h6>Prochaines Consultations</h6>
-                        </div>
-                        <div class="card-body p-3">
+            <div class="row mt-4 d-flex justify-content-around">
+              
+                @include('Commercial.Partials.ChartAppels')
 
+                @include('Commercial.Partials.ChartConsultations')
 
-                            @foreach (\App\Models\InfoConsultation::latest('date_heure')->take(3)->get() as $consultation)
-                                <div class="timeline timeline-one-side">
-                                    <div class="timeline-block mb-3">
-                                        <span class="timeline-step">
-                                            <a href="{{ $consultation->lien_zoom }}"><i
-                                                    class="material-icons text-success text-gradient">videocam</i></a>
-                                        </span>
-                                        <div class="timeline-content">
-                                            <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                                {{ $consultation->consultante->prenoms }}
-                                                {{ $consultation->consultante->nom }}
-                                            </h6>
-                                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                                {{ $consultation->date_heure }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-
-                        </div>
-
-                    </div>
-                </div>
-
+                
+              
             </div>
         </div>
         </div>

@@ -33,9 +33,12 @@ Route::get('/', function () {
 Route::get('Dashboard', [HomeController::class, 'index'])->name('Dashboard');
 
 
-
+//Routes Commercial
 Route::get('/Commercial/Dashboard', [CommercialController::class, 'Dashboard'])->name('Commercial.Dashboard');
-
+    //Route Chart Dashboard COmmercial
+Route::get('/Commercial/AppelsChart', [CommercialController::class, 'appelChartData']);
+Route::get('/Commercial/ConsultationsChart', [CommercialController::class, 'consultationChartData']);
+    
 
 Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');
 Route::post('Banque', [EntreeController::class, 'ajoutEntree'])->name('ajoutEntree');
@@ -65,8 +68,6 @@ Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name
 
 //Chart routes et controller
 
-Route::get('/chart-data', [chartController::class, 'getChartData']);
-Route::get('/chart-month', [chartController::class, 'getChartMonthData']);
 
 
 //
