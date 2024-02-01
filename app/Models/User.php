@@ -117,4 +117,9 @@ public function getUsersByRole($roleId)
     return $utilisateurs;
 }
 
+public function rendezVous()
+{
+    return $this->hasMany(RendezVous::class, 'commercial_id');
+}
+
 }   

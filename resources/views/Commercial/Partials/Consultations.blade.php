@@ -1,4 +1,3 @@
-
 {{-- Affiche les objectifs du mois --}}
 
 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -19,7 +18,7 @@
         <hr class="dark horizontal my-0">
         <div class="card-footer p-3">
             <div class="progress mt-2">
-                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ ($totalConsultationsDeCeMois / 15) * 100 }}%;" aria-valuenow="{{$totalConsultationsDeCeMois }}" aria-valuemin="0" aria-valuemax="15"></div>
+                <div class="progress-bar progress-bar-striped bg-dark" role="progressbar" style="width: {{ ($totalConsultationsDeCeMois / 15) * 100 }}%;" aria-valuenow="{{$totalConsultationsDeCeMois }}" aria-valuemin="0" aria-valuemax="15"></div>
             </div>
             
         </div>

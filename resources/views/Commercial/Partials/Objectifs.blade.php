@@ -7,7 +7,7 @@
             <div class="icon icon-md icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl mt-n4">
                 <i class="material-icons opacity-10">trending_up</i>
             </div>
-            <p class="text-xl text-bold mb-0 text-capitalize">Rendez-Vous Conclus - {{ $moisActuel }}</p>
+            <p class="text-xl text-bold mb-0 text-capitalize">Objectifs - {{ $moisActuel }}</p>
      
             
             

@@ -31,6 +31,7 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
     <script src="{{ asset('assets/js/script/DashboardCommercial.js') }}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 
@@ -65,6 +66,15 @@
                 
               
             </div>
+
+            <div class="row mt-4 d-flex justify-content-around">
+              
+                @include('Commercial.Partials.TableRdv')
+              
+            </div>
+
+           
+                      
         </div>
         </div>
       

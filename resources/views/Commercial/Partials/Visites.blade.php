@@ -18,7 +18,7 @@
         <div class="card-footer p-3">
             {{-- Barre de progression --}}
             <div class="progress mt-2">
-                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ ($totalVisiteMois / 25) * 100 }}%;" aria-valuenow="{{ $totalVisiteMois }}" aria-valuemin="0" aria-valuemax="25"></div>
+                <div class="progress-bar progress-bar-striped bg-dark" role="progressbar" style="width: {{ ($totalVisiteMois / 25) * 100 }}%;" aria-valuenow="{{ $totalVisiteMois }}" aria-valuemin="0" aria-valuemax="25"></div>
             </div>
         </div>
     </div>

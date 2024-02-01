@@ -12,6 +12,8 @@
             @php
                 $pages = [
                     'Commercial.Dashboard' => 'Dashboard',
+                    'Commercial.Contact' => 'Contacts',
+                    'Commercial.RendezVous' => 'RendezVous',
                     'DossierContacts' => 'Contacts',
                     'DossierClients' => 'Dossier Clients',
                     'Banque' => 'Banque',
@@ -29,7 +31,7 @@
             @foreach ($pages as $page => $pageTitle)
                 @if (
                     ($currentUserRole == 0 && $page == 'dashBoardConsultante') ||
-                    ($currentUserRole == 1 && in_array($page, ['Commercial.Dashboard', 'DossierContacts'])) ||
+                    ($currentUserRole == 1 && in_array($page, ['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'])) ||
                     ($currentUserRole == 2 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque', 'dossier'])) ||
                     ($currentUserRole == 3 && in_array($page, ['DossierContacts', 'DossierClients', 'Banque' , 'Consultation' , 'adminDashboard', 'dossier' , 'equipeView' , 'documentAgent']))
                 )
@@ -47,7 +49,7 @@
                                         @case('Commercial.Dashboard')
                                             dashboard
                                             @break
-                                        @case('DossierContacts')
+                                        @case('DossierContacts' || 'Commercial.Contact')
                                             contacts
                                             @break
                                         @case('Banque')
@@ -63,12 +65,13 @@
                                             folder
                                          
                                             @break
-                                        @case('equipeView')
+                                        @case('equipeView'|| 'Commercial.RendezVous')
                                             groups
                                             @break
                                         @case('documentAgent')
                                             folder
                                             @break
+                                       
                                         @default
                                             {{ $page }}
                                     @endswitch

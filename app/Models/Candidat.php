@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class Candidat extends Model
 {
 
@@ -12,7 +12,7 @@ class Candidat extends Model
     protected $fillable = [
         'nom', 'prenom', 'pays', 'ville', 'numero_telephone', 'email', 'profession', 'consultation_payee', "date_naissance" , "id_utilisateur", 'remarque_agent', 'versement_effectuee', 'consultation_effectuee', 'date_rdv'
     ];
-
+    
     public static function sauvegarderCandidat($data)
     {
         return self::create($data);
@@ -40,6 +40,11 @@ class Candidat extends Model
      public function proceduresDemandees()
     {
         return $this->hasMany(Procedure::class, 'id_candidat');
+    }
+
+    public function rendezVous()
+    {
+        return $this->hasOne(RendezVous::class, 'candidat_id');
     }
     
 }

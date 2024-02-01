@@ -35,10 +35,21 @@ Route::get('Dashboard', [HomeController::class, 'index'])->name('Dashboard');
 
 //Routes Commercial
 Route::get('/Commercial/Dashboard', [CommercialController::class, 'Dashboard'])->name('Commercial.Dashboard');
-    //Route Chart Dashboard COmmercial
+    //Route Chart Dashboard Commercial
 Route::get('/Commercial/AppelsChart', [CommercialController::class, 'appelChartData']);
 Route::get('/Commercial/ConsultationsChart', [CommercialController::class, 'consultationChartData']);
-    
+    //Route Dossier Contacts Commercial
+Route::get('/Commercial/Contacts', [CommercialController::class, 'Contacts'])->name('Commercial.Contact');
+Route::post('/Commercial/Contacts/AjouterProspect', [CommercialController::class, 'addProspect'])->name('Commercial.AddProspect');
+Route::put('/Commercial/Contacts/ModifierProspect/{id}', [CommercialController::class, 'addProspect'])->name('Commercial.ModifierProspect');
+     //Route Rendez Vous
+Route::get('/Commercial/RendezVous', [CommercialController::class, 'RendezVous'])->name('Commercial.RendezVous');
+
+Route::get('/Commercial/RendezVous/ConsultationPayee/{id}/{statut}', [CommercialController::class, 'changeStatutConsultationPayee'])->name('Commercial.ChangeStatutConsultation');
+Route::get('/Commercial/RendezVous/RendezVousEffectue/{id}/{statut}', [CommercialController::class, 'changeStatutRendezVous'])->name('Commercial.ChangeStatutRendezVous');
+
+
+
 
 Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');
 Route::post('Banque', [EntreeController::class, 'ajoutEntree'])->name('ajoutEntree');
