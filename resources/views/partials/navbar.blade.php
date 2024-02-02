@@ -13,7 +13,7 @@
                 $pages = [
                     'Commercial.Dashboard' => 'Dashboard',
                     'Commercial.Contact' => 'Contacts',
-                    'Commercial.RendezVous' => 'RendezVous',
+                    'Commercial.RendezVous' => 'Rendez-Vous',
                     'DossierContacts' => 'Contacts',
                     'DossierClients' => 'Dossier Clients',
                     'Banque' => 'Banque',
@@ -33,7 +33,7 @@
                     ($currentUserRole == 0 && $page == 'dashBoardConsultante') ||
                     ($currentUserRole == 1 && in_array($page, ['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'])) ||
                     ($currentUserRole == 2 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque', 'dossier'])) ||
-                    ($currentUserRole == 3 && in_array($page, ['DossierContacts', 'DossierClients', 'Banque' , 'Consultation' , 'adminDashboard', 'dossier' , 'equipeView' , 'documentAgent']))
+                    ($currentUserRole == 3 && in_array($page, ['DossierContacts', 'DossierClients', 'Banque', 'Consultation', 'adminDashboard', 'dossier', 'equipeView', 'documentAgent']))
                 )
                     <li class="nav-item">
                         <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}" href="{{ route($page) }}">
@@ -49,8 +49,14 @@
                                         @case('Commercial.Dashboard')
                                             dashboard
                                             @break
-                                        @case('DossierContacts' || 'Commercial.Contact')
+                                        @case('DossierContacts')
                                             contacts
+                                            @break
+                                        @case('Commercial.Contact')
+                                            contacts
+                                            @break
+                                        @case('Commercial.RendezVous')
+                                            handshake
                                             @break
                                         @case('Banque')
                                             receipt_long
@@ -63,15 +69,13 @@
                                             @break
                                         @case('dossier')
                                             folder
-                                         
                                             @break
-                                        @case('equipeView'|| 'Commercial.RendezVous')
+                                        @case('equipeView')
                                             groups
                                             @break
                                         @case('documentAgent')
                                             folder
                                             @break
-                                       
                                         @default
                                             {{ $page }}
                                     @endswitch

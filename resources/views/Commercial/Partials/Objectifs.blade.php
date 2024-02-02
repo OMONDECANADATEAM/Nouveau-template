@@ -13,17 +13,17 @@
             
         </div>
         <div class="row card-body">
-            <div class="col-4 text-center">
-                <i class="material-icons">phone</i>
-                <p>100/Jours</p>
+            <div class="col-4 text-center ">
+                <i class="material-icons text-bold text-success ">phone</i>
+                <h5 class="text-bold">100/Jours</h5>
             </div>
             <div class="col-4 text-center">
-                <i class="material-icons">groups</i>
-                <p>25/Mois</p>
+                <i class="material-icons text-bold text-success ">groups</i>
+                <h5 class="text-bold">25 Rdv/Jours</h5>
             </div>
             <div class="col-4 text-center">
-                <i class="material-icons">handshake</i>
-                <p>10/Mois</p>
+                <i class="material-icons text-bold text-success ">handshake</i>
+                <h5 class="text-bold">25/Mois</h5>
             </div>
         </div>
         <hr class="dark horizontal my-0">

@@ -56,13 +56,12 @@ class CommercialController extends Controller
         $utilisateurConnecte = auth()->user();
 
         // Calcule le nombre de candidats de l'utilisateur avec une date de rendez-vous non vide pour le mois et l'année actuels
-        $totalVisiteMois = Candidat::where('id_utilisateur', $utilisateurConnecte->id)
-            ->whereNotNull('date_rdv')
-            ->whereMonth('date_rdv', Carbon::now()->month)
-            ->whereYear('date_rdv', Carbon::now()->year)
-            ->count();
-
-        return compact('totalVisiteMois');
+        $totalVisiteAujourdhui = Candidat::where('id_utilisateur', $utilisateurConnecte->id)
+        ->whereNotNull('date_rdv')
+        ->whereDate('date_rdv', Carbon::now())  
+        ->count();
+    
+        return compact('totalVisiteAujourdhui');
     }
 
     private function consultationPayeeCount()
@@ -153,17 +152,16 @@ class CommercialController extends Controller
         return response()->json($formattedData);
     }
     
-
     private function formatChartData($data)
     {
         // Initialisez un tableau pour stocker les données formatées
         $formattedData = [];
-
+    
         // Groupement des données par mois
         $groupedData = $data->groupBy(function ($entry) {
-            return Carbon::parse($entry->date)->format('M');
+            return Carbon::parse($entry->date_rdv)->format('M'); // Utilisez la colonne correcte ici (date_rdv)
         });
-
+    
         // Bouclez à travers les données groupées et formatez-les
         foreach ($groupedData as $month => $entries) {
             $formattedData[] = [
@@ -171,10 +169,11 @@ class CommercialController extends Controller
                 'count' => count($entries),
             ];
         }
-
+    
         // Retournez les données formatées
         return $formattedData;
     }
+    
 
     public function contactSuccursalle()
     {

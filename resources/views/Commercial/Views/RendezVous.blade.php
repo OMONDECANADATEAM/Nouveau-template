@@ -50,11 +50,13 @@
                                 </h3>
                             </div>
 
-                            {{-- <div class="d-flex align-items-center justify-content-around w-40">
-                                <button class="btn btn-primary filter-btn" data-filter="today">Aujourd'hui</button>
-                                <button class="btn btn-primary filter-btn" data-filter="this-week">Cette semaine</button>
-                                <button class="btn btn-primary filter-btn" data-filter="this-month">Ce Mois</button>
-                            </div> --}}
+                            <div class="d-flex align-items-center justify-content-around w-40">
+
+                                <button id="all" class="btn btn-primary">Voir tout</button>
+                                <button id="todayButton" class="btn btn-primary">Aujourd'hui</button>
+                                <button id="thisWeekButton" class="btn btn-primary filter-btn">Cette semaine</button>
+                                <button id="thisMonthButton" class="btn btn-primary filter-btn">Ce Mois</button>
+                            </div>
                             
                         </div>
 
@@ -63,10 +65,7 @@
                                 <table class="table align-items-center justify-content-center mb-0 bg-white">
                                     <thead>
                                         <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                PROFFESSION
-                                            </th>
+                                            
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 NOM
@@ -80,24 +79,21 @@
                                                 PROFFESSION
                                             </th>
 
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">
+                                                DATE DE RDV
+                                            </th>
+
+                                            <th
+                                            class="text-uppercase text-secondary text-left text-xxs font-weight-bolder opacity-7 ps-2 ">
+                                                MODIFIER
+                                        </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($candidats as $candidat)
                                         <tr data-date="{{ Carbon\Carbon::parse($candidat->date_rdv)->format('Y-m-d') }}">
-                                            <td>
-                                                    <div class="d-flex px-2">
-
-                                                        <div class="d-flex px-2">
-
-                                                            <h6 class="p-2 text-md">
-                                                                {{ Carbon\Carbon::parse($candidat->date_rdv)->locale('fr_FR')->isoFormat('DD MMMM YYYY') }}
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-
-                                                </td>
-
+                                            
                                                 <td>
                                                     <div class="d-flex px-2">
                                                         <h6 class="p-2 text-md">{{ $candidat->nom }}
@@ -113,7 +109,26 @@
                                                         class="text-md font-weight-bold">{{ $candidat->profession }}</span>
                                                 </td>
 
+                                                <td>
+                                                    <div class="d-flex px-2">
+
+                                                        <div class="d-flex px-2">
+
+                                                            <h6 class="p-2 text-md">
+                                                                {{ Carbon\Carbon::parse($candidat->date_rdv)->locale('fr_FR')->isoFormat('DD MMMM YYYY') }}
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+
+                                                <td>
+                                                    <a  class="btn btn-warning btn-sm"  data-bs-toggle="modal" data-bs-target="#modifierContactModal{{ $candidat->id }}">
+                                                        <i class="material-icons text-xl"  style="font-size: 1rem;">edit</i>
+                                                </td>
+
                                             </tr>
+                                            @include('Commercial.Partials.ModifierProspect', ['candidat' => $candidat])
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -126,37 +141,72 @@
 
     </main>
     @include('partials.plugin')
-
     <script>
-        $(document).ready(function() {
-            // Fonction pour appliquer les filtres
-            function applyFilters() {
-                // Masquer toutes les lignes
-                $('tbody tr').hide();
+
+document.addEventListener("DOMContentLoaded", function () {
+        // Sélectionnez le bouton "Voir tout"
+        const allButton = document.querySelector('#all');
+
+        // Sélectionnez toutes les lignes du tableau
+        const rows = document.querySelectorAll('tbody tr');
+
+        // Ajoutez un écouteur d'événements au bouton "Voir tout"
+        allButton.addEventListener('click', function () {
+            // Parcourez toutes les lignes et affichez-les
+            rows.forEach(function (row) {
+                row.style.display = '';
+            });
+        });
+    });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Sélectionnez les boutons de filtre
+            const todayButton = document.querySelector('#todayButton');
+            const thisWeekButton = document.querySelector('#thisWeekButton');
+            const thisMonthButton = document.querySelector('#thisMonthButton');
     
-                // Filtrer par date
-                $('.filter-btn.active').each(function() {
-                    var filter = $(this).data('filter');
-                    $('tbody tr[data-date="' + filter + '"]').show();
+            // Sélectionnez toutes les lignes du tableau
+            const rows = document.querySelectorAll('tbody tr');
+    
+            // Fonction pour filtrer les rendez-vous en fonction de la date
+            function filterAppointments(dateFilter) {
+                const currentDate = new Date();
+    
+                // Définir la date de début de la semaine actuelle
+                const startOfWeek = new Date(currentDate);
+                startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+    
+                // Définir la date de fin de la semaine actuelle
+                const endOfWeek = new Date(currentDate);
+                endOfWeek.setDate(startOfWeek.getDate() + 6);
+    
+                rows.forEach(function (row) {
+                    const rowDate = new Date(row.getAttribute('data-date'));
+    
+                    if (dateFilter === 'today' && rowDate.toDateString() === currentDate.toDateString()) {
+                        row.style.display = '';
+                    } else if (dateFilter === 'thisWeek' && rowDate >= startOfWeek && rowDate <= endOfWeek) {
+                        row.style.display = '';
+                    } else if (dateFilter === 'thisMonth' && rowDate.getMonth() === currentDate.getMonth()) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
                 });
-    
-                // Si aucun filtre n'est sélectionné, afficher toutes les lignes
-                if ($('.filter-btn.active').length === 0) {
-                    $('tbody tr').show();
-                }
             }
     
-            // Écouteurs d'événements pour les boutons de filtre
-            $('.filter-btn').on('click', function() {
-                // Ajouter ou supprimer une classe active pour indiquer l'état du filtre
-                $(this).toggleClass('active');
-    
-                // Appliquer les filtres
-                applyFilters();
+            // Ajoutez des écouteurs d'événements aux boutons de filtre
+            todayButton.addEventListener('click', function () {
+                filterAppointments('today');
             });
     
-            // Appliquer les filtres au chargement de la page
-            applyFilters();
+            thisWeekButton.addEventListener('click', function () {
+                filterAppointments('thisWeek');
+            });
+    
+            thisMonthButton.addEventListener('click', function () {
+                filterAppointments('thisMonth');
+            });
         });
     </script>
     

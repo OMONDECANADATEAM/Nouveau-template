@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="card-body">
-            <h6 class="mb-0 "> Indice vente par mois </h6>
+            <h6 class="mb-0 "> Consultation Conclue par mois</h6>
         </div>
     </div>
 </div>

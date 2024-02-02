@@ -7,7 +7,7 @@
             <div class="icon icon-md icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl mt-n4">
                 <i class="material-icons opacity-10">phone</i>
             </div>
-            <p class="text-xl text-bold mb-0 text-capitalize">Appels - {{ $jourActuel }}</p>
+            <p class="text-xl text-bold mb-0 text-capitalize">Appels - Aujourd'hui</p>
 
         </div>
         <div class="card-body">

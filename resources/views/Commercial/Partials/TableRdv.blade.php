@@ -6,7 +6,7 @@
                     class="bg-gradient-dark shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
                     <div class="p-2 border-radius-lg w-100 d-flex flex-direction-row justify-content-between ">
                         <h3 class="text-white">
-                            Rendez vous du jour
+                            Rendez-vous du jour
                         </h3>
 
                         <a href="{{ route('Commercial.RendezVous') }}" class="btn btn-primary">
@@ -17,29 +17,30 @@
 
                 <div class="card-body px-0 pb-2 ">
                     <div class="table-responsive p-0  " style="max-height: 750px; overflow-y: auto;">
-                        <table class="table align-items-center justify-content-center mb-0 bg-white">
+                        <table class="table align-items-center justify-content-between mb-0 bg-white">
                             <thead>
                                 <tr>
                                     <th
-                                        class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7">
                                         NOM
                                     </th>
                                     <th
-                                        class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        class="text-uppercase  text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         NUMERO
                                     </th>
                                     <th
-                                        class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        class="text-uppercase  text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         PROFFESSION
                                     </th>
                                     <th
                                         class="text-uppercase  text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        CONSULTATION PAYEE
+                                        RENDEZ VOUS EFFECTUE
                                     </th>
                                     <th
                                         class="text-uppercase text-center  text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        RENDEZ VOUS EFFECTUE
+                                        CONSULTATION PAYEE
                                     </th>
+
                                 </tr>
                             </thead>
 
@@ -61,39 +62,55 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center justify-content-around">
-                                                @if ($candidat->rendezVous && $candidat->rendezVous->consultation_payee === 0)
-                                                <button onclick="toggleConsultationPayee('{{ $candidat->rendezVous->id }}', 'yes');" data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
-                                                    <i class="material-icons text-bolder icon-large toggle-consultation" style="font-size: 2rem;">check</i>
-                                                </button>
-                                            
-                                                <button onclick="toggleConsultationPayee('{{ $candidat->rendezVous->id }}', 'no');" data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
-                                                    <i class="material-icons text-bolder icon-large toggle-consultation" style="font-size: 2rem;">close</i>
-                                                </button>
-                                            @elseif ($candidat->rendezVous && $candidat->rendezVous->consultation_payee === 1)
-                                                <i class="material-icons text-success text-bolder icon-large" style="font-size: 2rem;">check</i>
-                                            @endif
-                                            
+                                                @if ($candidat->rendezVous && $candidat->rendezVous->rdv_effectue === 0)
+                                                    <button
+                                                        onclick="toggleStatutRendezVous('{{ $candidat->rendezVous->id }}', 'yes');"
+                                                        data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
+                                                        <i class="material-icons text-bolder icon-large toggle-consultation"
+                                                            style="font-size: 2rem;">check</i>
+                                                    </button>
+
+                                                    <button
+                                                        onclick="toggleStatutRendezVous('{{ $candidat->rendezVous->id }}', 'no');"
+                                                        data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
+                                                        <i class="material-icons text-bolder icon-large toggle-consultation"
+                                                            style="font-size: 2rem;">close</i>
+                                                    </button>
+                                                @elseif ($candidat->rendezVous && $candidat->rendezVous->rdv_effectue === 1)
+                                                    <i class="material-icons text-success text-bolder icon-large"
+                                                        style="font-size: 2rem;">check</i>
+                                                @endif
+
                                             </div>
-                                           
+
                                         </td>
 
                                         <td>
-                                            <div class="d-flex align-items-center justify-content-around">
-                                                @if ($candidat->rendezVous && $candidat->rendezVous->rdv_effectue === 0)
-                                                <button onclick="toggleStatutRendezVous('{{ $candidat->rendezVous->id }}', 'yes');" data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
-                                                    <i class="material-icons text-bolder icon-large toggle-consultation" style="font-size: 2rem;">check</i>
-                                                </button>
-                                            
-                                                <button onclick="toggleStatutRendezVous('{{ $candidat->rendezVous->id }}', 'no');" data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
-                                                    <i class="material-icons text-bolder icon-large toggle-consultation" style="font-size: 2rem;">close</i>
-                                                </button>
-                                            @elseif ($candidat->rendezVous && $candidat->rendezVous->rdv_effectue === 1)
-                                                <i class="material-icons text-success text-bolder icon-large" style="font-size: 2rem;">check</i>
-                                            @endif
-                                            
+                                            <div class="d-flex align-items-center justify-content-around ">
+                                                @if ($candidat->rendezVous && $candidat->rendezVous->consultation_payee === 0)
+                                                    <button
+                                                        onclick="toggleConsultationPayee('{{ $candidat->rendezVous->id }}', 'yes');"
+                                                        data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
+                                                        <i class="material-icons text-bolder icon-large toggle-consultation"
+                                                            style="font-size: 2rem;">check</i>
+                                                    </button>
+
+                                                    <button
+                                                        onclick="toggleConsultationPayee('{{ $candidat->rendezVous->id }}', 'no');"
+                                                        data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
+                                                        <i class="material-icons text-bolder icon-large toggle-consultation"
+                                                            style="font-size: 2rem;">close</i>
+                                                    </button>
+                                                @elseif ($candidat->rendezVous && $candidat->rendezVous->consultation_payee === 1)
+                                                    <i class="material-icons text-success text-bolder icon-large"
+                                                        style="font-size: 2rem;">check</i>
+                                                @endif
+
                                             </div>
-                                           
+
                                         </td>
+
+                                      
 
 
                                     </tr>
