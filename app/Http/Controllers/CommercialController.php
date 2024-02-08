@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException; // Add this line
 use Carbon\Carbon;
 use App\Models\Candidat;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Entree;
 use App\Models\RendezVous;
 
 class CommercialController extends Controller
@@ -128,9 +127,6 @@ class CommercialController extends Controller
         return response()->json($data);
     }
 
-
-
-
     public function consultationChartData()
     {
         // Obtenez l'utilisateur connecté
@@ -189,8 +185,6 @@ class CommercialController extends Controller
 
         return $candidats;
     }
-
-   
 
     public function Contacts()
     {
@@ -258,8 +252,7 @@ class CommercialController extends Controller
     
         return $candidats;
     }
-    
-    
+     
     public function rendezVous()
     {
         $candidats = $this->allCandiatWithRendezVous();
@@ -290,7 +283,6 @@ class CommercialController extends Controller
         }
     }
     
-
     public function changeStatutRendezVous($id, $statut)
     {
         try {
@@ -315,6 +307,7 @@ class CommercialController extends Controller
         }
     }
     
-    
+
+     
     
 }

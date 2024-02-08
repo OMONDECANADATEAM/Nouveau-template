@@ -26,7 +26,7 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-    <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
+    <script src="{{ asset('assets/js/script/RdvCommercial.js') }}"></script>
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -57,7 +57,7 @@
                                 <button id="thisWeekButton" class="btn btn-primary filter-btn">Cette semaine</button>
                                 <button id="thisMonthButton" class="btn btn-primary filter-btn">Ce Mois</button>
                             </div>
-                            
+
                         </div>
 
                         <div class="card-body px-0 pb-2 ">
@@ -65,7 +65,7 @@
                                 <table class="table align-items-center justify-content-center mb-0 bg-white">
                                     <thead>
                                         <tr>
-                                            
+
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 NOM
@@ -74,26 +74,30 @@
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 NUMERO
                                             </th>
+
+
                                             <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                PROFFESSION
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center ">
+                                                RDV EFFECTUÉE
                                             </th>
 
                                             <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">
-                                                DATE DE RDV
+                                                class="text-uppercase text-secondary  text-center text-xxs font-weight-bolder opacity-7 ">
+                                                CONSULTATION CONCLUE
                                             </th>
 
+
                                             <th
-                                            class="text-uppercase text-secondary text-left text-xxs font-weight-bolder opacity-7 ps-2 ">
+                                                class="text-uppercase text-secondary text-left text-xxs font-weight-bolder opacity-7 ps-2 ">
                                                 MODIFIER
-                                        </th>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($candidats as $candidat)
-                                        <tr data-date="{{ Carbon\Carbon::parse($candidat->date_rdv)->format('Y-m-d') }}">
-                                            
+                                            <tr
+                                                data-date="{{ Carbon\Carbon::parse($candidat->date_rdv)->format('Y-m-d') }}">
+
                                                 <td>
                                                     <div class="d-flex px-2">
                                                         <h6 class="p-2 text-md">{{ $candidat->nom }}
@@ -105,30 +109,71 @@
                                                         {{ $candidat->numero_telephone }}</p>
                                                 </td>
                                                 <td>
-                                                    <span
-                                                        class="text-md font-weight-bold">{{ $candidat->profession }}</span>
-                                                </td>
+                                                    <div class="d-flex align-items-center justify-content-around">
+                                                        @if ($candidat->rendezVous && $candidat->rendezVous->rdv_effectue === 0)
+                                                            <button
+                                                                onclick="toggleStatutRendezVous('{{ $candidat->rendezVous->id }}', 'yes');"
+                                                                data-candidat-id="{{ $candidat->id }}"
+                                                                class="btn btn-primary">
+                                                                <i class="material-icons text-bolder icon-large toggle-consultation"
+                                                                    style="font-size: 2rem;">check</i>
+                                                            </button>
 
-                                                <td>
-                                                    <div class="d-flex px-2">
+                                                            <button
+                                                                onclick="toggleStatutRendezVous('{{ $candidat->rendezVous->id }}', 'no');"
+                                                                data-candidat-id="{{ $candidat->id }}"
+                                                                class="btn btn-primary">
+                                                                <i class="material-icons text-bolder icon-large toggle-consultation"
+                                                                    style="font-size: 2rem;">close</i>
+                                                            </button>
+                                                        @elseif ($candidat->rendezVous && $candidat->rendezVous->rdv_effectue === 1)
+                                                            <i class="material-icons text-success text-bolder icon-large"
+                                                                style="font-size: 2rem;">check</i>
+                                                        @endif
 
-                                                        <div class="d-flex px-2">
-
-                                                            <h6 class="p-2 text-md">
-                                                                {{ Carbon\Carbon::parse($candidat->date_rdv)->locale('fr_FR')->isoFormat('DD MMMM YYYY') }}
-                                                            </h6>
-                                                        </div>
                                                     </div>
 
                                                 </td>
 
                                                 <td>
-                                                    <a  class="btn btn-warning btn-sm"  data-bs-toggle="modal" data-bs-target="#modifierContactModal{{ $candidat->id }}">
-                                                        <i class="material-icons text-xl"  style="font-size: 1rem;">edit</i>
+                                                    <div class="d-flex align-items-center justify-content-around ">
+                                                        @if ($candidat->rendezVous && $candidat->rendezVous->consultation_payee === 0)
+                                                            <button
+                                                                onclick="toggleConsultationPayee('{{ $candidat->rendezVous->id }}', 'yes');"
+                                                                data-candidat-id="{{ $candidat->id }}"
+                                                                class="btn btn-primary">
+                                                                <i class="material-icons text-bolder icon-large toggle-consultation"
+                                                                    style="font-size: 2rem;">check</i>
+                                                            </button>
+
+                                                            <button
+                                                                onclick="toggleConsultationPayee('{{ $candidat->rendezVous->id }}', 'no');"
+                                                                data-candidat-id="{{ $candidat->id }}"
+                                                                class="btn btn-primary">
+                                                                <i class="material-icons text-bolder icon-large toggle-consultation"
+                                                                    style="font-size: 2rem;">close</i>
+                                                            </button>
+                                                        @elseif ($candidat->rendezVous && $candidat->rendezVous->consultation_payee === 1)
+                                                            <i class="material-icons text-success text-bolder icon-large"
+                                                                style="font-size: 2rem;">check</i>
+                                                        @endif
+
+                                                    </div>
+                                                </td>
+
+
+
+                                                <td>
+                                                    <a class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#modifierContactModal{{ $candidat->id }}">
+                                                        <i class="material-icons text-xl"
+                                                            style="font-size: 1rem;">edit</i>
                                                 </td>
 
                                             </tr>
-                                            @include('Commercial.Partials.ModifierProspect', ['candidat' => $candidat])
+                                            @include('Commercial.Partials.ModifierProspect', [
+                                                'candidat' => $candidat,
+                                            ])
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -142,74 +187,75 @@
     </main>
     @include('partials.plugin')
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Sélectionnez le bouton "Voir tout"
+            const allButton = document.querySelector('#all');
 
-document.addEventListener("DOMContentLoaded", function () {
-        // Sélectionnez le bouton "Voir tout"
-        const allButton = document.querySelector('#all');
+            // Sélectionnez toutes les lignes du tableau
+            const rows = document.querySelectorAll('tbody tr');
 
-        // Sélectionnez toutes les lignes du tableau
-        const rows = document.querySelectorAll('tbody tr');
-
-        // Ajoutez un écouteur d'événements au bouton "Voir tout"
-        allButton.addEventListener('click', function () {
-            // Parcourez toutes les lignes et affichez-les
-            rows.forEach(function (row) {
-                row.style.display = '';
+            // Ajoutez un écouteur d'événements au bouton "Voir tout"
+            allButton.addEventListener('click', function() {
+                // Parcourez toutes les lignes et affichez-les
+                rows.forEach(function(row) {
+                    row.style.display = '';
+                });
             });
         });
-    });
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             // Sélectionnez les boutons de filtre
             const todayButton = document.querySelector('#todayButton');
             const thisWeekButton = document.querySelector('#thisWeekButton');
             const thisMonthButton = document.querySelector('#thisMonthButton');
-    
+
             // Sélectionnez toutes les lignes du tableau
             const rows = document.querySelectorAll('tbody tr');
-    
+
             // Fonction pour filtrer les rendez-vous en fonction de la date
             function filterAppointments(dateFilter) {
                 const currentDate = new Date();
-    
+
                 // Définir la date de début de la semaine actuelle
                 const startOfWeek = new Date(currentDate);
                 startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
-    
+
                 // Définir la date de fin de la semaine actuelle
                 const endOfWeek = new Date(currentDate);
                 endOfWeek.setDate(startOfWeek.getDate() + 6);
-    
-                rows.forEach(function (row) {
+
+                rows.forEach(function(row) {
                     const rowDate = new Date(row.getAttribute('data-date'));
-    
+
                     if (dateFilter === 'today' && rowDate.toDateString() === currentDate.toDateString()) {
                         row.style.display = '';
-                    } else if (dateFilter === 'thisWeek' && rowDate >= startOfWeek && rowDate <= endOfWeek) {
+                    } else if (dateFilter === 'thisWeek' && rowDate >= startOfWeek && rowDate <=
+                        endOfWeek) {
                         row.style.display = '';
-                    } else if (dateFilter === 'thisMonth' && rowDate.getMonth() === currentDate.getMonth()) {
+                    } else if (dateFilter === 'thisMonth' && rowDate.getMonth() === currentDate
+                        .getMonth()) {
                         row.style.display = '';
                     } else {
                         row.style.display = 'none';
                     }
                 });
             }
-    
+
             // Ajoutez des écouteurs d'événements aux boutons de filtre
-            todayButton.addEventListener('click', function () {
+            todayButton.addEventListener('click', function() {
                 filterAppointments('today');
             });
-    
-            thisWeekButton.addEventListener('click', function () {
+
+            thisWeekButton.addEventListener('click', function() {
                 filterAppointments('thisWeek');
             });
-    
-            thisMonthButton.addEventListener('click', function () {
+
+            thisMonthButton.addEventListener('click', function() {
                 filterAppointments('thisMonth');
             });
         });
     </script>
-    
+
 </body>
 
 

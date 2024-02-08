@@ -32,14 +32,15 @@
                                         class="text-uppercase  text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         PROFFESSION
                                     </th>
+
                                     <th
-                                        class="text-uppercase  text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        RENDEZ VOUS EFFECTUE
+                                        class="text-uppercase  text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        DATE DE RDV
                                     </th>
-                                    <th
-                                        class="text-uppercase text-center  text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        CONSULTATION PAYEE
-                                    </th>
+
+
+
+                                   
 
                                 </tr>
                             </thead>
@@ -53,64 +54,32 @@
                                                 </h6>
                                             </div>
                                         </td>
+
                                         <td>
                                             <p class="text-md font-weight-bold mb-0">{{ $candidat->numero_telephone }}
                                             </p>
                                         </td>
+
                                         <td>
                                             <span class="text-md font-weight-bold">{{ $candidat->profession }}</span>
                                         </td>
-                                        <td>
-                                            <div class="d-flex align-items-center justify-content-around">
-                                                @if ($candidat->rendezVous && $candidat->rendezVous->rdv_effectue === 0)
-                                                    <button
-                                                        onclick="toggleStatutRendezVous('{{ $candidat->rendezVous->id }}', 'yes');"
-                                                        data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
-                                                        <i class="material-icons text-bolder icon-large toggle-consultation"
-                                                            style="font-size: 2rem;">check</i>
-                                                    </button>
 
-                                                    <button
-                                                        onclick="toggleStatutRendezVous('{{ $candidat->rendezVous->id }}', 'no');"
-                                                        data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
-                                                        <i class="material-icons text-bolder icon-large toggle-consultation"
-                                                            style="font-size: 2rem;">close</i>
-                                                    </button>
-                                                @elseif ($candidat->rendezVous && $candidat->rendezVous->rdv_effectue === 1)
-                                                    <i class="material-icons text-success text-bolder icon-large"
-                                                        style="font-size: 2rem;">check</i>
-                                                @endif
-
-                                            </div>
-
-                                        </td>
+                                       
 
                                         <td>
-                                            <div class="d-flex align-items-center justify-content-around ">
-                                                @if ($candidat->rendezVous && $candidat->rendezVous->consultation_payee === 0)
-                                                    <button
-                                                        onclick="toggleConsultationPayee('{{ $candidat->rendezVous->id }}', 'yes');"
-                                                        data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
-                                                        <i class="material-icons text-bolder icon-large toggle-consultation"
-                                                            style="font-size: 2rem;">check</i>
-                                                    </button>
-
-                                                    <button
-                                                        onclick="toggleConsultationPayee('{{ $candidat->rendezVous->id }}', 'no');"
-                                                        data-candidat-id="{{ $candidat->id }}" class="btn btn-primary">
-                                                        <i class="material-icons text-bolder icon-large toggle-consultation"
-                                                            style="font-size: 2rem;">close</i>
-                                                    </button>
-                                                @elseif ($candidat->rendezVous && $candidat->rendezVous->consultation_payee === 1)
-                                                    <i class="material-icons text-success text-bolder icon-large"
-                                                        style="font-size: 2rem;">check</i>
-                                                @endif
-
-                                            </div>
-
+                                            @php
+                                                $carbonDate = \Carbon\Carbon::parse($candidat->rendezVous->date_rdv);
+                                                $formattedDate = ucwords($carbonDate->translatedFormat('l j F Y'));
+                                            @endphp
+                                            <span class="text-md font-weight-bold">{{ $formattedDate }}</span>
                                         </td>
+                                        
+                                        
 
-                                      
+                                       
+
+
+                                        
 
 
                                     </tr>
@@ -121,8 +90,6 @@
 
                     </div>
                 </div>
-
-
 
             </div>
         </div>

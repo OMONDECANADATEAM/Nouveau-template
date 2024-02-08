@@ -24,7 +24,7 @@ class Candidat extends Model
 
     public function utilisateur()
     {
-        return $this->belongsTo(User::class, 'id_utilisateur'); // Assurez-vous d'ajuster la clé étrangère si nécessaire
+        return $this->belongsTo(User::class, 'id_utilisateur');
     }
 
     public function ficheConsultation()
@@ -45,6 +45,10 @@ class Candidat extends Model
     public function rendezVous()
     {
         return $this->hasOne(RendezVous::class, 'candidat_id');
+    }
+    public function dossier()
+    {
+        return $this->hasOne(Dossier::class, 'id_candidat', 'id');
     }
     
 }

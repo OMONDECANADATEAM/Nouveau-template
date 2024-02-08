@@ -32,7 +32,8 @@ class HomeController extends Controller
                     
                 case 2:
                     // Administratif, redirigez-le vers le dashboard Administratif
-                    return view('Administratif.Views.Dashboard');
+                    return redirect()->route('Administratif.Dashboard');
+                  
                 case 3:
                     // Informatique, redirigez-le vers le dashboard Informatique
                     return view('Informatique.Views.Dashboard');

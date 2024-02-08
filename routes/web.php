@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdministratifController;
 use App\Http\Controllers\CommercialController;
 use App\Http\Controllers\DossierController;
 use App\Http\Controllers\DepenseController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\consultationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\chartController;
 use App\Http\Controllers\ConsultanteController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,11 +44,22 @@ Route::post('/Commercial/Contacts/AjouterProspect', [CommercialController::class
 Route::put('/Commercial/Contacts/ModifierProspect/{id}', [CommercialController::class, 'addProspect'])->name('Commercial.ModifierProspect');
      //Route Rendez Vous
 Route::get('/Commercial/RendezVous', [CommercialController::class, 'RendezVous'])->name('Commercial.RendezVous');
-
+    //Route Toggle
 Route::get('/Commercial/RendezVous/ConsultationPayee/{id}/{statut}', [CommercialController::class, 'changeStatutConsultationPayee'])->name('Commercial.ChangeStatutConsultation');
 Route::get('/Commercial/RendezVous/RendezVousEffectue/{id}/{statut}', [CommercialController::class, 'changeStatutRendezVous'])->name('Commercial.ChangeStatutRendezVous');
 
 
+//Routes Administratif
+Route::get('/Administratif/Dashboard', [AdministratifController::class, 'Dashboard'])->name('Administratif.Dashboard');
+    //Route Charts
+    Route::get('/Administratif/EntreeChartData', [AdministratifController::class, 'EntreeChartData']);
+    Route::get('/Administratif/Clients', [AdministratifController::class, 'Clients'])->name('Administratif.Clients');
+    Route::put('/Administratif/Clients/ModifierFicheConsultation/{id}', [AdministratifController::class, 'CreerOuModifierFiche'])->name('Administratif.CreerOuModifierFiche'); 
+    Route::put('/Administratif/Clients/ModifierDateConsultation/{id}', [AdministratifController::class, 'ModifierDateConsultation'])->name('Administratif.CreerOuModifierDateConsultation'); 
+
+Route::get('/Administratif/DossierClients', [AdministratifController::class, 'DossierClients'])->name('Administratif.DossierClients');
+Route::get('/Administratif/Banque', [AdministratifController::class, 'Banque'])->name('Administratif.Banque');
+Route::get('/Administratif/Consultation', [AdministratifController::class, 'Consultation'])->name('Administratif.Consultation');
 
 
 Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');

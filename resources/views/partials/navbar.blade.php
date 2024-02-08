@@ -5,15 +5,25 @@
             <img src="{{ asset('assets/img/logos/logo-omonde.png') }}" class="navbar-brand-img h-200 mx-auto d-block" alt="main_logo">
         </a>
     </div>
-    
+
     <hr class="horizontal light mt-0 mb-2">
     <div class="w-auto max-height-vh-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             @php
                 $pages = [
+                    // Pages Commerciaux
                     'Commercial.Dashboard' => 'Dashboard',
                     'Commercial.Contact' => 'Contacts',
                     'Commercial.RendezVous' => 'Rendez-Vous',
+
+                    // Pages Administratif
+                    'Administratif.Dashboard' => 'Dashboard',
+                    'Administratif.Clients' => 'Clients',
+                    'Administratif.DossierClients' => 'Dossier Client',
+                    'Administratif.Banque' => 'Banque',
+                    'Administratif.Consultation' => 'Consultation',
+
+                    // Other Pages
                     'DossierContacts' => 'Contacts',
                     'DossierClients' => 'Dossier Clients',
                     'Banque' => 'Banque',
@@ -27,12 +37,12 @@
                 $currentRoute = \Request::route()->getName();
                 $currentUserRole = auth()->user()->getRole();
             @endphp
-    
+
             @foreach ($pages as $page => $pageTitle)
                 @if (
                     ($currentUserRole == 0 && $page == 'dashBoardConsultante') ||
                     ($currentUserRole == 1 && in_array($page, ['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'])) ||
-                    ($currentUserRole == 2 && in_array($page, ['home', 'DossierContacts', 'DossierClients', 'Banque', 'dossier'])) ||
+                    ($currentUserRole == 2 && in_array($page, ['Administratif.Dashboard', 'Administratif.Clients', 'Administratif.DossierClients' , 'Administratif.Banque',  'Administratif.Consultation'])) ||
                     ($currentUserRole == 3 && in_array($page, ['DossierContacts', 'DossierClients', 'Banque', 'Consultation', 'adminDashboard', 'dossier', 'equipeView', 'documentAgent']))
                 )
                     <li class="nav-item">
@@ -43,6 +53,21 @@
                                         @case('adminDashboard')
                                             dashboard
                                             @break
+                                        @case('Administratif.Dashboard')
+                                            dashboard
+                                            @break
+                                        @case('Administratif.Clients')
+                                        contacts
+                                            @break
+                                        @case('Administratif.DossierClients')
+                                        folder
+                                            @break
+                                        @case('Administratif.Consultation')
+                                        groups
+                                        @break
+                                         @case('Administratif.Banque')
+                                         account_balance
+                                                @break
                                         @case('DossierClients')
                                             table_view
                                             @break

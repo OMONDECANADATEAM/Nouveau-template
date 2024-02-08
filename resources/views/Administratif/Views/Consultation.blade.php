@@ -18,10 +18,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
     <title>
-        Omonde Canada - CRM
+        Omonde Canada Crm | CONSULATATIONS
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
@@ -29,53 +28,24 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
-    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-   
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
     @include('partials.navbar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        @include('partials.header', ['page' => 'DASHBOARD'])
+        @include('partials.header', ['page' => 'CONSULTATION'])
         <!-- End Navbar -->
-        <div class="container-fluid py-4">
-            <div class="row">
-                {{-- Total caisse --}}
-                @include('Administratif.Partials.Caisse')
-                
-                {{-- Nombre de COnsultation --}}
-                @include('Administratif.Partials.Consultation')
-                
-              
-                {{-- Nombre de versements--}}
-                @include('Administratif.Partials.Versement')
-
-            </div>
-            <div class="row mt-4 d-flex justify-content-around">
-              
-                 @include('Administratif.Partials.ChartEntree')               
-               
-                 @include('Administratif.Partials.ProchaineConsultation')
-            </div>
-
-            <div class="row mt-4 d-flex justify-content-around">
-              
-                {{-- @include('Administratif.Partials.TableRdv') --}}
-              
-            </div>
-
-           
-                      
+        <div class="row">
+            <div class="col-12">
+                @include('Administratif.Partials.TableConsultation')
+            </div> 
         </div>
-        </div>
-      
+
     </main>
+    @include('partials.plugin')
 </body>
-<script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
 
-@include('partials.plugin')
 
 </html>
