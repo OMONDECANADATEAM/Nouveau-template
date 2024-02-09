@@ -56,7 +56,8 @@ Route::get('/Administratif/Dashboard', [AdministratifController::class, 'Dashboa
     Route::get('/Administratif/Clients', [AdministratifController::class, 'Clients'])->name('Administratif.Clients');
     Route::put('/Administratif/Clients/ModifierFicheConsultation/{id}', [AdministratifController::class, 'CreerOuModifierFiche'])->name('Administratif.CreerOuModifierFiche'); 
     Route::put('/Administratif/Clients/ModifierDateConsultation/{id}', [AdministratifController::class, 'ModifierDateConsultation'])->name('Administratif.CreerOuModifierDateConsultation'); 
-
+    Route::post('/Administratif/DossierClient/ModifierTypeVisa/{id}', [AdministratifController::class, 'ModifierTypeVisa'])->name('Administratif.ModifierTypeVisa'); 
+    
 Route::get('/Administratif/DossierClients', [AdministratifController::class, 'DossierClients'])->name('Administratif.DossierClients');
 Route::get('/Administratif/Banque', [AdministratifController::class, 'Banque'])->name('Administratif.Banque');
 Route::get('/Administratif/Consultation', [AdministratifController::class, 'Consultation'])->name('Administratif.Consultation');

@@ -11,7 +11,7 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                         PROFFESSION</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                        DATE</th>
+                        DATE ENREGISTREMENT</th>
                     <th></th>
                 </tr>
             </thead>

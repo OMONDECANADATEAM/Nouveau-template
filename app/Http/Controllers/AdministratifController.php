@@ -13,6 +13,8 @@ use App\Models\FicheConsultation;
 use App\Models\RendezVous;
 use Carbon\Carbon;
 use App\Models\InfoConsultation;
+use App\Models\Procedure;
+use Termwind\Components\Dd;
 
 class AdministratifController extends Controller
 {
@@ -635,4 +637,67 @@ class AdministratifController extends Controller
 
         return view('Administratif.Views.Consultation', compact('consultations'));
     }
+
+    public function aucunVersement()
+    {
+        // Récupérez l'ID de l'utilisateur actuel
+        $userId = Auth::id();
+    
+        // Utilisez Eloquent pour récupérer les candidats enregistrés par l'utilisateur actuel
+        $candidats = Candidat::where('id_utilisateur', $userId)
+            ->whereDoesntHave('entrees', function ($query) {
+                // Filtrez les candidats qui n'ont pas d'entrées de type 2 (consultation)
+                $query->where('type_entree', 2);
+            })
+            ->get();
+    
+        return $candidats;
+    }
+
+   
+    public function ModifierTypeVisa(Request $request, $candidatId)
+    {
+        try {
+            // Validez les données du formulaire
+            $request->validate([
+                'type_procedure' => 'required|exists:type_procedure,id', // Assurez-vous que le type de procédure existe
+            ]);
+    
+            // Validez l'existence du candidat
+            $candidat = Candidat::find($candidatId);
+    
+            if (!$candidat) {
+                return redirect()->back()->with('error', 'Candidat introuvable.');
+            }
+    
+            // Récupérez le type de procédure sélectionné dans le formulaire
+            $typeProcedureId = $request->input('type_procedure');
+    
+            // Recherchez une procédure existante pour le candidat
+            $procedure = Procedure::where('id_candidat', $candidatId)->first();
+    
+            // Si une procédure existe, mettez à jour le type de procédure
+            if ($procedure) {
+                $procedure->update([
+                    'id_type_procedure' => $typeProcedureId,
+                ]);
+            } else {
+                // Sinon, créez une nouvelle instance de la classe Procedure
+                $procedure = new Procedure([
+                    'id_candidat' => $candidatId,
+                    'id_type_procedure' => $typeProcedureId,
+                ]);
+    
+                // Sauvegardez la nouvelle procédure dans la base de données
+                $procedure->save();
+            }
+    
+            return redirect()->route('votre.route.de.redirection')->with('success', 'Procédure enregistrée avec succès.');
+        } catch (\Exception $e) {
+            // Gérez les erreurs, par exemple, en les enregistrant ou en les affichant à l'utilisateur
+            return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de la procédure.');
+        }
+    }
+    
+    
 }

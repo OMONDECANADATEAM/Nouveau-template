@@ -7,7 +7,6 @@
                 <h5 class="modal-title" id="ajouterEntreeModalLabel">Ajouter un paiement</h5>
             </div>
             <div class="modal-body">
-            
                 <form action="{{ route('ajoutEntree') }}" method="post">
                     @csrf
                     <div class="d-flex">
@@ -18,13 +17,12 @@
                         </div>
 
                         <!-- Champs Date -->
-
                         <div class="input-group input-group-outline mb-3 p-2">
-                            <label for="date" class="form-label">Date:</label>
-                            <input type="date" name="date" id="date" class="form-control"
-                                value="{{ now()->format('Y-m-d') }}" required>
+                            <label for="datetime" class="form-label">Date et Heure :</label>
+                            <input type="datetime-local" name="datetime" id="datetime" class="form-control" required
+                                value="{{ now()->format('Y-m-d\TH:i') }}">
                         </div>
-
+                        
                     </div>
                     <!-- Champs Candidat -->
                     <div class="input-group input-group-outline mb-3 p-2">
@@ -32,28 +30,14 @@
                         <select name="candidat" id="candidat" class="form-control" required>
                             <!-- Option vide au début pour laisser le choix par défaut -->
                             <option value="" disabled selected>Choisissez un candidat</option>
-                    
                             <!-- Récupérer la liste des candidats triés par nom -->
-                            @foreach (App\Models\Candidat::orderBy('nom')->get() as $candidat)
-                                <option value="{{ $candidat->id }}">{{ $candidat->nom }} {{ $candidat->prenom }}</option>
+                            @foreach (auth()->user()->candidats()->orderBy('nom')->get() as $candidat)
+                                <option value="{{ $candidat->id }}">{{ $candidat->nom }} {{ $candidat->prenom }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
-                    
-                    <!-- Champ Type (Versement ou Consultation) -->
-                    <div class="input-group input-group-outline d-flex">
-                        <label for="type">Type :</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="type" id="versement" value="1"
-                                required>
-                            <label class="form-check-label" for="versement">Versement</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="type" id="consultation"
-                                value="2" required>
-                            <label class="form-check-label" for="consultation">Consultation</label>
-                        </div>
-                    </div>
+
                     @if (session('error'))
                         <div class="alert text-sm text-danger" role="alert">
                             {{ session('error') }}
@@ -61,9 +45,15 @@
                     @endif
 
                     <!-- Bouton Enregistrer -->
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <div class="d-flex justify-content-around">
+                        <!-- Bouton Fermer -->
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+
+                        <button type="submit" class="btn btn-success">Enregistrer</button>
+                    </div>
                 </form>
             </div>
+
         </div>
     </div>
 </div>

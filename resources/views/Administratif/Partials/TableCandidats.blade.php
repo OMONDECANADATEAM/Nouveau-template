@@ -62,10 +62,12 @@
                                         data-bs-target="#AjouterOuModifierConsultationModal{{ $candidat->id }}">Ajouter
                                         ou Modifier Consultation</a>
 
-                                    <a class="dropdown-item" data-bs-target="#modifierContactModal{{ $candidat->id }}">
-                                        Voir Fiche
+                                    <a class="dropdown-item"data-bs-toggle="modal"
+                                        data-bs-target="#AjouterVisaModal{{ $candidat->id }}">
+                                        Ajouter le Type de Visa
                                     </a>
-
+                                    
+                                    
                                 </div>
                             </div>
                         </td>
@@ -74,7 +76,11 @@
                         ])
                         @include('Administratif.Partials.AjouterOuModifierConsultation', [
                             'candidat' => $candidat,
-                        ])
+                        ]) 
+                         @include('Administratif.Partials.AddVisa', [
+                            'candidat' => $candidat,
+                        ]) 
+                      
                     </tr>
                 @endforeach
 

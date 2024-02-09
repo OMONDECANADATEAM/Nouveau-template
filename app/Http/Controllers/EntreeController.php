@@ -17,9 +17,8 @@ class EntreeController extends Controller
             // Validez les données du formulaire
             $request->validate([
                 'montant' => 'required|numeric',
-                'date' => 'required|date',
+                'date' => 'required|datetime',
                 'candidat' => 'required|exists:candidat,id', // Assurez-vous que le candidat existe
-                'type' => 'required',
             ]);
     
             // Récupérez l'ID du candidat à partir du champ 'candidat'
@@ -34,7 +33,7 @@ class EntreeController extends Controller
                 'date' => $request->input('date'),
                 'id_utilisateur' => $utilisateurId,
                 'id_candidat' => $candidatId,
-                'id_type_paiement' => $request->input('type')
+                'id_type_paiement' => 1
                 // Ajoutez d'autres champs selon vos besoins
             ]);
     
@@ -54,7 +53,7 @@ class EntreeController extends Controller
             $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
     
             // Utilisez la fonction pour récupérer les utilisateurs par rôle
-            $utilisateursNotifies = $this->getUsersByRole(3); // Remplacez $roleId par l'ID du rôle que vous souhaitez
+            $utilisateursNotifies = $this->getUsersByRole(2); // Remplacez $roleId par l'ID du rôle que vous souhaitez
     
             // Utilisez une transaction pour garantir la cohérence de la base de données lors de l'envoi des notifications
             DB::transaction(function () use ($utilisateursNotifies, $montant, $agent) {
