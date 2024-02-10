@@ -8,7 +8,12 @@ use App\Models\InfoConsultation;
 
 class ConsultanteController extends Controller
 {
-  
+    public function Dashboard()
+    {
+       
+
+        return view('Consultante.Views.Dashboard');
+    }
 
     public function getListCandidatByConsultation($id)
     {

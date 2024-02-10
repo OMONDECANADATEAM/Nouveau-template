@@ -11,6 +11,10 @@
         <ul class="navbar-nav">
             @php
                 $pages = [
+
+                    // Pages Commerciaux
+                    'Consultante.Dashboard' => 'Dashboard',
+                   
                     // Pages Commerciaux
                     'Commercial.Dashboard' => 'Dashboard',
                     'Commercial.Contact' => 'Contacts',
@@ -40,7 +44,7 @@
 
             @foreach ($pages as $page => $pageTitle)
                 @if (
-                    ($currentUserRole == 0 && $page == 'dashBoardConsultante') ||
+                    ($currentUserRole == 0 && $page == 'Consultante.Dashboard') ||
                     ($currentUserRole == 1 && in_array($page, ['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'])) ||
                     ($currentUserRole == 2 && in_array($page, ['Administratif.Dashboard', 'Administratif.Clients', 'Administratif.DossierClients' , 'Administratif.Banque',  'Administratif.Consultation'])) ||
                     ($currentUserRole == 3 && in_array($page, ['DossierContacts', 'DossierClients', 'Banque', 'Consultation', 'adminDashboard', 'dossier', 'equipeView', 'documentAgent']))
@@ -86,7 +90,7 @@
                                         @case('Banque')
                                             receipt_long
                                             @break
-                                        @case('dashBoardConsultante')
+                                        @case('Consultante.Dashboard')
                                             videocam
                                             @break
                                         @case('Consultation')

@@ -62,6 +62,10 @@ Route::get('/Administratif/DossierClients', [AdministratifController::class, 'Do
 Route::get('/Administratif/Banque', [AdministratifController::class, 'Banque'])->name('Administratif.Banque');
 Route::get('/Administratif/Consultation', [AdministratifController::class, 'Consultation'])->name('Administratif.Consultation');
 
+//Routes Consultatnte
+Route::get('/Consultante/Dashboard', [ConsultanteController::class, 'Dashboard'])->name('Consultante.Dashboard');
+ 
+
 
 Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');
 Route::post('Banque', [EntreeController::class, 'ajoutEntree'])->name('ajoutEntree');

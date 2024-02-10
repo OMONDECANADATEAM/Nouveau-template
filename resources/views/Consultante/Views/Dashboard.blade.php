@@ -47,8 +47,11 @@
         @include('partials.header', ['page' => 'Consultante'])
         <!-- End Navbar -->
         @php
+      
+       
             use Illuminate\Support\Facades\Auth;
             use Illuminate\Support\Carbon;
+            Carbon::setLocale('fr');
 
             $userId = Auth::id();
             $consultanteId = App\Models\consultante::where('id_utilisateur', $userId)->value('id');
@@ -62,28 +65,31 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg w-auto">
-                            <h4 class="text-white text-capitalize p-2">Vos prochaines consultations</h4>
+                       
+                        <div class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
+                            <h3 class="text-white text-capitalize p-2">Vos Consultations</h3>
+                
                         </div>
-
-                        <div class="table-responsive p-0" style="max-height: 400px; overflow-y: auto;">
+                </div>
+                        <div class="table-responsive p-0" style="max-height: 700px; overflow-y: auto;">
                             <table class="table align-items-center justify-content-center mb-0" id="candidatsTable">
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                                            style="width: 15%;">
+                                            >
                                             DEMARRER
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
-                                            style="width: 30%;">
+                                            style=>
                                             LABEL
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
-                                            style="width: 30%;">
+                                            
+                                        >
                                             DATE ET HEURE
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
-                                            style="width: 60%;">
+                                            >
                                             PARTICIPANTS
                                         </th>
                                     </tr>
@@ -95,7 +101,7 @@
                                         <tr data-candidat-id="{{ $consultation->id }}"
                                             class="{{ Carbon::parse($consultation->date_heure)->isPast() ? 'table-danger' : '' }}">
                                             <td>
-                                                <h6 class="p-2 text-md"> <a href="{{ $consultation->lien_zoom }}"
+                                                <h6 class="p-4 text-md"> <a href="{{ $consultation->lien_zoom }}"
                                                         target="_blank">
                                                         <i class="fas fa-video"></i>
                                                     </a></h6>
@@ -104,17 +110,18 @@
                                                 <h6 class="p-2 text-md">{{ $consultation->label }}</h6>
                                             </td>
                                             <td>
-                                                <p class="text-md font-weight-bold mb-0">
-                                                    {{ $consultation->date_heure }}
+                                                <p class="text-xl  mb-0">
+                                                    {{ ucwords(Carbon::parse($consultation->date_heure)->translatedFormat('j F Y / H:i')) }}
                                                 </p>
+                                                
                                             </td>
                                             <td>
                                                 @if ($consultation->candidats->isNotEmpty())
-                                                    <a href="Consultation/{{ $consultation->id }}">
-                                                        <button class="btn bg-gradient-dark">
-                                                            Voir les candidat(s)
-                                                        </button>
-                                                    </a>
+                                                <a href="{{ url('Consultation/' . $consultation->id) }}">
+                                                    <button class="btn bg-gradient-dark">
+                                                        Voir les candidat(s)
+                                                    </button>
+                                                </a>  
                                                 @else
                                                     <a href="#">
 

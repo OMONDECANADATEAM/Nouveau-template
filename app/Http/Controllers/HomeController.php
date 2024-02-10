@@ -25,8 +25,8 @@ class HomeController extends Controller
             switch ($userRole) {
                 case 0:
                     // Consultante, redirigez-la vers la page "Dashboard Consultante"
-                    return view('Consultante.Views.Dashboard');
-                case 1:
+                    return redirect()->route('Consultante.Dashboard');
+                    case 1:
                     // Commercial, redirigez-le vers le dashboard Commercial
                     return redirect()->route('Commercial.Dashboard');
                     
