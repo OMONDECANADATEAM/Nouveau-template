@@ -97,43 +97,43 @@
 
 
                                 @foreach ($consultations as $consultation)
-                                <tr data-candidat-id="{{ $consultation->id }}"
-                                    class="{{ Carbon::parse($consultation->date_heure)->isPast() ? 'table-danger' : '' }}">
-                                    <td>
-                                        <h6 class="p-4 text-md"> <a href="{{ $consultation->lien_zoom }}"
-                                                target="_blank">
-                                                <i class="fas fa-video"></i>
-                                            </a></h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="p-2 text-md">{{ $consultation->label }}</h6>
-                                    </td>
-                                    <td>
-                                        <p class="text-xl  mb-0">
-                                            {{ ucwords(Carbon::parse($consultation->date_heure)->translatedFormat('j F Y / H:i')) }}
-                                        </p>
-                                        
-                                    </td>
-                                    <td>
-                                        @if ($consultation->candidats->isNotEmpty())
-                                        <a href="{{ url('Consultation/' . $consultation->id) }}">
-                                            <button class="btn bg-gradient-dark">
-                                                Voir les candidat(s)
-                                            </button>
-                                        </a>  
-                                        @else
-                                            <a href="#">
+                                    <tr data-candidat-id="{{ $consultation->id }}"
+                                        class="{{ Carbon::parse($consultation->date_heure)->isPast() ? 'table-danger' : '' }}">
+                                        <td>
+                                            <h6 class="p-4 text-md"> <a href="{{ $consultation->lien_zoom }}"
+                                                    target="_blank">
+                                                    <i class="fas fa-video"></i>
+                                                </a></h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="p-2 text-md">{{ $consultation->label }}</h6>
+                                        </td>
+                                        <td>
+                                            <p class="text-xl  mb-0">
+                                                {{ ucwords(Carbon::parse($consultation->date_heure)->translatedFormat('j F Y / H:i')) }}
+                                            </p>
 
-                                                <button class="btn bg-gradient-dark">
-                                                    Voir les candidat(s)
-                                                </button>
+                                        </td>
+                                        <td>
+                                            @if ($consultation->candidats->isNotEmpty())
+                                                <a href="{{ url('Consultation/' . $consultation->id) }}">
+                                                    <button class="btn bg-gradient-dark">
+                                                        Voir les candidat(s)
+                                                    </button>
+                                                </a>
+                                            @else
+                                                <a href="#">
 
-                                            </a>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                               
+                                                    <button class="btn bg-gradient-dark">
+                                                        Voir les candidat(s)
+                                                    </button>
+
+                                                </a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+
 
                             </tbody>
                         </table>

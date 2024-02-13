@@ -44,6 +44,16 @@ class consultationController extends Controller
     
         return view('Consultation.waitingList', ['data_candidat' => $consultationInfo->candidats]);
     }
+
+    // public function ficheConsultation($id)
+    // {
+        
+    //     $fiche = InfoConsultation::find($id);
+        
+
+
+    //     return view('Consultation.Consultation', ['data_consultante' => $consultantes]);
+    // }
     
     
     

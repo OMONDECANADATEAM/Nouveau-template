@@ -14,15 +14,17 @@ class EntreeController extends Controller
     public function ajoutEntree(Request $request)
     {
         try {
-            // Validez les données du formulaire
+            // Validate the form data
             $request->validate([
                 'montant' => 'required|numeric',
-                'date' => 'required|datetime',
-                'candidat' => 'required|exists:candidat,id', // Assurez-vous que le candidat existe
+                'datetime' => 'required|date_format:Y-m-d\TH:i',
+                'candidat' => 'required|exists:candidat,id',
+                // ... other validation rules
             ]);
     
             // Récupérez l'ID du candidat à partir du champ 'candidat'
             $candidatId = $request->input('candidat');
+            $formattedDateTime = date('Y-m-d H:i:s', strtotime($request->input('datetime')));
     
             // Récupérez l'ID de l'utilisateur (ajoutez cette ligne si vous avez un champ 'id_utilisateur' dans votre formulaire)
             $utilisateurId = auth()->user()->id; // Assurez-vous que votre utilisateur est authentifié
@@ -30,30 +32,26 @@ class EntreeController extends Controller
             // Créez une nouvelle entrée
             Entree::create([
                 'montant' => $request->input('montant'),
-                'date' => $request->input('date'),
+                'date' => $formattedDateTime, // Use the formatted datetime
                 'id_utilisateur' => $utilisateurId,
                 'id_candidat' => $candidatId,
                 'id_type_paiement' => 1
-                // Ajoutez d'autres champs selon vos besoins
             ]);
     
-         
             $candidat = Candidat::find($candidatId);
-
+    
             // Si c'est un versement, mettez à jour la colonne 'versement_effectue' à vrai si ce n'est pas déjà le cas
             if ($request->input('type') == 1) {
-                // Ajoutez des logs pour déboguer
-              
                 if (!$candidat->versement_effectuee) {
                     $candidat->update(['versement_effectuee' => 1]);
                 }
             }
-             
+    
             $montant = number_format($request->input('montant'), 0, '.', ' ');
             $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
     
             // Utilisez la fonction pour récupérer les utilisateurs par rôle
-            $utilisateursNotifies = $this->getUsersByRole(2); // Remplacez $roleId par l'ID du rôle que vous souhaitez
+            $utilisateursNotifies = $this->getUsersByRole(2);
     
             // Utilisez une transaction pour garantir la cohérence de la base de données lors de l'envoi des notifications
             DB::transaction(function () use ($utilisateursNotifies, $montant, $agent) {
@@ -68,6 +66,7 @@ class EntreeController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+    
     
     
     

@@ -26,8 +26,6 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-    <script src="{{ asset('assets/js/script/RdvCommercial.js') }}"></script>
-    <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
@@ -186,6 +184,7 @@
 
     </main>
     @include('partials.plugin')
+   
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Sélectionnez le bouton "Voir tout"
@@ -254,6 +253,55 @@
                 filterAppointments('thisMonth');
             });
         });
+        function toggleConsultationPayee(id, statut) {
+    fetch(`/Commercial/RendezVous/ConsultationPayee/${id}/${statut}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+        })
+        .then(response => {
+            // Check if the response status is OK (status code 200-299)
+            if (!response.ok) {
+                throw new Error(`Network response was not ok (${response.status})`);
+            }
+            return response.json(); // Parse the response as JSON
+        })
+        .then(data => {
+            console.log(data); // Log the parsed JSON data
+            // Your code to handle jsonData
+            location.reload(); // Reload the page
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+function toggleStatutRendezVous(id, statut) {
+    fetch(`/Commercial/RendezVous/RendezVousEffectue/${id}/${statut}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+        })
+        .then(response => {
+            // Check if the response status is OK (status code 200-299)
+            if (!response.ok) {
+                throw new Error(`Network response was not ok (${response.status})`);
+            }
+            return response.json(); // Parse the response as JSON
+        })
+        .then(data => {
+            console.log(data); // Log the parsed JSON data
+            // Your code to handle jsonData
+            location.reload(); // Reload the page
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
     </script>
 
 </body>

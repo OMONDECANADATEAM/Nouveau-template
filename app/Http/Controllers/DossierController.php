@@ -33,7 +33,7 @@ class DossierController extends Controller
     
         if (!$dossier) {
             // Créez un dossier pour le candidat s'il n'en a pas encore un
-            $dossier = Dossier::create(['id_candidat' => $candidat->id, 'id_agent' => Auth::user()->id, 'url' => 'public/' . $dossierPath]);
+            $dossier = Dossier::create(['id_candidat' => $candidat->id, 'id_agent' => Auth::user()->id, 'url' => $dossierPath]);
         }
     
         // Vérifiez si le dossier existe, sinon, créez-le

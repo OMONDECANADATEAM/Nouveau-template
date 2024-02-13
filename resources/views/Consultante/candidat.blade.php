@@ -36,92 +36,121 @@
     @include('partials.navbar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        @include('partials.header', ['page' => 'Consultante'])
+
         <!-- End Navbar -->
 
-        @php
-            $questions = [
-                1 => 'Type de visa désiré',
-                2 => 'Date de naissance',
-                3 => 'Statut matrimonial',
-                4 => 'Avez-vous un passeport valide ?',
-                5 => 'Date d\'expiration du passeport',
-                6 => 'Avez-vous un casier judiciaire ?',
-                7 => 'Avez-vous des problèmes de santé ?',
-                8 => 'Avez-vous des enfants ?',
-                9 => 'Si oui, quel est l\'âge de vos enfants ?',
-                10 => 'Quel est votre profession/domaine de travail ?',
-                11 => 'Depuis combien de temps ?',
-                12 => 'Avez-vous une attestation de travail, bulletin de salaire et tous les autres documents relatifs à votre emploi ?',
-                13 => 'Avez-vous déjà entamé une procédure d\'immigration au Canada ?',
-                14 => 'Depuis quand ?',
-                15 => 'Quel programme ? Et quelle a été la décision ?',
-                16 => 'Avez-vous un diplôme d\'études (secondaire, professionnel, universitaire) ?',
-                17 => "Quelle est l'année du dernier diplôme obtenu ? Et lequel",
-                18 => 'Avez-vous un membre de votre famille déjà au Canada ?',
-                19 => 'Comptez-vous immigrer seul(e) ou en famille ?',
-                20 => 'Parlez-vous d\'autres langues à part le français ?',
-                21 => 'Avez-vous fait un test de connaissances linguistiques ?',
-                22 => 'Quel est son niveau de scolarité ?',
-                23 => 'Quel est votre domaine de formation ?',
-                24 => 'Quel est votre âge ?',
-                25 => 'Niveau en français',
-                26 => 'Niveau en anglais',
-                27 => 'Quel est l\'âge de vos enfants ?',
-                28 => 'Quel est leur niveau de scolarité ?',
-                29 => 'Remarque agent ?',
-            ];
-        @endphp
+
 
         <div class="row">
             <div class="col-12">
                 <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 
-                      
-                       
-                            <div class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
-                                <h3 class="card-title text-white">Fiche de consultation de {{ $consultation->nom }}
-                                    {{ $consultation->prenom }}</h3>
-                     
-                            </div>
-                        </div>
-                        
-                
-                    <div class="card-body">
-                        @php $count = 0; @endphp
-                        @foreach ($questions as $key => $question)
-                            @if ($count % 3 === 0)
-                                <div class="row">
-                            @endif
-                            <div class="col-md-4">
-                                <div class="response-item mb-3 border shadow rounded-3 p-5 bg-gray-100">
-                                    <div class="d-flex align-items-center mb-2 justify-content-between">
-                                        <strong class="question d-block fs-6">{{ $question }}</strong>
-                                        <i class="material-icons text-primary mr-2">question_answer</i>
+
+                    @php
+                        $sections = [
+                            'Identité du candidat' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                            'Statut professionnel' => [12, 13, 14, 15, 16, 17],
+                            'informations supplémentaires' => [18, 19, 20, 21, 22, 23, 24],
+                            'Informations sur le conjoint' => [25, 26, 27, 28, 29],
+                        ];
+
+                        $questions = [
+                            1 => 'Nom et prenom(s)',
+                            2 => 'Age',
+                            3 => 'Pays',
+                            4 => 'Type de visa désiré',
+                            5 => 'Statut matrimonial',
+                            6 => 'Avez-vous un passeport valide ?',
+                            7 => 'Date d\'expiration du passeport',
+                            8 => 'Avez-vous un casier judiciaire ?',
+                            9 => 'Avez-vous des problèmes de santé ?',
+                            10 => 'Avez-vous des enfants ?',
+                            11 => 'Si oui, quel est l\'âge de vos enfants ?',
+                            12 => 'Quel est votre profession/domaine de travail ?',
+                            13 => 'Depuis combien de temps ?',
+                            14 => 'Avez-vous une attestation de travail, bulletin de salaire et tous les autres documents relatifs à votre emploi ?',
+                            15 => 'Avez-vous déjà entamé une procédure d\'immigration au Canada ?',
+                            16 => 'Depuis quand ?',
+                            17 => 'Quel programme ? Et quelle a été la décision ?',
+                            18 => 'Avez-vous un diplôme d\'études (secondaire, professionnel, universitaire) ?',
+                            19 => "Quelle est l'année du dernier diplôme obtenu ? Et lequel",
+                            20 => 'Avez-vous un membre de votre famille déjà au Canada ?',
+                            21 => 'Comptez-vous immigrer seul(e) ou en famille ?',
+                            22 => 'Parlez-vous d\'autres langues à part le français ?',
+                            23 => 'Avez-vous fait un test de connaissances linguistiques ?',
+                            24 => 'Quel est son niveau de scolarité ?',
+                            25 => 'Quel est votre domaine de formation ?',
+                            26 => 'Quel est votre âge ?',
+                            27 => 'Niveau en français',
+                            28 => 'Niveau en anglais',
+                            29 => 'Quel est l\'âge de vos enfants ?',
+                            30 => 'Quel est leur niveau de scolarité ?',
+                            31 => 'Remarque agent ?',
+                        ];
+                    @endphp
+
+                    <div class="row">
+                        <div class="col-12">
+                            @foreach ($sections as $sectionTitle => $sectionQuestions)
+                                <div class="card my-4">
+                                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                        <div
+                                            class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
+                                            <h3 class="card-title text-white">{{ $sectionTitle }}</h3>
+                                        </div>
                                     </div>
-                                    <p class="answer text-right fs-5 text-capitalize">
-                                        {{ $consultation->ficheConsultation->{'reponse' . $key} ?? '' }}
-                                    </p>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            @foreach ($sectionQuestions as $key)
+                                                <div class="col-md-4 mb-2">
+                                                    <strong
+                                                        class="question d-block fs-5 mb-1">{{ $questions[$key] }}</strong>
+
+                                                    @if ($key === 1)
+                                                        <p class="answer text-right fs-5 text-capitalize">
+                                                            {{ $consultation->nom ?? '' }}
+                                                            {{ $consultation->prenom ?? '' }}
+                                                        </p>
+                                                    @elseif ($key === 2)
+                                                        <p class="answer text-right fs-5 text-capitalize">
+                                                            {{ $consultation->date_naissance ? now()->diffInYears($consultation->date_naissance) . ' An(s)' : '' }}
+                                                        </p>
+                                                    @elseif ($key === 3)
+                                                        <p class="answer text-right fs-5 text-capitalize">
+                                                            {{ $consultation->pays ?? '' }}
+                                                        </p>
+                                                    @elseif ($key === 4)
+                                                        <p class="answer text-right fs-5 text-capitalize">
+                                                            {{ $consultation->ficheConsultation->type_visa ?? '' }}
+                                                        </p>
+                                                    @else
+                                                        {{-- For other questions, get the data from the "fiche consultation" table --}}
+                                                        <p class="answer text-right fs-5 text-capitalize">
+                                                            {{ $consultation->ficheConsultation->{'reponse' . ($key - 4)} ?? '' }}
+                                                        </p>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <!-- Ajouter un bouton pour afficher le CV -->
+                            <div class="col-md-4">
+                                <div class="card-footer text-center">
+                                    <a href="{{ asset('storage/' . $consultation->ficheConsultation->lien_cv) }}"
+                                        class="btn btn-primary" target="_blank">Afficher le CV</a>
                                 </div>
                             </div>
-                            @php $count++; @endphp
-                            @if ($count % 3 === 0 || $loop->last)
+                        </div>
                     </div>
-                    @endif
-                    @endforeach
-                </div>
-                <!-- Ajouter un bouton pour afficher le CV -->
-                <div class="col-md-4">
-                    <div class="card-footer text-center">
-                        <a href="{{ asset('storage/' . $consultation->ficheConsultation->lien_cv) }}"
-                            class="btn btn-primary" target="_blank">Afficher le CV</a>
-                    </div>
-                </div>
 
+                </div>
             </div>
         </div>
-        </div>
+
 
 
 

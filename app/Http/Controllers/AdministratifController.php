@@ -452,7 +452,7 @@ class AdministratifController extends Controller
                 $request->file('cv')->storeAs('public/' . $dossierPath, $nomFichier);
 
                 // Mettez à jour le chemin du CV dans la base de données
-                $cvPath = 'public/' . $dossierPath . '/' . $nomFichier;
+                $cvPath = $dossierPath . '/' . $nomFichier;
 
                 // Ajoutez un document associé à ce dossier
                 Document::create([

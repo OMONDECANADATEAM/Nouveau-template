@@ -556,4 +556,60 @@
             }
         });
     });
-</script>
+
+    $(document).ready(function() {
+     // Cacher la question de la date d'expiration au chargement de la page
+     $('.question-passeport').hide();
+ 
+     $('.anne_obtention_diplome').hide();
+ 
+     // Cacher la question sur la procédure d'immigration au Canada au chargement de la page
+     $('.questions-procedure_immigration').hide();
+ 
+     // Cacher la question sur l'âge des enfants au chargement de la page
+     $('.question-enfants').hide();
+ 
+     // Écouter le changement des boutons radio pour le passeport
+     $('input[name="passeport_valide"]').change(function() {
+         // Afficher ou masquer la question de la date d'expiration en fonction de la réponse
+         if ($(this).val() === 'oui') {
+             $('.question-passeport').show();
+         } else {
+             $('.question-passeport').hide();
+         }
+     });
+ 
+     // Écouter le changement des boutons radio pour la procédure d'immigration
+     $('input[name="procedure_immigration"]').change(function() {
+         // Afficher ou masquer les questions supplémentaires en fonction de la réponse
+         if ($(this).val() === 'oui') {
+             $('.questions-procedure_immigration').show();
+         } else {
+             $('.questions-procedure_immigration').hide();
+         }
+     });
+ 
+     // Écouter le changement de la réponse à la question sur la présence d'enfants
+     $('input[name="enfants"]').change(function() {
+         // Afficher ou masquer la question sur l'âge en fonction de la réponse
+         if ($(this).val() === 'oui') {
+             $('.question-enfants').show();
+         } else {
+             $('.question-enfants').hide();
+         }
+     });
+ 
+     $('input[name="diplome_etudes"]').change(function() {
+     // Récupérer la valeur sélectionnée
+     var valeurSelectionnee = $(this).val();
+ 
+     // Afficher ou masquer la question sur l'année d'obtention en fonction de la réponse
+     if (valeurSelectionnee === 'oui') {
+         $('.question-diplome-etudes').show();
+     } else {
+         $('.question-diplome-etudes').hide();
+     }
+ });
+ });
+ 
+ </script>
