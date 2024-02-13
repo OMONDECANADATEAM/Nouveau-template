@@ -120,10 +120,13 @@
                             </div>
                         </div>
     
-                        <!-- Ajouter un bouton pour afficher le CV -->
                         <div class="col-md-4">
                             <a href="{{ asset('storage/' .$consultation->ficheConsultation->lien_cv) }}" class="btn btn-primary" target="_blank">Afficher le CV</a>
+                        
+                            <!-- Form for consultant's opinion -->
+                        
                         </div>
+                        
                     </div>
                 </div>
             </div>

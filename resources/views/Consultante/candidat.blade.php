@@ -51,7 +51,7 @@
                             'Identité du candidat' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
                             'Statut professionnel' => [12, 13, 14, 15, 16, 17],
                             'informations supplémentaires' => [18, 19, 20, 21, 22, 23, 24],
-                            'Informations sur le conjoint' => [25, 26, 27, 28, 29],
+                            'Informations sur le conjoint' => [ 27, 28, 29],
                         ];
 
                         $questions = [
@@ -138,12 +138,29 @@
                             @endforeach
 
                             <!-- Ajouter un bouton pour afficher le CV -->
-                            <div class="col-md-4">
-                                <div class="card-footer text-center">
-                                    <a href="{{ asset('storage/' . $consultation->ficheConsultation->lien_cv) }}"
-                                        class="btn btn-primary" target="_blank">Afficher le CV</a>
+                            <div class="row d-flex justify-content-around align-items-center">
+                                <div class="col-md-4">
+                                    <div class="card-footer text-center">
+                                        <a href="{{ asset('storage/' . $consultation->ficheConsultation->lien_cv) }}"
+                                            class="btn btn-primary" target="_blank">Afficher le CV</a>
+                                    </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <form action="{{ route('SaveRemarque', ['id' => $consultation->id]) }}" method="post" class="d-flex align-items-center justify-content-around">
+                                        @csrf
+                                        <div class="input-group input-group-outline mb-3 p-2">
+                                            <textarea name="consultant_opinion" id="consultant_opinion" class="form-control" placeholder="Avis du consultant..." required>{{ old('consultant_opinion', $consultation->remarque_consultante ?? '') }}</textarea>
+                                            @error('consultant_opinion')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-2">Enregistrer l'avis</button>
+                                    </form>
+                                </div>
+                                
+                                
                             </div>
+                            
                         </div>
                     </div>
 
@@ -152,7 +169,31 @@
         </div>
 
 
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+        <script>
+            $(document).ready(function () {
+                // Submit form using Ajax
+                $('form').submit(function (e) {
+                    e.preventDefault(); // Prevent the form from submitting in the traditional way
+        
+                    $.ajax({
+                        type: 'POST',
+                        url: $(this).attr('action'),
+                        data: $(this).serialize(),
+                        success: function (response) {
+                            // Display an alert or perform any other actions on success
+                            alert('Avis enregistré avec succès!');
+                        },
+                        error: function (error) {
+                            // Handle errors and display an alert or perform any other actions
+                            alert('Une erreur s\'est produite. Veuillez réessayer.');
+                        }
+                    });
+                });
+            });
+        </script>
+        
 
         <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>

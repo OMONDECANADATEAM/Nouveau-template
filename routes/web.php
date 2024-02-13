@@ -120,7 +120,7 @@ Route::post('/creer-utilisateur', [UtilisateurController::class, 'creer'])->name
 Route::get('/dossier', [HomeController::class, 'dossier'])->name('dossier');
 
 
-Route::post('/save-remarques', [HomeController::class, 'saveRemarques']);
+Route::post('/save-remarques/{id}', [HomeController::class, 'saveRemarques'])->name('SaveRemarque');
 
 Route::post('/ajouterFichiersCandidat/{candidatId}', [DossierController::class, 'ajouterFichiersCandidat'])->name('ajoutFichiersCandidat');
 Route::post('/ajouterFichiersAgent/{userId}', [DossierController::class, 'ajouterFichiersAgent'])->name('ajoutFichiersAgent');

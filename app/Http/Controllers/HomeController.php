@@ -148,21 +148,24 @@ class HomeController extends Controller
     }
 
 
-    public function saveRemarques(Request $request)
+    public function saveRemarques(Request $request, $id)
     {
-        $candidatId = $request->input('candidatId');
-        $remarques = $request->input('remarques');
-
-        $candidat = Candidat::find($candidatId);
+       
+        $remarques = $request->input('consultant_opinion');
+    
+        $candidat = Candidat::find($id);
+    
         if ($candidat) {
             $candidat->remarque_consultante = $remarques;
             $candidat->save();
-
+    
             return response()->json(['success' => true]);
         }
-
-        return response()->json(['success' => false]);
+    
+        // If Candidat with the given ID is not found
+        return response()->json(['success' => false, 'error' => 'Candidat not found.']);
     }
+    
 
 
    
