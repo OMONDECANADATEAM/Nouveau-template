@@ -77,12 +77,17 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div
-                            class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
-                            <h5 class="card-title text-white">Fiche de consultation de {{ $consultation->nom }}
-                                {{ $consultation->prenom }}</h5>
+
+                      
+                       
+                            <div class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
+                                <h3 class="card-title text-white">Fiche de consultation de {{ $consultation->nom }}
+                                    {{ $consultation->prenom }}</h3>
+                     
+                            </div>
                         </div>
-                    </div>
+                        
+                
                     <div class="card-body">
                         @php $count = 0; @endphp
                         @foreach ($questions as $key => $question)

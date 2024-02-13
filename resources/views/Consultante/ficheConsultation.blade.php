@@ -81,7 +81,13 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3">
-                    <h5 class="card-title">Fiche de consultation de {{ $consultation->nom }} {{ $consultation->prenom }}</h5>
+                       
+                    <div class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
+                        <h3 class="text-white text-capitalize p-2">Consultation du
+                            {{ ucfirst(\Carbon\Carbon::parse($info_consultation->date_heure)->translatedFormat('d F Y')) }}
+                                
+                       </h3>
+                    </div>
                 </div>
                 <div class="card-body">
                     @php $count = 0; @endphp
