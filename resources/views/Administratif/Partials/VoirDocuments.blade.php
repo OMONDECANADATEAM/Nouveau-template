@@ -11,9 +11,10 @@
                 <ul>
                     @foreach ($candidat->dossier->documents as $document)
                         <li class="d-flex align-items-center">
-                            <a href="{{ $document->url }}" target="_blank">
+                            <a href="{{ asset('storage/' . $document->url) }}" target="_blank">
                                 {{ $document->nom }}
                             </a>
+                            
                             <i class="material-icons">file_present</i>  
                         </li>
                     @endforeach

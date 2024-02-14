@@ -39,7 +39,7 @@ class HomeController extends Controller
                     return view('Informatique.Views.Dashboard');
                 case 4:
                     // Direction, redirigez-le vers le dashboard Direction
-                    return view('Direction.Views.Dashboard');
+                    return redirect()->route('Direction.Dashboard');
                 default:
                     // Si le rôle n'est pas reconnu, redirigez-le vers la page de connexion
                     return redirect()->route('login');

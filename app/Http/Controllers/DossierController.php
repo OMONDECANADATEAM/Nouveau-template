@@ -18,7 +18,6 @@ class DossierController extends Controller
 
     {
        
-
         // Récupérez le candidat en fonction de l'ID
         $candidat = Candidat::find($candidatId);
     
@@ -45,22 +44,18 @@ class DossierController extends Controller
         $files = $request->file('fichiers');
         $typesDocuments = $request->input('typeDocument');
     
-        // Boucle sur chaque fichier pour l'ajouter séparément
         foreach ($files as $key => $file) {
-    
-            // Utilisez le type de document sélectionné pour ce fichier comme base pour le nom du fichier
-            $nomFichier = $typesDocuments[$key] . '.' . $file->getClientOriginalExtension();
-    
-            // Déplacez le fichier dans le dossier du candidat avec le nom de fichier unique
-            $file->move(storage_path('app/public/' . $dossierPath), $nomFichier);
-           
-      
-            // Ajoutez le document associé à ce dossier avec le type de document correspondant
+            // Generate a unique name for each file
+            $uniqueFileName = $key.$typesDocuments . $file->getClientOriginalName();
+        
+            // Move the file to the candidate's folder with the unique file name
+            $file->move(storage_path('app/public/' . $dossierPath), $uniqueFileName);
+        
+            // Add the document associated with this folder with the corresponding document type
             Document::create([
                 'id_dossier' => $dossier->id,
-                'nom' => $nomFichier,
-                'url' => 'public/' . $dossierPath . '/' . $nomFichier,
-              
+                'nom' => $uniqueFileName, // Use the unique filename here
+                'url' => $dossierPath . '/' . $uniqueFileName,
             ]);
         }
     

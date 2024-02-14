@@ -11,6 +11,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ConsultanteController;
+use App\Http\Controllers\DirectionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,6 +66,11 @@ Route::get('/Administratif/Consultation', [AdministratifController::class, 'Cons
 //Routes Consultatnte
 Route::get('/Consultante/Dashboard', [ConsultanteController::class, 'Dashboard'])->name('Consultante.Dashboard');
  
+//Route Direction
+Route::get('/Direction/Dashboard', [DirectionController::class, 'Dashboard'])->name('Direction.Dashboard');
+Route::get('/Direction/Banque', [DirectionController::class, 'Banque'])->name('Direction.Banque');
+    Route::get('/Direction/ChartEnsemble', [DIrectionController::class, 'ChartData']);
+  
 
 
 Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');

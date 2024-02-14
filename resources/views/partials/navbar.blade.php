@@ -1,8 +1,12 @@
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark" id="sidenav-main">
+<aside
+    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
+    id="sidenav-main">
     <div class="sidenav-header center">
-        <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+            aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href="{{ url('home') }}" target="_blank">
-            <img src="{{ asset('assets/img/logos/logo-omonde.png') }}" class="navbar-brand-img h-200 mx-auto d-block" alt="main_logo">
+            <img src="{{ asset('assets/img/logos/logo-omonde.png') }}" class="navbar-brand-img h-200 mx-auto d-block"
+                alt="main_logo">
         </a>
     </div>
 
@@ -11,10 +15,9 @@
         <ul class="navbar-nav">
             @php
                 $pages = [
-
                     // Pages Commerciaux
                     'Consultante.Dashboard' => 'Dashboard',
-                   
+
                     // Pages Commerciaux
                     'Commercial.Dashboard' => 'Dashboard',
                     'Commercial.Contact' => 'Contacts',
@@ -27,6 +30,13 @@
                     'Administratif.Banque' => 'Banque',
                     'Administratif.Consultation' => 'Consultation',
 
+                    //Pages DIrection
+                    'Direction.Dashboard' => 'Dashboard',
+                    'Direction.DossierClient' => 'Dossier Client',
+                    'Direction.Banque' => 'Banque',
+                    'Direction.Consultation' => 'Consultation',
+                    'Direction.Team' => 'L\'equipe',
+
                     // Other Pages
                     'DossierContacts' => 'Contacts',
                     'DossierClients' => 'Dossier Clients',
@@ -36,7 +46,7 @@
                     'adminDashboard' => "Vue d'ensemble",
                     'dossier' => 'Document Clients',
                     'equipeView' => "L'equipe",
-                    'documentAgent' => "Document Agent",
+                    'documentAgent' => 'Document Agent',
                 ];
                 $currentRoute = \Request::route()->getName();
                 $currentUserRole = auth()->user()->getRole();
@@ -45,66 +55,118 @@
             @foreach ($pages as $page => $pageTitle)
                 @if (
                     ($currentUserRole == 0 && $page == 'Consultante.Dashboard') ||
-                    ($currentUserRole == 1 && in_array($page, ['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'])) ||
-                    ($currentUserRole == 2 && in_array($page, ['Administratif.Dashboard', 'Administratif.Clients', 'Administratif.DossierClients' , 'Administratif.Banque',  'Administratif.Consultation'])) ||
-                    ($currentUserRole == 3 && in_array($page, ['DossierContacts', 'DossierClients', 'Banque', 'Consultation', 'adminDashboard', 'dossier', 'equipeView', 'documentAgent']))
-                )
+                        ($currentUserRole == 1 &&
+                            in_array($page, ['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'])) ||
+                        ($currentUserRole == 2 &&
+                            in_array($page, [
+                                'Administratif.Dashboard',
+                                'Administratif.Clients',
+                                'Administratif.DossierClients',
+                                'Administratif.Banque',
+                                'Administratif.Consultation',
+                            ])) ||
+                        ($currentUserRole == 3 &&
+                            in_array($page, [
+                                'DossierContacts',
+                                'DossierClients',
+                                'Banque',
+                                'Consultation',
+                                'adminDashboard',
+                                'dossier',
+                                'equipeView',
+                                'documentAgent',
+                            ])) ||
+                        ($currentUserRole == 4 &&
+                            in_array($page, [
+                                'Direction.Dashboard',
+                                'DossierClients',
+                                'Direction.Banque',
+                                'Consultation',
+                                'adminDashboard',
+                                'dossier',
+                                'equipeView',
+                                'documentAgent',
+                            ])))
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}" href="{{ route($page) }}">
+                        <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}"
+                            href="{{ route($page) }}">
                             <div class="text-white text-left me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">
                                     @switch($page)
                                         @case('adminDashboard')
                                             dashboard
-                                            @break
+                                        @break
+
                                         @case('Administratif.Dashboard')
                                             dashboard
-                                            @break
-                                        @case('Administratif.Clients')
-                                        contacts
-                                            @break
-                                        @case('Administratif.DossierClients')
-                                        folder
-                                            @break
-                                        @case('Administratif.Consultation')
-                                        groups
+                                        @case('Direction.Dashboard')
+                                            dashboard
                                         @break
-                                         @case('Administratif.Banque')
-                                         account_balance
-                                                @break
+
+                                        @case('Administratif.Clients')
+                                            contacts
+                                        @break
+
+                                        @case('Administratif.DossierClients')
+                                            folder
+                                        @break
+
+                                        @case('Administratif.Consultation')
+                                            groups
+                                        @break
+
+                                        @case('Administratif.Banque')
+                                            account_balance
+                                        @break
+
                                         @case('DossierClients')
                                             table_view
-                                            @break
+                                        @break
+
                                         @case('Commercial.Dashboard')
                                             dashboard
-                                            @break
+                                        @break
+
                                         @case('DossierContacts')
                                             contacts
-                                            @break
+                                        @break
+
                                         @case('Commercial.Contact')
                                             contacts
-                                            @break
+                                        @break
+
                                         @case('Commercial.RendezVous')
                                             handshake
-                                            @break
+                                        @break
+
                                         @case('Banque')
                                             receipt_long
-                                            @break
+                                        @break
+
+                                        @case('Direction.Banque')
+                                        receipt_long
+                                        @break
+
                                         @case('Consultante.Dashboard')
                                             videocam
-                                            @break
+                                        @break
+
                                         @case('Consultation')
                                             videocam
-                                            @break
+                                        @break
+
                                         @case('dossier')
                                             folder
-                                            @break
+                                        @break
+
                                         @case('equipeView')
                                             groups
-                                            @break
+                                        @break
+
                                         @case('documentAgent')
                                             folder
-                                            @break
+                                        @break
+
                                         @default
                                             {{ $page }}
                                     @endswitch
