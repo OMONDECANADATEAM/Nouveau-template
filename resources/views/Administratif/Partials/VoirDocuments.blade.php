@@ -4,26 +4,27 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Documents de {{ $candidat->nom }} {{ $candidat->prenom }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 @if ($candidat->dossier && $candidat->dossier->documents->isNotEmpty())
-                {{-- Le dossier a des documents --}}
-                <ul>
-                    @foreach ($candidat->dossier->documents as $document)
-                        <li class="d-flex align-items-center">
-                            <a href="{{ $document->url }}" target="_blank">
-                                {{ $document->nom }}
+                    {{-- Le dossier a des documents --}}
+                    <div class="list-group">
+                        @foreach ($candidat->dossier->documents as $document)
+                            <a href="{{ $document->url }}" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <span>
+                                    <i class="bi bi-file-earmark-{{ $document->typeIcon }}"></i> <!-- Utilisez une classe spécifique pour chaque type d'icône -->
+                                    {{ $document->nom }}
+                                </span>
+                                <span class="badge bg-secondary rounded-pill">Document</span> <!-- Ajoutez une badge pour indiquer le type de document -->
                             </a>
-                            <i class="material-icons">file_present</i>  
-                        </li>
-                    @endforeach
-                </ul>
-            @else
-                {{-- Le dossier est null ou n'a pas de documents --}}
-                <p>Aucun fichier trouvé.</p>
-            @endif
+                        @endforeach
+                    </div>
+                @else
+                    {{-- Le dossier est null ou n'a pas de documents --}}
+                    <p class="text-muted">Aucun fichier trouvé.</p>
+                @endif
             </div>
-            
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
             </div>
