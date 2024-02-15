@@ -71,7 +71,9 @@ Route::get('/Direction/Dashboard', [DirectionController::class, 'Dashboard'])->n
 Route::get('/Direction/Banque', [DirectionController::class, 'Banque'])->name('Direction.Banque');
     Route::get('/Direction/ChartEnsemble', [DirectionController::class, 'ChartData']);
 Route::get('/Direction/Consultation', [DirectionController::class, 'Consultation'])->name('Direction.Consultation');
-  
+Route::get('/Direction/DossierClient', [DirectionController::class, 'DossierClient'])->name('Direction.DossierClient');
+Route::get('/Direction/Equipe', [DirectionController::class, 'Equipe'])->name('Direction.Equipe');
+      
 
 
 Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');

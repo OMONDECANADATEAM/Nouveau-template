@@ -123,4 +123,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Candidat::class, 'id_utilisateur');
     }
+    
 }

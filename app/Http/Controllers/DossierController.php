@@ -45,19 +45,23 @@ class DossierController extends Controller
         $typesDocuments = $request->input('typeDocument');
     
         foreach ($files as $key => $file) {
-            // Generate a unique name for each file
-            $uniqueFileName = $key.$typesDocuments . $file->getClientOriginalName();
+            // Utilisez $key comme indice pour récupérer le type de document associé
+            $typeDocument = $typesDocuments;
         
-            // Move the file to the candidate's folder with the unique file name
+            // Générez un nom unique pour chaque fichier
+            $uniqueFileName = $key . $typeDocument . $file->getClientOriginalExtension();
+        
+            // Déplacez le fichier dans le dossier du candidat avec le nom de fichier unique
             $file->move(storage_path('app/public/' . $dossierPath), $uniqueFileName);
         
-            // Add the document associated with this folder with the corresponding document type
+            // Ajoutez le document associé à ce dossier avec le type de document correspondant
             Document::create([
                 'id_dossier' => $dossier->id,
-                'nom' => $uniqueFileName, // Use the unique filename here
+                'nom' => $uniqueFileName, // Utilisez le nom de fichier unique ici
                 'url' => $dossierPath . '/' . $uniqueFileName,
-            ]);
+             ]);
         }
+        
     
         return response()->json(['message' => 'Fichiers ajoutés avec succès ' ]);
     }

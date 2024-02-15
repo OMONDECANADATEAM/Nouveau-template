@@ -35,7 +35,7 @@
                     'Direction.DossierClient' => 'Dossier Client',
                     'Direction.Banque' => 'Banque',
                     'Direction.Consultation' => 'Consultation',
-                    'Direction.Team' => 'L\'equipe',
+                    'Direction.Equipe' => 'L\'equipe',
 
                     // Other Pages
                     'DossierContacts' => 'Contacts',
@@ -80,11 +80,9 @@
                             in_array($page, [
                                 'Direction.Dashboard',
                                 'Direction.Consultation',
-                                'DossierClients',
-                             
-                               
+                                'Direction.DossierClient',
                                 'Direction.Banque',
-                                'equipeView',
+                                'Direction.Equipe',
                                
                             ])))
                     <li class="nav-item">
@@ -103,7 +101,7 @@
 
                                         @case('Administratif.Clients')
                                         @case('DossierContacts')
-
+                                        @case('Direction.DossierClient')
                                         @case('Commercial.Contact')
                                             contacts
                                         @break
@@ -118,6 +116,7 @@
 
                                         @case('Administratif.Consultation')
                                         @case('equipeView')
+                                        @case('Direction.Equipe')
                                             groups
                                         @break
 

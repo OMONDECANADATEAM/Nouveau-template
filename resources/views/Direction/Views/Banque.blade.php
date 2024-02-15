@@ -31,6 +31,10 @@
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 
 </head>
@@ -53,10 +57,42 @@
 
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
+    <script>
+        $(document).ready(function () {
+            // Configuration de DataTables avec la barre de recherche personnalisée
+            const tableWithSearch = $('.dataTable').DataTable({
+                "language": {
+                    "search": "",
+                    "lengthMenu": "",
+                    "zeroRecords": "",
+                    "info": "",
+                    "infoEmpty": "",
+                    "infoFiltered": "",
+                    "paginate": {
+                        "first": '<i class="material-icons">first_page</i>',
+                        "last": '<i class="material-icons">last_page</i>',
+                        "next": '<i class="material-icons">chevron_right</i>',
+                        "previous": '<i class="material-icons">chevron_left</i>'
+                    }
+                },
+                "dom": '<"top"i>rt<"bottom"lp><"clear">',
+                 "drawCallback":  function () {
+                
+                    // Ajouter les classes de Bootstrap pour centrer horizontalement
+                    $('.dataTables_paginate.paging_simple_numbers').addClass('d-flex justify-content-center');
+                    $('.bottom').addClass('d-flex justify-content-center');
+       
+                }
+            });
+    
+            // Utilisez votre barre de recherche personnalisée pour filtrer le tableau
+            $('#searchInput').on('input', function () {
+                tableWithSearch.search(this.value).draw();
+            });
+        });
+    </script>
 </body>
 @include('partials.plugin')
-
-  @include('partials.AdminDashboard.fichierJs') 
 
 
 </html>

@@ -14,7 +14,7 @@
 
     <div class="card-body px-0">
         <div class="table-responsive p-0" style="overflow-y: auto;">
-            <table class="table align-middle">
+            <table class="table align-items-center justify-content-center mb-0 dataTable">
                 <thead>
                     <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NOM & PRENOM(S)</th>
@@ -54,10 +54,7 @@
         </div>
     </div>
 </div>
-<div class="d-flex justify-content-center">
-    {{ $donneesCandidat->onEachSide(3)->links('pagination::bootstrap-4') }}
-    
-</div>
+
 
 <script>
 $(document).ready(function() {

@@ -48,7 +48,7 @@ public function getAllCandidatsData()
             'entree.date as date_dernier_paiement'
         )
         ->orderBy('entree.date', 'desc')
-        ->paginate(9, ['*'], 'page_candidat');// Spécifiez ici votre propre route
+        ->get();
 
     return $candidatsPagines;
 }
@@ -162,6 +162,45 @@ public function Consultation(){
 
     return view('Direction.Views.Consultation', ['data_consultante' => $consultantes]);
 }
+
+public function DossierClient(){
+
+      // Récupérer l'id de la succursale de l'utilisateur en cours
+      $idSuccursaleUtilisateur = auth()->user()->id_succursale;
+    
+      // Récupérer la liste des entrees de type 2 liées à la succursale de l'utilisateur
+      $entreesType2 = Entree::where('id_type_paiement', 2)
+          ->whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
+              $query->where('id_succursale', $idSuccursaleUtilisateur);
+          })
+          ->get();
+  
+      // Récupérer les candidats liés à ces entrées
+      $candidats = Candidat::whereIn('id', $entreesType2->pluck('id_candidat'))->get();
+  
+      // Créer un tableau associatif pour stocker la date de paiement correspondante à chaque candidat
+      $datesPaiement = [];
+      foreach ($entreesType2 as $entree) {
+          $datesPaiement[$entree->id_candidat] = $entree->date;
+      }
+  
+      // Trier les candidats par date de paiement (de la plus récente à la plus ancienne)
+      $candidats = $candidats->sortByDesc(function ($candidat) use ($datesPaiement) {
+          return $datesPaiement[$candidat->id];
+      });
+  
+      return view('Direction.Views.DossierClient', ['data_client' => $candidats, 'dates_paiement' => $datesPaiement]);
+  
+  
+   
+}
+
+public function Equipe(){
+ 
+    $users = \App\Models\User::all();
+
+    return view('Direction.Views.Equipe', ['users' => $users]);
+  }
 
   
 }
