@@ -48,7 +48,7 @@
                                 </h3>
                             </div>
 
-                            <div class="d-flex align-items-center justify-content-around w-40">
+                            <div class="d-flex align-items-center justify-content-around w-80">
 
                                 <button id="all" class="btn btn-primary">Voir tout</button>
                                 <button id="todayButton" class="btn btn-primary">Aujourd'hui</button>
@@ -304,6 +304,42 @@ function toggleStatutRendezVous(id, statut) {
         });
 }
     </script>
+    <style>
+    /* Styles pour les boutons de filtre */
+    .filter-btn {
+        margin-left: 10px; /* Espacement entre les boutons */
+    }
+
+    /* Styles pour rendre les boutons plus modernes */
+    .btn-primary {
+        width: 10vw;
+        background-color: #de3163; /* Couleur de fond */
+        color: #fff; /* Couleur du texte */
+        border: none;
+        border-radius: 10px; /* Coins arrondis */
+        padding: 10px 10px; /* Espacement à l'intérieur du bouton */
+        font-size: 12px; /* Taille de la police */
+        transition: background-color 0.3s, color 0.3s; /* Transition pour les changements de couleur */
+    }
+
+    .btn-primary:hover {
+        background-color: #d81b60; /* Changement de couleur de fond au survol */
+        color: #fff; /* Changement de couleur du texte au survol */
+    }
+
+    .btn-primary:focus {
+        outline: none; /* Supprimer le contour sur le focus */
+    }
+
+    /* Styles pour rendre les boutons responsive */
+    @media (max-width: 768px) {
+        .btn-primary {
+            margin-top: 10px; /* Espacement vertical entre les boutons */
+            width: 100%; /* Largeur maximale */
+        }
+    }
+</style>
+
 
 </body>
 
