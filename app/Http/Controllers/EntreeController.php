@@ -51,7 +51,7 @@ class EntreeController extends Controller
             $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
     
             // Utilisez la fonction pour récupérer les utilisateurs par rôle
-            $utilisateursNotifies = $this->getUsersByRole(2);
+            $utilisateursNotifies = $this->getUsersByRole(4);
     
             // Utilisez une transaction pour garantir la cohérence de la base de données lors de l'envoi des notifications
             DB::transaction(function () use ($utilisateursNotifies, $montant, $agent) {

@@ -79,13 +79,13 @@
                         ($currentUserRole == 4 &&
                             in_array($page, [
                                 'Direction.Dashboard',
+                                'Direction.Consultation',
                                 'DossierClients',
+                             
+                               
                                 'Direction.Banque',
-                                'Consultation',
-                                'adminDashboard',
-                                'dossier',
                                 'equipeView',
-                                'documentAgent',
+                               
                             ])))
                     <li class="nav-item">
                         <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}"
@@ -94,82 +94,55 @@
                                 <i class="material-icons opacity-10">
                                     @switch($page)
                                         @case('adminDashboard')
-                                            dashboard
-                                        @break
-
                                         @case('Administratif.Dashboard')
-                                            dashboard
+
                                         @case('Direction.Dashboard')
-                                            dashboard
-                                        @break
-
-                                        @case('Administratif.Clients')
-                                            contacts
-                                        @break
-
-                                        @case('Administratif.DossierClients')
-                                            folder
-                                        @break
-
-                                        @case('Administratif.Consultation')
-                                            groups
-                                        @break
-
-                                        @case('Administratif.Banque')
-                                            account_balance
-                                        @break
-
-                                        @case('DossierClients')
-                                            table_view
-                                        @break
-
                                         @case('Commercial.Dashboard')
                                             dashboard
                                         @break
 
+                                        @case('Administratif.Clients')
                                         @case('DossierContacts')
-                                            contacts
-                                        @break
 
                                         @case('Commercial.Contact')
                                             contacts
+                                        @break
+
+                                        @case('Administratif.DossierClients')
+                                        @case('DossierClients')
+
+                                        @case('dossier')
+                                        @case('documentAgent')
+                                            folder
+                                        @break
+
+                                        @case('Administratif.Consultation')
+                                        @case('equipeView')
+                                            groups
+                                        @break
+
+                                        @case('Consultante.Dashboard')
+                                        @case('Consultation')
+
+                                        @case('Direction.Consultation')
+                                            videocam
+                                        @break
+
+                                        @case('Administratif.Banque')
+                                        @case('Banque')
+
+                                        @case('Direction.Banque')
+                                            account_balance
                                         @break
 
                                         @case('Commercial.RendezVous')
                                             handshake
                                         @break
 
-                                        @case('Banque')
-                                            receipt_long
-                                        @break
-
-                                        @case('Direction.Banque')
-                                        receipt_long
-                                        @break
-
-                                        @case('Consultante.Dashboard')
-                                            videocam
-                                        @break
-
-                                        @case('Consultation')
-                                            videocam
-                                        @break
-
-                                        @case('dossier')
-                                            folder
-                                        @break
-
-                                        @case('equipeView')
-                                            groups
-                                        @break
-
-                                        @case('documentAgent')
-                                            folder
-                                        @break
-
                                         @default
                                             {{ $page }}
                                     @endswitch
+
                                 </i>
                             </div>
                             <span class="nav-link-text ms-1">{{ $pageTitle }}</span>

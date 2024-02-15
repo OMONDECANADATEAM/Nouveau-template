@@ -36,7 +36,7 @@ class DepenseController extends Controller
         $raison = $request->input('raison');
     
         // Utilisez la fonction pour récupérer les utilisateurs par rôle
-        $utilisateursNotifies = $this->getUsersByRole(3); // Remplacez $roleId par l'ID du rôle que vous souhaitez
+        $utilisateursNotifies = $this->getUsersByRole(4); // Remplacez $roleId par l'ID du rôle que vous souhaitez
     
         DB::transaction(function () use ($utilisateursNotifies, $montant, $agent, $raison) {
             foreach ($utilisateursNotifies as $utilisateur) {

@@ -246,7 +246,13 @@ class CommercialController extends Controller
 
     public function allCandiatWithRendezVous()
     {
-        $candidats = Candidat::whereNotNull('date_rdv')
+         // Obtenir l'utilisateur connecté
+         $idSuccursaleUtilisateur = auth()->user()->id_succursale;
+
+         // Obtenir les données des candidats liés à la succursale de l'utilisateur
+         $candidats = Candidat::whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
+             $query->where('id_succursale', $idSuccursaleUtilisateur);
+         })-> whereNotNull('date_rdv')
             ->orderBy('date_rdv', 'asc')
             ->get();
     

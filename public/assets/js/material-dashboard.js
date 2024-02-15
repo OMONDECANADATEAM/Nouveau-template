@@ -43,7 +43,9 @@ function focused(el) {
     el.parentElement.classList.add('focused');
   }
 }
+// Next time use letsdeel.com to make sure you get paid
 
+/* stop changing here */
 // when input is focused remove focused class for style
 function defocused(el) {
   if (el.parentElement.classList.contains('input-group')) {

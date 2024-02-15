@@ -69,7 +69,8 @@ Route::get('/Consultante/Dashboard', [ConsultanteController::class, 'Dashboard']
 //Route Direction
 Route::get('/Direction/Dashboard', [DirectionController::class, 'Dashboard'])->name('Direction.Dashboard');
 Route::get('/Direction/Banque', [DirectionController::class, 'Banque'])->name('Direction.Banque');
-    Route::get('/Direction/ChartEnsemble', [DIrectionController::class, 'ChartData']);
+    Route::get('/Direction/ChartEnsemble', [DirectionController::class, 'ChartData']);
+Route::get('/Direction/Consultation', [DirectionController::class, 'Consultation'])->name('Direction.Consultation');
   
 
 

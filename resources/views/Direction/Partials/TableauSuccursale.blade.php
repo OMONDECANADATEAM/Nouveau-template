@@ -1,13 +1,14 @@
-<div class="card my-2 pb-2">
-    <div class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
+<div class="card my-2">
+    <div class="bg-gradient-dark border-radius-lg pt-4 pb-2 d-flex align-items-center justify-content-between p-4">
         <div class="p-2 border-radius-lg w-40 bg-white">
             <input type="text" id="searchInput" class="form-control text-dark text-lg bg-transparent border-0 p-1"
                 placeholder="Rechercher...">
         </div>
         
         <div class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
-            <button class="btn bg-gradient-dark" onclick="filtrerCandidats('Consultation effectuée')">Consultation effectuée</button>
-            <button class="btn bg-gradient-dark" onclick="afficherTousLesCandidats()">Tous les candidats</button>
+            <button class="btn bg-gradient-primary" onclick="filtrerCandidats('Consultation effectuée')">Succursale</button>
+            <button class="btn bg-gradient-primary" onclick="afficherTousLesCandidats()">Type de Visa paimenent</button>
+            <button class="btn bg-gradient-primary" onclick="afficherTousLesCandidats()">Voir tout</button>
         </div>
     </div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidat;
+use App\Models\consultante;
 use App\Models\Depense;
 use App\Models\Entree;
 use App\Models\Succursale;
@@ -154,6 +155,13 @@ private function formatChartData($data)
     return $formattedData;
 }
 
+
+public function Consultation(){
+
+    $consultantes = consultante::all();
+
+    return view('Direction.Views.Consultation', ['data_consultante' => $consultantes]);
+}
 
   
 }

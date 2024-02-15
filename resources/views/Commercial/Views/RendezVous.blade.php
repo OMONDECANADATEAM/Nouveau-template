@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="card-body px-0 pb-2 ">
-                            <div class="table-responsive p-0  " style="max-height: 750px; overflow-y: auto;">
+                            <div class="table-responsive p-0  " style="max-height: 700px; min-height: 700px; overflow-y: auto;">
                                 <table class="table align-items-center justify-content-center mb-0 bg-white">
                                     <thead>
                                         <tr>
@@ -254,6 +254,7 @@
             });
         });
         function toggleConsultationPayee(id, statut) {
+
     fetch(`/Commercial/RendezVous/ConsultationPayee/${id}/${statut}`, {
             method: 'GET',
             headers: {

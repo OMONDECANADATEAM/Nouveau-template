@@ -83,7 +83,7 @@ class AdministratifController extends Controller
         $succursaleId = auth()->user()->id_succursale;
 
         // Vérifiez si l'ID de la succursale est égal à 3
-        if ($succursaleId === 3) {
+        if ($succursaleId === 4) {
             // Si oui, renvoyez le symbole de la devise $
             return '$';
         } else {
@@ -511,7 +511,8 @@ class AdministratifController extends Controller
                         'reponse26' => $request->input('niveau_scolarite_enfants'),
                     ]
                 );
-            } else {
+            } 
+            else {
                 // Si la consultation n'est pas payée, vérifiez s'il existe une entrée et supprimez-la
                 Entree::where('id_candidat', $candidat->id)->delete();
 
