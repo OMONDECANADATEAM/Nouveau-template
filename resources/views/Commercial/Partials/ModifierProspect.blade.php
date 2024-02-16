@@ -12,30 +12,30 @@
                     @csrf
                     @method('PUT')
                     <!-- Champs Nom et Prénoms sur la même ligne -->
-                    <div class="d-flex">
-                        <div class="input-group input-group-outline w-30 my-3 p-2">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label for="nom" class="form-label">Nom</label>
                             <input type="text" name="nom" id="nom" class="form-control"
-                                value="{{ $candidat->nom }}" required>
+                                    value="{{ $candidat->nom }}" required>
+                        
                         </div>
-
-                        <div class="input-group input-group-outline w-70 my-3 p-2">
+                        <div class="col-md-6 mb-3">
                             <label for="prenoms" class="form-label">Prénoms</label>
                             <input type="text" name="prenoms" id="prenoms" class="form-control"
                                 value="{{ $candidat->prenom }}" required>
                         </div>
                     </div>
 
-                    <div class="d-flex">
+                    <div class="row">
                         <!-- Champ Pays -->
-                        <div class="input-group input-group-outline w-40 mb-3 p-2">
+                        <div class="col-md-6 mb-3">
                             <label for="pays" class="form-label">Pays</label>
                             <input type="text" name="pays" id="pays" class="form-control"
                                 value="{{ $candidat->pays }}" required>
                         </div>
 
                         <!-- Champ Ville -->
-                        <div class="input-group input-group-outline w-60 mb-3 p-2">
+                        <div class="col-md-6 mb-3">
                             <label for="ville" class="form-label">Ville</label>
                             <input type="text" name="ville" id="ville" class="form-control"
                                 value="{{ $candidat->ville }}" required>
@@ -43,31 +43,31 @@
                     </div>
 
                     <!-- Champ Téléphone -->
-                    <div class="d-flex">
-                        <div class="input-group input-group-outline mb-3 p-2">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label for="numero_telephone" class="form-label">Téléphone</label>
                             <input type="tel" name="numero_telephone" id="numero_telephone" class="form-control"
                                 value="{{ $candidat->numero_telephone }}" required>
                         </div>
 
                         <!-- Champ Email -->
-                        <div class="input-group input-group-outline mb-3 p-2">
+                        <div class="col-md-6 mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" name="email" id="email" class="form-control"
                                 value="{{ $candidat->email }}" required>
                         </div>
                     </div>
 
-                    <div class="d-flex">
+                    <div class="row">
                         <!-- Champ Profession -->
-                        <div class="input-group input-group-outline w-50 mb-3 p-2">
+                        <div class="col-md-6 mb-3">
                             <label for="profession" class="form-label">Profession</label>
                             <input type="text" name="profession" id="profession" class="form-control"
                                 value="{{ $candidat->profession }}" required>
                         </div>
 
 
-                        <div class="input-group input-group-outline w-50 mb-3 p-2">
+                        <div class="col-md-6 mb-3">
                             <label for="date_rdv" class="form-label">Date Rendez Vous</label>
                             <input type="date" name="date_rdv" id="date_rdv" class="form-control"
                                 value="{{ $candidat->date_rdv }}">
@@ -89,3 +89,55 @@
 </div>
 </div>
 </div>
+
+<style>
+    /* Styles pour le formulaire d'ajout de prospect */
+
+    .modal-content {
+        border-radius: 20px;
+    }
+
+    .modal-header {
+        border-bottom: none;
+    }
+
+    .modal-title {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .modal-body {
+        padding: 2rem;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        color: #333; /* Changement de couleur du texte */
+        background-color: #fff; /* Changement de couleur de fond */
+        border: 1px solid #000; /* Bordure fine noire */
+        padding: 12px; /* Padding dans le champ de texte */
+    }
+
+    .form-control:focus {
+        border-color: #de3163; /* Changement de couleur de la bordure au focus */
+    }
+
+    .btn-primary {
+        background-color: #de3163; /* Couleur rose */
+        border: none;
+        border-radius: 10px;
+        transition: background-color 0.3s; /* Transition pour le changement de couleur au survol */
+    }
+
+    .btn-primary:hover {
+        background-color: #111; /* Changement de couleur au survol */
+    }
+
+    .btn-primary:active {
+        background-color: #1a2b3c; /* Changement de couleur au clic */
+    }
+</style>

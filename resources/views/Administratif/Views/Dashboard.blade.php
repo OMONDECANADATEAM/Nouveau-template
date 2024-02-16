@@ -75,6 +75,7 @@
     </main>
 </body>
 <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+<script src="/Applications/XAMPP/xamppfiles/htdocs/Nouveau-template/app/config.js"></script>
 
 @include('partials.plugin')
 

@@ -1,4 +1,4 @@
-<div class="modal z-index-1 fade" <div class="modal z-index-1 fade" id="addContactModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal z-index-1 fade" id="addContactModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,13 +8,15 @@
             <div class="modal-body">
                 <form action="{{ route('Commercial.AddProspect')}}" method="POST" id="contactForm" enctype="multipart/form-data">
                     @csrf
-                    <div class="mb-3">
-                        <label for="nom" class="form-label">Nom</label>
-                        <input type="text" name="nom" id="nom" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="prenoms" class="form-label">Prénoms</label>
-                        <input type="text" name="prenoms" id="prenoms" class="form-control" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nom" class="form-label">Nom</label>
+                            <input type="text" name="nom" id="nom" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="prenoms" class="form-label">Prénoms</label>
+                            <input type="text" name="prenoms" id="prenoms" class="form-control" required>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">

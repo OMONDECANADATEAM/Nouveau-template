@@ -45,7 +45,7 @@
                             class="bg-gradient-dark shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
                             <div class="p-2 border-radius-lg w-40 bg-white">
                                 <input type="text" id="searchInput"
-                                    class="form-control text-dark text-lg bg-transparent border-0 p-1"
+                                    class="form-control text-dark text-md bg-transparent border-0 p-1"
                                     placeholder="Rechercher...">
                             </div>
                             <button class="btn bg-primary text-white circle" data-bs-toggle="modal"
@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-
+    
     </main>
     @include('partials.plugin')
 </body>

@@ -82,6 +82,8 @@
 </body>
 <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
 
+
+
 @include('partials.plugin')
 
 </html>
