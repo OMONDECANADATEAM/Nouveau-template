@@ -253,7 +253,7 @@ class CommercialController extends Controller
          $candidats = Candidat::whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
              $query->where('id_succursale', $idSuccursaleUtilisateur);
          })-> whereNotNull('date_rdv')
-            ->orderBy('date_rdv', 'asc')
+            ->orderBy('date_rdv', 'desc')
             ->get();
     
         return $candidats;

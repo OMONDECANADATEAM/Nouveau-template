@@ -29,6 +29,17 @@
 
                         <th
                             class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                            STATUT
+                        </th>
+                        <th
+                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                            CONSULTANTE
+                        </th>
+
+
+
+                        <th
+                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             AJOUTER DOCUMENT
                         </th>
                     </tr>
@@ -45,15 +56,25 @@
                             <td class="align-middle text-center">
 
                                 <span class="text-md ">
-                                    @if ($candidat->proceduresDemandees->isNotEmpty())
-                                        @foreach ($candidat->proceduresDemandees as $procedure)
-                                            {{ $procedure->typeProcedure->label }}
-                                        @endforeach
+                                    @if ($candidat->proceduresDemandees)
+                                        {{ $candidat->proceduresDemandees->typeProcedure->label }}
                                     @else
                                         Sans objet
                                     @endif
                                 </span>
-                             
+
+                            </td>
+
+                            <td class="align-middle text-center">
+
+                                <span class="text-md ">
+                                    @if ($candidat->proceduresDemandees)
+                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'null' }}
+                                    @else
+                                        Sans objet
+                                    @endif
+                                </span>
+
                             </td>
 
                             <td class="align-middle text-center">
@@ -65,19 +86,23 @@
                                 @include('Administratif.Partials.VoirDocuments')
                             </td>
 
+
+
+
                             <td class="align-middle text-center">
 
 
                                 <a class="btn btn-success btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#ajouterFichierModal{{ $candidat->id }}">
                                     <i class="material-icons opacity-10" style="font-size: 24px;">add</i>
-                                   
+
                                 </a>
                                 @include('Administratif.Partials.ajoutFichierClient')
 
 
 
                             </td>
+
 
 
                         </tr>

@@ -11,7 +11,7 @@
                         <p class="text-lg mb-0 text-capitalize">
                             Caisse - {{ $succursaleId }}
                         </p>
-                        <h3 class="mb-0 pt-1 text-bold">{{ number_format($totals['totalEntrant'], 0, '.', ' ') }} FCFA</h4>
+                        <h3 class="mb-0 pt-1 text-bold">{{ number_format($totals['totalEntrant'], 0, '.', ' ') }} {{ $totals['devise']}}</h4>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         <p class="text-lg mb-0 text-capitalize">
                             Dépenses - {{ $succursaleId }}
                         </p>
-                        <h3 class="mb-0 pt-2 text-bold">{{ number_format($totals['totalDepenses'], 0, '.', ' ') }} FCFA</h4>
+                        <h3 class="mb-0 pt-2 text-bold">{{ number_format($totals['totalDepenses'], 0, '.', ' ') }} {{ $totals['devise']}} </h4>
                     </div>
                 </div>
             </div>

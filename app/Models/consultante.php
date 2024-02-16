@@ -24,8 +24,13 @@ class consultante extends Model
     }
 
 // Modèle InfoConsultation
-public function candidats()
-{
-    return $this->hasMany(Candidat::class, 'id_info_consultation', 'id');
-}
+    public function candidats()
+    {
+        return $this->hasMany(Candidat::class, 'id_info_consultation', 'id');
+    }
+
+    public function procedures()
+    {
+        return $this->hasMany(Procedure::class, 'consultante_id');
+    }
 }

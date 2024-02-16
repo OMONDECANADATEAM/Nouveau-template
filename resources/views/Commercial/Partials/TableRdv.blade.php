@@ -71,7 +71,7 @@
                                                 $carbonDate = \Carbon\Carbon::parse($candidat->rendezVous->date_rdv);
                                                 $formattedDate = ucwords($carbonDate->translatedFormat('l j F Y'));
                                             @endphp
-                                            <span class="text-md font-weight-bold">{{ $formattedDate }}</span>
+                                            <span class="text-md font-weight-bold">{{ $formattedDate ?? 'Pas de rdv' }}</span>
                                         </td>
                                         
                                         

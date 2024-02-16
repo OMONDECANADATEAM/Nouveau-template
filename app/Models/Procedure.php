@@ -13,7 +13,7 @@ class Procedure extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id', 'id_candidat', 'id_type_procedure' ];
+        'id', 'id_candidat', 'id_type_procedure', 'statut_id', 'consultante_id' ];
 
     public function candidat()
     {
@@ -23,5 +23,10 @@ class Procedure extends Model
     public function typeProcedure()
     {
         return $this->belongsTo(TypeProcedure::class, 'id_type_procedure');
+    }
+
+    public function consultante()
+    {
+        return $this->hasOne(consultante::class, 'id' ,  'consultante_id' );
     }
 }

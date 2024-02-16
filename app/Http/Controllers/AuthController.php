@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class AuthController extends Controller
 {
@@ -18,7 +19,7 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if (FacadesAuth::attempt($credentials)) {
             // Authentication passed...
             return redirect()->route('Dashboard');
         }
@@ -29,7 +30,7 @@ class AuthController extends Controller
 
     public function logout()
 {
-    Auth::logout();
+    FacadesAuth::logout();
     return redirect('/');
 }
 

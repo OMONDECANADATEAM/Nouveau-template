@@ -11,7 +11,8 @@
                     {{-- Le dossier a des documents --}}
                     <div class="list-group">
                         @foreach ($candidat->dossier->documents as $document)
-                            <a href="{{ $document->url }}" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <a href="{{ asset('storage/'. $document->url) }}"
+                                target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 <span>
                                     <i class="bi bi-file-earmark-{{ $document->typeIcon }}"></i> <!-- Utilisez une classe spécifique pour chaque type d'icône -->
                                     {{ $document->nom }}

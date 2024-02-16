@@ -466,15 +466,19 @@ class AdministratifController extends Controller
 
             // Si la consultation est payée, mettez à jour ou créez une entrée et une fiche de consultation
             if ($candidat->consultation_payee) {
+                $montant = (auth()->user()->id_succursale == 4) ? 200 : 100000;
+            
                 $entree = Entree::updateOrCreate(
                     ['id_candidat' => $candidat->id],
                     [
-                        'montant' => 50000,
+                        'montant' => $montant,
                         'date' => now(),
                         'id_utilisateur' => $idUtilisateur,
                         'id_type_paiement' => 2,
                     ]
                 );
+            
+            
 
                 FicheConsultation::updateOrCreate(
                     [

@@ -54,43 +54,48 @@ public function getAllCandidatsData()
 }
 
 
-    private function allSuccursalle()
-    {
-        // Obtenez le mois actuel
-        $moisActuel = now()->format('m');
-        
-        // Obtenez la liste des succursales
-        $succursales = Succursale::all();
+private function allSuccursalle()
+{
+    // Obtenez le mois actuel
+    $moisActuel = now()->format('m');
     
-        $donneesSuccursales = [];
-    
-        // Itérez sur chaque succursale
-        foreach ($succursales as $succursale) {
-            // Obtenez le total du mois en cours pour la succursale actuelle (entrées)
-            $totalEntrant = Entree::whereMonth('date', $moisActuel)
-                ->whereHas('utilisateur', function ($query) use ($succursale) {
-                    $query->where('id_succursale', $succursale->id);
-                })
-                ->sum('montant');
-    
-            // Obtenez le total du mois en cours pour les dépenses de la succursale actuelle
-            $totalDepenses = Depense::whereMonth('date', $moisActuel)
-                ->whereHas('utilisateur', function ($query) use ($succursale) {
-                    $query->where('id_succursale', $succursale->id);
-                })
-                ->sum('montant');
-    
-            // Stockez les totaux dans le tableau associatif
-            $donneesSuccursales[$succursale->label] = [
-                'totalEntrant' => $totalEntrant,
-                'totalDepenses' => $totalDepenses,
-                // Ajoutez d'autres données si nécessaire
-            ];
-        }
-    
-        // Retournez le tableau associatif
-        return $donneesSuccursales;
+    // Obtenez la liste des succursales
+    $succursales = Succursale::all();
+
+    $donneesSuccursales = [];
+
+    // Itérez sur chaque succursale
+    foreach ($succursales as $succursale) {
+        // Obtenez le total du mois en cours pour la succursale actuelle (entrées)
+        $totalEntrant = Entree::whereMonth('date', $moisActuel)
+            ->whereHas('utilisateur', function ($query) use ($succursale) {
+                $query->where('id_succursale', $succursale->id);
+            })
+            ->sum('montant');
+
+        // Obtenez le total du mois en cours pour les dépenses de la succursale actuelle
+        $totalDepenses = Depense::whereMonth('date', $moisActuel)
+            ->whereHas('utilisateur', function ($query) use ($succursale) {
+                $query->where('id_succursale', $succursale->id);
+            })
+            ->sum('montant');
+
+        // Déterminez la devise en fonction de la succursale
+        $devise = ($succursale->id == 4) ? '$' : 'FCFA';
+
+        // Stockez les totaux dans le tableau associatif
+        $donneesSuccursales[$succursale->label] = [
+            'totalEntrant' => $totalEntrant ,
+            'totalDepenses' => $totalDepenses ,
+            'devise' => $devise ,
+            // Ajoutez d'autres données si nécessaire
+        ];
     }
+
+    // Retournez le tableau associatif
+    return $donneesSuccursales;
+}
+
 
     
     
