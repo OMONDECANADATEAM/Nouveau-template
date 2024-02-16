@@ -62,3 +62,32 @@
         // Récupérer l'élément de champ de recherche
         document.getElementById('searchInput').addEventListener('input', filterCards);
     });
+    function ajouterNouvelleLigne(candidatId) {
+        // Sélectionnez le formulaire
+        var formulaire = document.getElementById("ajouterFichierForm" + candidatId);
+
+        // Sélectionnez la première ligne (conteneur flex d'origine)
+        var premiereLigne = formulaire.querySelector(".mb-3.d-flex.align-items-center");
+
+        // Clonez la première ligne
+        var nouvelleLigne = premiereLigne.cloneNode(true);
+
+        // Effacez le champ de fichier dans la nouvelle ligne
+        var champFichier = nouvelleLigne.querySelector(".input-group");
+        champFichier.innerHTML =
+            '<input type="file" class="form-control border rounded-3 p-2" name="fichiers[]" multiple style="height: 3rem;">' +
+            '<label class="input-group-text" for="fichiers' + candidatId + '">Parcourir</label>';
+
+        // Insérez la nouvelle ligne avant les boutons
+        formulaire.insertBefore(nouvelleLigne, formulaire.querySelector(".text-end"));
+        // Récupérez le type de document sélectionné
+        var typeDocument = document.querySelector('#typeDocument').value;
+
+        // Appelez la fonction pour afficher la liste des documents après avoir ajouté les fichiers
+        afficherListeDocuments(documents);
+
+        // Effacez le formulaire ou effectuez d'autres actions nécessaires après l'ajout des fichiers
+        document.getElementById("ajouterFichierForm" + candidatId).reset();
+
+    }
+ 
