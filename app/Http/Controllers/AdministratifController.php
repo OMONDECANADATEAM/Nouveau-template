@@ -664,9 +664,7 @@ class AdministratifController extends Controller
     {
         try {
             // Validez les données du formulaire
-            $request->validate([
-                'type_procedure' => 'required|exists:type_procedure,id', // Assurez-vous que le type de procédure existe
-            ]);
+            
     
             // Validez l'existence du candidat
             $candidat = Candidat::find($candidatId);
@@ -697,7 +695,7 @@ class AdministratifController extends Controller
                 $procedure->save();
             }
     
-            return redirect()->route('votre.route.de.redirection')->with('success', 'Procédure enregistrée avec succès.');
+            return redirect()->back()->with('success', 'Procédure enregistrée avec succès.');
         } catch (\Exception $e) {
             // Gérez les erreurs, par exemple, en les enregistrant ou en les affichant à l'utilisateur
             return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de la procédure.');

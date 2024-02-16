@@ -49,7 +49,6 @@
 
 
         @include('partials.plugin')
-        @include('partials.footer')
 </body>
 
 </html>

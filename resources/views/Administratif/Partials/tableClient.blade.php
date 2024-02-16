@@ -21,21 +21,23 @@
                             class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             TYPE VISA
                         </th>
+                       
 
-                        <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            VOIR DOSSIER
-                        </th>
+
 
                         <th
                             class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             STATUT
                         </th>
                         <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                        CONSULTANTE
+                    </th>
+                      
+                        <th
                             class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            CONSULTANTE
+                            VOIR DOSSIER
                         </th>
-
 
 
                         <th
@@ -59,7 +61,18 @@
                                     @if ($candidat->proceduresDemandees)
                                         {{ $candidat->proceduresDemandees->typeProcedure->label }}
                                     @else
-                                        Sans objet
+                                    N / A
+                                    @endif
+                                </span>
+
+                            </td>
+                            <td class="align-middle text-center">
+
+                                <span class="text-md ">
+                                    @if ($candidat->proceduresDemandees)
+                                        {{ $candidat->proceduresDemandees->statut->label ?? 'null' }}
+                                    @else
+                                    N / A
                                     @endif
                                 </span>
 
@@ -69,9 +82,10 @@
 
                                 <span class="text-md ">
                                     @if ($candidat->proceduresDemandees)
-                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'null' }}
+                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'null' }}  {{ $candidat->proceduresDemandees->consultante->prenoms ?? 'null' }}
+                         
                                     @else
-                                        Sans objet
+                                        N / A
                                     @endif
                                 </span>
 

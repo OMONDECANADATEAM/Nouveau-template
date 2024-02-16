@@ -29,4 +29,9 @@ class Procedure extends Model
     {
         return $this->hasOne(consultante::class, 'id' ,  'consultante_id' );
     }
+
+    public function statut()
+    {
+        return $this->belongsTo(StatutProcedure::class);
+    }
 }
