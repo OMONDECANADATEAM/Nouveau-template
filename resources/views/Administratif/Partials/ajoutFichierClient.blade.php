@@ -16,8 +16,8 @@
                         <div class="me-3">
                             <select class="form-select" id="typeDocument" name="typeDocument[]" required>
                                 <!-- Ajoutez les options de type de document en conséquence -->
-                                <option value="curriculum">CV</option>
-                                <option value="lettre_motivation">Lettre de motivation</option>
+                                <option value="Curriculum">CV</option>
+                                <option value="Lettre_motivation">Lettre de motivation</option>
                                 <!-- Ajoutez d'autres options selon vos besoins -->
                             </select>
                         </div>

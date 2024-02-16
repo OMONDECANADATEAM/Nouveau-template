@@ -29,7 +29,10 @@ class DossierController extends Controller
 
     if (!$dossier) {
         // Créez un dossier pour le candidat s'il n'en a pas encore un
-        $dossier = Dossier::create(['id_candidat' => $candidat->id, 'id_agent' => Auth::user()->id, 'url' => 'public/' . $dossierPath]);
+        $dossier = Dossier::create([
+        'id_candidat' => $candidat->id, //ID du candidat
+        'id_agent' => Auth::user()->id, // Id de l'utilisateur connecté
+        'url' =>  $dossierPath]); //dossierClient/NomDuCandidatPrenomId
     }
 
     // Vérifiez si le dossier existe, sinon, créez-le
@@ -44,7 +47,9 @@ class DossierController extends Controller
     // Boucle sur chaque fichier pour l'ajouter séparément
     foreach ($files as $key => $file) {
         // Utilisez le type de document sélectionné pour ce fichier comme base pour le nom du fichier
+
         $typeDocument = $typesDocuments[$key]; // Obtenir le type de document correspondant pour ce fichier
+
         $nomFichier = $typeDocument . '.' . $file->getClientOriginalExtension();
 
         // Déplacez le fichier dans le dossier du candidat avec le nom de fichier unique
@@ -54,7 +59,7 @@ class DossierController extends Controller
         Document::create([
             'id_dossier' => $dossier->id,
             'nom' => $nomFichier,
-            'url' => 'http://localhost/Nouveau-template/storage/app/public/' . $dossierPath . '/' . $nomFichier,
+            'url' => $dossierPath . '/' . $nomFichier,
         ]);
     }
 
