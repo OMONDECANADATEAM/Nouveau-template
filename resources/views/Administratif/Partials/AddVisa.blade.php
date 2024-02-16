@@ -11,17 +11,36 @@
                     @csrf
                     <!-- Champs Candidat -->
                     <input type="hidden" name="candidat_id" value="{{ $candidat->id }}">
-                    
-                    <div class="input-group input-group-outline mb-3 p-2 d-flex align-items-center justify-content-between">
-                        <!-- Récupérer la liste des types de procédures triés par nom -->
-                        @foreach (App\Models\TypeProcedure::all() as $procedure)
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type_procedure" id="procedure{{ $procedure->id }}" value="{{ $procedure->id }}" required>
-                                <label class="form-check-label" for="procedure{{ $procedure->id }}">{{ $procedure->label }}</label>
-                            </div>
-                        @endforeach
+
+                    <!-- Autres champs -->
+                    <div class="mb-3">
+                        <label for="type_procedure">Type de Procédure</label>
+                        <select class="form-select" name="type_procedure" id="type_procedure" required>
+                            @foreach (App\Models\TypeProcedure::all() as $procedure)
+                                <option value="{{ $procedure->id }}">{{ $procedure->label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="statut">Statut</label>
+                        <select class="form-select" name="statut" id="statut" required>
+                            @foreach (App\Models\StatutProcedure::all() as $statut)
+                                <option value="{{ $statut->id }}">{{ $statut->label }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     
+                    <div class="mb-3">
+                        <label for="consultante_id">Consultante ID</label>
+                        <select class="form-select" name="consultante_id" id="consultante_id" required>
+                            @foreach (App\Models\consultante::all() as $consultante)
+                            <option value="{{ $consultante->id }}">{{ $consultante->nom }}  {{ $consultante->prenoms }}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                    
+
                     <!-- Bouton Enregistrer -->
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
                 </form>

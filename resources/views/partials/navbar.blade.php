@@ -17,6 +17,7 @@
                 $pages = [
                     // Pages Commerciaux
                     'Consultante.Dashboard' => 'Dashboard',
+                    'Consultante.DossierClient' => 'Dossier Client',
 
                     // Pages Commerciaux
                     'Commercial.Dashboard' => 'Dashboard',
@@ -54,7 +55,7 @@
 
             @foreach ($pages as $page => $pageTitle)
                 @if (
-                    ($currentUserRole == 0 && $page == 'Consultante.Dashboard') ||
+                    ($currentUserRole == 0 && in_array($page,   ['Consultante.Dashboard' ,   'Consultante.DossierClient',])) ||
                         ($currentUserRole == 1 &&
                             in_array($page, ['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'])) ||
                         ($currentUserRole == 2 &&
@@ -108,7 +109,8 @@
 
                                         @case('Administratif.DossierClients')
                                         @case('DossierClients')
-
+                                        @case('Consultante.DossierClient')
+                                   
                                         @case('dossier')
                                         @case('documentAgent')
                                             folder

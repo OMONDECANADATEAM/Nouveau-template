@@ -25,7 +25,7 @@
 
 
                 @foreach ($clients as $candidat)
-                    <tr>
+                     <tr>
                         <td>
                             <div class="d-flex px-2">
                                 <h6 class="p-2 text-md">{{ $candidat->nom }} {{ $candidat->prenom }}</h6>

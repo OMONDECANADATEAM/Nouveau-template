@@ -11,11 +11,15 @@
             <table class="table align-items-center justify-content-center mb-0 dataTable">
                 <thead>
                     <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                             NOM
                         </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                             TYPE VISA
+                        </th>
+                        
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                            CONSULTANTE
                         </th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             VOIR DOSSIER
@@ -30,31 +34,42 @@
                                     <h6 class="p-2 text-md">{{ $candidat->nom }} {{ $candidat->prenom }}</h6>
                                 </div>
                             </td>
-
+            
                             <td class="align-middle text-center">
-                                <span class="text-md font-weight-bold">
-                                    @forelse ($candidat->proceduresDemandees as $procedure)
-                                        {{ $procedure->typeProcedure->label }}
-                                        @if (!$loop->last)
-                                            ,
-                                        @endif
-                                    @empty
-                                        Sans objet
-                                    @endforelse
+
+                                <span class="text-md ">
+                                    @if ($candidat->proceduresDemandees)
+                                        {{ $candidat->proceduresDemandees->typeProcedure->label }}
+                                    @else
+                                    N / A
+                                    @endif
                                 </span>
-                            </td>
 
+                            </td>
                             <td class="align-middle text-center">
-                                <button class="btn bg-dark text-white" data-bs-toggle="modal" data-bs-target="#voirDossierModal{{ $candidat->id }}">
+
+                                <span class="text-md ">
+                                    @if ($candidat->proceduresDemandees)
+                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'null' }}  {{ $candidat->proceduresDemandees->consultante->prenoms ?? 'null' }}
+                         
+                                    @else
+                                        N / A
+                                    @endif
+                                </span>
+
+                            </td>
+                            <td class="align-middle text-center">
+                                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#voirDossierModal{{ $candidat->id }}">
                                     Voir Le Dossier
                                 </button>
-
+            
                                 @include('Administratif.Partials.VoirDocuments')
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            
         </div>
     </div>
 </div>
@@ -92,3 +107,6 @@
         });
     });
 </script>
+<style>
+   
+</style>

@@ -94,8 +94,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-
                                 @foreach ($consultations as $consultation)
                                     <tr data-candidat-id="{{ $consultation->id }}"
                                         class="{{ Carbon::parse($consultation->date_heure)->isPast() ? 'table-danger' : '' }}">

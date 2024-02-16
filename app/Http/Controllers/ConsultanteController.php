@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Candidat;
+use App\Models\consultante;
 use App\Models\InfoConsultation;
+use Illuminate\Support\Facades\Auth;
 
 class ConsultanteController extends Controller
 {
@@ -49,4 +51,25 @@ class ConsultanteController extends Controller
             return view('Consultante.candidat', compact('consultation'));
        
     }
+
+
+    public function DossierClient()
+{  
+    $userId = Auth::id();
+    $consultantId = consultante::where('id_utilisateur', $userId)->value('id');
+
+
+    // Récupérer la liste des candidats avec des procédures associées pour le consultant connecté
+    $candidats = Candidat::whereHas('proceduresDemandees', function ($query) use ($consultantId) {
+        $query->where('consultante_id', $consultantId);
+    })->get();
+
+    return view('Consultante.Views.DossierClient', compact('candidats'));
+}
+
+
+
+
+
+    
 }
