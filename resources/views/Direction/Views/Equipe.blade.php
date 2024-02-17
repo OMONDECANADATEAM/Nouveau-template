@@ -32,11 +32,14 @@
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
     <script src={{ asset('assets/js/script/equipe.js') }}></script>
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-<!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-
-<!-- DataTables JS -->
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <!-- Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 
 </head>
@@ -53,17 +56,35 @@
                 <div class="col-lg-12">
                     <div class="card my-2">
                         <div class="card-header p-0 position-relative mt-n3 mx-3">
-                            <div class="bg-gradient-dark shadow-primary border-radius-lg pt-4 pb-3  p-4">
+                            <div class="bg-gradient-dark border-radius-lg pt-4 pb-2 d-flex align-items-center justify-content-between p-4">
                                 <div class="p-2 border-radius-lg w-40 bg-white">
                                     <input type="text" id="searchInput"
                                         class="form-control text-dark text-lg bg-transparent border-0 p-1"
                                         placeholder="Rechercher...">
                                 </div>
+
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary" type="button" id="dropdownSuccursales" data-toggle="dropdown">
+                                        Pays
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownSuccursales">
+                                        @foreach (\App\Models\Succursale::all() as $succursale)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="{{ $succursale->label }}"
+                                                    id="typePaiement{{ $succursale->id }}" name="pays">
+                                                <label class="form-check-label" for="typePaiement{{ $succursale->id }}">
+                                                    {{ $succursale->label }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0" style="max-height: 750px; overflow-y: auto;">
-                                <table class="table align-items-center justify-content-center mb-0 dataTable">     <thead>
+                                <table class="table align-items-center justify-content-center mb-0 dataTable">
+                                    <thead>
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -102,9 +123,9 @@
                                                     <button class="btn bg-gradient-dark" data-bs-toggle="modal"
                                                         data-bs-target="#voirDossierModal{{ $user->id }}">
                                                         Voir Dossier
-                                                       
+
                                                     </button>
-                                                   @include('Direction.Partials.VoirDocAgent')
+                                                    @include('Direction.Partials.VoirDocAgent')
 
                                                 </td>
 
@@ -123,43 +144,50 @@
     @include('partials.plugin')
     <script>
         const table = $('.dataTable').DataTable({
-        "language": {
-            "lengthMenu": "",
-            "zeroRecords": "Aucun résultat trouvé",
-            "info": "", // Supprime l'information sur le nombre de pages
-            "infoEmpty": "",
-            "infoFiltered": "",
-            "paginate": {
-                "first": "Premier",
-                "last": "Dernier",
-                "next": "Suivant",
-                "previous": "Précédent"
+            "language": {
+                "lengthMenu": "",
+                "zeroRecords": "Aucun résultat trouvé",
+                "info": "", // Supprime l'information sur le nombre de pages
+                "infoEmpty": "",
+                "infoFiltered": "",
+                "paginate": {
+                    "first": "Premier",
+                    "last": "Dernier",
+                    "next": "Suivant",
+                    "previous": "Précédent"
+                },
+                "search": "" // Supprime le texte "Search"
             },
-            "search": "" // Supprime le texte "Search"
-        },
-        "lengthMenu": [10, 25, 50, 100], // Supprime les options "Show entries" par défaut
-        "dom": '<"top"i>rt<"bottom"flp><"clear">', // Supprime la barre de recherche et "Show entries" en haut
-        "columnDefs": [
-            {
-                "targets": [2], // Indice de la colonne sur laquelle vous souhaitez ajouter un filtre
-                "searchable": true,
-                "orderable": true
-            },
-            {
-                "targets": [2], // Indice d'une autre colonne sur laquelle vous souhaitez ajouter un filtre
-                "searchable": true,
-                "orderable": true
-            }
-            // Ajoutez des blocs comme celui-ci pour chaque colonne que vous souhaitez filtrer
-        ]
-    });
-              // Utilisez votre barre de recherche personnalisée pour filtrer le tableau
+            "lengthMenu": [10, 25, 50, 100], // Supprime les options "Show entries" par défaut
+            "dom": '<"top"i>rt<"bottom"flp><"clear">', // Supprime la barre de recherche et "Show entries" en haut
+            "columnDefs": [{
+                    "targets": [2], // Indice de la colonne sur laquelle vous souhaitez ajouter un filtre
+                    "searchable": true,
+                    "orderable": true
+                },
+                {
+                    "targets": [2], // Indice d'une autre colonne sur laquelle vous souhaitez ajouter un filtre
+                    "searchable": true,
+                    "orderable": true
+                }
+                // Ajoutez des blocs comme celui-ci pour chaque colonne que vous souhaitez filtrer
+            ]
+        });
+        // Utilisez votre barre de recherche personnalisée pour filtrer le tableau
         $('#searchInput').on('input', function() {
             table.search(this.value).draw();
         });
-    
+        $('input:checkbox').on('change', function() {
+    // Build a regex filter string with an or(|) condition
+    var pays = $('input:checkbox[name="pays"]:checked').map(function() {
+        return this.value;
+    }).get().join('|');
+    // Filter in column 1 (index 0), with a regex, no smart filtering, case insensitive
+    table.column(2).search(pays, true, false, true).draw(false);
+});
+
     </script>
-    
+
 </body>
 
 </html>
