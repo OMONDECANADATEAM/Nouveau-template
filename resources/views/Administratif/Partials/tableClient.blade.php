@@ -13,12 +13,12 @@
             <table class="table align-items-center justify-content-center mb-0">
                 <thead>
                     <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                             NOM
                         </th>
 
                         <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                            class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             TYPE VISA
                         </th>
                        
@@ -26,23 +26,23 @@
 
 
                         <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                            class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             STATUT
                         </th>
                         <th
-                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                        class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                         CONSULTANTE
                     </th>
                       
                         <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                            class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             VOIR DOSSIER
                         </th>
 
 
                         <th
-                            class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            AJOUTER DOCUMENT
+                            class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                            ACTIONS
                         </th>
                     </tr>
                 </thead>
@@ -101,23 +101,37 @@
                             </td>
 
 
-
-
                             <td class="align-middle text-center">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary" type="button" id="dropdownMenuButton"
+                                        data-bs-toggle="dropdown">
+                                        <i class="material-icons">more_vert</i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                       
+                                     
+    
+                                        <a class="dropdown-item"data-bs-toggle="modal"
+                                            data-bs-target="#AjouterVisaModal{{ $candidat->id }}">
+                                            Ajouter le Type de Visa
+                                        </a>
 
-
-                                <a class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#ajouterFichierModal{{ $candidat->id }}">
-                                    <i class="material-icons opacity-10" style="font-size: 24px;">add</i>
-
-                                </a>
-                                @include('Administratif.Partials.ajoutFichierClient')
-
-
-
+                                        <a class="dropdown-item"data-bs-toggle="modal"
+                                        data-bs-target="#ajouterFichierModal{{ $candidat->id }}">
+                                        Ajouter des documents
+                                    </a>
+                                        
+                                        
+                                    </div>
+                                </div>
                             </td>
+                          
+                             @include('Administratif.Partials.AddVisa', [
+                                'candidat' => $candidat,
+                            ])
+                              @include('Administratif.Partials.ajoutFichierClient')
 
-
+                            
 
                         </tr>
                     @endforeach

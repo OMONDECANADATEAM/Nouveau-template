@@ -66,6 +66,12 @@ class User extends Authenticatable
         return $this->belongsTo(Succursale::class, 'id_succursale');
     }
 
+    public function poste()
+    {
+        return $this->id_poste_occupe;
+    
+        }
+
     public function isUserSimple()
     {
         return $this->id_poste_occupe === 1;
@@ -96,6 +102,8 @@ class User extends Authenticatable
             return $this->id_poste_occupe === 2;
         }
     }
+
+
 
     /**
      * Récupère le rôle de l'utilisateur (0, 1, 2).

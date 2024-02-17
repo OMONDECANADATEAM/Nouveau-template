@@ -71,7 +71,7 @@
                                         @foreach (\App\Models\Succursale::all() as $succursale)
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="{{ $succursale->label }}"
-                                                    id="typePaiement{{ $succursale->id }}" name="pays">
+                                                    id="typePaiement{{ $succursale->id }}" name="pays" checked>
                                                 <label class="form-check-label" for="typePaiement{{ $succursale->id }}">
                                                     {{ $succursale->label }}
                                                 </label>
@@ -82,24 +82,24 @@
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0" style="max-height: 750px; overflow-y: auto;">
+                            <div class="table-responsive p-0" style="max-height: 700px; overflow-y: auto;">
                                 <table class="table align-items-center justify-content-center mb-0 dataTable">
                                     <thead>
                                         <tr>
                                             <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                class="col-md-2  text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 NOM
                                             </th>
                                             <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                                class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                                 POSTE
                                             </th>
                                             <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                                class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                                 SUCCURSALE
                                             </th>
                                             <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                                class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                                 DOCUMENT
                                             </th>
                                         </tr>

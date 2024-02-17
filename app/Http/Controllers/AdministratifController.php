@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidat;
 use App\Models\Document;
 use App\Models\Dossier;
+use App\Models\User;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Illuminate\Support\Facades\Auth;
@@ -94,7 +95,7 @@ class AdministratifController extends Controller
     //Ramene les 3 prochaines consultations
     public function prochaineConsultation()
     {
-        $consultations = InfoConsultation::latest('date_heure')->take(3)->get();
+        $consultations = InfoConsultation::latest('date_heure')->take(4)->get();
 
         return $consultations;
     }
@@ -438,17 +439,22 @@ class AdministratifController extends Controller
         // Utiliser la méthode view pour rendre la vue avec les données
         return view('Administratif.Views.DossierClients', $donneesClients);
     }
-
+  
     public function Banque()
     {
         $utilisateurConnecte = Auth::user();
-
+    
+        // Vérifie si le poste de l'utilisateur est 134 ou 5
+        $hasPoste = in_array($utilisateurConnecte->id_poste_occupe, [3, 5]);
+    
         $entries = Entree::where('id_utilisateur', $utilisateurConnecte->id)
             ->orderBy('date', 'desc')
             ->get();
-
-        return view('Administratif.Views.Banque', compact('entries'));
+    
+        // Passe la variable $hasPoste à la vue
+        return view('Administratif.Views.Banque', compact('entries', 'hasPoste'));
     }
+    
 
     public function Consultation()
     {

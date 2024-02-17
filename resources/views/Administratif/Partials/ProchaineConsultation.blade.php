@@ -1,4 +1,4 @@
-<div class="col-lg-5 mt-4 mb-3">
+<div class="col-lg-5 mt-6 mb-3">
     <div class="card h-100">
         <div class="card-header pb-0">
             <h3>Prochaines Consultations</h3>

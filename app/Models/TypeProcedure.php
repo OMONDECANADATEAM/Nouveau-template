@@ -23,7 +23,7 @@ class TypeProcedure extends Model
 
     public function proceduresDemandees()
     {
-        return $this->hasMany(ProcedureDemande::class, 'id_type_procedure');
+        return $this->hasMany(Procedure::class, 'id_type_procedure');
     }
 }
 

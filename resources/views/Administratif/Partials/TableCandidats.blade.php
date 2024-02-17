@@ -3,19 +3,19 @@
         <table class="table align-items-center justify-content-center mb-0">
             <thead>
                 <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <th class=" col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         NOM
                     </th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                         NUMERO
                     </th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                         PROFFESSION
                     </th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">
+                    <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">
                         DATE DE CONSULTATION
                     </th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                    <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                         ACTIONS
                     </th>
                     </th>
@@ -62,11 +62,6 @@
                                         data-bs-target="#AjouterOuModifierConsultationModal{{ $candidat->id }}">Ajouter
                                         ou Modifier Consultation</a>
 
-                                    <a class="dropdown-item"data-bs-toggle="modal"
-                                        data-bs-target="#AjouterVisaModal{{ $candidat->id }}">
-                                        Ajouter le Type de Visa
-                                    </a>
-                                    
                                     
                                 </div>
                             </div>
@@ -76,10 +71,7 @@
                         ])
                         @include('Administratif.Partials.AjouterOuModifierConsultation', [
                             'candidat' => $candidat,
-                        ]) 
-                         @include('Administratif.Partials.AddVisa', [
-                            'candidat' => $candidat,
-                        ]) 
+                        ])  
                       
                     </tr>
                 @endforeach

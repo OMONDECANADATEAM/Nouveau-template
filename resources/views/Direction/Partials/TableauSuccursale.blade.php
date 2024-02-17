@@ -14,7 +14,7 @@
                     @foreach (\App\Models\TypePaiement::all() as $typePaiement)
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="{{ $typePaiement->label }}"
-                                id="typePaiement{{ $typePaiement->id }}" name="type_paiement">
+                                id="typePaiement{{ $typePaiement->id }}" name="type_paiement" checked>
                             <label class="form-check-label" for="typePaiement{{ $typePaiement->id }}">
                                 {{ $typePaiement->label }}
                             </label>
@@ -31,7 +31,7 @@
                     @foreach (\App\Models\Succursale::all() as $succursale)
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="{{ $succursale->label }}"
-                                id="typePaiement{{ $typePaiement->id }}" name="pays">
+                                id="typePaiement{{ $typePaiement->id }}" name="pays" checked>
                             <label class="form-check-label" for="typePaiement{{ $succursale->id }}">
                                 {{ $succursale->label }}
                             </label>
@@ -39,7 +39,9 @@
                     @endforeach
                 </div>
             </div>
-                </div>
+
+
+        </div>
     </div>
 
     <div class="card-body px-0">
@@ -47,15 +49,15 @@
             <table class="table align-items-center justify-content-center mb-0 dataTable">
                 <thead>
                     <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NOM & PRENOM(S)
+                        <th class=" col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NOM & PRENOM(S)
                         </th>
-                        <th class="text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">TYPE
+                        <th class=" col-md-2 text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">TYPE
                             PAIEMENT</th>
-                        <th class="text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">
+                        <th class=" col-md-2 text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">
                             AGENT / SUCCURSALLE</th>
-                        <th class="text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">
+                        <th class=" col-md-2 text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">
                             MONTANT</th>
-                        <th class="text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">DATE
+                        <th class=" col-md-2 text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">DATE
                             DE PAIEMENT</th>
                     </tr>
                 </thead>
@@ -86,4 +88,3 @@
         </div>
     </div>
 </div>
-

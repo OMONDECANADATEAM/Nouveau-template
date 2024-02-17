@@ -7,10 +7,7 @@ use App\Models\consultante;
 use App\Models\Depense;
 use App\Models\Entree;
 use App\Models\Succursale;
-use App\Models\TypePaiement;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -95,9 +92,6 @@ private function allSuccursalle()
     // Retournez le tableau associatif
     return $donneesSuccursales;
 }
-
-
-    
     
         
     public function Banque()

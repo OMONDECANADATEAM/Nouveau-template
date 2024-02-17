@@ -12,8 +12,13 @@
             <button class="btn bg-primary text-white circle" data-bs-toggle="modal"
             data-bs-target="#ajouterEntreeModal">
             <i class="material-icons">add</i> Ajouter un paiement
-          
-        </button>
+            @if ($hasPoste)
+            <button class="btn bg-primary text-white circle" data-bs-toggle="modal"
+            data-bs-target="#ajouterDepenseModal">
+            <i class="material-icons">add</i> Ajouter une depense
+            @endif
+             </button>
+             @include('partials.Banque.addDepenses')
         @include('Administratif.Partials.AddEntree')
         </div>
 
@@ -54,7 +59,8 @@
                                 
                                 <td>
                                     <p class="text-md text-success font-weight-bold mb-0">
-                                        {{ number_format($entry->montant, 0, ',', ' ') }} FCFA </p>
+                                        {{ number_format($entry->montant, 0, ',', ' ') }} {{ auth()->user()->id_succursale == 4 ? '$' : 'FCFA' }}
+                                    </p>
                                 </td>
                                 <td class="align-middle text-center text-xl ">
                                     
