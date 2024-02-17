@@ -494,7 +494,7 @@ class AdministratifController extends Controller
     
             // Récupérez les valeurs du formulaire
             $typeProcedureId = $request->input('type_procedure');
-            $statut = $request->input('statut');
+            $statut = $request->input('statut_id');
             $consultanteId = $request->input('consultante_id');
     
             // Recherchez une procédure existante pour le candidat
@@ -512,7 +512,7 @@ class AdministratifController extends Controller
                 $procedure = new Procedure([
                     'id_candidat' => $candidatId,
                     'id_type_procedure' => $typeProcedureId,
-                    'statut' => $statut,
+                    'statut_id' => $statut,
                     'consultante_id' => $consultanteId,
                 ]);
     

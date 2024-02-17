@@ -24,7 +24,7 @@
 
                     <div class="mb-3">
                         <label for="statut">Statut</label>
-                        <select class="form-select" name="statut" id="statut" required>
+                        <select class="form-select" name="statut_id" id="statut" required>
                             @foreach (App\Models\StatutProcedure::all() as $statut)
                                 <option value="{{ $statut->id }}">{{ $statut->label }}</option>
                             @endforeach
