@@ -37,7 +37,7 @@
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
    <!-- DataTables JS -->
    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-
+   <script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
 </head>
    
 <body class="g-sidenav-show  bg-gray-200">

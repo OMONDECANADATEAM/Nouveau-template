@@ -29,7 +29,7 @@
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
      <script src={{ asset('assets/js/script/dossierClient.js') }}></script>
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-
+    <script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
