@@ -37,7 +37,11 @@
                     'Direction.Banque' => 'Banque',
                     'Direction.Consultation' => 'Consultation',
                     'Direction.Equipe' => 'L\'equipe',
+                    
 
+                    //Pages IT
+                    'Informatique.Dashboard' => 'Dashboard',
+                    'Informatique.Equipe' => 'L\'equipe',
                     // Other Pages
                     'DossierContacts' => 'Contacts',
                     'DossierClients' => 'Dossier Clients',
@@ -68,14 +72,9 @@
                             ])) ||
                         ($currentUserRole == 3 &&
                             in_array($page, [
-                                'DossierContacts',
-                                'DossierClients',
-                                'Banque',
-                                'Consultation',
-                                'adminDashboard',
-                                'dossier',
-                                'equipeView',
-                                'documentAgent',
+                                'Informatique.Dashboard',
+                                'Informatique.Equipe'
+                                
                             ])) ||
                         ($currentUserRole == 4 &&
                             in_array($page, [
@@ -97,6 +96,8 @@
 
                                         @case('Direction.Dashboard')
                                         @case('Commercial.Dashboard')
+                                        @case('Informatique.Dashboard')
+                                        
                                             dashboard
                                         @break
 
@@ -119,6 +120,7 @@
                                         @case('Administratif.Consultation')
                                         @case('equipeView')
                                         @case('Direction.Equipe')
+                                        @case('Informatique.Equipe')
                                             groups
                                         @break
 

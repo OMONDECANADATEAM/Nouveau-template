@@ -196,7 +196,7 @@ public function DossierClient(){
 
 public function Equipe(){
  
-    $users = \App\Models\User::all();
+   $users  = \App\Models\User::all();
 
     return view('Direction.Views.Equipe', ['users' => $users]);
   }

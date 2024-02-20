@@ -57,7 +57,60 @@ class UtilisateurController extends Controller
         }
 
         return $utilisateur
-            ? redirect()->route('login')
-            : redirect()->route('creer-utilisateur.formulaire')->with('error', 'Une erreur s\'est produite lors de la création de l\'utilisateur.');
+            ? redirect()->back()
+            : redirect()->back()->with('error', 'Une erreur s\'est produite lors de la création de l\'utilisateur.');
     }
+
+    
+    public function modifier(Request $request, $id)
+    {
+        // Obtenez l'utilisateur à modifier
+        $utilisateur = User::find($id);
+    
+        // Si l'utilisateur n'existe pas, retournez une réponse JSON avec un message d'erreur
+        if (!$utilisateur) {
+            return response()->json(['error' => 'Utilisateur non trouvé.'], 404);
+        }
+    
+        // Si l'utilisateur existe, validez les données du formulaire
+        $request->validate([
+            'prenom' => 'required|string|max:255',
+            'nom' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'mot_de_passe' => 'nullable|string|min:6', // Rendre le mot de passe facultatif
+            'poste_occupe' => 'required|exists:poste_occupe,id',
+            'id_role_utilisateur' => 'required|exists:role_utilisateur,id',
+            'id_succursale' => 'required|exists:succursale,id',
+            'photo_profil' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+    
+        // Traitement de la photo de profil
+        if ($request->hasFile('photo_profil')) {
+            // Enregistrez le fichier sur le serveur
+            $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $utilisateur->nom . $utilisateur->prenoms . '.png', 'public');
+            // Mettez à jour le lien de la photo de profil dans la base de données
+            $utilisateur->update(['lien_photo' => $path]);
+        }
+    
+        // Mettez à jour les autres champs de l'utilisateur
+        $utilisateur->update([
+            'last_name' => $request->input('prenom'),
+            'name' => $request->input('nom'),
+            'email' => $request->input('email'),
+            'id_poste_occupe' => $request->input('poste_occupe'),
+            'id_role_utilisateur' => $request->input('id_role_utilisateur'),
+            'id_succursale' => $request->input('id_succursale'),
+        ]);
+    
+        // Mettez à jour le mot de passe s'il est fourni
+        if ($request->filled('mot_de_passe')) {
+            $utilisateur->update(['password' => bcrypt($request->input('mot_de_passe'))]);
+        }
+    
+        // Retournez une réponse JSON avec un message de succès
+        return response()->json(['success' => 'Utilisateur modifié avec succès.'], 200);
+    }
+    
+    
+
 }

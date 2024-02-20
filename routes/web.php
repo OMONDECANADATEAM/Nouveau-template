@@ -12,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ConsultanteController;
 use App\Http\Controllers\DirectionController;
+use App\Http\Controllers\InformatiqueController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,7 +75,10 @@ Route::get('/Direction/Banque', [DirectionController::class, 'Banque'])->name('D
 Route::get('/Direction/Consultation', [DirectionController::class, 'Consultation'])->name('Direction.Consultation');
 Route::get('/Direction/DossierClient', [DirectionController::class, 'DossierClient'])->name('Direction.DossierClient');
 Route::get('/Direction/Equipe', [DirectionController::class, 'Equipe'])->name('Direction.Equipe');
-      
+   
+//Routes IT
+Route::get('/Informatique/Consultation', [InformatiqueController::class, 'Consultation'])->name('Informatique.Dashboard');
+Route::get('/Informatique/Equipe', [InformatiqueController::class, 'Equipe'])->name('Informatique.Equipe');
 
 
 Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');
@@ -125,6 +129,8 @@ Route::post('/ajouterTypeDeVisa', [Controller::class, 'ajouterTypeDeVisa']);
 
 Route::get('/creer-utilisateur', [UtilisateurController::class, 'formulaireCreation'])->name('creer-utilisateur.formulaire');
 Route::post('/creer-utilisateur', [UtilisateurController::class, 'creer'])->name('creer-utilisateur.creer');
+Route::post('/modifier-utilisateur/{id}', [UtilisateurController::class, 'modifier'])->name('ModifierUser');
+
 
 
 Route::get('/dossier', [HomeController::class, 'dossier'])->name('dossier');

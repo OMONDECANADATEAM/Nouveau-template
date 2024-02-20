@@ -36,8 +36,8 @@ class HomeController extends Controller
                   
                 case 3:
                     // Informatique, redirigez-le vers le dashboard Informatique
-                    return view('Informatique.Views.Dashboard');
-                case 4:
+                    return redirect()->route('Informatique.Dashboard');
+                    case 4:
                     // Direction, redirigez-le vers le dashboard Direction
                     return redirect()->route('Direction.Dashboard');
                 default:
