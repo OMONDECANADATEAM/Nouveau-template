@@ -138,6 +138,10 @@ Route::get('/dossier', [HomeController::class, 'dossier'])->name('dossier');
 
 Route::post('/save-remarques/{id}', [HomeController::class, 'saveRemarques'])->name('SaveRemarque');
 
+
+Route::delete('/SupprimerDocumentCandidat/{id}', [DossierController::class, 'delFichierCandidat'])->name('DelFichierCandidat');
+Route::delete('/supprimerFichierAgent/{userId}/{fileName}',[DossierController::class, 'supprimerFichierAgent'])->name('supprimerFichierAgent');
+
 Route::post('/ajouterFichiersCandidat/{candidatId}', [DossierController::class, 'ajouterFichiersCandidat'])->name('ajoutFichiersCandidat');
 Route::post('/ajouterFichiersAgent/{userId}', [DossierController::class, 'ajouterFichiersAgent'])->name('ajoutFichiersAgent');
 

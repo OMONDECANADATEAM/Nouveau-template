@@ -11,14 +11,25 @@
                     {{-- Le dossier a des documents --}}
                     <div class="list-group">
                         @foreach ($candidat->dossier->documents as $document)
-                            <a href="{{ asset('storage/'. $document->url) }}"
-                                target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                <span>
-                                    <i class="bi bi-file-earmark-{{ $document->typeIcon }}"></i> <!-- Utilisez une classe spécifique pour chaque type d'icône -->
-                                    {{ $document->nom }}
-                                </span>
-                                <span class="badge bg-secondary rounded-pill">Document</span> <!-- Ajoutez une badge pour indiquer le type de document -->
-                            </a>
+                        <div class="d-flex justify-content-between align-items-center row">
+                            <div class="d-flex align-items-center col-11 mb-1">
+                                <a href="{{ asset('storage/'. $document->url) }}" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between rounded align-items-center">
+                                    <span>
+                                        {{ $document->nom }}
+                                    </span>
+                                    <span class="badge bg-secondary rounded-pill">Document</span>
+                       
+                                </a>
+                                
+                            </div>
+                           <div class="d-flex align-items-center col-1">
+                                 <!-- Icône de suppression -->
+                                 <a href="#" data-url="{{ route('DelFichierCandidat', ['id' => $document->id]) }}" class="text-danger ml-2 delete-document">
+                                    <i class="material-icons">delete</i>
+                                </a>
+                           </div>
+                        </div>
+                        
                         @endforeach
                     </div>
                 @else
@@ -32,3 +43,5 @@
         </div>
     </div>
 </div>
+
+    

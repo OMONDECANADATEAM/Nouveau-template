@@ -29,6 +29,8 @@
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
      <script src={{ asset('assets/js/script/dossierClient.js') }}></script>
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
 </head>
 
@@ -49,6 +51,37 @@
 
 
         @include('partials.plugin')
+        
+<script>
+    $(document).ready(function () {
+        $('.delete-document').on('click', function (e) {
+            e.preventDefault();
+            
+            var url = $(this).data('url');
+
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce document ?')) {
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        // La requête a réussi, afficher une alerte
+                        alert('Le document a été supprimé avec succès!');
+
+                        // Recharger la page
+                        window.location.reload();
+                    },
+                    error: function (error) {
+                        // La requête a échoué, afficher une alerte ou effectuer d'autres actions
+                        console.error('Erreur lors de la suppression du document:', error);
+                    }
+                });
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

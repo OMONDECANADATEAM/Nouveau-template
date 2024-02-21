@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Liste de couleurs pour chaque succursale
         const colors = [
     "rgba(40, 167, 69, 0.7)", // Vert
-    "rgba(255, 193, 7, 0.7)", // Jaune
+    "rgba(255, 255, 255, 1)", // Jaune
     "rgba(220, 53, 69, 0.7)", // Rouge
     "rgba(23, 162, 184, 0.7)", // Turquoise
     

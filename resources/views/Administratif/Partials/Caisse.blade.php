@@ -13,7 +13,8 @@
         <div class="card-body">
             <div class="text-end">
                 
-                <h3 class="mb-0 pt-2">{{ $caisseMensuel ?? '0' }} {{$devise}} </h3>
+                <h3 class="mb-0 pt-2">{{ $caisseMensuel ? number_format($caisseMensuel, 0, '.', ' ') : '0' }} {{$devise}}
+                </h3>
             </div>
         </div>
         <hr class="dark horizontal my-0">

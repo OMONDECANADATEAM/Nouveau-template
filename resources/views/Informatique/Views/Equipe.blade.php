@@ -40,6 +40,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!-- DataTables JS -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
 </head>
@@ -138,16 +139,22 @@
                                                             <i class="material-icons">more_vert</i>
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ajouterFichierModal{{ $user->id }}">
+                                                                Ajout Documents 
+                                                            </a>
+
                                                             <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#voirDossierModal{{ $user->id }}">
-                                                                Voir document
+                                                                Voir Dossier
                                                             </a>
                                                 
                                                             <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifierUtilisateurModal{{ $user->id }}">
                                                                 Modifier utilisateur
                                                             </a>
+                                                            
                                                         </div>
                                                         @include('Direction.Partials.VoirDocAgent')
                                                         @include('Informatique.Partials.ModifierUser')
+                                                        @include('Informatique.Partials.AjouterFichierAgent')
                                                     </div>
                                                 </td>
                                                 
@@ -214,6 +221,29 @@
             table.column(2).search(pays, true, false, true).draw(false);
         });
     </script>
+
+<script>
+    $(document).ready(function(){
+        $('.delete-document').click(function(e){
+            e.preventDefault();
+            var url = $(this).attr('data-url');
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                success: function(result) {
+                    // Affichez un message de succès et rechargez la page ou faites quelque chose d'autre ici
+                    alert(result.message);
+                    location.reload();
+                },
+                error: function(xhr) {
+                    // Affichez un message d'erreur ici
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        });
+    });
+</script>
     
 
 </body>

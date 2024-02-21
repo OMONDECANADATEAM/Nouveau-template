@@ -8,6 +8,8 @@ use App\Models\Dossier;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+
 
 class DossierController extends Controller
 {
@@ -96,4 +98,56 @@ class DossierController extends Controller
         // Vous pouvez retourner une réponse JSON ou rediriger vers une autre page
         return response()->json(['message' => 'Fichiers ajoutés avec succès']);
     }
+
+    public function delFichierCandidat($id)
+{
+    // Trouvez le document par son ID
+    $document = Document::find($id);
+
+    // Vérifiez si le document existe
+    if (!$document) {
+        return response()->json(['message' => 'Document non trouvé'], 404);
+    }
+
+    // Supprimez le fichier du système de fichiers
+    $filePath = storage_path('app/public/' . $document->url);
+    if (file_exists($filePath)) {
+        unlink($filePath);
+    }
+
+    // Supprimez le document de la base de données
+    $document->delete();
+
+    return response()->json(['message' => 'Document supprimé avec succès']);
+}
+
+
+public function supprimerFichierAgent($userId, $fileName)
+{
+    // Récupérez l'utilisateur en fonction de l'ID
+    $user = User::find($userId);
+
+    // Vérifiez si l'utilisateur existe
+    if (!$user) {
+        return response()->json(['message' => 'Agent non trouvé'], 404);
+    }
+
+    // Construisez le chemin du dossier
+    $dossierPath = 'dossierAgent/' . substr($user->name, 0, 2) . substr($user->last_name, 0, 1) . $user->id;
+
+    // Construisez le chemin complet du fichier à supprimer
+    $filePath = storage_path('app/public/' . $dossierPath . '/' . $fileName);
+
+    // Vérifiez si le fichier existe
+    if (File::exists($filePath)) {
+        // Supprimez le fichier
+        File::delete($filePath);
+
+        return response()->json(['message' => 'Fichier supprimé avec succès']);
+    } else {
+        return response()->json(['message' => 'Fichier non trouvé'], 404);
+    }
+}
+
+
 }
