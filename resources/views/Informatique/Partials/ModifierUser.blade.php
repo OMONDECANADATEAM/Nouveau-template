@@ -1,13 +1,16 @@
-<div class="modal z-index-2 fade" id="modifierUtilisateurModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="modifierUtilisateurModalLabel{{ $user->id }}" aria-hidden="true">
+<div class="modal z-index-2 fade" id="modifierUtilisateurModal{{ $user->id }}" tabindex="-1" role="dialog"
+    aria-labelledby="modifierUtilisateurModalLabel{{ $user->id }}" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <!-- Contenu du modal -->
             <div class="modal-header">
-                <h5 class="modal-title" id="modifierUtilisateurModalLabel{{ $user->id }}">Modifier un utilisateur</h5>
+                <h5 class="modal-title" id="modifierUtilisateurModalLabel{{ $user->id }}">Modifier un utilisateur
+                </h5>
             </div>
             <div class="modal-body">
                 <!-- Votre formulaire ici -->
-                <form action="{{ route('ModifierUser', ['id' => $user->id]) }}" method="post" class="bg-white rounded p-4 w-100" enctype="multipart/form-data">
+                <form action="{{ route('ModifierUser', ['id' => $user->id]) }}" method="post"
+                    class="bg-white rounded p-4 w-100" enctype="multipart/form-data">
                     @csrf <!-- Ajoutez le jeton CSRF pour protéger le formulaire -->
 
                     <!-- Ajoutez un champ caché pour l'ID de l'utilisateur -->
@@ -18,23 +21,37 @@
                         <div class="col-md-6">
                             <div class="input-group input-group-outline mb-3">
                                 <label for="nom" class="form-label">Nom :</label>
-                                <input type="text" id="nom" name="nom" class="form-control ps-2" value="{{ $user->name}}" required>
+                                <input type="text" id="nom" name="nom" class="form-control ps-2"
+                                    value="{{ $user->name }}" required>
                             </div>
                         </div>
                         <!-- Champ pour le prénom de l'utilisateur -->
                         <div class="col-md-6">
                             <div class="input-group input-group-outline mb-3">
                                 <label for="prenom" class="form-label">Prénom :</label>
-                                <input type="text" id="prenom" name="prenom" class="form-control ps-2" value="{{ $user->last_name}}" required>
+                                <input type="text" id="prenom" name="prenom" class="form-control ps-2"
+                                    value="{{ $user->last_name }}" required>
                             </div>
                         </div>
                     </div>
-                    <div class="input-group input-group-outline mb-3">
-                        <label for="mot_de_passe" class="form-label">Mot de passe :</label>
-                        <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-control ps-2"
-                         required>
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="input-group input-group-outline mb-3 col-6">
+                                <label for="email" class="form-label">E-mail :</label>
+                                <input type="email" id="email" name="email" class="form-control"
+                                      value="{{ $user->email }}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-5">
+                            <div class="input-group input-group-outline mb-3">
+                                <label for="mot_de_passe" class="form-label">Mot de passe :</label>
+                                <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-control ps-2"
+                                    required>
+                            </div>
+                        </div>
                     </div>
-        
+
                     <!-- Champ pour le poste occupé -->
                     <div class="row">
                         <div class="select-group  mb-3 col-md-4">
@@ -43,7 +60,7 @@
                                 <!-- Options de poste à récupérer de la base de données -->
                                 @foreach (App\Models\PosteOccupe::all() as $poste)
                                     <option value="{{ $poste->id }}" class="text-dark"
-                                        @if ($poste->id == $user->id_poste_occupee) selected @endif>{{ $poste->label }}</option>
+                                        @if ($poste->id == $user->id_poste_occupe) selected @endif>{{ $poste->label }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -76,7 +93,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="photo_profil" class="form-label text-dark">Photo de profil :</label>
-                        <input type="file" id="photo_profil" name="photo_profil" class="form-control form-control-md border ps-2 ">
+                        <input type="file" id="photo_profil" name="photo_profil"
+                            class="form-control form-control-md border ps-2 ">
                     </div>
                     <!-- Bouton de soumission du formulaire -->
                     <div class="d-flex align-items-center justify-content-between">
@@ -85,7 +103,7 @@
                         </button>
                         <button type="submit" class="btn btn-success">Modifier utilisateur</button>
                     </div>
-            
+
                 </form>
 
                 @if (session('error'))
