@@ -368,44 +368,7 @@ class AdministratifController extends Controller
         return redirect()->back()->with('success', 'Consultation mise à jour avec succès');
     }
 
-    public function allClient()
-    {
-        // Récupérer l'id de la succursale de l'utilisateur en cours
-        $idSuccursaleUtilisateur = auth()->user()->id_succursale;
-
-        // Récupérer la liste des entrees de type 2 liées à la succursale de l'utilisateur
-        $entreesType2 = Entree::where('id_type_paiement', 2)
-            ->whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
-                $query->where('id_succursale', $idSuccursaleUtilisateur);
-            })
-            ->get();
-
-        // Récupérer les candidats liés à ces entrées
-        $candidats = Candidat::whereIn('id', $entreesType2->pluck('id_candidat'))->get();
-
-        // Créer un tableau associatif pour stocker la date de paiement correspondante à chaque candidat
-        $datesPaiement = [];
-        foreach ($entreesType2 as $entree) {
-            $datesPaiement[$entree->id_candidat] = $entree->date;
-        }
-
-        // Trier les candidats par date de paiement (de la plus récente à la plus ancienne)
-        $candidats = $candidats->sortByDesc(function ($candidat) use ($datesPaiement) {
-            return $datesPaiement[$candidat->id];
-        });
-
-        // Pour chaque candidat, récupérer les documents du dossier
-        foreach ($candidats as $candidat) {
-            // Appeler la méthode getDossierDocuments pour récupérer les documents du dossier
-            $documentsDossier = $this->getDossierDocuments($candidat->id);
-
-            // Ajouter les documents du dossier à chaque candidat
-            $candidat->documentsDossier = $documentsDossier['documents'];
-        }
-
-        return ['data_client' => $candidats, 'dates_paiement' => $datesPaiement];
-    }
-
+    
     public function getDossierDocuments($clientId)
     {
         $candidat = Candidat::find($clientId);
@@ -431,14 +394,43 @@ class AdministratifController extends Controller
         return view('Administratif.Partials.VoirDocuments', compact('candidat', 'documents'));
     }
 
+    public function allClient()
+    {
+        // Récupérer l'id de la succursale de l'utilisateur en cours
+        $idSuccursaleUtilisateur = auth()->user()->id_succursale;
+    
+        // Récupérer la liste des entrees de type 2 liées à la succursale de l'utilisateur
+        $entreesType2 = Entree::with('utilisateur')
+            ->where('id_type_paiement', 2)
+            ->whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
+                $query->where('id_succursale', $idSuccursaleUtilisateur);
+            })
+            ->get();
+    
+        // Récupérer les candidats liés à ces entrées
+        $candidats = Candidat::whereIn('id', $entreesType2->pluck('id_candidat'))->get();
+    
+        // Créer un tableau associatif pour stocker la date de paiement correspondante à chaque candidat
+        $datesPaiement = $entreesType2->pluck('date', 'id_candidat')->all();
+    
+        // Trier les candidats par date de paiement (de la plus récente à la plus ancienne)
+        $candidats = $candidats->sortByDesc(function ($candidat) use ($datesPaiement) {
+            return $datesPaiement[$candidat->id];
+        });
+    
+        
+        return ['data_client' => $candidats, 'dates_paiement' => $datesPaiement];
+    }
+    
     public function DossierClients()
     {
         // Appeler la fonction allClient pour récupérer les données
         $donneesClients = $this->allClient();
-
+    
         // Utiliser la méthode view pour rendre la vue avec les données
         return view('Administratif.Views.DossierClients', $donneesClients);
     }
+    
   
     public function Banque()
     {
