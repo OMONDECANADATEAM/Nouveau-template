@@ -40,6 +40,22 @@
                         @endforeach
                     </div>
                 </div>
+
+                <div class="dropdown">
+                    <button class="btn btn-secondary" type="button" id="dropdownStatut" data-toggle="dropdown">
+                        Statut
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownStatut">
+                        @foreach (\App\Models\StatutProcedure::all() as $statut)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{ $statut->label }}" id="statut{{ $statut->id }}" name="statut" checked>
+                                <label class="form-check-label" for="statut{{ $statut->id }}">
+                                    {{ $statut->label }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
                 
             </div>
         </div>
@@ -229,6 +245,21 @@
     console.log(consultante);
     table.column(3).search(consultante, true, false).draw();
 });
+
+$('input[name="statut"]').on('click', function () {
+        // Récupérez tous les statuts cochés
+        var statuts = [];
+        $('input[name="statut"]:checked').each(function () {
+            statuts.push(this.value);
+        });
+
+        // Joignez les statuts avec un pipe (|), qui est utilisé comme un opérateur OR dans la méthode `search` de DataTables
+        var regex = statuts.join('|');
+
+        // Filtrez votre table basée sur les statuts cochés
+        // Ici, j'assume que le statut est dans la 3ème colonne de votre table (index 2)
+        table.column(2).search(regex, true, false).draw();
+    });
 
 
    
