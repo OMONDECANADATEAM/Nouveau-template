@@ -6,11 +6,47 @@
                 <input type="text" id="searchInput" class="form-control   text-lg bg-transparent border-0 p-1"
                     placeholder="Rechercher...">
             </div>
+
+            <div class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
+                <div class="dropdown">
+                    <button class="btn btn-secondary" type="button" id="dropdownTypeVisa" data-toggle="dropdown">
+                        Type de visa
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownTypeVisa">
+                        @foreach (\App\Models\TypeProcedure::all() as $typeVisa)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{ $typeVisa->label }}"
+                                    id="typeVisa{{ $typeVisa->id }}" name="type_visa" checked>
+                                <label class="form-check-label" for="typeVisa{{ $typeVisa->id }}">
+                                    {{ $typeVisa->label }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                
+                <div class="dropdown">
+                    <button class="btn btn-secondary" type="button" id="dropdownConsultante" data-toggle="dropdown">
+                        Consultante
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownConsultante">
+                        @foreach (\App\Models\consultante::all() as $consultante)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{ $consultante->nom }} {{ $consultante->prenoms }}" id="consultante{{ $consultante->id }}" name="consultante" checked>
+                                <label class="form-check-label" for="consultante{{ $consultante->id }}">
+                                    {{ $consultante->nom }}    {{ $consultante->prenoms }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
     <div class="card-body px-0 pb-2">
         <div class="table-responsive p-0" style="min-height: 700px; max-height: 700px; overflow-y: auto;">
-            <table class="table align-items-center justify-content-center mb-0">
+            <table class="table align-items-center justify-content-center mb-0 dataTable">
                 <thead>
                     <tr>
                         <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -82,7 +118,7 @@
 
                                 <span class="text-md ">
                                     @if ($candidat->proceduresDemandees)
-                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'null' }}  {{ $candidat->proceduresDemandees->consultante->prenoms ?? 'null' }}
+                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'null' }} {{ $candidat->proceduresDemandees->consultante->prenoms ?? 'null' }}
                          
                                     @else
                                         N / A
@@ -144,3 +180,60 @@
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function () {
+    var table = $('.dataTable').DataTable({
+        "language": {
+            "search": "",
+            "lengthMenu": "",
+            "zeroRecords": "",
+            "info": "",
+            "infoEmpty": "",
+            "infoFiltered": "",
+            "paginate": {
+                "first": '<i class="material-icons">first_page</i>',
+                "last": '<i class="material-icons">last_page</i>',
+                "next": '<i class="material-icons">chevron_right</i>',
+                "previous": '<i class="material-icons">chevron_left</i>'
+            }
+        },
+        "dom": '<"top"i>rt<"bottom"lp><"clear">',
+        "drawCallback": function () {
+            // Ajouter les classes de Bootstrap pour centrer horizontalement
+            $('.dataTables_paginate.paging_simple_numbers').addClass('d-flex justify-content-center');
+            $('.bottom').addClass('d-flex justify-content-center');
+        }
+    });
+
+   
+    $('#searchInput').on('keyup', function() {
+  table.search(this.value).draw();
+});
+   // Filtre pour le type de visa
+   $('input:checkbox[name="type_visa"]').on('change', function () {
+        var types = $('input:checkbox[name="type_visa"]:checked').map(function () {
+            return this.value; // Match partial value
+        }).get().join('|'); // Join all values with OR operator
+        console.log(types)
+        table.column(1).search(types, true, false).draw(); // Apply filter to column 1 (Type de visa)
+    });
+
+    $('input:checkbox[name="consultante"]').on('change', function () {
+    console.log('Checkbox changed'); // Ajoutez cette ligne
+
+    var consultante = $('input:checkbox[name="consultante"]:checked').map(function () {
+        return this.value;
+    }).get().join('|');
+
+    console.log(consultante);
+    table.column(3).search(consultante, true, false).draw();
+});
+
+
+   
+});
+
+
+
+</script>
