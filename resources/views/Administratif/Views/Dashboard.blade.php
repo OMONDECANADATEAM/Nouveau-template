@@ -35,6 +35,7 @@
 
 </head>
 
+
 <body class="g-sidenav-show  bg-gray-200">
     @include('partials.navbar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -75,7 +76,6 @@
     </main>
 </body>
 <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-<script src="/Applications/XAMPP/xamppfiles/htdocs/Nouveau-template/app/config.js"></script>
 
 @include('partials.plugin')
 

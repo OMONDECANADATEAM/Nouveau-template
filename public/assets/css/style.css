@@ -1,0 +1,47 @@
+.modal-content {
+    border-radius: 20px;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-title {
+    font-weight: bold;
+    color: #333;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 10px;
+    color: #333; /* Changement de couleur du texte */
+    background-color: #fff; /* Changement de couleur de fond */
+    border: 1px solid #000; /* Bordure fine noire */
+    padding: 12px; /* Padding dans le champ de texte */
+}
+
+.form-control:focus {
+    border-color: #de3163; /* Changement de couleur de la bordure au focus */
+}
+
+.btn-primary {
+    background-color: #de3163; /* Couleur rose */
+    border: none;
+    border-radius: 10px;
+    transition: background-color 0.3s; /* Transition pour le changement de couleur au survol */
+}
+
+.btn-primary:hover {
+    background-color: #111; /* Changement de couleur au survol */
+}
+
+.btn-primary:active {
+    background-color: #1a2b3c; /* Changement de couleur au clic */
+}

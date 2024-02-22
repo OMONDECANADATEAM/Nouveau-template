@@ -11,47 +11,42 @@
                     @csrf
                     @method('PUT')
                     <!-- Champs Nom et Prénoms sur la même ligne -->
-                    <div class="d-flex">
-                        <div class="input-group input-group-outline w-30 my-3 p-2">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label for="nom" class="form-label">Nom</label>
                             <input type="text" name="nom" id="nom" class="form-control"
                                 value="{{ $candidat->nom }}" required>
                         </div>
 
-                        <div class="input-group input-group-outline w-70 my-3 p-2">
-                            <label for="prenoms" class="form-label">Prénoms</label>
+                        <div class="col-md-6 mb-3">          <label for="prenoms" class="form-label">Prénoms</label>
                             <input type="text" name="prenoms" id="prenoms" class="form-control"
                                 value="{{ $candidat->prenom }}" required>
                         </div>
                     </div>
 
-                    <div class="d-flex">
+                    <div class="row">
                         <!-- Champ Pays -->
-                        <div class="input-group input-group-outline w-40 mb-3 p-2">
-                            <label for="pays" class="form-label">Pays</label>
+                        <div class="col-md-6 mb-3">    <label for="pays" class="form-label">Pays</label>
                             <input type="text" name="pays" id="pays" class="form-control"
                                 value="{{ $candidat->pays }}" required>
                         </div>
 
                         <!-- Champ Ville -->
-                        <div class="input-group input-group-outline w-60 mb-3 p-2">
-                            <label for="ville" class="form-label">Ville</label>
+                        <div class="col-md-6 mb-3">    <label for="ville" class="form-label">Ville</label>
                             <input type="text" name="ville" id="ville" class="form-control"
                                 value="{{ $candidat->ville }}" required>
                         </div>
                     </div>
 
                     <!-- Champ Téléphone -->
-                    <div class="d-flex">
-                        <div class="input-group input-group-outline mb-3 p-2">
-                            <label for="numero_telephone" class="form-label">Téléphone</label>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">     <label for="numero_telephone" class="form-label">Téléphone</label>
                             <input type="tel" name="numero_telephone" id="numero_telephone" class="form-control"
                                 value="{{ $candidat->numero_telephone }}" required>
                         </div>
 
                         <!-- Champ Email -->
-                        <div class="input-group input-group-outline mb-3 p-2">
-                            <label for="email" class="form-label">Email</label>
+                        <div class="col-md-8 mb-3">   <label for="email" class="form-label">Email</label>
                             <input type="email" name="email" id="email" class="form-control"
                                 value="{{ $candidat->email }}" required>
                         </div>
