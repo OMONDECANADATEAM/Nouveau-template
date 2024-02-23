@@ -74,9 +74,6 @@
                             TYPE VISA
                         </th>
                        
-
-
-
                         <th
                             class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             STATUT
