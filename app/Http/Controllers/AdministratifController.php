@@ -3,19 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidat;
+use App\Models\Procedure;
+use App\Models\StatutProcedure;
+use Illuminate\Http\Request;
 use App\Models\Document;
 use App\Models\Dossier;
-use App\Models\User;
-use Illuminate\Http\Request;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Entree;
 use App\Models\FicheConsultation;
 use App\Models\RendezVous;
 use Carbon\Carbon;
 use App\Models\InfoConsultation;
-use App\Models\Procedure;
-use Termwind\Components\Dd;
+use App\Notifications\StatutNotifications;
+use Illuminate\Support\Facades\Notification;
+
+
 
 class AdministratifController extends Controller
 {
@@ -481,28 +483,23 @@ class AdministratifController extends Controller
     public function ModifierTypeVisa(Request $request, $candidatId)
     {
         try {
-            // Validez les données du formulaire
-    
+         
             // Validez l'existence du candidat
             $candidat = Candidat::find($candidatId);
-    
             if (!$candidat) {
                 return redirect()->back()->with('error', 'Candidat introuvable.');
             }
-    
             // Récupérez les valeurs du formulaire
             $typeProcedureId = $request->input('type_procedure');
-            $statut = $request->input('statut_id');
+            $statutId = $request->input('statut_id');
             $consultanteId = $request->input('consultante_id');
-    
             // Recherchez une procédure existante pour le candidat
             $procedure = Procedure::where('id_candidat', $candidatId)->first();
-    
             // Si une procédure existe, mettez à jour les champs
             if ($procedure) {
                 $procedure->update([
                     'id_type_procedure' => $typeProcedureId,
-                    'statut_id' => $statut,
+                    'statut_id' => $statutId,
                     'consultante_id' => $consultanteId,
                 ]);
             } else {
@@ -510,20 +507,24 @@ class AdministratifController extends Controller
                 $procedure = new Procedure([
                     'id_candidat' => $candidatId,
                     'id_type_procedure' => $typeProcedureId,
-                    'statut_id' => $statut,
+                    'statut_id' => $statutId,
                     'consultante_id' => $consultanteId,
                 ]);
-    
                 // Sauvegardez la nouvelle procédure dans la base de données
                 $procedure->save();
             }
-    
+            // Get the status label
+            $statut = StatutProcedure::find($statutId);
+            $statutLabel = $statut ? $statut->label : '';
+                 
+            Notification::route('mail', $candidat->email)->notify(new StatutNotifications($statutLabel));
             return redirect()->back()->with('success', 'Procédure enregistrée avec succès.');
         } catch (\Exception $e) {
             // Gérez les erreurs, par exemple, en les enregistrant ou en les affichant à l'utilisateur
             return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de la procédure.');
         }
     }
+    
     
     
 }
