@@ -15,7 +15,7 @@
                     <!-- Autres champs -->
                     <div class="mb-3">
                         <label for="type_procedure">Type de Procédure</label>
-                        <select class="form-select" name="type_procedure" id="type_procedure" required>
+                        <select class="form-select ps-2" name="type_procedure" id="type_procedure" required>
                             @foreach (App\Models\TypeProcedure::all() as $procedure)
                                 <option value="{{ $procedure->id }}">{{ $procedure->label }}</option>
                             @endforeach
@@ -24,7 +24,7 @@
 
                     <div class="mb-3">
                         <label for="statut">Statut</label>
-                        <select class="form-select" name="statut_id" id="statut" required>
+                        <select class="form-select ps-2" name="statut_id" id="statut" required>
                             @foreach (App\Models\StatutProcedure::all() as $statut)
                                 <option value="{{ $statut->id }}">{{ $statut->label }}</option>
                             @endforeach
@@ -32,13 +32,18 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="consultante_id">Consultante ID</label>
-                        <select class="form-select" name="consultante_id" id="consultante_id" required>
+                        <label for="consultante_id">Consultante</label>
+                        <select class="form-select ps-2" name="consultante_id" id="consultante_id">
+                            <option value="" selected>Non défini</option>
                             @foreach (App\Models\consultante::all() as $consultante)
-                            <option value="{{ $consultante->id }}">{{ $consultante->nom }}  {{ $consultante->prenoms }}</option>
-                        @endforeach
+                                <option value="{{ $consultante->id }}">{{ $consultante->nom }} {{ $consultante->prenoms }}</option>
+                            @endforeach
                         </select>
                     </div>
+                    
+                    
+                    
+                    
                     
 
                     <!-- Bouton Enregistrer -->

@@ -28,7 +28,8 @@
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
     <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-  
+    <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+   
 
 </head>
 

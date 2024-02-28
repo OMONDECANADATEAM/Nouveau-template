@@ -108,7 +108,7 @@
                             <td class="align-middle text-center">
                                 <span class="text-md consultante-name">
                                     @if ($candidat->proceduresDemandees)
-                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'null' }} {{ $candidat->proceduresDemandees->consultante->prenoms ?? 'null' }}
+                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'N / A' }} {{ $candidat->proceduresDemandees->consultante->prenoms ?? '' }}
                                     @else
                                         N / A
                                     @endif
