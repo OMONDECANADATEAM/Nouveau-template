@@ -71,6 +71,12 @@
 
                     </div>
 
+                    <div class="row">
+                        <div class="btn btn-dark afficherQuestionnaire"  id="consultation-payee-{{ $candidat->id }}">
+                            Modifier ou remplir la fiche de consultation
+                        </div>
+                    </div>
+
                     <div class="questionnaire-form" id="questionnaire-form-{{ $candidat->id }}" style="display: none;">
 
 
@@ -631,24 +637,22 @@
 </div>
 
 <script>
-    $(document).ready(function() {
 
-        // Écouter le changement de la checkbox consultation_payee
-        $('.consultation-payee').change(function() {
-            // Récupérer l'ID unique du candidat
-            var candidatId = $(this).attr('id').split('-')[2];
-
-            // Construire l'ID unique de la section du questionnaire
-            var questionnaireId = '#questionnaire-form-' + candidatId;
-
-            // Afficher ou masquer le questionnaire supplémentaire en fonction de l'état de la checkbox
-            if (this.checked) {
-                $(questionnaireId).show();
-            } else {
-                $(questionnaireId).hide();
-            }
-        });
+  $(document).ready(function() {
+    // Écouter le clic sur le bouton afficherQuestionnaire
+    $('.afficherQuestionnaire').click(function() {
+        // Récupérer l'ID unique du candidat
+        // Vous devrez ajuster cette ligne en fonction de la manière dont l'ID du candidat est stocké dans le bouton
+        var candidatId = $(this).attr('id').split('-')[2];
+        // Construire l'ID unique de la section du questionnaire
+        var questionnaireId = '#questionnaire-form-' + candidatId;
+        // Afficher le questionnaire
+        $(questionnaireId).show();
     });
+
+    
+});
+
 
     $(document).ready(function() {
         // Cacher la question de la date d'expiration au chargement de la page
