@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('ajoutConsultation') }}" method="POST" class="text-start" id="consultationForm">
+                <form action="{{ route('creerConsultation') }}" method="POST" class="text-start" id="consultationForm">
                     @csrf
                     <div class="input-group input-group-outline mb-3 p-2">
                         <label for="label" class="form-label">Label</label>

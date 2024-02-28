@@ -253,29 +253,7 @@ class Controller extends BaseController
     }
     
 
-    public function ajoutConsultation(Request $request)
-    {
-        // Valider les données du formulaire
-        $request->validate([
-            'label' => 'required',
-            'lien_zoom' => 'required',
-            'lien_zoom_demarrer' => 'required',
-            'date_heure' => 'required|date',
-            'nombre_candidats' => 'required|integer',
-            'id_consultante' => 'required|integer',
-        ]);
-        $consultation = InfoConsultation::create([
-            'label' => $request->input('label'),
-            'lien_zoom' => $request->input('lien_zoom'),
-            'lien_zoom_demarrer' => $request->input('lien_zoom_demarrer'),
-            'date_heure' => $request->input('date_heure'),
-            'nombre_candidats' => $request->input('nombre_candidats'),
-            'id_consultante' => $request->input('id_consultante')
-        ]);
-
-        // Rediriger avec un message de succès
-        return redirect()->route('Consultation');
-    }
+   
 
     public function rechercheCandidat(Request $request)
     {
