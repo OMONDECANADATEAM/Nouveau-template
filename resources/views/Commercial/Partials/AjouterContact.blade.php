@@ -19,10 +19,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+
+                         <div class="col-md-6 mb-3">
                             <label for="pays" class="form-label">Pays</label>
-                            <input type="text" name="pays" id="pays" class="form-control" required>
+                            <select name="pays"  id="pays"  class="form-control" required>
+                                @foreach(App\Models\Succursale::all() as $succursale)
+                                    <option value="{{ $succursale->label }}">
+                                        {{ $succursale->label }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
+
+
                         <div class="col-md-6 mb-3">
                             <label for="ville" class="form-label">Ville</label>
                             <input type="text" name="ville" id="ville" class="form-control" required>

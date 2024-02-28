@@ -25,10 +25,16 @@
                     </div>
 
                     <div class="row">
-                        <!-- Champ Pays -->
-                        <div class="col-md-6 mb-3"> <label for="pays" class="form-label">Pays</label>
-                            <input type="text" name="pays" id="pays" class="form-control"
-                                value="{{ $candidat->pays }}" required>
+        
+                        <div class="col-md-6 mb-3">
+                            <label for="pays" class="form-label">Pays</label>
+                            <select name="pays"  id="pays"  class="form-control" required>
+                                @foreach(App\Models\Succursale::all() as $succursale)
+                                    <option value="{{ $succursale->label }}" {{ ($candidat->pays == $succursale->label) ? 'selected' : '' }}>
+                                        {{ $succursale->label }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <!-- Champ Ville -->
