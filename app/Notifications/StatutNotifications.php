@@ -13,6 +13,7 @@ class StatutNotifications extends Notification
 
     private $statutLabel;
 
+
     /**
      * Create a new notification instance.
      *
@@ -21,6 +22,7 @@ class StatutNotifications extends Notification
     public function __construct($statutLabel)
     {
         $this->statutLabel = $statutLabel;
+        
     }
 
     /**

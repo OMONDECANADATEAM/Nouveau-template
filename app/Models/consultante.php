@@ -12,6 +12,10 @@ class consultante extends Model
     use HasFactory;
 
     protected $table = 'consultante';
+    public $timestamps = false;
+
+    protected $fillable = ['nom', 'prenoms', 'id_utilisateur'];
+
 
     public function user()
     {

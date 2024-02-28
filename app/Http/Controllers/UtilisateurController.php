@@ -48,10 +48,10 @@ class UtilisateurController extends Controller
             'lien_photo' => $path, // Utilisez le chemin du fichier s'il existe, sinon null
         ]);
 
-        if ($request->input('id_role_utilisateur') === 0) {
+        if ($request->input('id_role_utilisateur') == 0) {
             consultante::create([
-                'nom' => $utilisateur->name,
-                'prenoms' => $utilisateur->last_name,
+                'nom' => $request->input('nom'),
+                'prenoms' => $request->input('prenom'),
                 'id_utilisateur' => $utilisateur->id,
             ]);
         }
@@ -61,98 +61,90 @@ class UtilisateurController extends Controller
             : redirect()->back()->with('error', 'Une erreur s\'est produite lors de la création de l\'utilisateur.');
     }
 
-    
+
     public function modifier(Request $request, $id)
 
     {
-   
-   // Validez les données du formulaire
-   
-   $request->validate([
-   
-   'prenom' => 'required|string|max:255',
-   
-   'nom' => 'required|string|max:255',
-   
-   'email' => 'required|email|unique:users,email,' . $id,
-   
-   'mot_de_passe' => 'nullable|string|min:6', // Rendre le mot de passe facultatif
-   
-   'poste_occupe' => 'required|exists:poste_occupe,id',
-   
-   'id_role_utilisateur' => 'required|exists:role_utilisateur,id',
-   
-   'id_succursale' => 'required|exists:succursale,id',
-   
-   'photo_profil' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-   
-   ]);
-   
-   // Obtenez l'utilisateur à modifier
-   
-   $utilisateur = User::find($id);
-   
-   // Affichez des informations dans la console
-   
- 
-   if (!$utilisateur) {
-   
-   return redirect()->back()->with('error', 'Utilisateur non trouvé.');
-   
-   }
-   
-   // Traitement de la photo de profil
-   
-   if ($request->hasFile('photo_profil')) {
-   
-   // Enregistrez le fichier sur le serveur
-   
-   $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $utilisateur->nom . $utilisateur->prenoms . '.png', 'public');
-   
-   // Mettez à jour le lien de la photo de profil dans la base de données
-   
-   $utilisateur->update(['lien_photo' => $path]);
-   
-   }
-   
-   // Mettez à jour les autres champs de l'utilisateur
-   
-   $utilisateur->update([
-   
-   'last_name' => $request->input('prenom'),
-   
-   'name' => $request->input('nom'),
-   
-   'email' => $request->input('email'),
-   
-   'id_poste_occupe' => $request->input('poste_occupe'),
-   
-   'id_role_utilisateur' => $request->input('id_role_utilisateur'),
-   
-   'id_succursale' => $request->input('id_succursale'),
-   
-   ]);
-   
-   // Mettez à jour le mot de passe s'il est fourni
-   
-   if ($request->filled('mot_de_passe')) {
-   
-   $utilisateur->update(['password' => bcrypt($request->input('mot_de_passe'))]);
-   
-   }
-   
-   // Vérifiez si l'utilisateur est un candidat
-   
-   // Affichez des informations dans la console
 
-   return redirect()->back()->with('success', 'Utilisateur modifié avec succès.');
-   
-   }
-   
-   
-   
- 
-    
-    
+        // Validez les données du formulaire
 
+        $request->validate([
+
+            'prenom' => 'required|string|max:255',
+
+            'nom' => 'required|string|max:255',
+
+            'email' => 'required|email|unique:users,email,' . $id,
+
+            'mot_de_passe' => 'nullable|string|min:6', // Rendre le mot de passe facultatif
+
+            'poste_occupe' => 'required|exists:poste_occupe,id',
+
+            'id_role_utilisateur' => 'required|exists:role_utilisateur,id',
+
+            'id_succursale' => 'required|exists:succursale,id',
+
+            'photo_profil' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ]);
+
+        // Obtenez l'utilisateur à modifier
+
+        $utilisateur = User::find($id);
+
+        // Affichez des informations dans la console
+
+
+        if (!$utilisateur) {
+
+            return redirect()->back()->with('error', 'Utilisateur non trouvé.');
+        }
+
+        // Traitement de la photo de profil
+
+        if ($request->hasFile('photo_profil')) {
+
+            // Enregistrez le fichier sur le serveur
+
+            $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $utilisateur->nom . $utilisateur->prenoms . '.png', 'public');
+
+            // Mettez à jour le lien de la photo de profil dans la base de données
+
+            $utilisateur->update(['lien_photo' => $path]);
+        }
+
+        // Mettez à jour les autres champs de l'utilisateur
+
+        // Mettez à jour les autres champs de l'utilisateur
+        $utilisateur->update([
+            'last_name' => $request->input('prenom'),
+            'name' => $request->input('nom'),
+            'email' => $request->input('email'),
+            'id_poste_occupe' => $request->input('poste_occupe'),
+            'id_role_utilisateur' => $request->input('id_role_utilisateur'),
+            'id_succursale' => $request->input('id_succursale'),
+        ]);
+
+        // Vérifiez si l'utilisateur est un consultante
+        if ($utilisateur->id_role_utilisateur == 0) {
+            consultante::create([
+                'nom' => $request->input('nom'),
+                'prenoms' => $request->input('prenom'),
+                'id_utilisateur' => $utilisateur->id,
+            ]);
+        }
+
+        // Mettez à jour le mot de passe s'il est fourni
+
+        if ($request->filled('mot_de_passe')) {
+
+            $utilisateur->update(['password' => bcrypt($request->input('mot_de_passe'))]);
+        }
+
+        // Vérifiez si l'utilisateur est un candidat
+
+        // Affichez des informations dans la console
+
+        return redirect()->back()->with('success', 'Utilisateur modifié avec succès.');
+    }
 }
