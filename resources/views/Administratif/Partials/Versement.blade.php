@@ -1,10 +1,10 @@
 
 
-<div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+<div class="{{ $hasPoste ? 'col-xl-3' : 'col-xl-4' }} col-sm-6 mb-xl-0 mb-4">
     <div class="card">
         <div class="card-header p-3 pt-2 d-flex justify-content-between">
             <div class="icon icon-md icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl mt-n4">
-                <i class="material-icons opacity-10">account_balance</i>
+                <i class="material-icons opacity-10">payments</i>
             </div>
             <p class="text-xl text-bold mb-0 text-capitalize">Versements - {{$moisEnCours}}</p>
 

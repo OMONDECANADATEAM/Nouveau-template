@@ -60,7 +60,7 @@
                             </td>
                             <td class="align-middle text-center">
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <span class="me-2 text-md">{{ $consultation->nombre_candidats }}</span>
+                                    <span class="me-2 text-md"> {{$consultation->candidats->count()}} / {{ $consultation->nombre_candidats }}</span>
                                 </div>
                             </td>
                             <td class="align-middle d-flex align-items-center justify-content-center">

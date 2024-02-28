@@ -55,6 +55,12 @@
                 {{-- Nombre de versements--}}
                 @include('Administratif.Partials.Versement')
 
+                @if ($hasPoste)
+
+                @include('Administratif.Partials.Entree')
+
+                @endif
+
             </div>
             <div class="row mt-4 d-flex justify-content-around">
               

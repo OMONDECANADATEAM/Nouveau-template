@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidat;
+use App\Models\Depense;
 use App\Models\Procedure;
 use App\Models\StatutProcedure;
 use Illuminate\Http\Request;
@@ -21,40 +22,75 @@ use Illuminate\Support\Facades\Notification;
 
 class AdministratifController extends Controller
 {
+    function utilisateurHasPoste($postes) {
+        $utilisateurConnecte = auth()->user();
+        return in_array($utilisateurConnecte->id_poste_occupe, $postes);
+    }
     //Ramene la page principale avec les données necessaire
     public function Dashboard()
     {
-        $caisseMensuelData = $this->caisseMensuel();
+        $hasPoste = $this->utilisateurHasPoste([3, 5]);
+
+        $entreeMensuelData = $this->entreeMensuel();
         $devise = $this->devise();
         $nombreConsultationData = $this->nombreConsultationMensuel();
         $nombreVersementData = $this->nombreVersementMensuel();
         $consultations = $this->prochaineConsultation();
+        $caisseMensuel = $this->caisseMensuel();
 
 
         return view('Administratif.Views.Dashboard', [
-            'caisseMensuel' => $caisseMensuelData['caisseMensuel'],
-            'moisEnCours' => $caisseMensuelData['moisEnCours'],
+            'entreeMensuel' => $entreeMensuelData['entreeMensuel'],
+            'moisEnCours' => $entreeMensuelData['moisEnCours'],
             'devise' => $devise,
             'nombreConsultationMensuel' => $nombreConsultationData['nombreConsultationMensuel'],
             'nombreVersementMensuel' => $nombreVersementData['nombreVersementMensuel'],
             'consultations' => $consultations,
+            'caisse' => $caisseMensuel['caisseMensuel'],
+            'hasPoste' => $hasPoste,
 
         ]);
     }
     //Ramene le montant du mois pour l'utilisateur connecté
-    private function caisseMensuel()
+    private function entreeMensuel()
     {
         Carbon::setLocale('fr');
         $moisEnCours = Carbon::now()->monthName;
 
         // Calculez la somme des entrées pour le mois actuel et l'année actuelle en utilisant le modèle Entree
-        $caisseMensuel = Entree::where('id_utilisateur', auth()->user()->id)
+        $entreeMensuel = Entree::where('id_utilisateur', auth()->user()->id)
             ->whereMonth('date', now()->month)
             ->whereYear('date', now()->year)
             ->sum('montant');
 
-        return ['caisseMensuel' => $caisseMensuel, 'moisEnCours' => $moisEnCours];
+        return ['entreeMensuel' => $entreeMensuel, 'moisEnCours' => $moisEnCours];
     }
+
+     //Ramene le montant du mois pour l'utilisateur connecté
+     private function caisseMensuel()
+     {
+         Carbon::setLocale('fr');
+         $moisEnCours = Carbon::now()->monthName;
+     
+         // Calculez la somme des entrées pour le mois actuel et l'année actuelle en utilisant le modèle Entree
+         $entreeMensuel = Entree::where('id_utilisateur', auth()->user()->id)
+             ->whereMonth('date', now()->month)
+             ->whereYear('date', now()->year)
+             ->sum('montant');
+     
+         // Calculez la somme des dépenses pour le mois actuel et l'année actuelle en utilisant le modèle Depense
+         $depenseMensuel = Depense::where('id_utilisateur', auth()->user()->id)
+             ->whereMonth('date', now()->month)
+             ->whereYear('date', now()->year)
+             ->sum('montant');
+     
+         // Calculez la différence entre les entrées et les dépenses
+         $difference = $entreeMensuel - $depenseMensuel;
+     
+         return ['caisseMensuel' => $difference];
+     }
+     
+
     //Ramene le nombre de consultations pour l'utilisateur connecté
     private function nombreConsultationMensuel()
     {
@@ -192,6 +228,7 @@ class AdministratifController extends Controller
         return $clients;
     }
 
+    //Renvoie la liste des consultation disponible
     public function consultationsDisponible()
     {
         Carbon::setLocale('fr');
@@ -202,7 +239,7 @@ class AdministratifController extends Controller
         })->get();
 
         $consultations->transform(function ($consultation) {
-            $dateFormatee = Carbon::parse($consultation->date_heure)->format('l j F Y H:i');
+            $dateFormatee = Carbon::parse($consultation->date_heure)->translatedFormat('l j F Y H:i');
             $consultation->dateFormatee = ucwords($dateFormatee);
 
             return $consultation;
