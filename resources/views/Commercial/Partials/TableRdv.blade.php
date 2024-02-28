@@ -76,12 +76,6 @@
                                         
                                         
 
-                                       
-
-
-                                        
-
-
                                     </tr>
                                 @endforeach
 
