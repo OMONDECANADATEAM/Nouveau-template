@@ -44,7 +44,7 @@ class DepenseController extends Controller
             }
         });
     
-        return redirect()->route('Banque'); // Redirigez après la création (ajustez la route selon votre besoin)
+        return redirect()->back(); // Redirigez après la création (ajustez la route selon votre besoin)
     }
     
     public function getUsersByRole($roleId)

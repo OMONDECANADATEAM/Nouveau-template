@@ -27,6 +27,8 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+   
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -53,7 +55,7 @@
 
                       </button>
 
-                      @include('partials.Consultation.addConsultation')
+                      @include('Informatique.Partials.AddConsultation')
                   </div>
               </div>
 
@@ -134,7 +136,7 @@
                                     @endif
                                 </td>
                                 <td class="align-middle">
-                                    <a href="{{ $consultation->lien_zoom}}" target="blank" class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
+                                    <a href="{{ $consultation->lien_zoom_demarrer}}" target="blank" class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
                                         <i class="material-icons">videocam</i>
                                     </a>
                                 </td>

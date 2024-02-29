@@ -51,7 +51,6 @@ class consultationController extends Controller
     {
         // Valider les données du formulaire
         $request->validate([
-            'label' => 'required',
             'lien_zoom' => 'required',
             'lien_zoom_demarrer' => 'required',
             'date_heure' => 'required|date',
@@ -59,14 +58,13 @@ class consultationController extends Controller
             'id_consultante' => 'required|integer',
         ]);
         $consultation = InfoConsultation::create([
-            'label' => $request->input('label'),
+            'label' => 'CONS-' . date('Ymd', strtotime($request->input('date_heure'))) . '-' . $request->input('id_consultante'),
             'lien_zoom' => $request->input('lien_zoom'),
             'lien_zoom_demarrer' => $request->input('lien_zoom_demarrer'),
             'date_heure' => $request->input('date_heure'),
             'nombre_candidats' => $request->input('nombre_candidats'),
             'id_consultante' => $request->input('id_consultante')
         ]);
-
         // Rediriger avec un message de succès
         return redirect()->back();
     }
