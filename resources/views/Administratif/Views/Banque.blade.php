@@ -22,13 +22,14 @@
         Omonde Canada - CRM | BANQUE
     </title>
     <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
+
+    <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
     <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-    <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
    
 
 </head>
@@ -40,6 +41,57 @@
         @include('partials.header', ['page' => 'BANQUE'])
         <!-- End Navbar -->
         <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row d-flex justify-content-around mb-4">
+                    <div class="col-xl-5 mb-4 ">
+                        <div class="card">
+                            <div class="card-header mx-2 p-3 text-center d-flex align-items-center justify-content-between">
+                                <div
+                                    class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                    <i class="material-icons opacity-10">payments</i>
+                                </div>
+                                <div>
+                                    <h3 class="text-center mb-0">Paiements</h3>
+                                    <span class="text-md">{{ ucfirst($moisEnCours)}}</span>
+                                   
+                                </div>
+                            </div>
+                            <div class="card-body pt-0 p-3 text-center">
+                                <hr class="horizontal dark my-3">
+                                <h2 class="mb-5 text-center text-success">
+                                    {{ number_format($entreeMensuel, 0, '.', ' ') }} {{$devise}}</h2>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-xl-5">
+                        <div class="card">
+                            <div class="card-header mx-4 p-3 text-center d-flex align-items-center justify-content-between">
+                                <div
+                                    class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                    <i class="material-icons opacity-10">wallet</i>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-center mb-0">Dépenses</h3>
+                                <span class="text-md">{{ ucfirst($moisEnCours)}}
+                            </span>
+                              
+                                </div>
+                            </div>
+                            <div class="card-body pt-0 p-3 text-center">
+                                  <hr class="horizontal dark my-3">
+                                <h2 class="mb-5 text-center text-danger">
+                                    {{ number_format($depenseMensuel, 0, '.', ' ') }} {{$devise}}</h2>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-12">
                 @include('Administratif.Partials.TablePaiement')
             </div>

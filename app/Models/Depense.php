@@ -19,6 +19,8 @@ class Depense extends Model
         'date',
         
     ];
+    protected $dates = ['date'];
+
 
     public function utilisateur()
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidat;
+use App\Models\Depense;
 use App\Models\Entree;
 use App\Models\Procedure;
 use App\Models\InfoConsultation;
@@ -347,5 +348,26 @@ class Controller extends BaseController
             return response()->json(['success' => false, 'message' => 'Erreur lors de l\'ajout du candidat au nouveau type de visa ' . $e->getMessage()]);
         }
     }  
+
+
+    public function getAllTransactions($userId = null)
+    {
+        $depensesQuery = Depense::query();
+        $entreesQuery = Entree::query();
+
+        if ($userId) {
+            $depensesQuery->where('user_id', $userId);
+            $entreesQuery->where('user_id', $userId);
+        }
+
+        $depenses = $depensesQuery->get();
+        $entrees = $entreesQuery->get();
+
+        
+        $transactions = $depenses->concat($entrees);
+        $transactions = $transactions->sortByDesc('date');
+
+        return  $transactions;
+    }
 
 }

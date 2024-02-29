@@ -475,17 +475,32 @@ class AdministratifController extends Controller
     public function Banque()
     {
         $utilisateurConnecte = Auth::user();
-    
         // Vérifie si le poste de l'utilisateur est 134 ou 5
         $hasPoste = in_array($utilisateurConnecte->id_poste_occupe, [3, 5]);
-    
         $entries = Entree::where('id_utilisateur', $utilisateurConnecte->id)
-            ->orderBy('date', 'desc')
-            ->get();
-    
+        ->orderBy('date', 'desc')
+        ->get();
+        $entreeMensuelData = $this->entreeMensuel();
+        // Définir $moisEnCours
+        $moisEnCours = $entreeMensuelData['moisEnCours'];
+        $entreeMensuel = $entreeMensuelData['entreeMensuel'];
+
+        $depenseMensuel = Depense::where('id_utilisateur', auth()->user()->id)
+             ->whereMonth('date', now()->month)
+             ->whereYear('date', now()->year)
+             ->sum('montant');
+     
+        $devise = $this->devise();
+
+
+        $transactionController = new Controller();
+        $transactions = $transactionController->getAllTransactions();
+        
         // Passe la variable $hasPoste à la vue
-        return view('Administratif.Views.Banque', compact('entries', 'hasPoste'));
+        return view('Administratif.Views.Banque', compact('entries', 'hasPoste', 'moisEnCours' , 'entreeMensuel' ,'devise' , 'depenseMensuel' , 'transactions'));
     }
+    
+
     
 
     public function Consultation()
