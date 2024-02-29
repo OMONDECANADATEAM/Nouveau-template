@@ -15,6 +15,7 @@ use App\Models\FicheConsultation;
 use App\Models\RendezVous;
 use Carbon\Carbon;
 use App\Models\InfoConsultation;
+use App\Notifications\ProcedureCreatedNotifications;
 use App\Notifications\StatutNotifications;
 use Illuminate\Support\Facades\Notification;
 
@@ -520,7 +521,6 @@ class AdministratifController extends Controller
     public function ModifierTypeVisa(Request $request, $candidatId)
     {
         try {
-         
             // Validez l'existence du candidat
             $candidat = Candidat::find($candidatId);
             if (!$candidat) {
@@ -532,6 +532,7 @@ class AdministratifController extends Controller
             $consultanteId = $request->input('consultante_id');
             // Recherchez une procédure existante pour le candidat
             $procedure = Procedure::where('id_candidat', $candidatId)->first();
+            $isNewProcedure = false;
             // Si une procédure existe, mettez à jour les champs
             if ($procedure) {
                 $procedure->update([
@@ -549,18 +550,31 @@ class AdministratifController extends Controller
                 ]);
                 // Sauvegardez la nouvelle procédure dans la base de données
                 $procedure->save();
+                $isNewProcedure = true;
             }
             // Get the status label
             $statut = StatutProcedure::find($statutId);
             $statutLabel = $statut ? $statut->label : '';
-                 
-            Notification::route('mail', $candidat->email)->notify(new StatutNotifications($statutLabel));
+            // Send notifications
+            if ($isNewProcedure) {
+                // Get the candidate's first name and last name
+                $nom = $candidat->nom;
+                $prenom = $candidat->prenom;
+            
+                // Send notification about the creation of the procedure
+                Notification::route('mail', $candidat->email)->notify(new ProcedureCreatedNotifications($nom, $prenom));
+            }
+             else {
+                // Send notification about the update of the procedure
+                Notification::route('mail', $candidat->email)->notify(new StatutNotifications($statutLabel));
+            }
             return redirect()->back()->with('success', 'Procédure enregistrée avec succès.');
         } catch (\Exception $e) {
             // Gérez les erreurs, par exemple, en les enregistrant ou en les affichant à l'utilisateur
             return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de la procédure.');
         }
     }
+    
     
     
     
