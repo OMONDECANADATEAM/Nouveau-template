@@ -18,7 +18,7 @@
             <i class="material-icons">add</i> Ajouter une depense
             @endif
              </button>
-             @include('partials.Banque.addDepenses')
+             @include('Administratif.Partials.AddDepense')
         @include('Administratif.Partials.AddEntree')
         </div>
 
