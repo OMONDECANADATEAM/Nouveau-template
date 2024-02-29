@@ -18,7 +18,7 @@
         <hr class="dark horizontal my-0">
         <div class="card-footer p-3">
             <div class="progress mt-2">
-                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ $nombreVersementMensuel }}" aria-valuemin="0" aria-valuemax="1000000"></div>
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ ($nombreVersementMensuel / 10) * 100 }}%; height:100%;" aria-valuemin="0" aria-valuemax="10"></div>
             </div>
             
         </div>

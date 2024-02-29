@@ -60,9 +60,9 @@
                     <div class="card my-2">
                         <div class="card-header p-0 position-relative mt-n3 mx-3">
                             <div class="bg-gradient-dark border-radius-lg pt-4 pb-2 d-flex align-items-center justify-content-between p-4">
-                                <div class="p-2 border-radius-lg w-40 bg-white mb-1">
+                                <div class="p-2 border-radius-lg w-40 bg-white mb-2">
                                     <input type="text" id="searchInput"
-                                        class="form-control text-dark text-lg bg-transparent border-0 p-1"
+                                        class="form-control text-dark text-lg bg-transparent border-0 p-1 "
                                         placeholder="Rechercher...">
                                 </div>
 
