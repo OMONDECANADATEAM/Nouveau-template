@@ -40,6 +40,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!-- DataTables JS -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+  
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 

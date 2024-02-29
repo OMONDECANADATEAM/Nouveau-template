@@ -91,11 +91,16 @@
                             </select>
                         </div>
                     </div>
+                 
                     <div class="mb-3">
                         <label for="photo_profil" class="form-label text-dark">Photo de profil :</label>
-                        <input type="file" id="photo_profil" name="photo_profil"
-                            class="form-control form-control-md border ps-2 ">
+                        <input type="file" id="photo_profil" name="photo_profil" class="form-control form-control-md border ps-2 ">
+                        <!-- Afficher la photo de profil existante si elle existe -->
+                        @if (!empty($user->lien_photo))
+                            <img src="{{ asset('storage/' . $user->lien_photo) }}" alt="Photo de profil" class="mt-2">
+                        @endif
                     </div>
+                    
                     <!-- Bouton de soumission du formulaire -->
                     <div class="d-flex align-items-center justify-content-between">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Fermer">
