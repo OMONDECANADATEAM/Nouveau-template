@@ -9,15 +9,15 @@
             <div class="modal-body">
                 <form action="{{ route('ajoutEntree') }}" method="post">
                     @csrf
-                    <div class="d-flex">
+                    <div class="row p-3">
                         <!-- Champs Montant -->
-                        <div class="input-group input-group-outline mb-3 p-2">
+                        <div class="col-6 mb-3 p-2">
                             <label for="montant" class="form-label">Montant :</label>
                             <input type="text" name="montant" id="montant" class="form-control" required>
                         </div>
 
                         <!-- Champs Date -->
-                        <div class="input-group input-group-outline mb-3 p-2">
+                        <div class=" col-6 mb-3 p-2">
                             <label for="datetime" class="form-label">Date et Heure :</label>
                             <input type="datetime-local" name="datetime" id="datetime" class="form-control" required
                                 value="{{ now()->format('Y-m-d\TH:i') }}">
@@ -25,7 +25,7 @@
                         
                     </div>
                     <!-- Champs Candidat -->
-                    <div class="input-group input-group-outline mb-3 p-2">
+                    <div class="mb-3 p-2">
                         <label for="candidat" class="form-label">Candidat :</label>
                         <select name="candidat" id="candidat" class="form-control" required>
                             <!-- Option vide au début pour laisser le choix par défaut -->
@@ -47,7 +47,7 @@
                     <!-- Bouton Enregistrer -->
                     <div class="d-flex justify-content-around">
                         <!-- Bouton Fermer -->
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
 
                         <button type="submit" class="btn btn-success">Enregistrer</button>
                     </div>
