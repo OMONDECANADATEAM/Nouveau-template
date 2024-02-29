@@ -14,9 +14,7 @@ class Entree extends Model
 
     protected $fillable = [ 'montant' ,	'date' ,	'id_utilisateur' ,	'id_candidat' 	,'id_type_paiement' 	]; // Liste des colonnes que vous pouvez remplir
 
-    protected $dates = ['date'];
-
-    // Méthode pour obtenir la somme de tous les montants des entrées
+     // Méthode pour obtenir la somme de tous les montants des entrées
     public static function sommeEntrees()
     {
         $totalEntrees = Entree::sum('montant');

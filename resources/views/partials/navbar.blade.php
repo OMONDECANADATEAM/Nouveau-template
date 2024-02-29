@@ -57,34 +57,32 @@
                 $currentUserRole = auth()->user()->getRole();
             @endphp
 
-            @foreach ($pages as $page => $pageTitle)
-                @if (
-                    ($currentUserRole == 0 && in_array($page,   ['Consultante.Dashboard' ,   'Consultante.DossierClient',])) ||
-                        ($currentUserRole == 1 &&
-                            in_array($page, ['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'])) ||
-                        ($currentUserRole == 2 &&
-                            in_array($page, [
-                                'Administratif.Dashboard',
-                                'Administratif.Clients',
-                                'Administratif.DossierClients',
-                                'Administratif.Banque',
-                                'Administratif.Consultation',
-                            ])) ||
-                        ($currentUserRole == 3 &&
-                            in_array($page, [
-                                'Informatique.Dashboard',
-                                'Informatique.Equipe'
-                                
-                            ])) ||
-                        ($currentUserRole == 4 &&
-                            in_array($page, [
-                                'Direction.Dashboard',
-                                'Direction.Consultation',
-                                'Direction.DossierClient',
-                                'Direction.Banque',
-                                'Direction.Equipe',
-                               
-                            ])))
+@foreach ($pages as $page => $pageTitle)
+@if (
+    ($currentUserRole == 0 && in_array($page, ['Consultante.Dashboard' , 'Consultante.DossierClient'])) ||
+    ($currentUserRole == 1 && in_array($page, array_merge(['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'], in_array(auth()->user()->id_poste_occupe, [3,5]) ? ['Administratif.Banque'] : []))) ||
+    ($currentUserRole == 2 &&
+        in_array($page, [
+            'Administratif.Dashboard',
+            'Administratif.Clients',
+            'Administratif.DossierClients',
+            'Administratif.Banque',
+            'Administratif.Consultation',
+        ])) ||
+    ($currentUserRole == 3 &&
+        in_array($page, [
+            'Informatique.Dashboard',
+            'Informatique.Equipe'
+        ])) ||
+    ($currentUserRole == 4 &&
+        in_array($page, [
+            'Direction.Dashboard',
+            'Direction.Consultation',
+            'Direction.DossierClient',
+            'Direction.Banque',
+            'Direction.Equipe',
+        ]))
+)
                     <li class="nav-item">
                         <a class="nav-link text-white {{ $currentRoute === $page ? 'active bg-gradient-primary' : '' }}"
                             href="{{ route($page) }}">

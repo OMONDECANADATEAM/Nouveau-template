@@ -356,8 +356,8 @@ class Controller extends BaseController
         $entreesQuery = Entree::query();
 
         if ($userId) {
-            $depensesQuery->where('user_id', $userId);
-            $entreesQuery->where('user_id', $userId);
+            $depensesQuery->where('id_utilisateur', $userId);
+            $entreesQuery->where('id_utilisateur', $userId);
         }
 
         $depenses = $depensesQuery->get();

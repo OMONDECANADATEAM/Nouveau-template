@@ -471,7 +471,6 @@ class AdministratifController extends Controller
         return view('Administratif.Views.DossierClients', $donneesClients);
     }
     
-  
     public function Banque()
     {
         $utilisateurConnecte = Auth::user();
@@ -483,10 +482,12 @@ class AdministratifController extends Controller
         $entreeMensuelData = $this->entreeMensuel();
         // Définir $moisEnCours
         $moisEnCours = $entreeMensuelData['moisEnCours'];
-        $entreeMensuel = $entreeMensuelData['entreeMensuel'];
 
-        $depenseMensuel = Depense::where('id_utilisateur', auth()->user()->id)
-             ->whereMonth('date', now()->month)
+        $entreeMensuelSuccursale = Entree::whereMonth('date', now()->month)
+        ->whereYear('date', now()->year)
+        ->sum('montant');
+
+        $depenseMensuelSuccursale = Depense::whereMonth('date', now()->month)
              ->whereYear('date', now()->year)
              ->sum('montant');
      
@@ -494,15 +495,12 @@ class AdministratifController extends Controller
 
 
         $transactionController = new Controller();
-        $transactions = $transactionController->getAllTransactions();
+        $transactions = $transactionController->getAllTransactions($utilisateurConnecte->id);
         
         // Passe la variable $hasPoste à la vue
-        return view('Administratif.Views.Banque', compact('entries', 'hasPoste', 'moisEnCours' , 'entreeMensuel' ,'devise' , 'depenseMensuel' , 'transactions'));
+        return view('Administratif.Views.Banque', compact('entries', 'hasPoste', 'moisEnCours' , 'entreeMensuelSuccursale' ,'devise' , 'depenseMensuelSuccursale' , 'transactions'));
     }
     
-
-    
-
     public function Consultation()
     {
         Carbon::setLocale('fr');
@@ -531,7 +529,6 @@ class AdministratifController extends Controller
     
         return $candidats;
     }
-
    
     public function ModifierTypeVisa(Request $request, $candidatId)
     {
@@ -589,8 +586,5 @@ class AdministratifController extends Controller
             return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de la procédure.');
         }
     }
-    
-    
-    
-    
+     
 }

@@ -45,7 +45,7 @@
            <div class="col-lg-12">
 
             <div class="row d-flex justify-content-around mb-4">
-                <div class="col-xl-5 mb-4 ">
+                <div class="col-xl-4 mb-4 ">
                     <div class="card">
                         <div class="card-header mx-2 p-3 text-center d-flex align-items-center justify-content-between">
                             <div
@@ -61,13 +61,13 @@
                         <div class="card-body pt-0 p-3 text-center">
                             <hr class="horizontal dark my-3">
                             <h2 class="mb-5 text-center text-success">
-                                {{ number_format($entreeMensuel, 0, '.', ' ') }} {{$devise}}</h2>
+                                {{ number_format($entreeMensuelSuccursale, 0, '.', ' ') }} {{$devise}}</h2>
                         </div>
                         
                     </div>
                 </div>
 
-                <div class="col-xl-5">
+                <div class="col-xl-4">
                     <div class="card">
                         <div class="card-header mx-4 p-3 text-center d-flex align-items-center justify-content-between">
                             <div
@@ -85,7 +85,33 @@
                         <div class="card-body pt-0 p-3 text-center">
                               <hr class="horizontal dark my-3">
                             <h2 class="mb-5 text-center text-danger">
-                                {{ number_format($depenseMensuel, 0, '.', ' ') }} {{$devise}}</h2>
+                                {{ number_format($depenseMensuelSuccursale, 0, '.', ' ') }} {{$devise}}</h2>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+
+                <div class="col-xl-4">
+                    <div class="card">
+                        <div class="card-header mx-4 p-3 text-center d-flex align-items-center justify-content-between">
+                            <div
+                                class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                <i class="material-icons opacity-10">account_balance</i>
+                            </div>
+
+                            <div>
+                                <h3 class="text-center mb-0">Caisse</h3>
+                            <span class="text-md">{{ ucfirst($moisEnCours)}}
+                        </span>
+                          
+                            </div>
+                        </div>
+                        <div class="card-body pt-0 p-3 text-center">
+                              <hr class="horizontal dark my-3">
+                            <h2 class="mb-5 text-center text-dark">
+                                {{ number_format(($entreeMensuelSuccursale - $depenseMensuelSuccursale), 0, '.', ' ') }} {{$devise}}</h2>
                         </div>
 
                         

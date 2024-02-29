@@ -19,10 +19,7 @@ class Depense extends Model
         'date',
         
     ];
-    protected $dates = ['date'];
-
-
-    public function utilisateur()
+     public function utilisateur()
     {
         return $this->belongsTo(User::class, 'id_utilisateur', 'id');
     }
