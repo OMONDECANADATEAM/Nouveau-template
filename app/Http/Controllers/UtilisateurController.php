@@ -33,7 +33,7 @@ class UtilisateurController extends Controller
         // Traitement de la photo de profil
         if ($request->hasFile('photo_profil')) {
             // Enregistrez le fichier sur le serveur
-            $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $request->input('non') . $request->input('prenom') . '.png', 'public');
+            $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $request->input('nom') . $request->input('prenom') . '.png', 'public');
         }
 
         // Créez l'utilisateur avec le lien de la photo de profil
@@ -106,8 +106,8 @@ class UtilisateurController extends Controller
 
             // Enregistrez le fichier sur le serveur
 
-            $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $utilisateur->nom . $utilisateur->prenoms . '.png', 'public');
-
+            $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $request->input('nom') . $request->input('prenom') . '.png', 'public');
+   
             // Mettez à jour le lien de la photo de profil dans la base de données
 
             $utilisateur->update(['lien_photo' => $path]);
