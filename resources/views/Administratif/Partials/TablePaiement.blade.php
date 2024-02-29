@@ -73,8 +73,8 @@
                                     <span class="me-2 text-md font-weight-bold">{{ date('Y-m-d', strtotime($transaction->date)) }}</span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <p class="text-md text-success font-weight-bold mb-0">
-                                        {{ number_format($transaction->montant, 0, ',', ' ') }} {{ auth()->user()->id_succursale == 4 ? '$' : 'FCFA' }}
+                                    <p class="text-md  font-weight-bold mb-0 text-{{ get_class($transaction) === 'App\Models\Depense' ? 'danger' : 'success' }}">
+                                        {{ number_format($transaction->montant, 0, ',', ' ') }} {{$devise }}
                                     </p>
                                 </td>
                             </tr>
