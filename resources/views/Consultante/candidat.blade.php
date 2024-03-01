@@ -51,7 +51,8 @@
                             'Identité du candidat' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
                             'Statut professionnel' => [12, 13, 14, 15, 16, 17],
                             'informations supplémentaires' => [18, 19, 20, 21, 22, 23, 24],
-                            'Informations sur le conjoint' => [ 25,26, 27, 28, 29],
+                            'Informations sur le conjoint' => [ 25,26, 27, 28, 29 ,30],
+                            'CV et remarques' => [31 , 32 , 33 ]
                         ];
 
                         $questions = [
@@ -73,7 +74,7 @@
                             16 => 'Depuis quand ?',
                             17 => 'Quel programme ? Et quelle a été la décision ?',
                             18 => 'Avez-vous un diplôme d\'études (secondaire, professionnel, universitaire) ?',
-                            19 => "Quelle est l'année du dernier diplôme obtenu ? Et lequel",
+                            19 => "Quelle est l'année du dernier diplôme obtenu ?",
                             20 => 'Avez-vous un membre de votre famille déjà au Canada ?',
                             21 => 'Comptez-vous immigrer seul(e) ou en famille ?',
                             22 => 'Parlez-vous d\'autres langues à part le français ?',
@@ -85,7 +86,9 @@
                             28 => 'Niveau en anglais',
                             29 => 'Quel est l\'âge de vos enfants ?',
                             30 => 'Quel est leur niveau de scolarité ?',
-                            31 => 'Remarque agent ?',
+                            31 => 'Remarque agent ',
+                            32 => 'Remarque consultante',
+                            33 => 'CV',
                         ];
                     @endphp
 
@@ -124,6 +127,27 @@
                                                         <p class="answer text-right fs-5 text-capitalize">
                                                             {{ $consultation->ficheConsultation->type_visa ?? '' }}
                                                         </p>
+                                                
+                                                    @elseif ($key === 31)
+                                                    <p class="answer text-right fs-5 text-capitalize">
+                                                        {{ $consultation->remarque_agent ?? '' }}
+                                                    </p>
+                                            
+                                                    
+                                                    
+                                                    @elseif ($key === 32)
+                                                    
+                                                    <p class="answer text-right fs-5 text-capitalize mt-1">
+                                                        {{ $consultation->remarque_consultante ?? '' }}
+                                                    </p>  
+                                                    
+                                                    @elseif ($key === 33)
+                                                    
+                                                        <a href="{{ asset('storage/' . $consultation->ficheConsultation->lien_cv) }}"
+                                                            class="btn btn-primary" target="_blank">Afficher le CV</a>
+                                                    
+                                                    
+
                                                     @else
                                                         {{-- For other questions, get the data from the "fiche consultation" table --}}
                                                         <p class="answer text-right fs-5 text-capitalize">
@@ -138,22 +162,18 @@
                             @endforeach
 
                             <!-- Ajouter un bouton pour afficher le CV -->
-                            <div class="row d-flex justify-content-around align-items-center">
-                                <div class="col-md-4">
-                                    <div class="card-footer text-center">
-                                        <a href="{{ asset('storage/' . $consultation->ficheConsultation->lien_cv) }}"
-                                            class="btn btn-primary" target="_blank">Afficher le CV</a>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <form action="{{ route('SaveRemarque', ['id' => $consultation->id]) }}" method="post" class="d-flex align-items-center justify-content-around">
+                            <div class="row d-flex justify-content-center  align-items-center">
+                               
+                                <div class="col-md-8 mt-3 mb-3">
+                                    <form action="{{ route('SaveRemarque', ['id' => $consultation->id]) }}" method="post" class="d-flex align-items-center justify-content-between">
                                         @csrf
                                         <div class="input-group input-group-outline mb-3 p-2">
-                                            <textarea name="consultant_opinion" id="consultant_opinion" class="form-control" placeholder="Avis du consultant..." required>{{ old('consultant_opinion', $consultation->remarque_consultante ?? '') }}</textarea>
+                                            <textarea name="consultant_opinion" id="consultant_opinion" class="form-control" placeholder="Avis du consultant..." required style="height: 6rem">{{ old('consultant_opinion', $consultation->remarque_consultante ?? '') }}</textarea>
                                             @error('consultant_opinion')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        
                                         <button type="submit" class="btn btn-primary mt-2">Enregistrer l'avis</button>
                                     </form>
                                 </div>

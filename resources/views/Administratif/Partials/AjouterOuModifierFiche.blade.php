@@ -393,17 +393,15 @@
                             <!-- Condition to show the question on the year of obtaining the diploma if the answer is "Yes" -->
 
                         </div>
-                        <div class="question-diplome-etudes"
-                            style="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? 'non' : 'display:none;' }}">
+                        <div class="question-diplome-etudes" style="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? 'display:block;' : 'display:none;' }}">
                             <div class="mb-3 d-flex justify-content-between">
                                 <label for="annee_obtention_diplome" class="form-label text-xl text-dark">
                                     <h5>15 - Si oui, quelle est l'année d'obtention du diplôme ?</h5>
                                 </label>
                                 <div>
-                                    <input type="text" name="annee_obtention_diplome" id="annee_obtention_diplome"
-                                        class="form-control"
-                                        value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse15 ?? null : null }}">
-                                </div>
+                                    <input type="text" name="annee_obtention_diplome" id="annee_obtention_diplome" class="form-control" 
+value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? $candidat->ficheConsultation->reponse15 : 'Pas de diplomes' }}">
+         </div>
                             </div>
                         </div>
 
