@@ -15,6 +15,7 @@ use App\Models\FicheConsultation;
 use App\Models\RendezVous;
 use Carbon\Carbon;
 use App\Models\InfoConsultation;
+use App\Notifications\DateConsultationNotification;
 use App\Notifications\ProcedureCreatedNotifications;
 use App\Notifications\StatutNotifications;
 use Illuminate\Support\Facades\Notification;
@@ -398,15 +399,35 @@ class AdministratifController extends Controller
 
     public function ModifierDateConsultation(Request $request, $candidatId)
     {
+        Carbon::setLocale('fr');
         // Récupérer les données du formulaire
         $consultationId = $request->input('consultation_id');
+        $consultation = InfoConsultation::find($consultationId);
 
-        // Mettre à jour le champ id_info_consultation du candidat
+
+        $dateConsultation = Carbon::parse($consultation->date_heure)->translatedFormat('l j F ');
+        $heureConsultation = Carbon::parse($consultation->date_heure)->translatedFormat('H:i');
+
+
+        $candidat = Candidat::find($candidatId);
+
+        $nom = $candidat->nom;
+        $prenom = $candidat->prenom;
+
+
+        $firstTime = $candidat->id_info_consultation == null;
+
+
+      
         Candidat::where('id', $candidatId)->update(['id_info_consultation' => $consultationId]);
 
+      
+        Notification::route('mail', $candidat->email)->notify(new DateConsultationNotification ($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation));
         // Rediriger ou retourner la réponse en fonction de vos besoins
         return redirect()->back()->with('success', 'Consultation mise à jour avec succès');
     }
+
+
 
     
     public function getDossierDocuments($clientId)
