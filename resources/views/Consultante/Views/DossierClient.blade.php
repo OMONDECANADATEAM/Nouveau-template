@@ -20,6 +20,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logos/logo-icon.png') }}">
 
+
+   
     <title>Omonde Canada - CRM</title>
 
     <!-- Inclure les polices Google -->
@@ -31,6 +33,7 @@
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
 
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+    
 
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
@@ -51,6 +54,7 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+   
 
 </head>
 
