@@ -213,6 +213,9 @@
                                                             le Type de Visa</a>
                                                     </div>
                                                 </div>
+                                                @include('Administratif.Partials.AddVisa', [
+                                'candidat' => $candidat,
+                            ])
                                             </td>
                                         </tr>
                                     @endforeach

@@ -40,24 +40,31 @@ class DateConsultationNotification extends Notification
      * Get the mail representation of the notification.
      */
 
- public function toMail($notifiable)
-{
-    $mailMessage = (new MailMessage)
-        ->subject('DATE DE CONSULTATION')
-        ->greeting('Bonjour, M./Mme ' . $this->nom ." ". $this->prenom)
-        ->line('Nous avons le plaisir de vous annoncer le debut dans votre procedure d\'immigration au canada');
-
-    if ($this->firstTime) {
-        $mailMessage->line('Votre consultation est fixée pour le ' . $this->dateConsultation . ' à ' . $this->heureConsultation);
-    } else {
-        $mailMessage->line('Votre consultation a été reprogrammée pour le ' . $this->dateConsultation . ' à ' . $this->heureConsultation);
-    }
-
-    $mailMessage->line('Vous pouvez contacter votre agent de suivi pour plus d\'information ,')
-        ->salutation('Au plaisir de vous faire sentir partout au monde comme chez vous !');
-
-    return $mailMessage;
-}
+     public function toMail($notifiable)
+     {
+         $mailMessage = new MailMessage;
+     
+         if ($this->firstTime) {
+             $mailMessage->subject('PROGRAMMATION DE VOTRE DATE DE CONSULTATION');
+         } else {
+             $mailMessage->subject('REPROGRAMMATION DE VOTRE DATE DE CONSULTATION');
+         }
+     
+         $mailMessage->greeting('Bonjour, M./Mme ' . $this->nom ." ". $this->prenom)
+             ->line('Nous avons le plaisir de vous annoncer le debut dans votre procedure d\'immigration au canada');
+     
+         if ($this->firstTime) {
+             $mailMessage->line('Votre consultation est fixée pour le ' . $this->dateConsultation . ' à ' . $this->heureConsultation);
+         } else {
+             $mailMessage->line('Votre consultation a été reprogrammée pour le ' . $this->dateConsultation . ' à ' . $this->heureConsultation);
+         }
+     
+         $mailMessage->line('Vous pouvez contacter votre agent de suivi pour plus d\'information ,')
+             ->salutation('Au plaisir de vous faire sentir partout au monde comme chez vous !');
+     
+         return $mailMessage;
+     }
+     
 
     /**
      * Get the array representation of the notification.

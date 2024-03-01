@@ -49,12 +49,15 @@ class UtilisateurController extends Controller
         ]);
 
         if ($request->input('id_role_utilisateur') == 0) {
-            consultante::create([
-                'nom' => $request->input('nom'),
-                'prenoms' => $request->input('prenom'),
-                'id_utilisateur' => $utilisateur->id,
-            ]);
+            Consultante::updateOrCreate(
+                ['id_utilisateur' => $utilisateur->id],
+                [
+                    'nom' => $request->input('nom'),
+                    'prenoms' => $request->input('prenom'),
+                ]
+            );
         }
+        
 
         return $utilisateur
             ? redirect()->back()
@@ -126,13 +129,16 @@ class UtilisateurController extends Controller
         ]);
 
         // Vérifiez si l'utilisateur est un consultante
-        if ($utilisateur->id_role_utilisateur == 0) {
-            consultante::create([
-                'nom' => $request->input('nom'),
-                'prenoms' => $request->input('prenom'),
-                'id_utilisateur' => $utilisateur->id,
-            ]);
+        if ($request->input('id_role_utilisateur') == 0) {
+            Consultante::updateOrCreate(
+                ['id_utilisateur' => $utilisateur->id],
+                [
+                    'nom' => $request->input('nom'),
+                    'prenoms' => $request->input('prenom'),
+                ]
+            );
         }
+        
 
         // Mettez à jour le mot de passe s'il est fourni
 
