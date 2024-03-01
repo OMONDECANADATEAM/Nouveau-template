@@ -570,22 +570,29 @@ class AdministratifController extends Controller
             // Recherchez une procédure existante pour le candidat
             $procedure = Procedure::where('id_candidat', $candidatId)->first();
             $isNewProcedure = false;
-            // Si une procédure existe, mettez à jour les champs
+            $isStatutChanged = false;
+            // Si une procédure existe, vérifiez si le statut a changé
             if ($procedure) {
-                $procedure->update([
-                    'id_type_procedure' => $typeProcedureId,
-                    'statut_id' => $statutId,
-                    'consultante_id' => $consultanteId,
-                ]);
+                if ($procedure->statut_id != $statutId) { // check if status has changed
+                    $isStatutChanged = true;
+                    // Si le statut a changé, ne mettez à jour que le statut
+                    $procedure->update(['statut_id' => $statutId]);
+                } else {
+                    // Si le statut n'a pas changé, mettez à jour tous les champs
+                    $procedure->update([
+                        'id_type_procedure' => $typeProcedureId,
+                        'statut_id' => $statutId,
+                        'consultante_id' => $consultanteId,
+                    ]);
+                }
             } else {
-                // Sinon, créez une nouvelle instance de la classe Procedure
+                // Si une procédure n'existe pas, créez une nouvelle procédure
                 $procedure = new Procedure([
                     'id_candidat' => $candidatId,
                     'id_type_procedure' => $typeProcedureId,
                     'statut_id' => $statutId,
                     'consultante_id' => $consultanteId,
                 ]);
-                // Sauvegardez la nouvelle procédure dans la base de données
                 $procedure->save();
                 $isNewProcedure = true;
             }
@@ -597,11 +604,10 @@ class AdministratifController extends Controller
                 // Get the candidate's first name and last name
                 $nom = $candidat->nom;
                 $prenom = $candidat->prenom;
-            
                 // Send notification about the creation of the procedure
                 Notification::route('mail', $candidat->email)->notify(new ProcedureCreatedNotifications($nom, $prenom));
             }
-             else {
+            else if ($isStatutChanged) {
                 // Send notification about the update of the procedure
                 Notification::route('mail', $candidat->email)->notify(new StatutNotifications($statutLabel));
             }
@@ -611,5 +617,7 @@ class AdministratifController extends Controller
             return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de la procédure.');
         }
     }
+    
+    
      
 }
