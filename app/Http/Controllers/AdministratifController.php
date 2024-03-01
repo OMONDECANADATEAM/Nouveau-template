@@ -135,10 +135,14 @@ class AdministratifController extends Controller
     //Ramene les 3 prochaines consultations
     public function prochaineConsultation()
     {
-        $consultations = InfoConsultation::latest('date_heure')->take(4)->get();
-
+        $consultations = InfoConsultation::where('date_heure', '>', Carbon::now())
+            ->latest('date_heure')
+            ->take(4)
+            ->get();
+    
         return $consultations;
     }
+    
     //Ramene la somme des entrées par mois pendant l'année en cours
     public function EntreeChartData()
     {
