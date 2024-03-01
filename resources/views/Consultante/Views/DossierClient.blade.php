@@ -76,7 +76,7 @@
                             </div>
 
                          <div class="d-flex align-items-center justify-content-around col-4">
-                            <div class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
+                            <div class="p-2 d-flex align-items-center w-50 justify-content-around flex-direction-row">
                                 <div class="dropdown">
                                     <div class="btn btn-secondary" type="button" id="dropdownTypeVisa"
                                         data-toggle="dropdown">
