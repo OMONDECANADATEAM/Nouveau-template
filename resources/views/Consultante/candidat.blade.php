@@ -28,6 +28,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </head>
@@ -36,6 +37,32 @@
     @include('partials.navbar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl w-200" id="navbarBlur"
+            navbar-scroll="true">
+            <div class="container-fluid py-1 px-3 d-flex justify-content-between xl-12">
+                <nav aria-label="breadcrumb">
+                    <button class="btn btn-dark" onclick="window.history.back()">
+                        <i class="material-icons">arrow_back</i>
+                    </button>
+                </nav>
+
+                <ul class="navbar-nav d-flex  justify-content-between w-auto">
+
+                    @include('partials.user')
+
+                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center fs-4">
+                        <a href="javascript:;" class="nav-link text-body p-0 fs-4 " id="iconNavbarSidenav">
+                            <div class="sidenav-toggler-inner fs-4">
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </nav>
 
         <!-- End Navbar -->
 
@@ -51,8 +78,8 @@
                             'Identité du candidat' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
                             'Statut professionnel' => [12, 13, 14, 15, 16, 17],
                             'informations supplémentaires' => [18, 19, 20, 21, 22, 23, 24],
-                            'Informations sur le conjoint' => [ 25,26, 27, 28, 29 ,30],
-                            'CV et remarques' => [31 , 32 , 33 ]
+                            'Informations sur le conjoint' => [25, 26, 27, 28, 29, 30],
+                            'CV et remarques' => [31, 32, 33],
                         ];
 
                         $questions = [
@@ -127,27 +154,17 @@
                                                         <p class="answer text-right fs-5 text-capitalize">
                                                             {{ $consultation->ficheConsultation->type_visa ?? '' }}
                                                         </p>
-                                                
                                                     @elseif ($key === 31)
-                                                    <p class="answer text-right fs-5 text-capitalize">
-                                                        {{ $consultation->remarque_agent ?? '' }}
-                                                    </p>
-                                            
-                                                    
-                                                    
+                                                        <p class="answer text-right fs-5 text-capitalize">
+                                                            {{ $consultation->remarque_agent ?? '' }}
+                                                        </p>
                                                     @elseif ($key === 32)
-                                                    
-                                                    <p class="answer text-right fs-5 text-capitalize mt-1">
-                                                        {{ $consultation->remarque_consultante ?? '' }}
-                                                    </p>  
-                                                    
+                                                        <p class="answer text-right fs-5 text-capitalize mt-1">
+                                                            {{ $consultation->remarque_consultante ?? '' }}
+                                                        </p>
                                                     @elseif ($key === 33)
-                                                    
                                                         <a href="{{ asset('storage/' . $consultation->ficheConsultation->lien_cv) }}"
                                                             class="btn btn-primary" target="_blank">Afficher le CV</a>
-                                                    
-                                                    
-
                                                     @else
                                                         {{-- For other questions, get the data from the "fiche consultation" table --}}
                                                         <p class="answer text-right fs-5 text-capitalize">
@@ -161,51 +178,59 @@
                                 </div>
                             @endforeach
 
-                            <!-- Ajouter un bouton pour afficher le CV -->
-                            <div class="row d-flex justify-content-center  align-items-center">
-                               
-                                <div class="col-md-8 mt-3 mb-3">
-                                    <form action="{{ route('SaveRemarque', ['id' => $consultation->id]) }}" method="post" class="d-flex align-items-center justify-content-between">
-                                        @csrf
-                                        <div class="input-group input-group-outline mb-3 p-2">
-                                            <textarea name="consultant_opinion" id="consultant_opinion" class="form-control" placeholder="Avis du consultant..." required style="height: 6rem">{{ old('consultant_opinion', $consultation->remarque_consultante ?? '') }}</textarea>
-                                            @error('consultant_opinion')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        
-                                        <button type="submit" class="btn btn-primary mt-2">Enregistrer l'avis</button>
-                                    </form>
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col-md-11 mt-3 mb-3 d-flex justify-content-between">
+                                    <div>
+                                        <a class="btn btn-dark mt-2" href="{{ $previousId ?? '#' }}" >Candidat précédent</a>
+                                                        </div>
+                                    <div class="col-5 m-0">
+                                        <form action="{{ route('SaveRemarque', ['id' => $consultation->id]) }}" method="post" class="d-flex align-items-center justify-content-between flex-direction-column">
+                                            @csrf
+                                            <div class="input-group input-group-outline mb-3 p-2">
+                                                <textarea name="consultant_opinion" id="consultant_opinion" class="form-control col-4" placeholder="Avis du consultant..." required style="height: 6rem">{{ old('consultant_opinion', $consultation->remarque_consultante ?? '') }}</textarea>
+                                                @error('consultant_opinion')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <button type="submit" class="btn btn-primary w-20">Envoyer</button>
+                                        </form>
+                                    </div>
+                                    <div>
+                                        <a class="btn btn-dark mt-2" href="{{ $nextId ?? '#' }}" >Candidat suivant</a>
+                                    </div>
                                 </div>
-                                
-                                
                             </div>
                             
                         </div>
+
+
                     </div>
 
                 </div>
             </div>
+
+        </div>
+        </div>
         </div>
 
 
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 // Submit form using Ajax
-                $('form').submit(function (e) {
+                $('form').submit(function(e) {
                     e.preventDefault(); // Prevent the form from submitting in the traditional way
-        
+
                     $.ajax({
                         type: 'POST',
                         url: $(this).attr('action'),
                         data: $(this).serialize(),
-                        success: function (response) {
+                        success: function(response) {
                             // Display an alert or perform any other actions on success
                             alert('Avis enregistré avec succès!');
                         },
-                        error: function (error) {
+                        error: function(error) {
                             // Handle errors and display an alert or perform any other actions
                             alert('Une erreur s\'est produite. Veuillez réessayer.');
                         }
@@ -213,7 +238,9 @@
                 });
             });
         </script>
-        
+
+@include('partials.plugin')
+
 
         <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -225,7 +252,5 @@
     </main>
 
 </body>
-
-@include('partials.plugin')
 
 </html>

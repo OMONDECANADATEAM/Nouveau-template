@@ -41,7 +41,7 @@
     @include('partials.navbar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        @include('partials.header', ['page' => 'Consultante'])
+        @include('partials.header', ['page' => 'Candidats'])
         <!-- End Navbar -->
 
         <div class="row">

@@ -33,24 +33,29 @@ class ConsultanteController extends Controller
     {
         // Récupérer la consultation par son ID
         $info_consultation = InfoConsultation::find($id);
+        // Récupérer tous les candidats dans cette consultation
+        $candidats = $info_consultation->candidats()->pluck('id')->toArray();
+        // Trouver l'index du candidat actuel
+        $currentIndex = array_search($id_candidat, $candidats);
+        // Récupérer l'ID du candidat précédent et suivant
+        $previousId = $candidats[$currentIndex - 1] ?? null;
+        $nextId = $candidats[$currentIndex + 1] ?? null;
+        // Récupérer la consultation actuelle
         $consultation = Candidat::find($id_candidat);
-
-        // Récupérer la liste des consultations liées (exemple : consultations du même patient)
-        
-            return view('Consultante.candidat', compact('info_consultation', 'consultation'));
-       
+        return view('Consultante.candidat', compact('info_consultation', 'consultation', 'previousId', 'nextId'));
     }
+    
 
-    public function getCandidatFiche($id_candidat)
-    {
+    // public function getCandidatFiche($id_candidat)
+    // {
 
-        $consultation = Candidat::find($id_candidat);
+    //     $consultation = Candidat::find($id_candidat);
 
-        // Récupérer la liste des consultations liées (exemple : consultations du même patient)
+    //     // Récupérer la liste des consultations liées (exemple : consultations du même patient)
         
-            return view('Consultante.candidat', compact('consultation'));
+    //         return view('Consultante.candidat', compact('consultation'));
        
-    }
+    // }
 
 
     public function DossierClient()
