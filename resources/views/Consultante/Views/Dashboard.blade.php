@@ -20,25 +20,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logos/logo-icon.png') }}">
 
+    <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+
     <title>Omonde Canada - CRM</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <!-- Inclure les polices Google -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-
-    <!-- Nucleo Icons -->
-    <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-
-    <!-- CSS Files -->
-    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-
+     <!-- CSS Files -->
+     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
+     <!-- DataTables CSS -->
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+     <!-- Popper.js -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+     <!-- Bootstrap JS -->
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+     <!-- DataTables JS -->
+     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+     <script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
+     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -68,12 +74,21 @@
 
                         <div
                             class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
-                            <h3 class="text-white text-capitalize p-2">Vos Consultations</h3>
+                            <div class="p-2 border-radius-lg w-40 bg-white">
+                                <input type="text " id="searchInput"
+                                    class="form-control text-dark  text-lg bg-transparent border-0 p-1"
+                                    placeholder="Recherche...">
 
-                        </div>
+                                    
+
+                            </div>
+                            <button id="filterToday" class="btn bg-gradient-dark">Aujourd'hui</button>
+<button id="filterThisWeek" class="btn bg-gradient-dark">Cette semaine</button>
+<button id="filterThisMonth" class="btn bg-gradient-dark">Ce mois</button>
+                           </div>
                     </div>
                     <div class="table-responsive p-0" style=" max-height: 700px; overflow-y: auto;">
-                        <table class="table align-items-center justify-content-center mb-0" id="candidatsTable">
+                        <table class="table align-items-center justify-content-center mb-0" id="consultationTable">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -140,6 +155,8 @@
             </div>
         </div>
         </div>
+
+
 
         <script async defer src="https://buttons.github.io/buttons.js"></script>
         <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->

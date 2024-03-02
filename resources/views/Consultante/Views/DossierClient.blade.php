@@ -213,8 +213,9 @@
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                                         <a class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#AjouterVisaModal{{ $candidat->id }}">Ajouter
-                                                            le Type de Visa</a>
+                                                            data-bs-target="#AjouterVisaModal{{ $candidat->id }}">
+                                                        Changer le statut
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 @include('Administratif.Partials.AddVisa', [
