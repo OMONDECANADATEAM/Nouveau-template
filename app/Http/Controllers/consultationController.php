@@ -6,6 +6,8 @@ use App\Models\Candidat;
 use App\Models\consultante;
 use App\Models\InfoConsultation;
 
+use Illuminate\Http\Request;
+
 class consultationController extends Controller
 {
     
@@ -45,17 +47,26 @@ class consultationController extends Controller
         return view('Consultation.waitingList', ['data_candidat' => $consultationInfo->candidats]);
     }
 
-    // public function ficheConsultation($id)
-    // {
-        
-    //     $fiche = InfoConsultation::find($id);
-        
+    public function creerConsultation(Request $request)
+    {
+        // Valider les données du formulaire
+        $request->validate([
+            'lien_zoom' => 'required',
+            'lien_zoom_demarrer' => 'required',
+            'date_heure' => 'required|date',
+            'nombre_candidats' => 'required|integer',
+            'id_consultante' => 'required|integer',
+        ]);
+        $consultation = InfoConsultation::create([
+            'label' => 'CONS-' . date('Ymd', strtotime($request->input('date_heure'))) . '-' . $request->input('id_consultante'),
+            'lien_zoom' => $request->input('lien_zoom'),
+            'lien_zoom_demarrer' => $request->input('lien_zoom_demarrer'),
+            'date_heure' => $request->input('date_heure'),
+            'nombre_candidats' => $request->input('nombre_candidats'),
+            'id_consultante' => $request->input('id_consultante')
+        ]);
+        // Rediriger avec un message de succès
+        return redirect()->back();
+    }
 
-
-    //     return view('Consultation.Consultation', ['data_consultante' => $consultantes]);
-    // }
-    
-    
-    
-    
 }

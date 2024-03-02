@@ -15,7 +15,7 @@
             <div class="row">
                 <!-- Champ pour le nom de l'utilisateur -->
                 <div class="col-md-6">
-                  <div class="input-group input-group-outline mb-3">
+                  <div class="mb-3">
                     <label for="nom" class="form-label">Nom :</label>
                     <input type="text" id="nom" name="nom" class="form-control ps-2"
                    required>
@@ -23,7 +23,7 @@
                 </div>
                 <!-- Champ pour le prénom de l'utilisateur -->
                 <div class="col-md-6">
-                  <div class="input-group input-group-outline mb-3">
+                  <div class="mb-3">
                     <label for="prenom" class="form-label">Prénom :</label>
                     <input type="text" id="prenom" name="prenom" class="form-control ps-2"
                 required>
@@ -33,14 +33,14 @@
 
 
             <!-- Champ pour l'e-mail de l'utilisateur -->
-            <div class="input-group input-group-outline mb-3">
+            <div class="mb-3">
                 <label for="email" class="form-label">E-mail :</label>
                 <input type="email" id="email" name="email" class="form-control ps-2"
                      required>
             </div>
 
             <!-- Champ pour le mot de passe de l'utilisateur -->
-            <div class="input-group input-group-outline mb-3">
+            <div class="mb-3">
                 <label for="mot_de_passe" class="form-label">Mot de passe :</label>
                 <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-control ps-2"
                  required>
@@ -48,7 +48,7 @@
 
             <!-- Champ pour le poste occupé -->
         <div class="row">
-            <div class="select-group  mb-3 col-md-4">
+            <div class=" mb-3 col-md-4">
                 <label for="poste_occupe" class="form-label text-dark">Poste occupé :</label>
                 <select id="poste_occupe" name="poste_occupe" class="form-select ps-2" required>
                     <!-- Options de poste à récupérer de la base de données -->
@@ -59,7 +59,7 @@
             </div>
 
             <!-- Champ pour le rôle utilisateur -->
-            <div class="select-group  mb-3 col-md-4">
+            <div class="  mb-3 col-md-4">
                 <label for="id_role_utilisateur" class="form-label text-dark">Rôle utilisateur :</label>
                 <select id="id_role_utilisateur" name="id_role_utilisateur" class="form-select ps-2" required>
                     <!-- Options de rôle à récupérer de la base de données -->
@@ -70,7 +70,7 @@
             </div>
 
             <!-- Champ pour la succursale -->
-            <div class="select-group  mb-3 col-md-4">
+            <div class="smb-3 col-md-4">
                 <label for="id_succursale" class="form-label text-dark">Succursale :</label>
                 <select id="id_succursale" name="id_succursale" class="form-select ps-2" required>
                     <!-- Options de succursale à récupérer de la base de données -->

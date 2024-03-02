@@ -77,7 +77,7 @@
                             CONSULTANTE
                         </th>
                         <th class="col-md-3 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            AGENT / SUCCURSALE
+                            MONTANT VERSÉ
                         </th>
                         <th class=" col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             VOIR DOSSIER
@@ -108,7 +108,7 @@
                             <td class="align-middle text-center">
                                 <span class="text-md consultante-name">
                                     @if ($candidat->proceduresDemandees)
-                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'null' }} {{ $candidat->proceduresDemandees->consultante->prenoms ?? 'null' }}
+                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'N / A' }} {{ $candidat->proceduresDemandees->consultante->prenoms ?? '' }}
                                     @else
                                         N / A
                                     @endif
@@ -117,7 +117,12 @@
 
                             <td>
                                 <div class="d-flex justify-content-center  px-2">
-                                    <span class="p-2 text-md text-center">{{ $candidat->utilisateur->name }} {{ $candidat->utilisateur->last_name }} / {{ $candidat->utilisateur->succursale->label }} </span>
+                                    {{-- <span class="p-2 text-md text-center">{{ $candidat->utilisateur->name }} {{ $candidat->utilisateur->last_name }} / {{ $candidat->utilisateur->succursale->label }} </span> --}}
+                                
+                                    <span class="p-2 text-md text-center">
+                                        {{ isset($candidat->entrees) ? number_format($candidat->entrees->sum('montant'), 0, ',', ' ') . ' FCFA ' : 'Aucun versement' }}
+                                    </span>
+                                    
                                 </div>
                             </td>
 

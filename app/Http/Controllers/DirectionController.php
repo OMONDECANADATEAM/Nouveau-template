@@ -57,7 +57,8 @@ private function allSuccursalle()
     $moisActuel = now()->format('m');
     
     // Obtenez la liste des succursales
-    $succursales = Succursale::all();
+    $succursales = Succursale::where('label', '!=', 'Canada')->get();
+
 
     $donneesSuccursales = [];
 
@@ -97,7 +98,11 @@ private function allSuccursalle()
     public function Banque()
 {
     setlocale(LC_TIME, 'fr_FR.utf8');
-    $donneesCandidat = $this->getAllCandidatsData();
+    $transactionController = new Controller();
+    $donneesCandidat = $transactionController->getAllTransactions();
+
+   
+
     // Passez les données à la vue
     return view('Direction.Views.Banque', [
         'donneesCandidat' => $donneesCandidat

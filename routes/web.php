@@ -78,6 +78,8 @@ Route::get('/Direction/Equipe', [DirectionController::class, 'Equipe'])->name('D
    
 //Routes IT
 Route::get('/Informatique/Consultation', [InformatiqueController::class, 'Consultation'])->name('Informatique.Dashboard');
+Route::post('/Informatique/Consultation/CreerConsultation', [consultationController::class, 'creerConsultation'])->name('creerConsultation');
+
 Route::get('/Informatique/Equipe', [InformatiqueController::class, 'Equipe'])->name('Informatique.Equipe');
 
 
@@ -111,8 +113,6 @@ Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name
 
 
 
-//
-Route::post('Consultation', [Controller::class, 'ajoutConsultation'])->name('ajoutConsultation');
 
 
 // Exemple de route dans votre fichier web.php

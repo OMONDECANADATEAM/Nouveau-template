@@ -8,42 +8,41 @@
             <div class="modal-body">
                 <form action="{{ route('creerConsultation') }}" method="POST" class="text-start" id="consultationForm">
                     @csrf
-                    <div class="input-group input-group-outline mb-3 p-2">
-                        <label for="label" class="form-label">Label</label>
-                        <input type="text" name="label" id="label" class="form-control" required>
-                    </div>
+                  
 
-                    <div class="input-group input-group-outline mb-3 p-2">
+                    <div class=" mb-3 p-2">
                         <label for="lien_zoom" class="form-label">Lien Zoom</label>
                         <input type="text" name="lien_zoom" id="lien_zoom" class="form-control" required>
                     </div>
 
-                    <div class="input-group input-group-outline mb-3 p-2">
+                    <div class="mb-3 p-2">
                         <label for="lien_zoom_demarrer" class="form-label">Lien démarrer</label>
                         <input type="text" name="lien_zoom_demarrer" id="lien_zoom_demarrer" class="form-control"
                             required>
                     </div>
 
-                    <div class="input-group input-group-outline mb-3 p-2">
+                   <div class="row p-3">  
+                    <div class="col-4 mb-3 p-2">
                         <label for="date_heure" class="form-label">Date et Heure</label>
                         <input type="datetime-local" name="date_heure" id="date_heure" class="form-control" required>
                     </div>
 
-                    <div class="input-group input-group-outline mb-3 p-2">
+                    <div class="col-4 mb-3 p-2">
                         <label for="nombre_candidats" class="form-label">Nombre de participants</label>
                         <input type="tel" name="nombre_candidats" id="nombre_candidats" class="form-control"
                             required>
                     </div>
 
-                    <div class="form-select-group form-select-group-outline mb-3 p-2 h-25">
+                    <div class="col-3 mb-3 p-2 h-25">
                         <label for="id_consultante" class="form-label">Consultante</label>
-                        <select name="id_consultante" id="id_consultante" class="form-select" placeholder="" required>
+                        <select name="id_consultante" id="id_consultante" class="form-select p-2" placeholder="" required>
                             @foreach ($data_consultante as $consultante)
                                 <option value="{{ $consultante->id }}">{{ $consultante->nom }}
                                     {{ $consultante->prenoms }}</option>
                             @endforeach
                         </select>
                     </div>
+                   </div>
 
                     <div class="text-center">
                         <button type="submit" class="btn bg-gradient-primary w-40 my-4 mb-2"

@@ -26,6 +26,9 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
+    <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
+
+    <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
@@ -48,7 +51,7 @@
                                 </h3>
                             </div>
 
-                            <div class="d-flex align-items-center justify-content-around w-80">
+                            <div class="d-flex align-items-center justify-content-around w-50">
 
                                 <button id="all" class="btn btn-primary">Voir tout</button>
                                 <button id="todayButton" class="btn btn-primary">Aujourd'hui</button>
@@ -59,7 +62,8 @@
                         </div>
 
                         <div class="card-body px-0 pb-2 ">
-                            <div class="table-responsive p-0  " style="max-height: 700px; min-height: 700px; overflow-y: auto;">
+                            <div class="table-responsive p-0  "
+                                style="max-height: 700px; min-height: 700px; overflow-y: auto;">
                                 <table class="table align-items-center justify-content-center mb-0 bg-white">
                                     <thead>
                                         <tr>
@@ -184,7 +188,7 @@
 
     </main>
     @include('partials.plugin')
-   
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Sélectionnez le bouton "Voir tout"
@@ -253,93 +257,59 @@
                 filterAppointments('thisMonth');
             });
         });
+
         function toggleConsultationPayee(id, statut) {
 
-    fetch(`/Commercial/RendezVous/ConsultationPayee/${id}/${statut}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            },
-        })
-        .then(response => {
-            // Check if the response status is OK (status code 200-299)
-            if (!response.ok) {
-                throw new Error(`Network response was not ok (${response.status})`);
-            }
-            return response.json(); // Parse the response as JSON
-        })
-        .then(data => {
-            console.log(data); // Log the parsed JSON data
-            // Your code to handle jsonData
-            location.reload(); // Reload the page
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
-
-function toggleStatutRendezVous(id, statut) {
-    fetch(`/Commercial/RendezVous/RendezVousEffectue/${id}/${statut}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            },
-        })
-        .then(response => {
-            // Check if the response status is OK (status code 200-299)
-            if (!response.ok) {
-                throw new Error(`Network response was not ok (${response.status})`);
-            }
-            return response.json(); // Parse the response as JSON
-        })
-        .then(data => {
-            console.log(data); // Log the parsed JSON data
-            // Your code to handle jsonData
-            location.reload(); // Reload the page
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
-    </script>
-    <style>
-    /* Styles pour les boutons de filtre */
-    .filter-btn {
-        margin-left: 10px; /* Espacement entre les boutons */
-    }
-
-    /* Styles pour rendre les boutons plus modernes */
-    .btn-primary {
-        width: 10vw;
-        background-color: #de3163; /* Couleur de fond */
-        color: #fff; /* Couleur du texte */
-        border: none;
-        border-radius: 10px; /* Coins arrondis */
-        padding: 10px 10px; /* Espacement à l'intérieur du bouton */
-        font-size: 12px; /* Taille de la police */
-        transition: background-color 0.3s, color 0.3s; /* Transition pour les changements de couleur */
-    }
-
-    .btn-primary:hover {
-        background-color: #d81b60; /* Changement de couleur de fond au survol */
-        color: #fff; /* Changement de couleur du texte au survol */
-    }
-
-    .btn-primary:focus {
-        outline: none; /* Supprimer le contour sur le focus */
-    }
-
-    /* Styles pour rendre les boutons responsive */
-    @media (max-width: 768px) {
-        .btn-primary {
-            margin-top: 10px; /* Espacement vertical entre les boutons */
-            width: 100%; /* Largeur maximale */
+            fetch(`/Commercial/RendezVous/ConsultationPayee/${id}/${statut}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                })
+                .then(response => {
+                    // Check if the response status is OK (status code 200-299)
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok (${response.status})`);
+                    }
+                    return response.json(); // Parse the response as JSON
+                })
+                .then(data => {
+                    console.log(data); // Log the parsed JSON data
+                    // Your code to handle jsonData
+                    location.reload(); // Reload the page
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
-    }
-</style>
 
+        function toggleStatutRendezVous(id, statut) {
+            fetch(`/Commercial/RendezVous/RendezVousEffectue/${id}/${statut}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                })
+                .then(response => {
+                    // Check if the response status is OK (status code 200-299)
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok (${response.status})`);
+                    }
+                    return response.json(); // Parse the response as JSON
+                })
+                .then(data => {
+                    console.log(data); // Log the parsed JSON data
+                    // Your code to handle jsonData
+                    location.reload(); // Reload the page
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+  
 
 </body>
 

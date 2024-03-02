@@ -56,7 +56,8 @@
                 <div class="col-lg-12">
                     <div class="card my-2">
                         <div class="card-header p-0 position-relative mt-n3 mx-3">
-                            <div class="bg-gradient-dark border-radius-lg pt-4 pb-2 d-flex align-items-center justify-content-between p-4">
+                            <div
+                                class="bg-gradient-dark border-radius-lg pt-4 pb-2 d-flex align-items-center justify-content-between p-4">
                                 <div class="p-2 border-radius-lg w-40 bg-white">
                                     <input type="text" id="searchInput"
                                         class="form-control text-dark text-lg bg-transparent border-0 p-1"
@@ -64,13 +65,15 @@
                                 </div>
 
                                 <div class="dropdown">
-                                    <button class="btn btn-secondary" type="button" id="dropdownSuccursales" data-toggle="dropdown">
+                                    <button class="btn btn-secondary" type="button" id="dropdownSuccursales"
+                                        data-toggle="dropdown">
                                         Pays
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownSuccursales">
                                         @foreach (\App\Models\Succursale::all() as $succursale)
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="{{ $succursale->label }}"
+                                                <input class="form-check-input" type="checkbox"
+                                                    value="{{ $succursale->label }}"
                                                     id="typePaiement{{ $succursale->id }}" name="pays" checked>
                                                 <label class="form-check-label" for="typePaiement{{ $succursale->id }}">
                                                     {{ $succursale->label }}
@@ -99,6 +102,10 @@
                                                 SUCCURSALE
                                             </th>
                                             <th
+                                                class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                                INDICE PERFORMANCE (MOIS/ANNEES)
+                                            </th>
+                                            <th
                                                 class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                                 DOCUMENT
                                             </th>
@@ -119,6 +126,16 @@
                                                 <td class="align-middle text-center">
                                                     <h6 class="p-2 text-xl">{{ $user->succursale->label }} </h6>
                                                 </td>
+                                                <td class="align-middle text-center">
+                                                    <h6 class="p-2 text-xl">
+                                                        {{ $user->rendezVous()->where('consultation_payee', 1)->whereMonth('date_rdv', date('m'))->whereYear('date_rdv', date('Y'))->count() }}
+                                                        /
+                                                        {{ $user->rendezVous()->where('consultation_payee', 1)->whereYear('date_rdv', date('Y'))->count() }}
+
+                                                    </h6>
+                                                </td>
+
+
                                                 <td class="align-middle text-center">
                                                     <button class="btn bg-gradient-dark" data-bs-toggle="modal"
                                                         data-bs-target="#voirDossierModal{{ $user->id }}">
@@ -178,14 +195,13 @@
             table.search(this.value).draw();
         });
         $('input:checkbox').on('change', function() {
-    // Build a regex filter string with an or(|) condition
-    var pays = $('input:checkbox[name="pays"]:checked').map(function() {
-        return this.value;
-    }).get().join('|');
-    // Filter in column 1 (index 0), with a regex, no smart filtering, case insensitive
-    table.column(2).search(pays, true, false, true).draw(false);
-});
-
+            // Build a regex filter string with an or(|) condition
+            var pays = $('input:checkbox[name="pays"]:checked').map(function() {
+                return this.value;
+            }).get().join('|');
+            // Filter in column 1 (index 0), with a regex, no smart filtering, case insensitive
+            table.column(2).search(pays, true, false, true).draw(false);
+        });
     </script>
 
 </body>

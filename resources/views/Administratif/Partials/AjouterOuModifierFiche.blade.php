@@ -25,10 +25,16 @@
                     </div>
 
                     <div class="row">
-                        <!-- Champ Pays -->
-                        <div class="col-md-6 mb-3"> <label for="pays" class="form-label">Pays</label>
-                            <input type="text" name="pays" id="pays" class="form-control"
-                                value="{{ $candidat->pays }}" required>
+        
+                        <div class="col-md-6 mb-3">
+                            <label for="pays" class="form-label">Pays</label>
+                            <select name="pays"  id="pays"  class="form-control" required>
+                                @foreach(App\Models\Succursale::all() as $succursale)
+                                    <option value="{{ $succursale->label }}" {{ ($candidat->pays == $succursale->label) ? 'selected' : '' }}>
+                                        {{ $succursale->label }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <!-- Champ Ville -->
@@ -69,6 +75,12 @@
                         </div>
 
 
+                    </div>
+
+                    <div class="row">
+                        <div class="btn btn-dark afficherQuestionnaire"  id="consultation-payee-{{ $candidat->id }}">
+                            Modifier ou remplir la fiche de consultation
+                        </div>
                     </div>
 
                     <div class="questionnaire-form" id="questionnaire-form-{{ $candidat->id }}" style="display: none;">
@@ -362,7 +374,7 @@
                         <!-- Question 14 -->
                         <div class="d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>14- Avez-vous un diplôme d'études (secondaire, professionnel, universitaire) ?</h5>
+                                <h5>14- Avez-vous un diplôme d'études (secondaire, professionnel..) ?</h5>
                             </label>
                             <div>
                                 <div class="form-check form-check-inline">
@@ -381,36 +393,34 @@
                             <!-- Condition to show the question on the year of obtaining the diploma if the answer is "Yes" -->
 
                         </div>
-                        <div class="question-diplome-etudes"
-                            style="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? '' : 'display:none;' }}">
+                        <div class="question-diplome-etudes" style="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? 'display:block;' : 'display:none;' }}">
                             <div class="mb-3 d-flex justify-content-between">
                                 <label for="annee_obtention_diplome" class="form-label text-xl text-dark">
-                                    <h5>Si oui, quelle est l'année d'obtention du diplôme ?</h5>
+                                    <h5>15 - Si oui, quelle est l'année d'obtention du diplôme ?</h5>
                                 </label>
                                 <div>
-                                    <input type="text" name="annee_obtention_diplome" id="annee_obtention_diplome"
-                                        class="form-control"
-                                        value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse15 ?? null : null }}">
-                                </div>
+                                    <input type="text" name="annee_obtention_diplome" id="annee_obtention_diplome" class="form-control" 
+value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? $candidat->ficheConsultation->reponse15 : 'Pas de diplomes' }}">
+         </div>
                             </div>
                         </div>
 
                         <!-- Question 15 -->
                         <div class="mb-3 d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>15- Avez-vous un membre de votre famille déjà au Canada ?</h5>
+                                <h5>16- Avez-vous un membre de votre famille déjà au Canada ?</h5>
                             </label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="membre_famille_canada"
                                         id="membre_famille_canada_oui" value="oui"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse15 === 'oui' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse16 === 'oui' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="membre_famille_canada_oui">Oui</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="membre_famille_canada"
                                         id="membre_famille_canada_non" value="non"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse15 === 'non' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse16 === 'non' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="membre_famille_canada_non">Non</label>
                                 </div>
                             </div>
@@ -420,19 +430,19 @@
                         <!-- Question 16 -->
                         <div class="mb-3 d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>16- Comptez-vous immigrer seul(e) ou en famille ?</h5>
+                                <h5>17- Comptez-vous immigrer seul(e) ou en famille ?</h5>
                             </label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="immigrer_seul_ou_famille"
                                         id="immigrer_seul" value="seul"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse16 === 'seul' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse17 === 'seul' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="immigrer_seul">Seul(e)</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="immigrer_seul_ou_famille"
                                         id="immigrer_en_famille" value="famille"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse16 === 'famille' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse17 === 'famille' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="immigrer_en_famille">En famille</label>
                                 </div>
                             </div>
@@ -441,19 +451,19 @@
                         <!-- Question 17 -->
                         <div class="mb-3 d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>17- Parlez-vous d'autres langues à part le français ?</h5>
+                                <h5>18- Parlez-vous d'autres langues à part le français ?</h5>
                             </label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="langues_parlees"
                                         id="langues_parlees_oui" value="oui"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse17 === 'oui' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse18 === 'oui' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="langues_parlees_oui">Oui</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="langues_parlees"
                                         id="langues_parlees_non" value="non"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse17 === 'non' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse18 === 'non' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="langues_parlees_non">Non</label>
                                 </div>
                             </div>
@@ -462,14 +472,14 @@
                         <!-- Question 18 -->
                         <div class="mb-3 d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>18- Avez-vous fait un test de connaissances linguistiques ?</h5>
+                                <h5>19- Avez-vous fait un test de connaissances linguistiques ?</h5>
                             </label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio"
                                         name="test_connaissances_linguistiques"
                                         id="test_connaissances_linguistiques_oui" value="oui"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse18 === 'oui' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse19 === 'oui' ? 'checked' : '' }}>
                                     <label class="form-check-label"
                                         for="test_connaissances_linguistiques_oui">Oui</label>
                                 </div>
@@ -477,7 +487,7 @@
                                     <input class="form-check-input" type="radio"
                                         name="test_connaissances_linguistiques"
                                         id="test_connaissances_linguistiques_non" value="non"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse18 === 'non' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse19 === 'non' ? 'checked' : '' }}>
                                     <label class="form-check-label"
                                         for="test_connaissances_linguistiques_non">Non</label>
                                 </div>
@@ -491,11 +501,14 @@
                         <!-- Question 1 -->
                         <div class="mb-3 d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>1- Quel est son niveau de scolarité ?</h5>
+                                <h5>20 - Quel est son niveau de scolarité ?</h5>
                             </label>
                             <div>
                                 <input type="text" name="niveau_scolarite_conjoint" id="niveau_scolarite_conjoint"
-                                    class="form-control">
+                                    class="form-control" 
+                                    value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse20 ?? null : null }}">
+                       
+                                    
                             </div>
                         </div>
 
@@ -506,7 +519,10 @@
                             </label>
                             <div>
                                 <input type="text" name="domaine_formation_conjoint"
-                                    id="domaine_formation_conjoint" class="form-control">
+                                    id="domaine_formation_conjoint" class="form-control"
+                                    value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse21 ?? null : null }}">
+                       
+                                    
                             </div>
                         </div>
 
@@ -516,7 +532,9 @@
                                 <h5>3- Quel est votre âge ?</h5>
                             </label>
                             <div>
-                                <input type="text" name="age_conjoint" id="age_conjoint" class="form-control">
+                                <input type="text" name="age_conjoint" id="age_conjoint" class="form-control" 
+                                value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse22 ?? null : null }}">
+                                
                             </div>
                         </div>
 
@@ -530,7 +548,7 @@
                             </label>
                             <div>
                                 <input type="text" name="niveau_francais" id="niveau_francais"
-                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse22 ?? '' }}">
+                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse23 ?? '' }}">
                             </div>
                         </div>
 
@@ -541,7 +559,7 @@
                             </label>
                             <div>
                                 <input type="text" name="niveau_anglais" id="niveau_anglais" class="form-control"
-                                    value="{{ $candidat->ficheConsultation->reponse23 ?? '' }}">
+                                    value="{{ $candidat->ficheConsultation->reponse24 ?? '' }}">
                             </div>
                         </div>
 
@@ -552,7 +570,7 @@
                             </label>
                             <div>
                                 <input type="text" name="age_enfants_linguistique" id="age_enfants_linguistique"
-                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse24 ?? '' }}">
+                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse25 ?? '' }}">
                             </div>
                         </div>
 
@@ -563,7 +581,7 @@
                             </label>
                             <div>
                                 <input type="text" name="niveau_scolarite_enfants" id="niveau_scolarite_enfants"
-                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse25 ?? '' }}">
+                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse26 ?? '' }}">
                             </div>
                         </div>
 
@@ -631,24 +649,22 @@
 </div>
 
 <script>
-    $(document).ready(function() {
 
-        // Écouter le changement de la checkbox consultation_payee
-        $('.consultation-payee').change(function() {
-            // Récupérer l'ID unique du candidat
-            var candidatId = $(this).attr('id').split('-')[2];
-
-            // Construire l'ID unique de la section du questionnaire
-            var questionnaireId = '#questionnaire-form-' + candidatId;
-
-            // Afficher ou masquer le questionnaire supplémentaire en fonction de l'état de la checkbox
-            if (this.checked) {
-                $(questionnaireId).show();
-            } else {
-                $(questionnaireId).hide();
-            }
-        });
+  $(document).ready(function() {
+    // Écouter le clic sur le bouton afficherQuestionnaire
+    $('.afficherQuestionnaire').click(function() {
+        // Récupérer l'ID unique du candidat
+        // Vous devrez ajuster cette ligne en fonction de la manière dont l'ID du candidat est stocké dans le bouton
+        var candidatId = $(this).attr('id').split('-')[2];
+        // Construire l'ID unique de la section du questionnaire
+        var questionnaireId = '#questionnaire-form-' + candidatId;
+        // Afficher le questionnaire
+        $(questionnaireId).show();
     });
+
+    
+});
+
 
     $(document).ready(function() {
         // Cacher la question de la date d'expiration au chargement de la page

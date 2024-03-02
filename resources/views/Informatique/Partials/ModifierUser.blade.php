@@ -19,7 +19,7 @@
                     <div class="row">
                         <!-- Champ pour le nom de l'utilisateur -->
                         <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
+                            <div class="mb-3">
                                 <label for="nom" class="form-label">Nom :</label>
                                 <input type="text" id="nom" name="nom" class="form-control ps-2"
                                     value="{{ $user->name }}" required>
@@ -27,7 +27,7 @@
                         </div>
                         <!-- Champ pour le prénom de l'utilisateur -->
                         <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
+                            <div class="mb-3">
                                 <label for="prenom" class="form-label">Prénom :</label>
                                 <input type="text" id="prenom" name="prenom" class="form-control ps-2"
                                     value="{{ $user->last_name }}" required>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="row">
                         <div class="col-7">
-                            <div class="input-group input-group-outline mb-3 col-6">
+                            <div class="mb-3">
                                 <label for="email" class="form-label">E-mail :</label>
                                 <input type="email" id="email" name="email" class="form-control"
                                       value="{{ $user->email }}" required>
@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="col-5">
-                            <div class="input-group input-group-outline mb-3">
+                            <div class="mb-3">
                                 <label for="mot_de_passe" class="form-label">Mot de passe :</label>
                                 <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-control ps-2"
                                     required>
@@ -91,11 +91,16 @@
                             </select>
                         </div>
                     </div>
+                 
                     <div class="mb-3">
                         <label for="photo_profil" class="form-label text-dark">Photo de profil :</label>
-                        <input type="file" id="photo_profil" name="photo_profil"
-                            class="form-control form-control-md border ps-2 ">
+                        <input type="file" id="photo_profil" name="photo_profil" class="form-control form-control-md border ps-2 ">
+                        <!-- Afficher la photo de profil existante si elle existe -->
+                        @if (!empty($user->lien_photo))
+                            <img src="{{ asset('storage/' . $user->lien_photo) }}" alt="Photo de profil" class="mt-2">
+                        @endif
                     </div>
+                    
                     <!-- Bouton de soumission du formulaire -->
                     <div class="d-flex align-items-center justify-content-between">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Fermer">

@@ -38,6 +38,12 @@
                                 </label>
                             </div>
                         @endforeach
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="consultante{{ $consultante->id }}" name="consultante" checked>
+                            <label class="form-check-label" for="consultante{{ $consultante->id }}">
+                               N / A
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -131,7 +137,7 @@
 
                                 <span class="text-md ">
                                     @if ($candidat->proceduresDemandees)
-                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'null' }} {{ $candidat->proceduresDemandees->consultante->prenoms ?? 'null' }}
+                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'N /' }} {{ $candidat->proceduresDemandees->consultante->prenoms ?? 'A' }}
                          
                                     @else
                                         N / A

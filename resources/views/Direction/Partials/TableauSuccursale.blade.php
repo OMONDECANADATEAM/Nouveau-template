@@ -5,7 +5,7 @@
                 placeholder="Rechercher...">
         </div>
 
-        <div class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
+        {{-- <div class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
             <div class="dropdown">
                 <button class="btn btn-secondary" type="button" id="dropdownTypePaiement" data-toggle="dropdown">
                     Type de Paiement
@@ -41,7 +41,7 @@
             </div>
 
 
-        </div>
+        </div> --}}
     </div>
 
     <div class="card-body px-0">
@@ -49,40 +49,49 @@
             <table class="table align-items-center justify-content-center mb-0 dataTable">
                 <thead>
                     <tr>
-                        <th class=" col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NOM & PRENOM(S)
+                        <th class=" col-md-1 text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                            TYPE
                         </th>
                         <th class=" col-md-2 text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">TYPE
-                            PAIEMENT</th>
+                            Type de paiement / Raison depense    
+                        </th>
                         <th class=" col-md-2 text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">
-                            AGENT / SUCCURSALLE</th>
+                            Candidat / Agent    
+                        </th>
                         <th class=" col-md-2 text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">
-                            MONTANT</th>
+                            Date
+                        </th>
                         <th class=" col-md-2 text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7">DATE
-                            DE PAIEMENT</th>
+                            MONTANT</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($donneesCandidat as $candidat)
-                        <tr data-candidat-id="{{ $candidat['id'] }}">
-                            <td class="align-middle">
-                                <h6 class="p-2 text-md">{{ $candidat['nom'] }} {{ $candidat['prenom'] }}</h6>
-                            </td>
-                            <td class="align-middle text-center">
-                                <span class="text-md font-weight-bold">{{ $candidat['type_paiement'] }}</span>
-                            </td>
-                            <td class="align-middle text-center">
-                                <span class="text-md font-weight-bold">{{ $candidat['agent_succursale'] }}</span>
-                            </td>
-                            <td class="align-middle text-center ">
-                                <span class="text-md   font-weight-bold">
-                                    {{ number_format($candidat['montant_dernier_paiement'], 0, '.', ' ') }} FCFA
-                                </span>
-                            </td>
-                            <td class="align-middle text-center">
-                                <span class="text-md font-weight-bold">{{ $candidat['date_dernier_paiement'] }}</span>
-                            </td>
-                        </tr>
-                    @endforeach
+                    @foreach ($donneesCandidat as $transaction)
+                            <tr>
+                                <td class="text-center">
+                                    <button class="btn btn-icon-only btn-rounded btn-outline-{{ get_class($transaction) === 'App\Models\Depense' ? 'danger' : 'success' }} m-0 mb-0 p-0 btn-sm">
+                                        <i class="material-icons text-lg">{{ get_class($transaction) === 'App\Models\Depense' ? 'expand_more' : 'expand_less' }}</i>
+                                    </button>
+                                </td>
+                                
+                                <td class="align-middle text-center text-xl">{{ get_class($transaction) === 'App\Models\Depense' ? $transaction->raison : \App\Models\TypePaiement::where('id', $transaction->id_type_paiement)->value('label') }}</td>
+                                <td class="align-middle text-center">
+                                    <div class="d-flex justify-content-center">
+                                        <h5 class="p-2 text-md">
+                                            {{ $transaction->utilisateur->name }} {{ $transaction->utilisateur->last_name }}
+                                        </h5>
+                                    </div>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="me-2 text-md font-weight-bold">{{ date('Y-m-d', strtotime($transaction->date)) }}</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <p class="text-md  font-weight-bold mb-0 text-{{ get_class($transaction) === 'App\Models\Depense' ? 'danger' : 'success' }}">
+                                        {{ number_format($transaction->montant, 0, ',', ' ') }} {{ $transaction->utilisateur->succursale->id == 4 ? '$' : 'FCFA' }}
+                                    </p>
+                                </td>
+                            </tr>
+                        @endforeach
                 </tbody>
             </table>
         </div>

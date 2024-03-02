@@ -19,7 +19,7 @@
         <hr class="dark horizontal my-0">
         <div class="card-footer p-3">
             <div class="progress mt-2">
-                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ ($totalAppelDeCeJour / 100) * 100 }}%;" aria-valuenow="{{ $totalAppelDeCeJour }}" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ ($totalAppelDeCeJour / 100) * 100 }}%; ; height:100%;" aria-valuenow="{{ $totalAppelDeCeJour }}" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             
         </div>

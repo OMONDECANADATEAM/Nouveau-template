@@ -105,14 +105,7 @@
                                     <h4 class="mb-5 text-center text-success">
                                         {{ number_format($totalCaisseMoisActuel, 0, '.', ' ') }} FCFA</h4>
                                 </div>
-                                <div class="col-12 d-flex justify-content-center align-item-center w-100">
-                                    <button class="btn btn-success" data-bs-toggle="modal"
-                                        data-bs-target="#ajouterEntreeModal">
-                                        <i class="material-icons">add</i> Ajouter une entrée
-                                    </button>
-                                </div>
-                                <!-- Modal pour ajouter une entrée -->
-                               @include('partials.Banque.addEntree')
+                                
                             </div>
                         </div>
 
@@ -132,13 +125,7 @@
                                         {{ number_format($totalDepenseMoisActuel, 0, '.', ' ') }} FCFA</h4>
                                 </div>
 
-                                <div class="col-12 d-flex justify-content-center align-item-center w-100">
-                                    <button class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#ajouterDepenseModal">
-                                        <i class="material-icons">add</i> Ajouter une dépense
-                                    </button>
-                                </div>
-                                @include('partials.Banque.addDepenses')
+                                
                             </div>
                         </div>
                     </div>
