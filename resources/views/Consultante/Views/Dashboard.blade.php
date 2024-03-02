@@ -91,19 +91,23 @@
                         <table class="table align-items-center justify-content-center mb-0" id="consultationTable">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    <th class="text-uppercase text-secondary  text-xxs font-weight-bolder opacity-7">
                                         DEMARRER
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                                    <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7 ps-2"
                                         style=>
                                         LABEL
                                     </th>
                                     <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7 ps-2">
                                         DATE ET HEURE
                                     </th>
+                                     <th
+                                        class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7 ps-2">
+                                        NOMBRE DE PARTICIPANTS
+                                    </th>
                                     <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        class="text-uppercase text-secondary  text-center text-xxs font-weight-bolder opacity-7 ps-2">
                                         PARTICIPANTS
                                     </th>
                                 </tr>
@@ -119,18 +123,24 @@
                                                 </a></h6>
                                         </td>
                                         <td>
-                                            <h6 class="p-2 text-md">{{ $consultation->label }}</h6>
+                                            <h6 class="p-2 text-center text-md">{{ $consultation->label }}</h6>
                                         </td>
                                         <td>
-                                            <p class="text-xl  mb-0">
+                                            <p class="text-xl text-bold text-center  mb-0">
                                                 {{ ucwords(Carbon::parse($consultation->date_heure)->translatedFormat('j F Y / H:i')) }}
                                             </p>
 
                                         </td>
-                                        <td>
+                                        <td class="">
+                                            <p class="text-xl text-bold text-center mb-0">
+                                              {{$consultation->candidats->count() }} /    {{$consultation->nombre_candidats }}
+                                            </p>
+
+                                        </td>
+                                        <td class="text-center">
                                             @if ($consultation->candidats->isNotEmpty())
                                                 <a href="{{ url('Consultation/' . $consultation->id) }}">
-                                                    <button class="btn bg-gradient-dark">
+                                                    <button class="btn bg-gradient-dark ">
                                                         Voir les candidat(s)
                                                     </button>
                                                 </a>
