@@ -82,10 +82,14 @@
 
 
                             </div>
-                            <button id="filterToday" class="btn bg-gradient-dark">Aujourd'hui</button>
-                            <button id="filterThisWeek" class="btn bg-gradient-dark">Cette semaine</button>
-                            <button id="filterThisMonth" class="btn bg-gradient-dark">Ce mois</button>
-                        </div>
+                            <div class="d-flex align-items-center justify-content-around w-50">
+
+                                <button id="all" class="btn btn-primary">Voir tout</button>
+                                <button id="todayButton" class="btn btn-primary">Aujourd'hui</button>
+                                <button id="thisWeekButton" class="btn btn-primary filter-btn">Cette semaine</button>
+                                <button id="thisMonthButton" class="btn btn-primary filter-btn">Ce Mois</button>
+                            </div>
+                             </div>
                     </div>
                     <div class="table-responsive p-0" style=" max-height: 700px; overflow-y: auto;">
                         <table class="table align-items-center justify-content-center mb-0" id="consultationTable">
@@ -114,8 +118,9 @@
                             </thead>
                             <tbody>
                                 @foreach ($consultations as $consultation)
-                                    <tr data-candidat-id="{{ $consultation->id }}"
-                                        class="{{ Carbon::parse($consultation->date_heure)->isPast() ? 'table-danger' : '' }}">
+                                    <tr data-candidat-id="{{ $consultation->id }}  "
+                                        class="{{ Carbon::parse($consultation->date_heure)->isPast() ? 'table-danger' : '' }}"   data-date="{{ Carbon::parse($consultation->date_heure)->format('Y-m-d') }}">
+                                        
                                         <td>
                                             <h6 class="p-4 text-md"> <a href="{{ $consultation->lien_zoom }}"
                                                     target="_blank">
@@ -168,7 +173,75 @@
         </div>
 
 
+<script>
+      document.addEventListener("DOMContentLoaded", function() {
+            // Sélectionnez le bouton "Voir tout"
+            const allButton = document.querySelector('#all');
 
+            // Sélectionnez toutes les lignes du tableau
+            const rows = document.querySelectorAll('tbody tr');
+
+            // Ajoutez un écouteur d'événements au bouton "Voir tout"
+            allButton.addEventListener('click', function() {
+                // Parcourez toutes les lignes et affichez-les
+                rows.forEach(function(row) {
+                    row.style.display = '';
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Sélectionnez les boutons de filtre
+            const todayButton = document.querySelector('#todayButton');
+            const thisWeekButton = document.querySelector('#thisWeekButton');
+            const thisMonthButton = document.querySelector('#thisMonthButton');
+
+            // Sélectionnez toutes les lignes du tableau
+            const rows = document.querySelectorAll('tbody tr');
+
+            // Fonction pour filtrer les rendez-vous en fonction de la date
+            function filterAppointments(dateFilter) {
+                const currentDate = new Date();
+
+                // Définir la date de début de la semaine actuelle
+                const startOfWeek = new Date(currentDate);
+                startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+
+                // Définir la date de fin de la semaine actuelle
+                const endOfWeek = new Date(currentDate);
+                endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+                rows.forEach(function(row) {
+                    const rowDate = new Date(row.getAttribute('data-date'));
+
+                    if (dateFilter === 'today' && rowDate.toDateString() === currentDate.toDateString()) {
+                        row.style.display = '';
+                    } else if (dateFilter === 'thisWeek' && rowDate >= startOfWeek && rowDate <=
+                        endOfWeek) {
+                        row.style.display = '';
+                    } else if (dateFilter === 'thisMonth' && rowDate.getMonth() === currentDate
+                        .getMonth()) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+
+            // Ajoutez des écouteurs d'événements aux boutons de filtre
+            todayButton.addEventListener('click', function() {
+                filterAppointments('today');
+            });
+
+            thisWeekButton.addEventListener('click', function() {
+                filterAppointments('thisWeek');
+            });
+
+            thisMonthButton.addEventListener('click', function() {
+                filterAppointments('thisMonth');
+            });
+        });
+</script>
         <script async defer src="https://buttons.github.io/buttons.js"></script>
         <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 
