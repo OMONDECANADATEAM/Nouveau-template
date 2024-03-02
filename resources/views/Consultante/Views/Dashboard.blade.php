@@ -32,19 +32,19 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-     <!-- CSS Files -->
-     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-     <!-- DataTables CSS -->
-     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-     <!-- Popper.js -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-     <!-- Bootstrap JS -->
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-     <!-- DataTables JS -->
-     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-     <script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
-     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+    <!-- CSS Files -->
+    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <!-- Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -79,13 +79,13 @@
                                     class="form-control text-dark  text-lg bg-transparent border-0 p-1"
                                     placeholder="Recherche...">
 
-                                    
+
 
                             </div>
                             <button id="filterToday" class="btn bg-gradient-dark">Aujourd'hui</button>
-<button id="filterThisWeek" class="btn bg-gradient-dark">Cette semaine</button>
-<button id="filterThisMonth" class="btn bg-gradient-dark">Ce mois</button>
-                           </div>
+                            <button id="filterThisWeek" class="btn bg-gradient-dark">Cette semaine</button>
+                            <button id="filterThisMonth" class="btn bg-gradient-dark">Ce mois</button>
+                        </div>
                     </div>
                     <div class="table-responsive p-0" style=" max-height: 700px; overflow-y: auto;">
                         <table class="table align-items-center justify-content-center mb-0" id="consultationTable">
@@ -102,7 +102,7 @@
                                         class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7 ps-2">
                                         DATE ET HEURE
                                     </th>
-                                     <th
+                                    <th
                                         class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7 ps-2">
                                         NOMBRE DE PARTICIPANTS
                                     </th>
@@ -133,7 +133,8 @@
                                         </td>
                                         <td class="">
                                             <p class="text-xl text-bold text-center mb-0">
-                                              {{$consultation->candidats->count() }} /    {{$consultation->nombre_candidats }}
+                                                {{ $consultation->candidats->count() }} /
+                                                {{ $consultation->nombre_candidats }}
                                             </p>
 
                                         </td>

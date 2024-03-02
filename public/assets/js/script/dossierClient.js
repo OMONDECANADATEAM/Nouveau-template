@@ -35,6 +35,43 @@
             }
         });
     }
+    function ajouterFichiersConsultante(candidatId) {
+        var form = $('#ajouterFichierForm' + candidatId)[0];
+        var formData = new FormData(form);
+
+        // Log the form data to the console
+        console.log("Form Data:", formData);
+
+        $.ajax({
+            type: 'POST',
+            url: '/Consultante/DossierClient/AjouterFichiersCandidat/' + candidatId,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response && response.message) {
+                    alert(response.message);
+
+                    // Fermer le modal après un ajout réussi
+                    $('#ajouterFichierModal' + candidatId).modal('hide');
+
+                    // Actualiser la page pour afficher les changements
+                    location.reload();
+                } else {
+                    console.error('Erreur lors de l\'ajout des fichiers: ' + (response ? response.message :
+                        'Réponse non valide'));
+                }
+            },
+
+            error: function (xhr, status, error) {
+                console.error('Erreur AJAX: ' + status + ', ' + error);
+
+                // Ajouter une gestion d'erreur supplémentaire si nécessaire
+                alert('Erreur lors de la communication avec le serveur. Veuillez réessayer plus tard.');
+            }
+        });
+    }
+
 
     function filterCards() {
         var searchText = document.getElementById('searchInput').value.toLowerCase();
