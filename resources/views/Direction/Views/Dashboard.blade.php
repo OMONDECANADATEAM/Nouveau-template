@@ -41,7 +41,7 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         @php
-            use Carbon\Carbon ;
+            use Carbon\Carbon;
             setlocale(LC_TIME, 'fr_FR.utf8'); // Définir la localisation en français
             $moisActuel = ucfirst(Carbon::now()->formatLocalized('%B'));
         @endphp
@@ -52,13 +52,14 @@
 
         @include('Direction.Partials.ChartEnsemble')
 
-          </main>
+
+    </main>
 
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
 </body>
 
- @include('partials.plugin')
+@include('partials.plugin')
 
 
 </html>
