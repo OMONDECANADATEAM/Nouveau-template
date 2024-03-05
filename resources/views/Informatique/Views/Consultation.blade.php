@@ -38,7 +38,7 @@
     @include('partials.header' , ['page' => 'CONSULTATIONS'])
     <!-- End Navbar -->
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 ">
           <div class="card my-4">
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div
@@ -60,9 +60,9 @@
               </div>
 
               <div class="card-body px-0 pb-2">
-                <div class="table-responsive p-0"  style="max-height: 700px;">
+                <div class="table-responsive p-0 "  style="max-height: 700px;">
                     <table class="table align-items-center justify-content-center mb-0">
-                        <thead>
+                        <thead class="col-xs-12">
                             <tr>
                                 <th class="text-uppercase text-secondary  text-xxs font-weight-bolder opacity-7">
                                     LABEL
