@@ -18,11 +18,11 @@ class DirectionController extends Controller
     public function Dashboard()
 {
     setlocale(LC_TIME, 'fr_FR.utf8');
-    $donneesSuccursales = $this->allSuccursalle();
+   
     $donneesCandidat = $this->getAllCandidatsData();
     // Passez les données à la vue
     return view('Direction.Views.Dashboard', [
-        'donneesSuccursales' => $donneesSuccursales ,
+        
         'donneesCandidat' => $donneesCandidat
     ]);
 }
@@ -51,17 +51,13 @@ public function getAllCandidatsData()
 }
 
 
-private function allSuccursalle()
+public function dataSuccursale()
 {
     // Obtenez le mois actuel
     $moisActuel = now()->format('m');
-    
     // Obtenez la liste des succursales
     $succursales = Succursale::where('label', '!=', 'Canada')->get();
-
-
     $donneesSuccursales = [];
-
     // Itérez sur chaque succursale
     foreach ($succursales as $succursale) {
         // Obtenez le total du mois en cours pour la succursale actuelle (entrées)
@@ -70,29 +66,30 @@ private function allSuccursalle()
                 $query->where('id_succursale', $succursale->id);
             })
             ->sum('montant');
-
         // Obtenez le total du mois en cours pour les dépenses de la succursale actuelle
         $totalDepenses = Depense::whereMonth('date', $moisActuel)
             ->whereHas('utilisateur', function ($query) use ($succursale) {
                 $query->where('id_succursale', $succursale->id);
             })
             ->sum('montant');
-
         // Déterminez la devise en fonction de la succursale
         $devise = ($succursale->id == 4) ? '$' : 'FCFA';
-
         // Stockez les totaux dans le tableau associatif
-        $donneesSuccursales[$succursale->label] = [
+        $donneesSuccursales[] = [
+            'id' => $succursale->id, // Ajoutez l'ID de la succursale ici
+            'label' => $succursale->label,
             'totalEntrant' => $totalEntrant ,
             'totalDepenses' => $totalDepenses ,
+            'totalCaisse' => $totalEntrant - $totalDepenses ,
             'devise' => $devise ,
             // Ajoutez d'autres données si nécessaire
         ];
     }
-
-    // Retournez le tableau associatif
-    return $donneesSuccursales;
+    // Retournez le tableau sous forme de JSON
+    return response()->json($donneesSuccursales);
 }
+
+
     
         
     public function Banque()

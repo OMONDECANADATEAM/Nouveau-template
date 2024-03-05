@@ -290,8 +290,6 @@
                     table.column(2).search(statuts, true, false).draw(); // Apply filter to column 2 (Statut)
                 });
 
-
-
             });
         </script>
         <script>
