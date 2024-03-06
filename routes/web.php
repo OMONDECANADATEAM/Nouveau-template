@@ -71,6 +71,7 @@ Route::post('/Consultante/DossierClient/AjouterFichiersCandidat/{candidatId}', [
 
 //Route Direction
 Route::get('/Direction/Dashboard', [DirectionController::class, 'Dashboard'])->name('Direction.Dashboard');
+Route::get('/Direction/Dashboard/DataSuccursale', [DirectionController::class, 'dataSuccursale'])->name('Direction.Data');;
 Route::get('/Direction/Banque', [DirectionController::class, 'Banque'])->name('Direction.Banque');
     Route::get('/Direction/ChartEnsemble', [DirectionController::class, 'ChartData']);
 Route::get('/Direction/Consultation', [DirectionController::class, 'Consultation'])->name('Direction.Consultation');

@@ -108,10 +108,7 @@ class CommercialController extends Controller
 
         // Récupérez les données de la base de données pour la semaine actuelle
         $data = Candidat::whereBetween('date_enregistrement', [$debutSemaine, $finSemaine])
-            ->whereHas('utilisateur', function ($query) use ($utilisateurConnecte) {
-                // Filtrer par l'id de succursale de l'utilisateur connecté
-                $query->where('id_succursale', $utilisateurConnecte->id_succursale);
-            })
+            ->where('id_utilisateur', $utilisateurConnecte) 
             ->selectRaw('DATE_FORMAT(date_enregistrement, "%W") as jour_semaine, COUNT(*) as nombre_visites')
             ->groupBy('jour_semaine')
             ->get();
@@ -246,13 +243,11 @@ class CommercialController extends Controller
 
     public function allCandiatWithRendezVous()
     {
-         // Obtenir l'utilisateur connecté
-         $idSuccursaleUtilisateur = auth()->user()->id_succursale;
+       
 
          // Obtenir les données des candidats liés à la succursale de l'utilisateur
-         $candidats = Candidat::whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
-             $query->where('id_succursale', $idSuccursaleUtilisateur);
-         })-> whereNotNull('date_rdv')
+         $candidats = Candidat::where('id_utilisateur', auth()->user()->id) 
+            -> whereNotNull('date_rdv')
             ->orderBy('date_rdv', 'desc')
             ->get();
     
