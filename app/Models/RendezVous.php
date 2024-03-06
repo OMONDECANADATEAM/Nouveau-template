@@ -11,7 +11,7 @@ class RendezVous extends Model
 
     protected $table = 'rdv';
     public $timestamps = false;
-    protected $fillable = ['date_rdv', 'candidat_id', 'commercial_id' , 'rdv_effectue' , 'consultation_payee'];
+    protected $fillable = ['date_rdv', 'candidat_id', 'commercial_id' , 'rdv_effectue' , 'consultation_payee' , 'date_enregistrement_appel'];
 
     /**
      * Relation avec le modèle Candidat
