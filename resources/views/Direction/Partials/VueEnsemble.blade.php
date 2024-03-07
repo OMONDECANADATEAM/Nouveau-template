@@ -111,6 +111,8 @@
 
 <!-- Your HTML and PHP code -->
 
+<!-- Your HTML and PHP code -->
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     var allData; // Variable pour stocker toutes les données de succursale
@@ -156,13 +158,20 @@
                     totalEntrant: 0,
                     totalDepenses: 0,
                     totalCaisse: 0,
-                    devise: selectedData[0].devise, // Supposons que toutes les succursales utilisent la même devise
+                    devise: 'FCFA', // Supposons que toutes les succursales utilisent la même devise en CFA
                     selectedLabels: selectedData.map(function (succursale) {
                         return succursale.label;
                     }).join(', ')
                 };
 
                 selectedData.forEach(function (data) {
+                    // Convert amounts to CFA if the devise is not FCFA
+                    if (data.devise !== 'FCFA') {
+                        data.totalEntrant *= 500; // Assuming 1 $ = 500 FCFA
+                        data.totalDepenses *= 500;
+                        data.totalCaisse *= 500;
+                    }
+
                     totalData.totalEntrant += data.totalEntrant;
                     totalData.totalDepenses += data.totalDepenses;
                     totalData.totalCaisse += data.totalCaisse;
