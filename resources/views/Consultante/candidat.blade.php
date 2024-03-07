@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
 
-    <title>Omonde Canada CRM | FICHE DE CONSULTATION
+    <title>OMONDE CANADA CRM | FICHE DE CONSULTATION
     </title>
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -101,7 +101,7 @@
                             16 => 'Depuis quand ?',
                             17 => 'Quel programme ? Et quelle a été la décision ?',
                             18 => 'Avez-vous un diplôme d\'études (secondaire, professionnel, universitaire) ?',
-                            19 => "Quelle est l'année du dernier diplôme obtenu ?",
+                            19 => "Quelle est le du dernier diplôme obtenu ?",
                             20 => 'Avez-vous un membre de votre famille déjà au Canada ?',
                             21 => 'Comptez-vous immigrer seul(e) ou en famille ?',
                             22 => 'Parlez-vous d\'autres langues à part le français ?',
