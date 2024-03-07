@@ -61,7 +61,7 @@ class DateConsultationNotification extends Notification
              $mailMessage->line('Votre consultation a été reprogrammée pour le ' . $this->dateConsultation . ' à ' . $this->heureConsultation);
          }
      
-         $mailMessage->line('Cliquer sur ce lien pour vous connecter a la consultation' . $this->lienZoom)
+         $mailMessage->line('Cliquer sur ce lien pour vous connecter a la consultation ' . $this->lienZoom)
          ->line('Vous pouvez contacter votre agent de suivi pour plus d\'information ,')
              ->salutation('Au plaisir de vous faire sentir partout au monde comme chez vous !');
      
