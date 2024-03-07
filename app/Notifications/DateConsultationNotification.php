@@ -16,14 +16,16 @@ class DateConsultationNotification extends Notification
     public $firstTime;
     public $dateConsultation;
     public $heureConsultation;
+    public $lienZoom;
     
-    public function __construct($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation)
+    public function __construct($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation ,$lienZoom)
     {
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->firstTime = $firstTime;
         $this->dateConsultation = $dateConsultation;
         $this->heureConsultation = $heureConsultation;
+        $this->lienZoom = $lienZoom;
     }
     
     /**
@@ -59,7 +61,8 @@ class DateConsultationNotification extends Notification
              $mailMessage->line('Votre consultation a été reprogrammée pour le ' . $this->dateConsultation . ' à ' . $this->heureConsultation);
          }
      
-         $mailMessage->line('Vous pouvez contacter votre agent de suivi pour plus d\'information ,')
+         $mailMessage->line('Cliquer sur ce lien pour vous connecter a la consultation' . $this->lienZoom)
+         ->line('Vous pouvez contacter votre agent de suivi pour plus d\'information ,')
              ->salutation('Au plaisir de vous faire sentir partout au monde comme chez vous !');
      
          return $mailMessage;

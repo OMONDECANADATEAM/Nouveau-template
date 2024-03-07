@@ -426,7 +426,7 @@ class AdministratifController extends Controller
         Candidat::where('id', $candidatId)->update(['id_info_consultation' => $consultationId]);
 
       
-        Notification::route('mail', $candidat->email)->notify(new DateConsultationNotification ($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation));
+        Notification::route('mail', $candidat->email)->notify(new DateConsultationNotification ($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation ,$consultation->lien_zoom));
         // Rediriger ou retourner la réponse en fonction de vos besoins
         return redirect()->back()->with('success', 'Consultation mise à jour avec succès');
     }

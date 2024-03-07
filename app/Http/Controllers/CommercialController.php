@@ -33,31 +33,25 @@ class CommercialController extends Controller
         Carbon::setLocale('fr');
         $jourActuel = Carbon::now()->translatedFormat('d F Y');
         $moisActuel = Carbon::now()->monthName;
-
         // Récupère l'utilisateur connecté
         $utilisateurConnecte = auth()->user();
-
-        // Calcule le nombre de candidats de l'utilisateur dans le jour actuel
-        $totalAppelDeCeJour = Candidat::whereDay('date_enregistrement', Carbon::now()->day)
-            ->whereMonth('date_enregistrement', Carbon::now()->month)
-            ->whereYear('date_enregistrement', Carbon::now()->year)
-            ->whereHas('utilisateur', function ($query) use ($utilisateurConnecte) {
-                $query->where('id', $utilisateurConnecte->id);
-            })
+        // Calcule le nombre de rendez-vous de l'utilisateur dans le jour actuel
+        $totalAppelDeCeJour = RendezVous::whereDate('date_enregistrement_appel', Carbon::now())
+            ->where('commercial_id' , $utilisateurConnecte->id )
             ->count();
-
         return compact('totalAppelDeCeJour', 'jourActuel', 'moisActuel');
     }
-
+    
+    
     private function visiteCount()
     {
         // Récupère l'utilisateur connecté
         $utilisateurConnecte = auth()->user();
 
         // Calcule le nombre de candidats de l'utilisateur avec une date de rendez-vous non vide pour le mois et l'année actuels
-        $totalVisiteAujourdhui = Candidat::where('id_utilisateur', $utilisateurConnecte->id)
+        $totalVisiteAujourdhui = RendezVous::whereDate('date_enregistrement_appel', Carbon::now())
+        ->where('commercial_id' , $utilisateurConnecte->id )
         ->whereNotNull('date_rdv')
-        ->whereDate('date_rdv', Carbon::now())  
         ->count();
     
         return compact('totalVisiteAujourdhui');
