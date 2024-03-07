@@ -50,6 +50,45 @@ public function getAllCandidatsData()
     return $candidatsPagines;
 }
 
+public function dataSuccursale()
+{
+    // Obtenez le mois actuel
+    $moisActuel = now()->format('m');
+    // Obtenez la liste des succursales
+    $succursales = Succursale::where('label', '!=', 'Canada')->get();
+    $donneesSuccursales = [];
+    // Itérez sur chaque succursale
+    foreach ($succursales as $succursale) {
+        // Obtenez le total du mois en cours pour la succursale actuelle (entrées)
+        $totalEntrant = Entree::whereMonth('date', $moisActuel)
+            ->whereHas('utilisateur', function ($query) use ($succursale) {
+                $query->where('id_succursale', $succursale->id);
+            })
+            ->sum('montant');
+        // Obtenez le total du mois en cours pour les dépenses de la succursale actuelle
+        $totalDepenses = Depense::whereMonth('date', $moisActuel)
+            ->whereHas('utilisateur', function ($query) use ($succursale) {
+                $query->where('id_succursale', $succursale->id);
+            })
+            ->sum('montant');
+        // Déterminez la devise en fonction de la succursale
+        $devise = ($succursale->id == 4) ? '$' : 'FCFA';
+        // Stockez les totaux dans le tableau associatif
+        $donneesSuccursales[] = [
+            'id' => $succursale->id, // Ajoutez l'ID de la succursale ici
+            'label' => $succursale->label,
+            'totalEntrant' => $totalEntrant ,
+            'totalDepenses' => $totalDepenses ,
+            'totalCaisse' => $totalEntrant - $totalDepenses ,
+            'devise' => $devise ,
+            // Ajoutez d'autres données si nécessaire
+        ];
+    }
+    // Retournez le tableau sous forme de JSON
+    return response()->json($donneesSuccursales);
+}
+
+
 
 private function allSuccursalle()
 {
