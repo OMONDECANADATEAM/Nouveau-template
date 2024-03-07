@@ -14,27 +14,47 @@
                         </div>
                         <p class="text-xl text-bold mb-0 text-capitalize">Entree - PAYS</p>
                     </div>
-                    <div class="text-end">
-                        <p class="text-lg mb-0 text-capitalize">
-                            Caisse - {{ $succursaleId }}
-                        </p>
-                        <h3 class="mb-0 pt-1 text-bold">{{ number_format($totals['totalEntrant'], 0, '.', ' ') }} {{ $totals['devise']}}</h4>
+                    <div class="card-body">
+                        <div class="text-end">
+                            <h3 class="mb-0 pt-2">montant</h3>
+                        </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-3">
+                        <div class="progress mt-2">
+                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                style="width: {{ (100 / 100) * 100 }}%; ; height:100%;"
+                                aria-valuenow="{{ 40 }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-header1 p-3 pt-2 d-flex justify-content-between">
+                        <div
+                            class="icon icon-md icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl mt-n4">
+                            <i class="material-icons opacity-10">arrow_downward</i>
+                        </div>
+                        <p class="text-xl text-bold mb-0 text-capitalize">Depenses - Pays</p>
     
-            <!-- Dépenses -->
-            <div class="card rounded-3 mt-3" style="height: 8rem;">
-                <div class="card-header p-3 pt-2">
-                    <div class="icon icon-md icon-shape bg-gradient-danger shadow-dark text-center border-radius-xl mt-n2 position-absolute">
-                        <i class="material-icons opacity-10">money_off</i>
                     </div>
-                    <div class="text-end">
-                        <p class="text-lg mb-0 text-capitalize">
-                            Dépenses - {{ $succursaleId }}
-                        </p>
-                        <h3 class="mb-0 pt-2 text-bold">{{ number_format($totals['totalDepenses'], 0, '.', ' ') }} {{ $totals['devise']}} </h4>
+                    <div class="card-body">
+                        <div class="text-end">
+    
+                            <h3 class="mb-0 pt-2">MONTANT</h3>
+                        </div>
                     </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-3">
+                        <div class="progress mt-2">
+                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                style="width: {{ (100 / 100) * 100 }}%; ; height:100%;" aria-valuenow="{{ 40 }}"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+    
+                    </div>
+    
                 </div>
             </div>
     
@@ -82,9 +102,16 @@
             @endforeach
         </div>
 
+        
+
+       
+    </div>
 </div>
+<!-- Your HTML and PHP code -->
 
+<!-- Your HTML and PHP code -->
 
+<!-- Your HTML and PHP code -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
