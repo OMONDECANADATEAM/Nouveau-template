@@ -132,7 +132,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         @foreach ($sectionQuestions as $index => $key)
-                                            @if ($sectionTitle === '1ère section' && $index === 0)
+                                            @if ($index === 0)
                                                 <div class="col-md-12 mb-2">
                                             @else
                                                 <div class="col-md-4 mb-2">
