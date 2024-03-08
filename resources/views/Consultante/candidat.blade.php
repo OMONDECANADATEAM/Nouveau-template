@@ -156,9 +156,10 @@
                                                             {{ $consultation->ficheConsultation->type_visa ?? '' }}
                                                         </p>
                                                     @elseif ($key === 31)
-                                                        <p class="answer text-right text-bold text-xl fs-5 ">
-                                                            {{ $consultation->remarque_agent ?? '' }}
-                                                        </p>
+                                                    <p class="answer text-right text-bold text-xl fs-5" style="font-size:24px;">
+                                                        {{ $consultation->remarque_agent ?? '' }}
+                                                    </p>
+                                                    
                                                     @elseif ($key === 32)
                                                         <p class="answer text-right fs-5 text-capitalize mt-1">
                                                             {{ $consultation->remarque_consultante ?? '' }}
