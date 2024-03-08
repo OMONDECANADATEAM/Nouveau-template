@@ -134,7 +134,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             @foreach ($sectionQuestions as $key)
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-auto mb-2">
                                                     <strong
                                                         class="question d-block fs-5 mb-1">{{ $questions[$key] }}</strong>
 
