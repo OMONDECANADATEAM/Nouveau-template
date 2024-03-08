@@ -123,62 +123,62 @@
                     <div class="row">
                         <div class="col-12">
                             @foreach ($sections as $sectionTitle => $sectionQuestions)
-                                <div class="card my-4">
-                                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                        <div
-                                            class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
-                                            <h3 class="card-title text-white">{{ $sectionTitle }}</h3>
-                                        </div>
+                            <div class="card my-4">
+                                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                    <div class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
+                                        <h3 class="card-title text-white">{{ $sectionTitle }}</h3>
                                     </div>
-
-                                    <div class="card-body">
-                                        <div class="row">
-                                            @foreach ($sectionQuestions as $key)
-                                                <div class="col-md-6 mb-2">
-                                                    <strong
-                                                        class="question d-block fs-5 mb-1">{{ $questions[$key] }}</strong>
-
-                                                    @if ($key === 1)
-                                                        <p class="answer text-right fs-5 text-capitalize">
-                                                            {{ $consultation->nom ?? '' }}
-                                                            {{ $consultation->prenom ?? '' }}
-                                                        </p>
-                                                    @elseif ($key === 2)
-                                                        <p class="answer text-right fs-5 text-capitalize">
-                                                            {{ $consultation->date_naissance ? now()->diffInYears($consultation->date_naissance) . ' An(s)' : '' }}
-                                                        </p>
-                                                    @elseif ($key === 3)
-                                                        <p class="answer text-right fs-5 text-capitalize">
-                                                            {{ $consultation->pays ?? '' }}
-                                                        </p>
-                                                    @elseif ($key === 4)
-                                                        <p class="answer text-right fs-5 text-capitalize">
-                                                            {{ $consultation->ficheConsultation->type_visa ?? '' }}
-                                                        </p>
-                                                    @elseif ($key === 31)
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        @foreach ($sectionQuestions as $index => $key)
+                                            @if ($sectionTitle === '1ère section' && $index === 0)
+                                                <div class="col-md-12 mb-2">
+                                            @else
+                                                <div class="col-md-4 mb-2">
+                                            @endif
+                                                <strong class="question d-block fs-5 mb-1">{{ $questions[$key] }}</strong>
+                                                @if ($key === 1)
+                                                    <p class="answer text-right fs-5 text-capitalize">
+                                                        {{ $consultation->nom ?? '' }}
+                                                        {{ $consultation->prenom ?? '' }}
+                                                    </p>
+                                                @elseif ($key === 2)
+                                                    <p class="answer text-right fs-5 text-capitalize">
+                                                        {{ $consultation->date_naissance ? now()->diffInYears($consultation->date_naissance) . ' An(s)' : '' }}
+                                                    </p>
+                                                @elseif ($key === 3)
+                                                    <p class="answer text-right fs-5 text-capitalize">
+                                                        {{ $consultation->pays ?? '' }}
+                                                    </p>
+                                                @elseif ($key === 4)
+                                                    <p class="answer text-right fs-5 text-capitalize">
+                                                        {{ $consultation->ficheConsultation->type_visa ?? '' }}
+                                                    </p>
+                                                @elseif ($key === 31)
                                                     <h2 class="answer text-right text-bold text-xl fs-5" style="font-size:4rem;">
                                                         {{ $consultation->remarque_agent ?? '' }}
                                                     </h2>
-                                                    
-                                                    @elseif ($key === 32)
-                                                        <p class="answer text-right fs-5 text-capitalize mt-1">
-                                                            {{ $consultation->remarque_consultante ?? '' }}
-                                                        </p>
-                                                    @elseif ($key === 33)
-                                                        <a href="{{ asset('storage/' . $consultation->ficheConsultation->lien_cv) }}"
-                                                            class="btn btn-primary" target="_blank">Afficher le CV</a>
-                                                    @else
-                                                        {{-- For other questions, get the data from the "fiche consultation" table --}}
-                                                        <p class="answer text-right fs-5 text-capitalize">
-                                                            {{ $consultation->ficheConsultation->{'reponse' . ($key - 4)} ?? '' }}
-                                                        </p>
-                                                    @endif
-                                                </div>
-                                            @endforeach
-                                        </div>
+                                                @elseif ($key === 32)
+                                                    <p class="answer text-right fs-5 text-capitalize mt-1">
+                                                        {{ $consultation->remarque_consultante ?? '' }}
+                                                    </p>
+                                                @elseif ($key === 33)
+                                                    <a href="{{ asset('storage/' . $consultation->ficheConsultation->lien_cv) }}"
+                                                    class="btn btn-primary" target="_blank">Afficher le CV</a>
+                                                @else
+                                                    {{-- For other questions, get the data from the "fiche consultation" table --}}
+                                                    <p class="answer text-right fs-5 text-capitalize">
+                                                        {{ $consultation->ficheConsultation->{'reponse' . ($key - 4)} ?? '' }}
+                                                    </p>
+                                                @endif
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
+                            </div>
                             @endforeach
+                            
 
                             <div class="row d-flex justify-content-center align-items-center">
                                 <div class="col-md-11 mt-3 mb-3 d-flex justify-content-between">
