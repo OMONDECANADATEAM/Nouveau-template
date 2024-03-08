@@ -75,11 +75,12 @@
 
                     @php
                         $sections = [
+                            'Resumé du profil' => [31]
                             'Identité du candidat' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
                             'Statut professionnel' => [12, 13, 14, 15, 16, 17],
                             'informations supplémentaires' => [18, 19, 20, 21, 22, 23, 24],
                             'Informations sur le conjoint' => [25, 26, 27, 28, 29, 30],
-                            'CV et remarques' => [31, 32, 33],
+                            'CV et remarques' => [ 32, 33],
                         ];
 
                         $questions = [
@@ -113,7 +114,7 @@
                             28 => 'Niveau en anglais',
                             29 => 'Quel est l\'âge de vos enfants ?',
                             30 => 'Quel est leur niveau de scolarité ?',
-                            31 => 'Remarque agent ',
+                            31 => '',
                             32 => 'Remarque consultante',
                             33 => 'CV',
                         ];
