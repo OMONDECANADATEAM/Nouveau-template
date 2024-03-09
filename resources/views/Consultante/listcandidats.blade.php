@@ -53,8 +53,7 @@
                         <div
                             class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
                             <h3 class="text-white text-capitalize p-2">Consultation du
-                                {{ ucfirst(\Carbon\Carbon::parse($info_consultation->date_heure)->translatedFormat('d F Y')) }}
-
+                               {{$info_consultation->date_heure}}
                             </h3>
                         </div>
                     </div>
@@ -86,15 +85,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($info_consultation->candidats as $candidat)
-                                    @php
-                                        $consultationStatusClass = $candidat->consultation_effectuee ? 'table-success' : '';
-                                    @endphp
-
+                                  @foreach ($info_consultation->candidats as $candidat)
+             
                                     <tr data-candidat-id="{{ $candidat->id }}">
                                         <td class="text-md text-bold ps-4" style="width: 5%;">
-                                            N° {{ $candidat->id }}
-                                        </td>
+                                            N° {{ $loop->iteration }} <!-- Utilisez $loop->iteration pour obtenir le numéro d'ordre actuel -->
+                                            </td>
                                         <td class="text-md  ps-4" style="width: 15%;">
                                             {{ $candidat->nom }}
                                         </td>

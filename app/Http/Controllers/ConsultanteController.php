@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Candidat;
 use App\Models\consultante;
 use App\Models\InfoConsultation;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ConsultanteController extends Controller
@@ -18,16 +19,25 @@ class ConsultanteController extends Controller
     }
 
     public function getListCandidatByConsultation($id)
-    {
-        // Récupérer la consultation par son ID
-        $info_consultation = InfoConsultation::find($id);
+{
+    // Récupérer la consultation par son ID
+    $info_consultation = InfoConsultation::find($id);
 
-        // Récupérer la liste des consultations liées (exemple : consultations du même patient)
-        $consultationsList = Candidat::where('id_info_consultation', $info_consultation->id)
-            ->get();
+    // Formater la date de la consultation
+    $info_consultation->date_heure = ucfirst(Carbon::parse($info_consultation->date_heure)->translatedFormat('d F Y'));
 
-        return view('Consultante.listcandidats', compact('info_consultation', 'consultationsList'));
-    }
+    // Récupérer la liste des candidats liés à la consultation, triés par date de paiement
+    $info_consultation->load(['candidats' => function ($query) {
+        $query->join('entree', 'candidat.id', '=', 'entree.id_candidat')
+            ->where('entree.id_type_paiement', 2)
+            ->orderBy('entree.date', 'desc')
+            ->select('candidat.*');
+    }]);
+
+    return view('Consultante.listcandidats', compact('info_consultation'));
+}
+
+    
 
     public function getCandidatByConsultation($id, $id_candidat)
     {

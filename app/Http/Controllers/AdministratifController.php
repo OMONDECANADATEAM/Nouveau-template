@@ -135,7 +135,8 @@ class AdministratifController extends Controller
     //Ramene les 3 prochaines consultations
     public function prochaineConsultation()
     {
-        $consultations = InfoConsultation::where('date_heure', '>', Carbon::now())
+        $consultations = InfoConsultation::where('date_heure', '>=', Carbon::today())
+            ->where('date_heure', '<', Carbon::tomorrow())
             ->latest('date_heure')
             ->take(4)
             ->get();
@@ -529,16 +530,14 @@ class AdministratifController extends Controller
     public function Consultation()
     {
         Carbon::setLocale('fr');
-        $consultations = InfoConsultation::all();
-
+        $consultations = InfoConsultation::orderBy('date_heure', 'desc')->get();
         foreach ($consultations as $consultation) {
             $formattedDate = Carbon::parse($consultation->date_heure)->translatedFormat('l j F Y');
             $consultation->date_heure_formatee = ucwords($formattedDate);
         }
-
         return view('Administratif.Views.Consultation', compact('consultations'));
     }
-
+    
     public function aucunVersement()
     {
         // Récupérez l'ID de l'utilisateur actuel

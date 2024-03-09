@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
 
-    <title>Omonde Canada CRM | FICHE DE CONSULTATION
+    <title>OMONDE CANANDA CRM | FICHE DE CONSULTATION
     </title>
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
