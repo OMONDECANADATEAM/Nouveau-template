@@ -28,12 +28,14 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- Assurez-vous que le chemin est correct en fonction de votre structure de dossiers -->
-<link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-<script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
+    
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+
 
 
     <!-- CSS Files -->
-   </head>
+</head>
 
 <body class="bg-gray-200">
     <div class="container position-sticky z-index-sticky top-0">
@@ -63,12 +65,12 @@
                                 <form method="POST" action="{{ route('connexion.form') }}" role="form"
                                     class="text-start">
                                     @csrf
-                                    <div class="input-group input-group-outline my-3">
+                                    <div class="my-3">
                                         <label class="form-label">Email</label>
                                         <input type="email" class="form-control" name="email"
                                             value="{{ old('email') }}" required autofocus>
                                     </div>
-                                    <div class="input-group input-group-outline mb-3">
+                                    <div class="mb-3">
                                         <label class="form-label">Mot de Passe</label>
                                         <input type="password" class="form-control" name="password" required>
                                     </div>
@@ -81,11 +83,7 @@
                                         <button type="submit"
                                             class="btn bg-gradient-primary w-100 my-4 mb-2">CONNEXION</button>
                                     </div>
-                                    <div class="mt-3">
-                                        <p class="text-muted text-sm">Vous n'avez pas de compte? <a
-                                                href="{{ route('creer-utilisateur.formulaire') }}">Créer un compte</a>
-                                        </p>
-                                    </div>
+
                                     {{-- Si la conexion a echoue --}}
                                     @if (session('error'))
                                         <div class="alert text-sm text-danger" role="alert">
@@ -102,23 +100,7 @@
     </main>
 
 
-  <!-- Assurez-vous que les chemins sont corrects en fonction de votre structure de dossiers -->
-<script src="{{ asset('assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
-<script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-<script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
 
-     <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
-            }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-        }
-    </script>
-    
 </body>
 
 </html>
