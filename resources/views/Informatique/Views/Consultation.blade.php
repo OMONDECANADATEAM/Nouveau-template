@@ -118,30 +118,21 @@
                                     </a>
                                 </div> 
                                 </td>
+
                                 <td class="d-flex align-items-center justify-content-center">
-                                    @if ($consultation->candidats->isNotEmpty())
-                                        <a href="Consultation/{{ $consultation->id }}">
-                                            <button class="btn bg-gradient-dark">
-                                                Voir les candidat(s)
-                                            </button>
-                                        </a>
-                                    @else
-                                        <a href="#">
-
-                                            <button class="btn bg-gradient-dark">
-                                                Voir les candidat(s)
-                                            </button>
-
-                                        </a>
-                                    @endif
+                                    <a href="{{ $consultation->candidats->isNotEmpty() ? 'Consultation/'.$consultation->id : '#' }}" class="btn bg-gradient-dark">
+                                    Voir les candidat(s)
+                                    </a>
                                 </td>
+                                
                                 <td class="align-middle">
-                                    <a href="{{ $consultation->lien_zoom_demarrer}}" target="blank" class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
+                                    <a href="{{ $consultation->lien_zoom_demarrer}}" target="blank" class="btn btn-link text-secondary " aria-haspopup="true" aria-expanded="false">
                                         <i class="material-icons">videocam</i>
                                     </a>
                                 </td>
                             
-                                
+                               
+                                    
                                 
                             </tr>
                             @endforeach
