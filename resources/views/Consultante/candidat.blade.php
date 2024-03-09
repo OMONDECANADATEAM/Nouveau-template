@@ -72,7 +72,6 @@
             <div class="col-12">
                 <div class="card my-4">
 
-
                     @php
                         $sections = [
                             'Identité du candidat' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -181,13 +180,17 @@
                             <div class="row d-flex justify-content-center align-items-center">
                                 <div class="col-md-11 mt-3 mb-3 d-flex justify-content-between">
                                     <div>
-                                        <a class="btn btn-dark mt-2" href="{{ $previousId ?? '#' }}" >Candidat précédent</a>
-                                                        </div>
+                                        <a class="btn btn-dark mt-2" href="{{ $previousId ?? '#' }}">Candidat
+                                            précédent</a>
+                                    </div>
                                     <div class="col-5 m-0">
-                                        <form action="{{ route('SaveRemarque', ['id' => $consultation->id]) }}" method="post" class="d-flex align-items-center justify-content-between flex-direction-column">
+                                        <form action="{{ route('SaveRemarque', ['id' => $consultation->id]) }}"
+                                            method="post"
+                                            class="d-flex align-items-center justify-content-between flex-direction-column">
                                             @csrf
                                             <div class="input-group input-group-outline mb-3 p-2">
-                                                <textarea name="consultant_opinion" id="consultant_opinion" class="form-control col-4" placeholder="Avis du consultant..." required style="height: 6rem">{{ old('consultant_opinion', $consultation->remarque_consultante ?? '') }}</textarea>
+                                                <textarea name="consultant_opinion" id="consultant_opinion" class="form-control col-4"
+                                                    placeholder="Avis du consultant..." required style="height: 6rem">{{ old('consultant_opinion', $consultation->remarque_consultante ?? '') }}</textarea>
                                                 @error('consultant_opinion')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
@@ -196,11 +199,11 @@
                                         </form>
                                     </div>
                                     <div>
-                                        <a class="btn btn-dark mt-2" href="{{ $nextId ?? '#' }}" >Candidat suivant</a>
+                                        <a class="btn btn-dark mt-2" href="{{ $nextId ?? '#' }}">Candidat suivant</a>
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
 
@@ -239,16 +242,10 @@
             });
         </script>
 
-@include('partials.plugin')
+        @include('partials.plugin')
 
 
-        <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
-        <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-        <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
-
+      
     </main>
 
 </body>

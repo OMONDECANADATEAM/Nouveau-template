@@ -8,7 +8,7 @@ use App\Models\InfoConsultation;
 
 use Illuminate\Http\Request;
 
-class consultationController extends Controller
+class ConsultationController extends Controller
 {
     
     public function toggleConsultation($candidatId)
@@ -41,9 +41,6 @@ class consultationController extends Controller
        // Récupérer la consultation par son ID
        $info_consultation = InfoConsultation::find($consultationId);
 
-   
-        
-    
         return view('Consultation.waitingList', ['data_candidat' =>  $info_consultation->candidats]);
     }
 

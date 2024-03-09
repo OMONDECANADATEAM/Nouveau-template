@@ -130,10 +130,7 @@
                                         <i class="material-icons">videocam</i>
                                     </a>
                                 </td>
-                            
-                               
-                                    
-                                
+                             
                             </tr>
                             @endforeach
                         </tbody>

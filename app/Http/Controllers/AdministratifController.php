@@ -299,7 +299,7 @@ class AdministratifController extends Controller
                 $nomFichier = 'CV' . $candidat->nom .  $candidat->prenom . '.' . $request->file('cv')->extension();
 
                 //NOM+PRENOMS+ID
-                $dossierPath = 'dossierClient/' . $candidat->nom . $candidat->prenom . $candidat->id;
+                $dossierPath = 'dossierClient/' . str_replace(' ', '', $candidat->nom) . str_replace(' ', '', $candidat->prenom) . $candidat->id;
 
                 if (!file_exists(storage_path('app/public/' . $dossierPath))) {
                     mkdir(storage_path('app/public/' . $dossierPath), 0755, true);

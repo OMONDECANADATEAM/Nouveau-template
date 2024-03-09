@@ -35,7 +35,7 @@
         @include('partials.header', ['page' => 'BIENVENUE CHEZ OMONDE CANADA'])
         <div class="col-12 d-flex align-items-top justify-content-center">
 
-            <div class="col-8 d-flex align-items-center m-1">
+            <div class="col-7 d-flex align-items-center m-1">
                 <iframe width="1000" height="500"
                     src="https://www.youtube.com/embed/NfcpZXCg3Mg?si=NXdEfWlTcesMglIu" title="YouTube video player"
                     frameborder="0"
@@ -45,7 +45,7 @@
             </div>
 
 
-            <div class="col-3">
+            <div class="col-4">
                 <div class="card my-4 bg-dark">
                     <div class="card-header">
                         <div class="d-flex align-items-center justify-content-between">
@@ -54,7 +54,7 @@
                                 <span class="text-uppercase text-dark text-xl font-weight-bolder opacity-7"
                                     id="candidatName"></span>
                             </div>
-                           
+
 
                             <span class="text- text-center text-dark text-xl font-weight-bolder opacity-7"
                                 id="candidatId"></span>
@@ -64,12 +64,12 @@
                         <h3 class="text-xl text-white font-weight-bold mb-0 mt-2" id="candidatNom"></h3>
                     </div>
                     <div class="col-12 d-flex align-items-center justify-content-end p-4">
-                        <button id="nextButton" class="btn btn-primary btn-sm">Next</button>
+                        <button id="nextButton" class="btn btn-primary btn-sm">Suivant</button>
                     </div>
 
                 </div>
             </div>
-          
+
             <script>
                 let currentIndex = 0;
                 const candidats = @json($data_candidat);
@@ -84,7 +84,7 @@
                     if (candidat) {
                         candidatNameElement.textContent = candidat.pays;
                         candidatNomElement.textContent = candidat.nom + " " + candidat.prenom;
-                        candidatIdElement.textContent = "N° " + candidat.id;
+                        candidatIdElement.textContent = "N° " + (currentIndex + 1);
                     } else {
                         candidatContainer.innerHTML = 'No more candidats.';
                     }
@@ -99,16 +99,8 @@
                 showCandidat(currentIndex);
             </script>
 
-
-          
-
-
-
         </div>
-        </tr>
-
-        </tbody>
-        </table>
+      
 
     </main>
 </body>

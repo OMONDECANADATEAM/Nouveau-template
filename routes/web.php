@@ -6,7 +6,7 @@ use App\Http\Controllers\DossierController;
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\EntreeController;
 use App\Http\Controllers\UtilisateurController;
-use App\Http\Controllers\consultationController;
+use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Controller;
@@ -28,12 +28,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('Connexion.connexionPage');
 });
-
 // web.php
 
 //Route Qui Ramene la page d'acceuil
 Route::get('Dashboard', [HomeController::class, 'index'])->name('Dashboard');
-
 
 //Routes Commercial
 Route::get('/Commercial/Dashboard', [CommercialController::class, 'Dashboard'])->name('Commercial.Dashboard');
@@ -49,7 +47,7 @@ Route::get('/Commercial/RendezVous', [CommercialController::class, 'RendezVous']
     //Route Toggle
 Route::get('/Commercial/RendezVous/ConsultationPayee/{id}/{statut}', [CommercialController::class, 'changeStatutConsultationPayee'])->name('Commercial.ChangeStatutConsultation');
 Route::get('/Commercial/RendezVous/RendezVousEffectue/{id}/{statut}', [CommercialController::class, 'changeStatutRendezVous'])->name('Commercial.ChangeStatutRendezVous');
-
+Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');
 
 //Routes Administratif
 Route::get('/Administratif/Dashboard', [AdministratifController::class, 'Dashboard'])->name('Administratif.Dashboard');
@@ -80,17 +78,18 @@ Route::get('/Direction/Equipe', [DirectionController::class, 'Equipe'])->name('D
    
 //Routes IT
 Route::get('/Informatique/Consultation', [InformatiqueController::class, 'Consultation'])->name('Informatique.Dashboard');
-Route::post('/Informatique/Consultation/CreerConsultation', [consultationController::class, 'creerConsultation'])->name('creerConsultation');
-
+Route::post('/Informatique/Consultation/CreerConsultation', [ConsultationController::class, 'creerConsultation'])->name('creerConsultation');
 Route::get('/Informatique/Equipe', [InformatiqueController::class, 'Equipe'])->name('Informatique.Equipe');
+    Route::get('/creer-utilisateur', [UtilisateurController::class, 'formulaireCreation'])->name('creer-utilisateur.formulaire');
+    Route::post('/creer-utilisateur', [UtilisateurController::class, 'creer'])->name('creer-utilisateur.creer');
+    Route::post('/modifier-utilisateur/{id}', [UtilisateurController::class, 'modifier'])->name('ModifierUser');
+    
 
-
-Route::post('ajoutDepense', [DepenseController::class, 'ajoutDepense'])->name('ajoutDepense');
 Route::post('Banque', [EntreeController::class, 'ajoutEntree'])->name('ajoutEntree');
 Route::get('Banque', [HomeController::class, 'Banque'])->name('Banque');
 Route::get('DossierClients', [HomeController::class, 'allClient'])->name('DossierClients');
 Route::get('DossierContacts', [HomeController::class, 'allCandidat'])->name('DossierContacts');
-Route::get('Consultation', [consultationController::class, 'listeConsultantes'])->name('Consultation');
+Route::get('Consultation', [ConsultationController::class, 'listeConsultantes'])->name('Consultation');
 Route::get('dashBoardConsultante', [HomeController::class, 'dashBoardConsultante'])->name('dashBoardConsultante');
 Route::get('equipeView', [HomeController::class, 'equipeView'])->name('equipeView');
 Route::get('documentAgent', [HomeController::class, 'documentAgent'])->name('documentAgent');
@@ -107,35 +106,12 @@ Route::get('virtual-reality', [HomeController::class, 'virtual-reality'])->name(
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-//
-Route::put('/modifierContact/{id}', [Controller::class, 'modifierFormulaire'])->name('modifierContact');
-Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name('ajoutContact');
-
-//Chart routes et controller
-
-
-
-
-
-// Exemple de route dans votre fichier web.php
-Route::get('/recherche-candidat', [Controller::class , 'rechercheCandidat'])->name('rechercheCandidat');
 Route::get('/Consultation/{id}', [ConsultanteController::class , 'getListCandidatByConsultation'])->name('listcandidats');
 Route::get('/Consultation/{id}/{id_candidat}', [ConsultanteController::class , 'getCandidatByConsultation'])->name('candidat');
 Route::get('/ficheConsultation/{id_candidat}', [ConsultanteController::class , 'getCandidatFiche'])->name('candidatFiche');
 
 
-// routes/web.php
-Route::post('/ajouterCandidatAConsultation', [Controller::class, 'ajouterCandidatAConsultation']);
-Route::post('/ajouterTypeDeVisa', [Controller::class, 'ajouterTypeDeVisa']);
 
-
-Route::get('/creer-utilisateur', [UtilisateurController::class, 'formulaireCreation'])->name('creer-utilisateur.formulaire');
-Route::post('/creer-utilisateur', [UtilisateurController::class, 'creer'])->name('creer-utilisateur.creer');
-Route::post('/modifier-utilisateur/{id}', [UtilisateurController::class, 'modifier'])->name('ModifierUser');
-
-
-
-Route::get('/dossier', [HomeController::class, 'dossier'])->name('dossier');
 
 
 Route::post('/save-remarques/{id}', [HomeController::class, 'saveRemarques'])->name('SaveRemarque');
@@ -148,6 +124,5 @@ Route::post('/ajouterFichiersCandidat/{candidatId}', [DossierController::class, 
 Route::post('/ajouterFichiersAgent/{userId}', [DossierController::class, 'ajouterFichiersAgent'])->name('ajoutFichiersAgent');
 
 
-Route::get('/toggle-consultation/{candidatId}', [consultationController::class, 'toggleConsultation'])->name('toggleConsultation');
-
+Route::get('/toggle-consultation/{candidatId}', [ConsultationController::class, 'toggleConsultation'])->name('toggleConsultation');
 Route::get('/waiting-list/{consultation_id}', [ConsultationController::class , 'getConsultationWaitingList'])->name('listedattente');
