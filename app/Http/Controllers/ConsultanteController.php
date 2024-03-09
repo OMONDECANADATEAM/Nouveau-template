@@ -13,31 +13,31 @@ class ConsultanteController extends Controller
 {
     public function Dashboard()
     {
-       
+
 
         return view('Consultante.Views.Dashboard');
     }
 
     public function getListCandidatByConsultation($id)
-{
-    // Récupérer la consultation par son ID
-    $info_consultation = InfoConsultation::find($id);
+    {
+        // Récupérer la consultation par son ID
+        $info_consultation = InfoConsultation::find($id);
 
-    // Formater la date de la consultation
-    $info_consultation->date_heure = ucfirst(Carbon::parse($info_consultation->date_heure)->translatedFormat('d F Y'));
+        // Formater la date de la consultation
+        $info_consultation->date_heure = ucfirst(Carbon::parse($info_consultation->date_heure)->translatedFormat('d F Y'));
 
-    // Récupérer la liste des candidats liés à la consultation, triés par date de paiement
-    $info_consultation->load(['candidats' => function ($query) {
-        $query->join('entree', 'candidat.id', '=', 'entree.id_candidat')
-            ->where('entree.id_type_paiement', 2)
-            ->orderBy('entree.date', 'desc')
-            ->select('candidat.*');
-    }]);
+        // Récupérer la liste des candidats liés à la consultation, triés par date de paiement
+        $info_consultation->load(['candidats' => function ($query) {
+            $query->join('entree', 'candidat.id', '=', 'entree.id_candidat')
+                ->where('entree.id_type_paiement', 2)
+                ->orderBy('entree.date', 'desc')
+                ->select('candidat.*');
+        }]);
 
-    return view('Consultante.listcandidats', compact('info_consultation'));
-}
+        return view('Consultante.listcandidats', compact('info_consultation'));
+    }
 
-    
+
 
     public function getCandidatByConsultation($id, $id_candidat)
     {
@@ -54,37 +54,19 @@ class ConsultanteController extends Controller
         $consultation = Candidat::find($id_candidat);
         return view('Consultante.candidat', compact('info_consultation', 'consultation', 'previousId', 'nextId'));
     }
-    
-
-    // public function getCandidatFiche($id_candidat)
-    // {
-
-    //     $consultation = Candidat::find($id_candidat);
-
-    //     // Récupérer la liste des consultations liées (exemple : consultations du même patient)
-        
-    //         return view('Consultante.candidat', compact('consultation'));
-       
-    // }
 
 
     public function DossierClient()
-{  
-    $userId = Auth::id();
-    $consultantId = consultante::where('id_utilisateur', $userId)->value('id');
+    {
+        $userId = Auth::id();
+        $consultantId = consultante::where('id_utilisateur', $userId)->value('id');
 
 
-    // Récupérer la liste des candidats avec des procédures associées pour le consultant connecté
-    $candidats = Candidat::whereHas('proceduresDemandees', function ($query) use ($consultantId) {
-        $query->where('consultante_id', $consultantId);
-    })->get();
+        // Récupérer la liste des candidats avec des procédures associées pour le consultant connecté
+        $candidats = Candidat::whereHas('proceduresDemandees', function ($query) use ($consultantId) {
+            $query->where('consultante_id', $consultantId);
+        })->get();
 
-    return view('Consultante.Views.DossierClient', compact('candidats'));
-}
-
-
-
-
-
-    
+        return view('Consultante.Views.DossierClient', compact('candidats'));
+    }
 }
