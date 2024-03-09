@@ -54,6 +54,8 @@
                                 <span class="text-uppercase text-dark text-xl font-weight-bolder opacity-7"
                                     id="candidatName"></span>
                             </div>
+                           
+
                             <span class="text- text-center text-dark text-xl font-weight-bolder opacity-7"
                                 id="candidatId"></span>
                         </div>
@@ -67,7 +69,7 @@
 
                 </div>
             </div>
-
+          
             <script>
                 let currentIndex = 0;
                 const candidats = @json($data_candidat);
