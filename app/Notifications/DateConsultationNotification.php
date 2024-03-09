@@ -56,9 +56,9 @@ class DateConsultationNotification extends Notification
              ->line('Nous avons le plaisir de vous annoncer le debut dans votre procedure d\'immigration au canada');
      
          if ($this->firstTime) {
-             $mailMessage->line('Votre consultation est fixée pour le ' . $this->dateConsultation . ' à ' . $this->heureConsultation);
+             $mailMessage->line('Votre consultation est fixée pour le ' . $this->dateConsultation . ' à ' . $this->heureConsultation . '(Heure du Canada)');
          } else {
-             $mailMessage->line('Votre consultation a été reprogrammée pour le ' . $this->dateConsultation . ' à ' . $this->heureConsultation);
+             $mailMessage->line('Votre consultation a été reprogrammée pour le ' . $this->dateConsultation . ' à ' . $this->heureConsultation . '(Heure du Canada)');
          }
      
          $mailMessage->line('Cliquer sur ce lien pour vous connecter a la consultation:')
