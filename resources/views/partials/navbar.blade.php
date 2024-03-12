@@ -62,7 +62,7 @@
                     }
                 } else {
                     return redirect('/');
-                }
+                };
 
 @foreach ($pages as $page => $pageTitle)
 @if (
