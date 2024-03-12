@@ -25,12 +25,13 @@
                     </div>
 
                     <div class="row">
-        
+
                         <div class="col-md-6 mb-3">
                             <label for="pays" class="form-label">Pays</label>
-                            <select name="pays"  id="pays"  class="form-control" required>
-                                @foreach(App\Models\Succursale::all() as $succursale)
-                                    <option value="{{ $succursale->label }}" {{ ($candidat->pays == $succursale->label) ? 'selected' : '' }}>
+                            <select name="pays" id="pays" class="form-control" required>
+                                @foreach (App\Models\Succursale::all() as $succursale)
+                                    <option value="{{ $succursale->label }}"
+                                        {{ $candidat->pays == $succursale->label ? 'selected' : '' }}>
                                         {{ $succursale->label }}
                                     </option>
                                 @endforeach
@@ -77,8 +78,8 @@
 
                     </div>
 
-                    <div class="row">
-                        <div class="btn btn-dark afficherQuestionnaire"  id="consultation-payee-{{ $candidat->id }}">
+                    <div class="row mb-3">
+                        <div class="btn btn-dark afficherQuestionnaire" id="consultation-payee-{{ $candidat->id }}">
                             Modifier ou remplir la fiche de consultation
                         </div>
                     </div>
@@ -393,15 +394,17 @@
                             <!-- Condition to show the question on the year of obtaining the diploma if the answer is "Yes" -->
 
                         </div>
-                        <div class="question-diplome-etudes" style="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? 'display:block;' : 'display:none;' }}">
+                        <div class="question-diplome-etudes"
+                            style="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? 'display:block;' : 'display:none;' }}">
                             <div class="mb-3 d-flex justify-content-between">
                                 <label for="annee_obtention_diplome" class="form-label text-xl text-dark">
                                     <h5>15 - Si oui, quelle est l'année d'obtention du diplôme ?</h5>
                                 </label>
                                 <div>
-                                    <input type="text" name="annee_obtention_diplome" id="annee_obtention_diplome" class="form-control" 
-value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? $candidat->ficheConsultation->reponse15 : 'Pas de diplomes' }}">
-         </div>
+                                    <input type="text" name="annee_obtention_diplome" id="annee_obtention_diplome"
+                                        class="form-control"
+                                        value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? $candidat->ficheConsultation->reponse15 : 'Pas de diplomes' }}">
+                                </div>
                             </div>
                         </div>
 
@@ -505,10 +508,10 @@ value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse1
                             </label>
                             <div>
                                 <input type="text" name="niveau_scolarite_conjoint" id="niveau_scolarite_conjoint"
-                                    class="form-control" 
+                                    class="form-control"
                                     value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse20 ?? null : null }}">
-                       
-                                    
+
+
                             </div>
                         </div>
 
@@ -521,8 +524,8 @@ value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse1
                                 <input type="text" name="domaine_formation_conjoint"
                                     id="domaine_formation_conjoint" class="form-control"
                                     value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse21 ?? null : null }}">
-                       
-                                    
+
+
                             </div>
                         </div>
 
@@ -532,9 +535,9 @@ value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse1
                                 <h5>3- Quel est votre âge ?</h5>
                             </label>
                             <div>
-                                <input type="text" name="age_conjoint" id="age_conjoint" class="form-control" 
-                                value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse22 ?? null : null }}">
-                                
+                                <input type="text" name="age_conjoint" id="age_conjoint" class="form-control"
+                                    value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse22 ?? null : null }}">
+
                             </div>
                         </div>
 
@@ -585,6 +588,40 @@ value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse1
                             </div>
                         </div>
 
+                        <h3 class="mb-6 text-center">RESUME DU PROFIL</h3>
+
+                        <div class="mb-6 d-flex justify-content-between align-items-center">
+                            <textarea class="form-control" id="remarques" name="remarques"  oninput="handleTextareaInput(this)"
+                                style="height: 8rem">
+                                {{ $candidat->remarque_agent ?? '' }}
+                                </textarea>
+
+                        </div>
+
+                        <h3 class="mb-6 text-center">QUESTION DU CANDIDAT</h3>
+
+                        <div class="mb-6 d-flex justify-content-between align-items-center">
+                            <textarea class="form-control" id="reponse27" name="reponse27"  oninput="handleTextareaInput(this)"
+                                style="height: 6rem">
+                                {{ $candidat->ficheConsultation->reponse27 ?? 'Pas de question' }}
+                                </textarea>
+
+                            <textarea class="form-control ms-2 mx-2 " id="reponse28" name="reponse28"  oninput="handleTextareaInput(this)"
+                                style="height: 6rem">
+                                {{ $candidat->ficheConsultation->reponse28 ?? 'Pas de question' }}
+                            </textarea>
+
+                            <textarea class="form-control " id="reponse29" name="reponse29"  oninput="handleTextareaInput(this)"
+                                style="height: 6rem">
+                                {{ $candidat->ficheConsultation->reponse29 ?? 'Pas de question' }}
+                            </textarea>
+
+                        </div>
+
+
+
+
+                        <h3 class="mb-6 text-center">CV</h3>
 
                         <div class="d-flex justify-content-between mb-2 mt-5 border rounded p-2">
 
@@ -616,20 +653,6 @@ value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse1
 
                         </div>
 
-
-
-                        <div class="mb-6 mt-6 d-flex justify-content-between align-items-center">
-                            <label class="form-label text-xl text-dark">
-                                <h5>Remarques de l'agent :</h5>
-                            </label>
-                            <div>
-                                <textarea class="form-control" id="remarques" name="remarques" rows="12" oninput="handleTextareaInput(this)">
-                           {{ $candidat->remarque_agent ?? '' }}
-                           </textarea>
-                            </div>
-                        </div>
-
-
                     </div>
 
 
@@ -649,21 +672,20 @@ value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse1
 </div>
 
 <script>
+    $(document).ready(function() {
+        // Écouter le clic sur le bouton afficherQuestionnaire
+        $('.afficherQuestionnaire').click(function() {
+            // Récupérer l'ID unique du candidat
+            // Vous devrez ajuster cette ligne en fonction de la manière dont l'ID du candidat est stocké dans le bouton
+            var candidatId = $(this).attr('id').split('-')[2];
+            // Construire l'ID unique de la section du questionnaire
+            var questionnaireId = '#questionnaire-form-' + candidatId;
+            // Afficher le questionnaire
+            $(questionnaireId).show();
+        });
 
-  $(document).ready(function() {
-    // Écouter le clic sur le bouton afficherQuestionnaire
-    $('.afficherQuestionnaire').click(function() {
-        // Récupérer l'ID unique du candidat
-        // Vous devrez ajuster cette ligne en fonction de la manière dont l'ID du candidat est stocké dans le bouton
-        var candidatId = $(this).attr('id').split('-')[2];
-        // Construire l'ID unique de la section du questionnaire
-        var questionnaireId = '#questionnaire-form-' + candidatId;
-        // Afficher le questionnaire
-        $(questionnaireId).show();
+
     });
-
-    
-});
 
 
     $(document).ready(function() {

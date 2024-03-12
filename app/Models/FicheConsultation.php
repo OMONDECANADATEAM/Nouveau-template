@@ -42,6 +42,9 @@ class FicheConsultation extends Model
         'reponse24',
         'reponse25',
         'reponse26',
+        'reponse27',
+        'reponse28',
+        'reponse29',
     ];
 
     public function candidat()
