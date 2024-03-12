@@ -54,16 +54,17 @@
                     'documentAgent' => 'Document Agent',
                 ];
                 $currentRoute = \Request::route()->getName();
-
-if (auth()->check()) {
-    $currentUserRole = auth()->user()->getRole();
-    if (!$currentUserRole) {
-        return redirect('/connexion');
-    }
-} else {
-    return redirect('/connexion');
-}
-                @endphp
+                $currentUserRole = auth()->user()->getRole();
+  
+// if (auth()->check()) {
+//      if (!$currentUserRole) {
+//         return redirect('/connexion');
+//     }
+// } else {
+//     return redirect('/connexion');
+// }
+//            
+     @endphp
 
 @foreach ($pages as $page => $pageTitle)
 @if (
