@@ -29,10 +29,11 @@ class ConsultanteController extends Controller
         // Récupérer la liste des candidats liés à la consultation, triés par date de paiement
         $info_consultation->load(['candidats' => function ($query) {
             $query->join('entree', 'candidat.id', '=', 'entree.id_candidat')
-                ->where('entree.id_type_paiement', 2)
-                ->orderBy('entree.date', 'desc')
-                ->select('candidat.*');
+            ->where('entree.id_type_paiement', 2)
+            ->orderBy('entree.date', 'asc')
+            ->select('candidat.*');
         }]);
+        
 
         return view('Consultante.listcandidats', compact('info_consultation'));
     }
