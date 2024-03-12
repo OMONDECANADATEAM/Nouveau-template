@@ -664,14 +664,10 @@
                     </div>
                     @if($errors->any())
                     <div class="alert alert-danger">
-                        <ul>
-                            
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>@dump($error)
-                            @endforeach
-                        </ul>
+                        {{ $errors->first() }}
                     </div>
-                    @endif
+                @endif
+                
 
 
             </div>
