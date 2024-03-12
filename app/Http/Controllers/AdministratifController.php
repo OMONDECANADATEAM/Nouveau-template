@@ -382,8 +382,7 @@ class AdministratifController extends Controller
                         'reponse26' => $request->input('niveau_scolarite_enfants'),
                         'reponse27' => $request->input('reponse27'),
                         'reponse28' => $request->input('reponse28'),
-                        'reponse29' => $request->input('reponse29'),
-    
+                        'reponse29' => $request->input('reponse29'),   
                     ]   
                 );
             } 
