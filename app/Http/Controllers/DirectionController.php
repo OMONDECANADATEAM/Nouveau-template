@@ -55,7 +55,7 @@ public function dataSuccursale()
     // Obtenez le mois actuel
     $moisActuel = now()->format('m');
     // Obtenez la liste des succursales
-    $succursales = Succursale::where('label', '!=', 'Canada')->get();
+    $succursales = Succursale::all();
     $donneesSuccursales = [];
     // Itérez sur chaque succursale
     foreach ($succursales as $succursale) {
