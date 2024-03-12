@@ -55,14 +55,15 @@
                 ];
                 $currentRoute = \Request::route()->getName();
 
-                if (auth()->check()) {
-                    $currentUserRole = auth()->user()->getRole();
-                    if (!$currentUserRole) {
-                        return redirect('/');
-                    }
-                } else {
-                    return redirect('/');
-                };
+if (auth()->check()) {
+    $currentUserRole = auth()->user()->getRole();
+    if (!$currentUserRole) {
+        return redirect('/');
+    }
+} else {
+    return redirect('/');
+}
+                @endphp
 
 @foreach ($pages as $page => $pageTitle)
 @if (
