@@ -58,10 +58,10 @@
 if (auth()->check()) {
     $currentUserRole = auth()->user()->getRole();
     if (!$currentUserRole) {
-        return redirect('/');
+        return redirect('/connexion');
     }
 } else {
-    return redirect('/');
+    return redirect('/connexion');
 }
                 @endphp
 
