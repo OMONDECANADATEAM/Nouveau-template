@@ -24,7 +24,8 @@ use Illuminate\Support\Facades\Notification;
 
 class AdministratifController extends Controller
 {
-    function utilisateurHasPoste($postes) {
+    function utilisateurHasPoste($postes)
+    {
         $utilisateurConnecte = auth()->user();
         return in_array($utilisateurConnecte->id_poste_occupe, $postes);
     }
@@ -68,30 +69,30 @@ class AdministratifController extends Controller
         return ['entreeMensuel' => $entreeMensuel, 'moisEnCours' => $moisEnCours];
     }
 
-     //Ramene le montant du mois pour l'utilisateur connecté
-     private function caisseMensuel()
-     {
-         Carbon::setLocale('fr');
-         $moisEnCours = Carbon::now()->monthName;
-     
-         // Calculez la somme des entrées pour le mois actuel et l'année actuelle en utilisant le modèle Entree
-         $entreeMensuel = Entree::where('id_utilisateur', auth()->user()->id)
-             ->whereMonth('date', now()->month)
-             ->whereYear('date', now()->year)
-             ->sum('montant');
-     
-         // Calculez la somme des dépenses pour le mois actuel et l'année actuelle en utilisant le modèle Depense
-         $depenseMensuel = Depense::where('id_utilisateur', auth()->user()->id)
-             ->whereMonth('date', now()->month)
-             ->whereYear('date', now()->year)
-             ->sum('montant');
-     
-         // Calculez la différence entre les entrées et les dépenses
-         $difference = $entreeMensuel - $depenseMensuel;
-     
-         return ['caisseMensuel' => $difference];
-     }
-     
+    //Ramene le montant du mois pour l'utilisateur connecté
+    private function caisseMensuel()
+    {
+        Carbon::setLocale('fr');
+        $moisEnCours = Carbon::now()->monthName;
+
+        // Calculez la somme des entrées pour le mois actuel et l'année actuelle en utilisant le modèle Entree
+        $entreeMensuel = Entree::where('id_utilisateur', auth()->user()->id)
+            ->whereMonth('date', now()->month)
+            ->whereYear('date', now()->year)
+            ->sum('montant');
+
+        // Calculez la somme des dépenses pour le mois actuel et l'année actuelle en utilisant le modèle Depense
+        $depenseMensuel = Depense::where('id_utilisateur', auth()->user()->id)
+            ->whereMonth('date', now()->month)
+            ->whereYear('date', now()->year)
+            ->sum('montant');
+
+        // Calculez la différence entre les entrées et les dépenses
+        $difference = $entreeMensuel - $depenseMensuel;
+
+        return ['caisseMensuel' => $difference];
+    }
+
 
     //Ramene le nombre de consultations pour l'utilisateur connecté
     private function nombreConsultationMensuel()
@@ -140,10 +141,10 @@ class AdministratifController extends Controller
             ->latest('date_heure')
             ->take(4)
             ->get();
-    
+
         return $consultations;
     }
-    
+
     //Ramene la somme des entrées par mois pendant l'année en cours
     public function EntreeChartData()
     {
@@ -327,26 +328,13 @@ class AdministratifController extends Controller
                     'nom' => 'CV',
                     'url' => $cvPath,
                 ]);
+            }
 
-                       }
 
 
-            // Si la consultation est payée, mettez à jour ou créez une entrée et une fiche de consultation
-            if ($candidat->consultation_payee) {
-                $montant = (auth()->user()->id_succursale == 4) ? 200 : 100000;
-            
-                $entree = Entree::updateOrCreate(
-                    ['id_candidat' => $candidat->id],
-                    [
-                        'montant' => $montant,
-                        'date' => now(),
-                        'id_utilisateur' => $idUtilisateur,
-                        'id_type_paiement' => 2,
-                    ]
-                );
-            
-            
+            $entreeExistante = Entree::where('id_candidat', $candidat->id)->where('id_type_paiement', 2)->first();
 
+            if ($candidat->consultation_payee || $entreeExistante) {
                 FicheConsultation::updateOrCreate(
                     [
                         'id_candidat' => $candidat->id,
@@ -382,17 +370,26 @@ class AdministratifController extends Controller
                         'reponse26' => $request->input('niveau_scolarite_enfants'),
                         'reponse27' => $request->input('reponse27'),
                         'reponse28' => $request->input('reponse28'),
-                        'reponse29' => $request->input('reponse29'),   
-                    ]   
+                        'reponse29' => $request->input('reponse29'),
+                    ]
                 );
-            } 
-            else {
-                // Si la consultation n'est pas payée, vérifiez s'il existe une entrée et supprimez-la
-                Entree::where('id_candidat', $candidat->id)->delete();
 
-                // Supprimez également la fiche de consultation s'il en existe une
+                if ($candidat->consultation_payee && !$entreeExistante) {
+                    $montant = (auth()->user()->id_succursale == 4) ? 200 : 100000;
+
+                    Entree::create([
+                        'id_candidat' => $candidat->id,
+                        'montant' => $montant,
+                        'date' => now(),
+                        'id_utilisateur' => auth()->id(),
+                        'id_type_paiement' => 2,
+                    ]);
+                }
+            } else {
+                Entree::where('id_candidat', $candidat->id)->delete();
                 FicheConsultation::where('id_candidat', $candidat->id)->delete();
             }
+
 
             // Redirection vers dossier contact avec un message de succès
             return redirect()->back()->with('success', 'Formulaire modifié avec succès.');
@@ -401,7 +398,7 @@ class AdministratifController extends Controller
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             // Gérer les autres exceptions
-            return redirect()->back()->withErrors(['error' => 'Une erreur inattendue s\'est produite.'])->withInput();
+            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
         }
     }
 
@@ -426,18 +423,18 @@ class AdministratifController extends Controller
         $firstTime = $candidat->id_info_consultation == null;
 
 
-      
+
         Candidat::where('id', $candidatId)->update(['id_info_consultation' => $consultationId]);
 
-      
-        Notification::route('mail', $candidat->email)->notify(new DateConsultationNotification ($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation ,$consultation->lien_zoom));
+
+        Notification::route('mail', $candidat->email)->notify(new DateConsultationNotification($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation, $consultation->lien_zoom));
         // Rediriger ou retourner la réponse en fonction de vos besoins
         return redirect()->back()->with('success', 'Consultation mise à jour avec succès');
     }
 
 
 
-    
+
     public function getDossierDocuments($clientId)
     {
         $candidat = Candidat::find($clientId);
@@ -467,7 +464,7 @@ class AdministratifController extends Controller
     {
         // Récupérer l'id de la succursale de l'utilisateur en cours
         $idSuccursaleUtilisateur = auth()->user()->id_succursale;
-    
+
         // Récupérer la liste des entrees de type 2 liées à la succursale de l'utilisateur
         $entreesType2 = Entree::with('utilisateur')
             ->where('id_type_paiement', 2)
@@ -475,61 +472,61 @@ class AdministratifController extends Controller
                 $query->where('id_succursale', $idSuccursaleUtilisateur);
             })
             ->get();
-    
+
         // Récupérer les candidats liés à ces entrées
         $candidats = Candidat::whereIn('id', $entreesType2->pluck('id_candidat'))->get();
-    
+
         // Créer un tableau associatif pour stocker la date de paiement correspondante à chaque candidat
         $datesPaiement = $entreesType2->pluck('date', 'id_candidat')->all();
-    
+
         // Trier les candidats par date de paiement (de la plus récente à la plus ancienne)
         $candidats = $candidats->sortByDesc(function ($candidat) use ($datesPaiement) {
             return $datesPaiement[$candidat->id];
         });
-    
-        
+
+
         return ['data_client' => $candidats, 'dates_paiement' => $datesPaiement];
     }
-    
+
     public function DossierClients()
     {
         // Appeler la fonction allClient pour récupérer les données
         $donneesClients = $this->allClient();
-    
+
         // Utiliser la méthode view pour rendre la vue avec les données
         return view('Administratif.Views.DossierClients', $donneesClients);
     }
-    
+
     public function Banque()
     {
         $utilisateurConnecte = Auth::user();
         // Vérifie si le poste de l'utilisateur est 134 ou 5
         $hasPoste = in_array($utilisateurConnecte->id_poste_occupe, [3, 5]);
         $entries = Entree::where('id_utilisateur', $utilisateurConnecte->id)
-        ->orderBy('date', 'desc')
-        ->get();
+            ->orderBy('date', 'desc')
+            ->get();
         $entreeMensuelData = $this->entreeMensuel();
         // Définir $moisEnCours
         $moisEnCours = $entreeMensuelData['moisEnCours'];
 
         $entreeMensuelSuccursale = Entree::whereMonth('date', now()->month)
-        ->whereYear('date', now()->year)
-        ->sum('montant');
+            ->whereYear('date', now()->year)
+            ->sum('montant');
 
         $depenseMensuelSuccursale = Depense::whereMonth('date', now()->month)
-             ->whereYear('date', now()->year)
-             ->sum('montant');
-     
+            ->whereYear('date', now()->year)
+            ->sum('montant');
+
         $devise = $this->devise();
 
 
         $transactionController = new Controller();
         $transactions = $transactionController->getAllTransactions($utilisateurConnecte->id);
-        
+
         // Passe la variable $hasPoste à la vue
-        return view('Administratif.Views.Banque', compact('entries', 'hasPoste', 'moisEnCours' , 'entreeMensuelSuccursale' ,'devise' , 'depenseMensuelSuccursale' , 'transactions'));
+        return view('Administratif.Views.Banque', compact('entries', 'hasPoste', 'moisEnCours', 'entreeMensuelSuccursale', 'devise', 'depenseMensuelSuccursale', 'transactions'));
     }
-    
+
     public function Consultation()
     {
         Carbon::setLocale('fr');
@@ -540,12 +537,12 @@ class AdministratifController extends Controller
         }
         return view('Administratif.Views.Consultation', compact('consultations'));
     }
-    
+
     public function aucunVersement()
     {
         // Récupérez l'ID de l'utilisateur actuel
         $userId = Auth::id();
-    
+
         // Utilisez Eloquent pour récupérer les candidats enregistrés par l'utilisateur actuel
         $candidats = Candidat::where('id_utilisateur', $userId)
             ->whereDoesntHave('entrees', function ($query) {
@@ -553,10 +550,10 @@ class AdministratifController extends Controller
                 $query->where('type_entree', 2);
             })
             ->get();
-    
+
         return $candidats;
     }
-   
+
     public function ModifierTypeVisa(Request $request, $candidatId)
     {
         try {
@@ -608,8 +605,7 @@ class AdministratifController extends Controller
                 $prenom = $candidat->prenom;
                 // Send notification about the creation of the procedure
                 Notification::route('mail', $candidat->email)->notify(new ProcedureCreatedNotifications($nom, $prenom));
-            }
-            else if ($isStatutChanged) {
+            } else if ($isStatutChanged) {
                 // Send notification about the update of the procedure
                 Notification::route('mail', $candidat->email)->notify(new StatutNotifications($statutLabel));
             }
@@ -619,7 +615,4 @@ class AdministratifController extends Controller
             return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de la procédure.');
         }
     }
-    
-    
-     
 }
