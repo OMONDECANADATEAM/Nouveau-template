@@ -404,34 +404,37 @@ class AdministratifController extends Controller
 
     public function ModifierDateConsultation(Request $request, $candidatId)
     {
-        Carbon::setLocale('fr');
-        // Récupérer les données du formulaire
-        $consultationId = $request->input('consultation_id');
-        $consultation = InfoConsultation::find($consultationId);
-
-
-        $dateConsultation = Carbon::parse($consultation->date_heure)->translatedFormat('l j F ');
-        $heureConsultation = Carbon::parse($consultation->date_heure)->translatedFormat('H:i');
-
-
-        $candidat = Candidat::find($candidatId);
-
-        $nom = $candidat->nom;
-        $prenom = $candidat->prenom;
-
-
-        $firstTime = $candidat->id_info_consultation == null;
-
-
-
-        Candidat::where('id', $candidatId)->update(['id_info_consultation' => $consultationId]);
-
-
-        Notification::route('mail', $candidat->email)->notify(new DateConsultationNotification($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation, $consultation->lien_zoom));
-        // Rediriger ou retourner la réponse en fonction de vos besoins
-        return redirect()->back()->with('success', 'Consultation mise à jour avec succès');
+        try {
+            Carbon::setLocale('fr');
+            // Récupérer les données du formulaire
+            $consultationId = $request->input('consultation_id');
+            $consultation = InfoConsultation::find($consultationId);
+    
+            $dateConsultation = Carbon::parse($consultation->date_heure)->translatedFormat('l j F ');
+            $heureConsultation = Carbon::parse($consultation->date_heure)->translatedFormat('H:i');
+    
+            $candidat = Candidat::find($candidatId);
+    
+            $nom = $candidat->nom;
+            $prenom = $candidat->prenom;
+    
+            $firstTime = $candidat->id_info_consultation == null;
+    
+            // Mettre à jour l'ID de consultation du candidat
+            Candidat::where('id', $candidatId)->update(['id_info_consultation' => $consultationId]);
+    
+            // Envoyer une notification par e-mail
+            Notification::route('mail', $candidat->email)->notify(new DateConsultationNotification($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation, $consultation->lien_zoom));
+    
+            // Retourner une réponse JSON avec un message de succès
+            return response()->json(['success' => true, 'message' => 'Consultation mise à jour avec succès']);
+    
+        } catch (\Exception $e) {
+            // Retourner une réponse JSON avec un message d'erreur en cas d'exception
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
-
+    
 
 
 
