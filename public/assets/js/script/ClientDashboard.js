@@ -77,7 +77,7 @@
                     },
                     error: function(xhr, status, error) {
                         // Erreur lors de la requête AJAX
-                        alert('Une erreur s\'est produite lors de l\'envoi de la requête AJAX : ' + error);
+                        alert('Une erreur s\'est produite lors de l\'envoi de la requête AJAX : ' + error + xhr );
                     },
                     complete: function() {
                         // La soumission du formulaire est terminée - masquer la page de chargement
