@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <form action="{{ route('Administratif.CreerOuModifierDateConsultation', $candidat->id) }}" method="POST"
-                    class="text-start" id="modifierContactForm{{ $candidat->id }}" enctype="multipart/form-data"
+                    class="text-start DateConsForm" id="modifierContactForm{{ $candidat->id }}" enctype="multipart/form-data"
                     data-modal-id="{{ $candidat->id }}">
                     @csrf
                     @method('PUT')
@@ -43,3 +43,4 @@
         </div>
     </div>
 </div>
+

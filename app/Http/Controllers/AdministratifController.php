@@ -391,14 +391,13 @@ class AdministratifController extends Controller
             }
 
 
-            // Redirection vers dossier contact avec un message de succès
-            return redirect()->back()->with('success', 'Formulaire modifié avec succès.');
+            return response()->json(['success' => 'Formulaire modifié avec succès.'], 200);
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Gérer les erreurs de validation
-            return redirect()->back()->withErrors($e->errors())->withInput();
+            return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
             // Gérer les autres exceptions
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 

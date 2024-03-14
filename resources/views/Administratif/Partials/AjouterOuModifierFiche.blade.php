@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <form action="{{ route('Administratif.CreerOuModifierFiche', $candidat->id) }}" method="POST"
-                    class="text-start" id="modifierContactForm{{ $candidat->id }}" enctype="multipart/form-data">
+                    class="text-start consultationForm" id="modifierContactForm{{ $candidat->id }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <!-- Champs Nom et Prénoms sur la même ligne -->
@@ -662,11 +662,7 @@
                             onclick="$('#modifierContactForm{{ $candidat->id }}').submit()">Enregistrer les
                             modifications</button>
                     </div>
-                    @if($errors->any())
-                    <div class="alert alert-danger">
-                        {{ $errors->first() }}
-                    </div>
-                @endif
+                   
                 
 
 

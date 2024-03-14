@@ -26,75 +26,14 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-    <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+    <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
+    <script src={{ asset('assets/js/script/ClientDashboard.js') }}></script>
+    <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+ 
+    
 
 </head>
-<style>
-    /* Styles pour le formulaire d'ajout de prospect */
-
-    .modal-content {
-        border-radius: 20px;
-    }
-
-    .modal-header {
-        border-bottom: none;
-    }
-
-    .modal-title {
-        font-weight: bold;
-        color: #333;
-    }
-
-    .modal-body {
-        padding: 2rem;
-    }
-
-    .form-label {
-        font-weight: bold;
-    }
-
-    .form-control {
-        border-radius: 10px;
-        color: #333;
-        /* Changement de couleur du texte */
-        background-color: #fff;
-        /* Changement de couleur de fond */
-        border: 1px solid #000;
-        /* Bordure fine noire */
-        padding: 12px;
-        /* Padding dans le champ de texte */
-    }
-
-    .form-control:focus {
-        border-color: #de3163;
-        /* Changement de couleur de la bordure au focus */
-    }
-
-    .btn-primary {
-        background-color: #de3163;
-        /* Couleur rose */
-        border: none;
-        border-radius: 10px;
-        transition: background-color 0.3s;
-        /* Transition pour le changement de couleur au survol */
-    }
-
-    .btn-primary:hover {
-        background-color: #111;
-        /* Changement de couleur au survol */
-    }
-
-    .btn-primary:active {
-        background-color: #1a2b3c;
-        /* Changement de couleur au clic */
-    }
-    .loading-body {
-    overflow: hidden; /* Empêche le défilement de la page pendant le chargement */
-    background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond sombre avec transparence */
-}
- 
-</style>
 
 
 
@@ -125,49 +64,12 @@
                 </div>
             </div>
         </div>
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-spinner"></div>
+        </div>
 
     </main>
     @include('partials.plugin')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('form').submit(function(e) {
-                e.preventDefault(); // Empêche la soumission du formulaire par défaut
-    
-                // Ajoutez la classe pour le fond sombre
-                $('body').addClass('z-index-0');
-    
-                var form = $(this);
-                var formData = form.serialize(); // Sérialisez les données du formulaire
-    
-                $.ajax({
-                    type: form.attr('method'), // Récupère la méthode du formulaire (POST)
-                    url: form.attr('action'), // Récupère l'URL du formulaire
-                    data: formData, // Les données à envoyer
-                    success: function(response) {
-                        // Succès de la requête AJAX - retirez la classe pour le fond sombre
-                        $('body').removeClass('loading-body');
-    
-                        // Affiche une alerte de succès
-                        alert('Les modifications ont été enregistrées avec succès.');
-    
-                        // Ferme le modal
-                        var modalId = form.data('modal-id');
-                        $('#AjouterOuModifierConsultationModal' + modalId).modal('hide');
-                    },
-                    error: function(xhr, status, error) {
-                        // Erreur lors de la requête AJAX - retirez la classe pour le fond sombre
-                        $('body').removeClass('z-index-0');
-    
-                        // Affiche une alerte d'erreur
-                        alert('Une erreur s\'est produite lors de l\'enregistrement des modifications. Veuillez réessayer.');
-                    }
-                });
-            });
-        });
-    </script>
-    
-   
 
 </body>
 
