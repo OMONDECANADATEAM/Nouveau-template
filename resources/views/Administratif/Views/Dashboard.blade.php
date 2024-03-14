@@ -62,7 +62,7 @@
                 @endif
 
             </div>
-            <div class="row mt-4 d-flex justify-content-around">
+            <div class="row">
               
                  @include('Administratif.Partials.ChartEntree')               
                
