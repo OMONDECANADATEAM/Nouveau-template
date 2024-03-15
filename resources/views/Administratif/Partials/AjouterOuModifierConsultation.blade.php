@@ -44,3 +44,6 @@
     </div>
 </div>
 
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+</div>
