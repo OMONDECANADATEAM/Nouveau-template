@@ -1,12 +1,12 @@
- 
-        $(document).ready(function() {
+
+         $(document).ready(function() {
 
             $('.DateConsForm').submit(function(e) {
                 e.preventDefault(); // Empêche la soumission du formulaire par défaut
     
                 // Afficher la page de chargement
-                $('#loadingOverlay').addClass('show');
-    
+                $('#loading').addClass('show');
+                
                 var form = $(this);
                 var formData = form.serialize(); // Sérialisez les données du formulaire
     
@@ -33,7 +33,7 @@
                     },
                     complete: function() {
                         // La soumission du formulaire est terminée - masquer la page de chargement
-                        $('#loadingOverlay').removeClass('show');
+                        $('#loading').removeClass('show');
                     }
                 });
             });
@@ -42,7 +42,7 @@
                 e.preventDefault(); // Empêche la soumission du formulaire par défaut
                 
                 // Afficher la page de chargement
-                $('#loadingOverlay').addClass('show');
+                $('#loading').addClass('show');
     
                 var form = $(this);
                 var formData = form.serialize(); // Sérialisez les données du formulaire
@@ -81,8 +81,9 @@
                     },
                     complete: function() {
                         // La soumission du formulaire est terminée - masquer la page de chargement
-                        $('#loadingOverlay').removeClass('show');
+                        $('#loading').removeClass('show');
                     }
                 });
             });
         });
+

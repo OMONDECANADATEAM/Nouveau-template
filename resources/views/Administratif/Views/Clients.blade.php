@@ -16,23 +16,17 @@
 <html lang="FR">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>
-        Omonde Canada - CRM | DOSSIER CONTACTS
-    </title>
-    <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
-    <link rel="stylesheet" type="text/css"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omonde Canada - CRM | DOSSIER CONTACTS</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/logos/logo-icon.png') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
+    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet">
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-    <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
-    <script src={{ asset('assets/js/script/ClientDashboard.js') }}></script>
-    <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
- 
-    
-
+    <script src="{{ asset('assets/js/script/dossierContact.js') }}"></script>
+    <script src="{{ asset('assets/js/script/ClientDashboard.js') }}"></script>
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 </head>
 
 
@@ -61,6 +55,11 @@
                         @include('Administratif.Partials.TableCandidats')
 
                     </div>
+
+                    <div id="loading" class="loading-overlay">
+                        <div class="loading-spinner"></div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
