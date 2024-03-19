@@ -29,11 +29,7 @@ $(document).ready(function() {
                 $('#AjouterOuModifierConsultationModal' + modalId).modal('hide');
                 window.location.reload();
             },
-            error: function(xhr, status, error) {
-                // Erreur lors de la requête AJAX - retirez la classe pour le fond sombre
-              // Affiche une alerte d'erreur
-                alert('Une erreur s\'est produite lors de l\'enregistrement des modifications. Veuillez réessayer.');
-            },
+           
             complete: function() {
                 // La soumission du formulaire est terminée - masquer la page de chargement
                 $('#loading').removeClass('show');
@@ -83,7 +79,7 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 // Erreur lors de la requête AJAX
-                alert('Une erreur s\'est produite lors de l\'envoi de la requête AJAX : ' + error + xhr );
+                alert('Une erreur s\'est produite lors de l\'envoi de la requête AJAX : ' + error );
             },
             complete: function() {
                 // La soumission du formulaire est terminée - masquer la page de chargement
