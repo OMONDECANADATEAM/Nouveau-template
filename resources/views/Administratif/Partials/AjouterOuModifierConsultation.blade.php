@@ -1,4 +1,4 @@
-<div class="modal z-index-1 fade" id="AjouterOuModifierConsultationModal{{ $candidat->id }}"
+<div class="modal z-index-1 fade procedureClient " id="AjouterOuModifierConsultationModal{{ $candidat->id }}"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

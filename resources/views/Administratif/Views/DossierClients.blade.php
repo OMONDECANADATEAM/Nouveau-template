@@ -59,7 +59,9 @@
 
         </div>
 
-
+        <div id="loading" class="loading-overlay">
+            <div class="loading-spinner"></div>
+        </div>
         @include('partials.plugin')
 
         <script>
