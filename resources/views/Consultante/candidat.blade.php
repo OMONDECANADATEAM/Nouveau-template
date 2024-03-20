@@ -64,15 +64,13 @@
             </div>
         </nav>
 
-
-
         @php
             $sections = [
                 'Resumé du profil' => [31],
                 'Identité du candidat' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
                 'Statut professionnel' => [12, 13, 14, 15, 16, 17],
-                'informations supplémentaires' => [18, 19, 20, 21, 22, 23, 24],
-                'Informations sur le conjoint' => [25, 26, 27, 28, 29, 30],
+                'Informations supplémentaires' => [18, 19, 20, 21, 22, 23],
+                'Informations sur le conjoint' => [24 , 25, 26, 27, 28, 29, 30],
                 'Question du candidat' => [34, 35, 36],
                 'CV et remarques' => [32, 33],
             ];
@@ -137,48 +135,48 @@
                                     @endif
                                     <strong class="question d-block fs-5 mb-1">{{ $questions[$key] }}</strong>
                                     @if ($key === 1)
-                                        <p class="answer text-right fs-5 text-capitalize">
+                                        <p class="answer text-right fs-5 ">
                                             {{ $consultation->nom ?? '' }}
                                             {{ $consultation->prenom ?? '' }}
                                         </p>
                                     @elseif ($key === 2)
-                                        <p class="answer text-right fs-5 text-capitalize">
+                                        <p class="answer text-right fs-5 ">
                                             {{ $consultation->date_naissance ? now()->diffInYears($consultation->date_naissance) . ' An(s)' : '' }}
                                         </p>
                                     @elseif ($key === 3)
-                                        <p class="answer text-right fs-5 text-capitalize">
+                                        <p class="answer text-right fs-5 ">
                                             {{ $consultation->pays ?? '' }}
                                         </p>
                                     @elseif ($key === 4)
-                                        <p class="answer text-right fs-5 text-capitalize">
+                                        <p class="answer text-right fs-5 ">
                                             {{ $consultation->ficheConsultation->type_visa ?? '' }}
                                         </p>
                                     @elseif ($key === 31)
-                                        <p class="answer text-right text-bold text-xl" style="font-size:2rem;">
+                                        <p class="answer text-right text-bold text-xl" style="font-size:1.8rem;">
                                             {{ $consultation->remarque_agent ?? '' }}
                                         </p>
                                     @elseif ($key === 32)
-                                        <p class="answer text-right fs-5 text-capitalize mt-1">
+                                        <p class="answer text-right fs-5  mt-1">
                                             {{ $consultation->remarque_consultante ?? '' }}
                                         </p>
                                     @elseif ($key === 33)
                                         <a href="{{ asset('storage/' . $consultation->ficheConsultation->lien_cv) }}"
                                             class="btn btn-primary" target="_blank">Afficher le CV</a>
                                     @elseif ($key === 34)
-                                        <p class="answer text-right fs-5 text-capitalize">
+                                        <p class="answer text-right fs-5 ">
                                             {{ $consultation->ficheConsultation->reponse27 ?? 'Aucune question' }}
                                         </p>
                                     @elseif ($key === 35)
-                                        <p class="answer text-right fs-5 text-capitalize">
+                                        <p class="answer text-right fs-5 ">
                                             {{ $consultation->ficheConsultation->reponse28 ?? 'Aucune question' }}
                                         </p>
                                     @elseif ($key === 36)
-                                        <p class="answer text-right fs-5 text-capitalize">
+                                        <p class="answer text-right fs-5 ">
                                             {{ $consultation->ficheConsultation->reponse29 ?? 'Aucune question' }}
                                         </p>
                                     @else
                                         {{-- For other questions, get the data from the "fiche consultation" table --}}
-                                        <p class="answer text-right fs-5 text-capitalize">
+                                        <p class="answer text-right fs-5 ">
                                             {{ $consultation->ficheConsultation->{'reponse' . ($key - 4)} ?? '' }}
                                         </p>
                                     @endif

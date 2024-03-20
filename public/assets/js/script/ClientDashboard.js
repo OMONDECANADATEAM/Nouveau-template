@@ -41,57 +41,7 @@
                 });
             });
 
-            $('.consultationForm').submit(function(e) {
-                e.preventDefault(); // Empêche la soumission du formulaire par défaut
-                
-                // Afficher la page de chargement
-                $('#loading').addClass('show');
-    
-                var form = $(this);
-                var formData = form.serialize(); // Sérialisez les données du formulaire
-    
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: form.attr('method'), // Récupère la méthode du formulaire (POST)
-                    url: form.attr('action'), // Récupère l'URL du formulaire
-                    data: formData, // Les données à envoyer
-                    dataType: 'json', // Attend une réponse JSON du serveur
-                    success: function(response) {
-                        // Succès de la requête AJAX - afficher la réponse (succès ou échec)
-                        if (response.success) {
-                            // Affiche une alerte de succès
-                        alert('Les modifications ont été enregistrées avec succès.');
-    
-                            // Fermer le modal
-                            var modalId = form.data('modal-id');
-                            $('#modifierContactModal' + modalId).modal('hide');
-                            window.location.reload();
-
-                        } else if (response.errors) {
-                            // Afficher les erreurs de validation
-                            var errorMessage = 'Erreurs de validation :\n';
-                            $.each(response.errors, function(field, error) {
-                                errorMessage += field + ': ' + error + '\n';
-                            });
-                            alert(errorMessage);
-                        } else if (response.error) {
-                            // Afficher toute autre erreur
-                            alert(response.error);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        // Erreur lors de la requête AJAX
-                        alert('Une erreur s\'est produite lors de l\'envoi de la requête AJAX : ' + error + xhr );
-                    },
-                    complete: function() {
-                        // La soumission du formulaire est terminée - masquer la page de chargement
-                        $('#loading').removeClass('show');
-                    }
-                });
-            });
-
+           
             
         });
 

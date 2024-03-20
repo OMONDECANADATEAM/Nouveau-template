@@ -19,7 +19,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Liste des candidats - Omonde Canada - CRM
+    <title>LISTE DES CANDIDATS - Omonde Canada - CRM
     </title>
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -102,7 +102,7 @@
                                         </td>
                                         <td style="width: 20%;">
                                             <a href="{{ $info_consultation->id }}/{{ $candidat->id }}">
-                                                <button class="btn bg-gradient-primary">
+                                                <button class="btn bg-dark text-white">
                                                     Voir fiche de consultation
                                                 </button>
                                             </a>

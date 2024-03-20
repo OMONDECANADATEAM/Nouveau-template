@@ -79,11 +79,11 @@
                             <td>
                                 <div class="d-flex align-items-center justify-content-center">
                                     @if ($consultation->candidats->isNotEmpty())
-                                        <a href="{{ url('/Consultation/' . $consultation->id) }}" class="btn btn-primary">
+                                        <a href="{{ url('/Consultation/' . $consultation->id) }}" class="btn btn-dark">
                                             <i class="material-icons">visibility</i> Voir les Candidat(s)
                                         </a>
                                     @else
-                                        <button class="btn btn-primary" disabled>
+                                        <button class="btn btn-dark" disabled>
                                             <i class="material-icons">visibility_off</i> Voir les Candidat(s)
                                         </button>
                                     @endif

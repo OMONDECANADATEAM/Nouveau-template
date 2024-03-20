@@ -93,7 +93,6 @@ class AdministratifController extends Controller
         return ['caisseMensuel' => $difference];
     }
 
-
     //Ramene le nombre de consultations pour l'utilisateur connecté
     private function nombreConsultationMensuel()
     {
@@ -136,11 +135,18 @@ class AdministratifController extends Controller
     //Ramene les 3 prochaines consultations
     public function prochaineConsultation()
     {
-        $consultations = InfoConsultation::where('date_heure', '>=', Carbon::today())
-            ->where('date_heure', '<', Carbon::tomorrow())
-            ->latest('date_heure')
-            ->take(4)
-            ->get();
+        Carbon::setLocale('fr');
+         $consultations = InfoConsultation::where('date_heure', '>=', Carbon::today())
+        ->orderBy('date_heure')
+        ->take(4)
+        ->get();
+        
+          $consultations->transform(function ($consultation) {
+            $dateFormatee = Carbon::parse($consultation->date_heure)->translatedFormat('l j F Y H:i');
+            $consultation->dateFormatee = ucwords($dateFormatee);
+
+            return $consultation;
+        });
 
         return $consultations;
     }
@@ -391,16 +397,17 @@ class AdministratifController extends Controller
             }
 
 
-            return response()->json(['success' => 'Formulaire modifié avec succès.'], 200);
+           // Redirection vers dossier contact avec un message de succès
+            return redirect()->back()->with('success', 'Formulaire modifié avec succès.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Gérer les erreurs de validation
-            return response()->json(['errors' => $e->errors()], 422);
+            return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             // Gérer les autres exceptions
-            return response()->json(['error' => $e->getMessage()], 500);
+            return redirect()->back()->withErrors(['error' => 'Une erreur inattendue s\'est produite.'])->withInput();
         }
     }
-
+    
     public function ModifierDateConsultation(Request $request, $candidatId)
     {
         try {

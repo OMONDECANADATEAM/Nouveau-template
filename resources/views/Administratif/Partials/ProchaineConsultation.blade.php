@@ -18,7 +18,7 @@
                                 {{ $consultation->consultante->prenoms }} {{ $consultation->consultante->nom }}
                             </h6>
                             <p class="text-secondary font-weight-bold text-md mt-1 mb-0">
-                                {{ $consultation->date_heure }}
+                                {{ $consultation->dateFormatee }}
                             </p>
                         </div>
                     </div>

@@ -120,7 +120,7 @@
                                 </td>
 
                                 <td class="d-flex align-items-center justify-content-center">
-                                    <a href="{{ $consultation->candidats->isNotEmpty() ? 'Consultation/'.$consultation->id : '#' }}" class="btn bg-gradient-dark">
+                                    <a href="{{ $consultation->candidats->isNotEmpty() ? '/Consultation/'.$consultation->id : '#' }}" class="btn bg-gradient-dark">
                                     Voir les candidat(s)
                                     </a>
                                 </td>
