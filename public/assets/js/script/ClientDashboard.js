@@ -61,8 +61,8 @@
                     success: function(response) {
                         // Succès de la requête AJAX - afficher la réponse (succès ou échec)
                         if (response.success) {
-                            // Afficher un message de succès
-                            alert('La soumission du formulaire est terminée.');
+                            // Affiche une alerte de succès
+                        alert('Les modifications ont été enregistrées avec succès.');
     
                             // Fermer le modal
                             var modalId = form.data('modal-id');
