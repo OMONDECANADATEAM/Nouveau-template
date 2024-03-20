@@ -124,7 +124,8 @@
                                         <td>
                                             <h6 class="p-4 text-md"> <a href="{{ $consultation->lien_zoom }}"
                                                     target="_blank">
-                                                    <i class="fas fa-video"></i>
+                                                    <i class="material-icons">videocam</i>
+
                                                 </a></h6>
                                         </td>
                                         <td>
@@ -146,14 +147,14 @@
                                         <td class="text-center">
                                             @if ($consultation->candidats->isNotEmpty())
                                                 <a href="{{ url('Consultation/' . $consultation->id) }}">
-                                                    <button class="btn bg-gradient-dark ">
+                                                    <button class="btn btn-dark text-white">
                                                         Voir les candidat(s)
                                                     </button>
                                                 </a>
                                             @else
                                                 <a href="#">
 
-                                                    <button class="btn bg-gradient-dark">
+                                                    <button class="btn btn-dark text-white">
                                                         Voir les candidat(s)
                                                     </button>
 
