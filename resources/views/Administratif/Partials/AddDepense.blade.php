@@ -38,8 +38,10 @@
                         </div>
                     @endif
 
-                    <!-- Bouton Enregistrer -->
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <div class="text-center d-flex align-items-center justify-content-around mt-2">
+                        <div type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</div>
+                        <div type="submit" class="btn btn-success">Enregistrer</div>
+                    </div>
                 </form>
             </div>
         </div>

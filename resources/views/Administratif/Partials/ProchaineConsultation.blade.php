@@ -1,9 +1,9 @@
-<div class="col-lg-6 col-md-6 mt-4 mb-3">
+<div class="col-lg-6 col-md-12 mt-4 mb-3">
     <div class="card h-100">
-        <div class="card-header pb-0">
-            <h3>Prochaines Consultations</h3>
+        <div class="card-header d-flex align-items-center">
+            <h3 >Prochaines Consultations</h3>
         </div>
-        <div class="card-body p-3">
+        <div class="card-body p-3 p-4">
             @foreach ($consultations as $consultation)
                 <div class="timeline timeline-one-side">
                     <div class="timeline-block mb-3">

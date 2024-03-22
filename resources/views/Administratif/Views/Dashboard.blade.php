@@ -30,10 +30,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-    <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
-   
+    <script src="{{ asset('assets/js/script/DashboardAdministratif.js') }}"></script>
+ 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+ 
 </head>
 
 
@@ -62,18 +63,14 @@
                 @endif
 
             </div>
-            <div class="row">
+            <div class="row d-flex justify-content-between flex-direction-column">
               
                  @include('Administratif.Partials.ChartEntree')               
                
                  @include('Administratif.Partials.ProchaineConsultation')
             </div>
 
-            <div class="row mt-4 d-flex justify-content-around">
-              
-                {{-- @include('Administratif.Partials.TableRdv') --}}
-              
-            </div>
+            
 
            
                       

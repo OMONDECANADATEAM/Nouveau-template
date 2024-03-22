@@ -26,6 +26,8 @@
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/script/dossierContact.js') }}"></script>
     <script src="{{ asset('assets/js/script/ClientDashboard.js') }}"></script>
+    <script src="{{ asset('assets/js/script/FicheConsultation.js') }}"></script>
+   
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 </head>
 

@@ -4,7 +4,14 @@
 
 .modal-header {
     border-bottom: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-weight: bold;
 }
+
+
 
 .modal-title {
     font-weight: bold;
