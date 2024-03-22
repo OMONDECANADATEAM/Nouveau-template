@@ -690,6 +690,8 @@
             $(questionnaireId).show();
         });
 
+        
+
 
     });
 
@@ -757,4 +759,40 @@
             label.classList.remove('d-none');
         }
     }
+</script>
+
+
+<script>
+    $(document).ready(function () {
+    $('#modifierContactForm{{ $candidat->id }}').submit(function (e) {
+        e.preventDefault(); // Empêcher le comportement par défaut du formulaire
+        $('#loading').addClass('show');
+        var formData = $(this).serialize(); // Rassembler les données du formulaire
+console.log(formData)
+        // Envoyer une requête AJAX au serveur
+        $.ajax({
+            url: $(this).attr('action'), // URL définie dans l'attribut action du formulaire
+            type: $(this).attr('method'), // Méthode définie dans l'attribut method du formulaire
+            data: formData, // Données du formulaire sérialisées
+            success: function (response) {
+                // La requête a réussi, afficher une alerte ou effectuer d'autres actions
+                alert('Modifications enregistrées avec succès!');
+
+                // Réinitialiser le formulaire si nécessaire
+                $('#modifierContactForm{{ $candidat->id }}')[0].reset();
+
+                // Fermer le modal
+                $('#modifierContactModal{{ $candidat->id }}').modal('hide');
+            },
+            error: function (error) {
+                // La requête a échoué, afficher une alerte ou effectuer d'autres actions
+                console.error('Erreur lors de la modification du contact:', error);
+            },
+            complete: function () {
+                $('#loading').removeClass('show');
+            }
+        });
+    });
+});
+
 </script>
