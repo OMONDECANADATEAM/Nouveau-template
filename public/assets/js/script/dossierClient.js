@@ -20,6 +20,10 @@ $(document).ready(function() {
                 error: function(error) {
                     // La requête a échoué, afficher une alerte ou effectuer d'autres actions
                     console.error('Erreur lors de la suppression du document:', error);
+                },
+                complete: function() {
+                    // La soumission du formulaire est terminée - masquer la page de chargement
+                    $('#loading').removeClass('show');
                 }
             });
         }
@@ -49,6 +53,35 @@ $(document).ready(function() {
         } else {
             console.error("Error: Form with ID 'ajouterFichierForm" + candidatId + "' not found.");
         }
+    });
+
+    $('.procedureCandidat').submit(function(e) {
+        e.preventDefault(); // Empêcher le comportement par défaut du formulaire
+        $('#loading').addClass('show');
+        var formData = $(this).serialize(); // Rassembler les données du formulaire
+
+        // Envoyer une requête AJAX au serveur
+        $.ajax({
+            url: $(this).attr('action'), // URL définie dans l'attribut action du formulaire
+            type: $(this).attr('method'), // Méthode définie dans l'attribut method du formulaire
+            data: formData, // Données du formulaire sérialisées
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF Token
+            },
+            success: function(response) {
+                // La requête a réussi, afficher une alerte ou effectuer d'autres actions
+                alert('Enregistrement effectué avec succes !');
+
+                // Mettre à jour l'interface utilisateur si nécessaire
+            },
+            error: function(error) {
+                // La requête a échoué, afficher une alerte ou effectuer d'autres actions
+                console.error('Erreur lors de la soumission du formulaire: ', error , 'Si le probleme persiste , contacter un agent IT');
+            },
+            complete: function() {
+                $('#loading').removeClass('show');
+            }
+        });
     });
 });
 
