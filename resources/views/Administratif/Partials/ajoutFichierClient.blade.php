@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <form id="ajouterFichierForm{{ $candidat->id }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <div class="mb-3 d-flex align-items-center">
+                    <div class="mb-3 d-flex align-items-center doc">
                         <!-- Ajoutez un champ de sélection pour le type de document -->
                         <div class="me-3">
                             <select class="form-select" id="typeDocument" name="typeDocument[]" required>
@@ -30,9 +30,10 @@
                         </div>
 
                         <!-- Bouton pour ajouter une nouvelle ligne -->
-                        <button type="button" class="btn btn-primary"
-                            onclick="ajouterNouvelleLigne({{ $candidat->id }})">+</button>
-                    </div>
+                        <button type="button" class="btn btn-primary nouvelleLigne" data-candidat-id="{{ $candidat->id }}">
+                            +
+                        </button>
+                          </div>
 
                     <div class="text-end d-flex justify-content-around">
                         <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Annuler</button>
@@ -41,14 +42,6 @@
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
-<script>
-
-
-
-
-    
-</script>

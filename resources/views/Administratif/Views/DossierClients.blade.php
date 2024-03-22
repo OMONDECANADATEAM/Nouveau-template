@@ -18,82 +18,49 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/logos/logo-icon.png') }}">
     <title>
         Omonde Canada - CRM | DOSSIER CLIENTS
     </title>
-    <!--     Fonts and icons     -->
+    <!-- Fonts and icons -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-    <script src={{ asset('assets/js/script/dossierClient.js') }}></script>
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
+    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
+     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <!-- Popper.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!-- DataTables JS -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    <script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
-</head>
-
-<script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
+
     @include('partials.navbar')
+
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         @include('partials.header', ['page' => 'CLIENTS'])
         <!-- End Navbar -->
         <div class="row">
             <div class="col-12">
-
                 @include('Administratif.Partials.tableClient')
             </div>
-
-
         </div>
 
         <div id="loading" class="loading-overlay">
-            <div class="loading-spinner"></div>
-        </div>
+                        <div class="loading-spinner"></div>
+                    </div>
         @include('partials.plugin')
 
-        <script>
-            $(document).ready(function() {
-                $('.delete-document').on('click', function(e) {
-                    e.preventDefault();
-
-                    var url = $(this).data('url');
-
-                    if (confirm('Êtes-vous sûr de vouloir supprimer ce document ?')) {
-                        $.ajax({
-                            url: url,
-                            type: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            success: function(response) {
-                                // La requête a réussi, afficher une alerte
-                                alert('Le document a été supprimé avec succès!');
-
-                                // Recharger la page
-                                window.location.reload();
-                            },
-                            error: function(error) {
-                                // La requête a échoué, afficher une alerte ou effectuer d'autres actions
-                                console.error('Erreur lors de la suppression du document:', error);
-                            }
-                        });
-                    }
-                });
-            });
-        </script>
+        <script src="{{ asset('assets/js/script/dossierClient.js') }}"></script>
+   
 </body>
 
 </html>
