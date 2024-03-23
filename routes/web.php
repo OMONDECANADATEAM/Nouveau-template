@@ -81,6 +81,7 @@ Route::get('/Direction/Equipe', [DirectionController::class, 'Equipe'])->name('D
 //Routes IT
 Route::get('/Informatique/Consultation', [InformatiqueController::class, 'Consultation'])->name('Informatique.Dashboard');
 Route::post('/Informatique/Consultation/CreerConsultation', [consultationController::class, 'creerConsultation'])->name('creerConsultation');
+Route::put('/Informatique/Consultation/ModiferConsultation/{id}', [consultationController::class, 'ModifierConsultation'])->name('modifierConsultation');
 
 Route::get('/Informatique/Equipe', [InformatiqueController::class, 'Equipe'])->name('Informatique.Equipe');
 
@@ -111,18 +112,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::put('/modifierContact/{id}', [Controller::class, 'modifierFormulaire'])->name('modifierContact');
 Route::post('DossierContacts', [Controller::class, 'soumettreFormulaire'])->name('ajoutContact');
 
-//Chart routes et controller
-
-
-
-
-
 // Exemple de route dans votre fichier web.php
 Route::get('/recherche-candidat', [Controller::class , 'rechercheCandidat'])->name('rechercheCandidat');
 Route::get('/Consultation/{id}', [ConsultanteController::class , 'getListCandidatByConsultation'])->name('listcandidats');
 Route::get('/Consultation/{id}/{id_candidat}', [ConsultanteController::class , 'getCandidatByConsultation'])->name('candidat');
 Route::get('/ficheConsultation/{id_candidat}', [ConsultanteController::class , 'getCandidatFiche'])->name('candidatFiche');
-
 
 // routes/web.php
 Route::post('/ajouterCandidatAConsultation', [Controller::class, 'ajouterCandidatAConsultation']);

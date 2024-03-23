@@ -69,4 +69,37 @@ class consultationController extends Controller
         return redirect()->back();
     }
 
+
+    public function ModifierConsultation(Request $request, $id)
+    {
+        // Valider les données du formulaire
+        $request->validate([
+            'lien_zoom' => 'required',
+            'lien_zoom_demarrer' => 'required',
+            'date_heure' => 'required|date',
+            'nombre_candidats' => 'required|integer',
+            'id_consultante' => 'required|integer',
+        ]);
+    
+        try {
+            // Récupérer la consultation à modifier
+            $consultation = InfoConsultation::findOrFail($id);
+    
+            // Mettre à jour les champs de la consultation avec les données du formulaire
+            $consultation->update([
+                'lien_zoom' => $request->input('lien_zoom'),
+                'lien_zoom_demarrer' => $request->input('lien_zoom_demarrer'),
+                'date_heure' => $request->input('date_heure'),
+                'nombre_candidats' => $request->input('nombre_candidats'),
+                'id_consultante' => $request->input('id_consultante')
+            ]);
+    
+            // Retourner une réponse JSON avec un code 200 pour succès
+            return response()->json(['success' => true, 'message' => 'Consultation mise à jour avec succès']);
+    
+        } catch (\Exception $e) {
+            // Retourner une réponse JSON avec un message d'erreur en cas d'exception
+            return response()->json(['error' => false, 'error' => $e->getMessage()], 500);
+        }
+    }
 }
