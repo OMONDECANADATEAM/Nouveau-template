@@ -92,50 +92,78 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($consultations as $consultation)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2">
-                                                <h6 class="text-lg">{{ $consultation->label }}</h6>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-lg font-weight-bold mb-0 text-success">{{ $consultation->dateFormatee}}</p>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="font-weight-bold text-lg text-center text-danger">{{ $consultation->consultante->nom }} {{ $consultation->consultante->prenoms }}</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <span class="me-2 text-lg font-weight-bold">{{ $consultation->candidats->count() }} / {{ $consultation->nombre_candidats }}</span>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <div class="dropdown">
-                                                <div class="btn btn-dark" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                                                    <i class="material-icons">more_vert</i>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2">
+                                                    <h6 class="text-lg">{{ $consultation->label }}</h6>
                                                 </div>
-                                                <div class="dropdown-menu d-flex flex-direction-column flex-wrap" aria-labelledby="dropdownMenuButton">
-                                                    <!-- Lien pour la salle d'attente -->
-                                                    <a class="btn btn-dark col-12 m-1" href="{{ url('/waiting-list/' . $consultation->id) }}">SALLE D'ATTENTE</a>
-                                                    <!-- Lien pour voir les candidats -->
-                                                    <a class="btn btn-dark col-12 m-1" href="{{ $consultation->candidats->isNotEmpty() ? '/Consultation/' . $consultation->id : '#' }}">VOIR LES CANDIDATS</a>
-                                                    <!-- Lien pour accéder à la consultation -->
-                                                    <a class="btn btn-dark col-12 m-1" href="{{ $consultation->lien_zoom_demarrer }}">ACCEDER A LA CONSULTATION</a>
-                                                    <!-- Lien pour modifier la consultation (ouvre le modal) -->
-                                                    <a class="btn btn-dark col-12 m-1 modifier-consultation" data-bs-toggle="modal" data-bs-target="#mdfConsultation{{$consultation->id}}">MODIFIER CONSULTATION</a>
-                                                    
+                                            </td>
+                                            <td>
+                                                <p class="text-lg font-weight-bold mb-0 text-success">
+                                                    {{ $consultation->dateFormatee }}</p>
+                                            </td>
+                                            <td class="text-center">
+                                                <span
+                                                    class="font-weight-bold text-lg text-center text-danger">{{ $consultation->consultante->nom }}
+                                                    {{ $consultation->consultante->prenoms }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <span
+                                                        class="me-2 text-lg font-weight-bold">{{ $consultation->candidats->count() }}
+                                                        / {{ $consultation->nombre_candidats }}</span>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @include('Informatique.Partials.mdfConsultation')
-                     
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <div class="dropdown">
+                                                    <div class="btn btn-dark" type="button" id="dropdownMenuButton"
+                                                        data-bs-toggle="dropdown">
+                                                        <i class="material-icons">more_vert</i>
+                                                    </div>
+                                                    <div class="dropdown-menu d-flex flex-direction-column flex-wrap"
+                                                        aria-labelledby="dropdownMenuButton">
+                                                        <!-- Lien pour la salle d'attente -->
+                                                        <a class="btn btn-dark col-12 m-1"
+                                                            href="{{ url('/waiting-list/' . $consultation->id) }}">SALLE
+                                                            D'ATTENTE</a>
+                                                        <!-- Lien pour voir les candidats -->
+                                                        <a class="btn btn-dark col-12 m-1"
+                                                            href="{{ $consultation->candidats->isNotEmpty() ? '/Consultation/' . $consultation->id : '#' }}">VOIR
+                                                            LES CANDIDATS</a>
+                                                        <!-- Lien pour accéder à la consultation -->
+                                                        <a class="btn btn-dark col-12 m-1"
+                                                            href="{{ $consultation->lien_zoom_demarrer }}">ACCEDER A LA
+                                                            CONSULTATION</a>
+                                                        <!-- Lien pour modifier la consultation (ouvre le modal) -->
+                                                        <a class="btn btn-dark col-12 m-1 modifier-consultation"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#mdfConsultation{{ $consultation->id }}">MODIFIER
+                                                            CONSULTATION</a>
+                                                        <!-- Lien pour accéder à la consultation -->
+                                                        <form id="deleteForm{{ $consultation->id }}"
+                                                            action="{{ route('supprimerConsultation', ['id' => $consultation->id]) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <!-- Ajoutez d'autres champs du formulaire si nécessaire -->
+                                                        </form>
+                                                        <a class="btn btn-dark col-12 m-1 delete-consultation"
+                                                            href="#" data-id="{{ $consultation->id }}">SUPPRIMER
+                                                            LA CONSULTATION</a>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @include('Informatique.Partials.mdfConsultation')
                                     @endforeach
-                                    
+
                                 </tbody>
-                                
-                              
-                                
+
+
+
                             </table>
                         </div>
                     </div>
@@ -148,7 +176,39 @@
 
         </div>
     </main>
-    @include('partials.plugin')
+  <script>
+    $(document).ready(function() {
+    $('.delete-consultation').on('click', function(e) {
+        e.preventDefault();
+        var consultationId = $(this).data('id');
+        var formId = '#deleteForm' + consultationId;
+
+        if (confirm('Êtes-vous sûr de vouloir supprimer cette consultation ?')) {
+
+            $('#loading').addClass('show'); // Ajoutez la classe 'show' pour afficher le chargement
+
+            $.ajax({
+                url: $(formId).attr('action'),
+                type: 'DELETE',
+                data: $(formId).serialize(),
+                success: function(response) {
+                    // Affichez le message de succès retourné dans la réponse JSON
+                    alert(response.message);
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error('Erreur lors de la suppression de la consultation : ', error);
+                },
+                complete: function() {
+                    $('#loading').removeClass('show'); // Retirez la classe 'show' pour masquer le chargement une fois la requête terminée
+                }
+            });
+        }
+    });
+});
+
+</script>
+@include('partials.plugin')
 
 </body>
 

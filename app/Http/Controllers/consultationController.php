@@ -102,4 +102,17 @@ class consultationController extends Controller
             return response()->json(['error' => false, 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function SupprimerConsultation($id)
+    {
+        // Trouver la consultation à supprimer
+        $consultation = InfoConsultation::findOrFail($id);
+    
+        // Supprimer la consultation
+        $consultation->delete();
+    
+        // Retourner une réponse JSON indiquant le succès de la suppression
+        return response()->json(['message' => 'La consultation a été supprimée avec succès.'], 200);
+    }
+    
 }
