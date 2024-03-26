@@ -6,26 +6,33 @@
                     <th class=" col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         NOM
                     </th>
+
                     <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                         NUMERO
                     </th>
+
                     <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                         PROFFESSION
                     </th>
-                    <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">
+                    
+                    <th
+                        class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">
                         DATE DE CONSULTATION
                     </th>
-                    <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+
+                    <th
+                        class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                         ACTIONS
                     </th>
-                    </th>
+
+                
                 </tr>
             </thead>
             <tbody>
 
 
                 @foreach ($clients as $candidat)
-                     <tr>
+                    <tr>
                         <td>
                             <div class="d-flex px-2">
                                 <h6 class="p-2 text-md">{{ $candidat->nom }} {{ $candidat->prenom }}</h6>
@@ -53,16 +60,17 @@
                                     data-bs-toggle="dropdown">
                                     <i class="material-icons">more_vert</i>
                                 </button>
-                                <div class="dropdown-menu d-flex flex-direction-column flex-wrap" aria-labelledby="dropdownMenuButton">
+                                <div class="dropdown-menu d-flex flex-direction-column flex-wrap"
+                                    aria-labelledby="dropdownMenuButton">
                                     <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal"
                                         data-bs-target="#modifierContactModal{{ $candidat->id }}">Ajouter ou modifier
                                         Fiche de Consultation</a>
 
-                                        <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal"
+                                    <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal"
                                         data-bs-target="#AjouterOuModifierConsultationModal{{ $candidat->id }}">Ajouter
                                         ou Modifier Consultation</a>
 
-                                    
+
                                 </div>
                             </div>
                         </td>
@@ -71,8 +79,8 @@
                         ])
                         @include('Administratif.Partials.AjouterOuModifierConsultation', [
                             'candidat' => $candidat,
-                        ])  
-                      
+                        ])
+
                     </tr>
                 @endforeach
 
