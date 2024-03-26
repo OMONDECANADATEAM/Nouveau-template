@@ -3,25 +3,25 @@
         <table class="table align-items-center justify-content-center mb-0">
             <thead>
                 <tr>
-                    <th class="col-2 col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <th class=" col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         NOM
                     </th>
 
-                    <th class="col-1 col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                         NUMERO
                     </th>
 
-                    <th class="col-1 col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                         PROFFESSION
                     </th>
                     
                     <th
-                        class="col-2 col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">
+                        class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">
                         DATE DE CONSULTATION
                     </th>
 
                     <th
-                        class="col-1 col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                        class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                         ACTIONS
                     </th>
 
@@ -30,26 +30,26 @@
             </thead>
             <tbody>
 
-
                 @foreach ($clients as $candidat)
                     <tr>
                         <td>
                             <div class="d-flex px-2">
-                                <h6 class="p-2 text-md">{{ $candidat->nom }} {{ $candidat->prenom }}</h6>
+                                <h6 class="p-2 text-lg">{{ $candidat->nom }} {{ $candidat->prenom }}</h6>
                             </div>
                         </td>
                         <td>
-                            <p class="text-md font-weight-bold mb-0">{{ $candidat->numero_telephone }}</p>
+                            <p class="text-lg font-weight-bold mb-0">{{ $candidat->numero_telephone }}</p>
                         </td>
                         <td>
-                            <span class="text-md font-weight-bold">{{ $candidat->profession }}</span>
+                            <span class="text-lg font-weight-bold">{{ $candidat->profession }}</span>
                         </td>
 
                         <td class="align-middle text-left">
                             @if ($candidat->consultation_payee && $candidat->infoConsultation)
-                                <span class="text-md font-weigh-norman">{{ $candidat->dateFormatee }}</span>
+                                <span class="text-lg font-weigh-normal">{{ $candidat->dateFormatee }}</span>
                             @else
-                                {{ $candidat->dossiers->documents ?? 'N / A' }}
+                            <span class="text-lg text-success font-weigh-normal">N / A</span>
+                       
                             @endif
 
                         </td>

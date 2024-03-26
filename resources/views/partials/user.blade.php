@@ -41,7 +41,7 @@
                 <button type="submit" class="dropdown-item border-radius-md bg-danger">
                     <div class="d-flex align-items-center justify-content-between">
                         <span class="material-icons fs-2">logout</span>
-                        <span class="text-md text-bold text-white">
+                        <span class=" text-bold text-white">
                             DECONNEXION
                         </span>
                     </div>
