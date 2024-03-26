@@ -3,25 +3,25 @@
         <table class="table align-items-center justify-content-center mb-0">
             <thead>
                 <tr>
-                    <th class=" col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <th class="col-2 col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         NOM
                     </th>
 
-                    <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    <th class="col-1 col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                         NUMERO
                     </th>
 
-                    <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    <th class="col-1 col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                         PROFFESSION
                     </th>
                     
                     <th
-                        class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">
+                        class="col-2 col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">
                         DATE DE CONSULTATION
                     </th>
 
                     <th
-                        class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                        class="col-1 col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                         ACTIONS
                     </th>
 
