@@ -29,7 +29,7 @@
         <li class="mb-2">
             <div class="btn btn-dark d-flex align-items-center justify-content-around p-2" data-bs-toggle="modal" data-bs-target="#modifierUtilisateurModal{{ Auth()->user()->id }}">
                 <span class="material-icons fs-2">person</span>
-                <span class="text-lg text-bold text-white">
+                <span class="text-md text-bold text-white">
                     MODIFIER
                 </span>
             </div>
@@ -41,7 +41,7 @@
                 <button type="submit" class="dropdown-item border-radius-md bg-danger">
                     <div class="d-flex align-items-center justify-content-between">
                         <span class="material-icons fs-2">logout</span>
-                        <span class="text-lg text-bold text-white">
+                        <span class="text-md text-bold text-white">
                             DECONNEXION
                         </span>
                     </div>

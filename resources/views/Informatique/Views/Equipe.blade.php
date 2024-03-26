@@ -106,11 +106,11 @@
                               </td>
                               <td class="d-flex align-items-center justify-content-center">
                                 <div class="dropdown">
-                                  <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"><i class="material-icons">more_vert</i></button>
-                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ajouterFichierModal{{ $user->id }}">Ajout Documents</a>
-                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#voirDossierModal{{ $user->id }}">Voir Dossier</a>
-                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modifierUtilisateurModal{{ $user->id }}">Modifier utilisateur</a>
+                                  <div class="btn btn-dark" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"><i class="material-icons">more_vert</i></div>
+                                  <div class="dropdown-menu d-flex flex-direction-column flex-wrap" aria-labelledby="dropdownMenuButton">
+                                    <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal" data-bs-target="#ajouterFichierModal{{ $user->id }}">Ajout Documents</a>
+                                    <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal" data-bs-target="#voirDossierModal{{ $user->id }}">Voir Dossier</a>
+                                    <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal" data-bs-target="#modifierUtilisateurModal{{ $user->id }}">Modifier utilisateur</a>
                                   </div>
                                   @include('Direction.Partials.VoirDocAgent')
                                   @include('Informatique.Partials.ModifierUser')

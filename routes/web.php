@@ -85,6 +85,8 @@ Route::post('/Informatique/Consultation/CreerConsultation', [consultationControl
 Route::put('/Informatique/Consultation/ModiferConsultation/{id}', [consultationController::class, 'ModifierConsultation'])->name('modifierConsultation');
 Route::delete('/Informatique/Consultation/SupprimerConsultation/{id}', [ConsultationController::class, 'SupprimerConsultation'])->name('supprimerConsultation');
 
+Route::get('/Informatique/Clients', [InformatiqueController::class, 'Client'])->name('Informatique.Client');
+
 Route::get('/Informatique/Equipe', [InformatiqueController::class, 'Equipe'])->name('Informatique.Equipe');
 
 

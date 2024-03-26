@@ -158,20 +158,21 @@
 
                             <td class="align-middle text-center">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary" type="button" id="dropdownMenuButton"
+                                    <button class="btn btn-dark" type="button" id="dropdownMenuButton"
                                         data-bs-toggle="dropdown">
                                         <i class="material-icons">more_vert</i>
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="dropdown-menu d-flex flex-direction-column flex-wrap" aria-labelledby="dropdownMenuButton">
                                        
                                      
-    
-                                        <a class="dropdown-item"data-bs-toggle="modal"
+                                        
+                                                    
+                                        <a class="btn btn-danger col-12 m-1 "data-bs-toggle="modal"
                                             data-bs-target="#AjouterVisaModal{{ $candidat->id }}">
                                             Ajouter le Type de Visa
                                         </a>
 
-                                        <a class="dropdown-item"data-bs-toggle="modal"
+                                        <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal"
                                         data-bs-target="#ajouterFichierModal{{ $candidat->id }}">
                                         Ajouter des documents
                                     </a>

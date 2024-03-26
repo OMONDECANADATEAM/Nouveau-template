@@ -41,6 +41,7 @@
 
                     //Pages IT
                     'Informatique.Dashboard' => 'Dashboard',
+                    'Informatique.Client' => 'Clients',
                     'Informatique.Equipe' => 'L\'equipe',
 
 
@@ -77,6 +78,7 @@
     ($currentUserRole == 3 &&
         in_array($page, [
             'Informatique.Dashboard',
+            'Informatique.Client',
             'Informatique.Equipe'
         ])) ||
     ($currentUserRole == 4 &&
@@ -112,6 +114,7 @@
                                         @break
 
                                         @case('Administratif.DossierClients')
+                                        @case('Informatique.Client')
                                         @case('DossierClients')
                                         @case('Consultante.DossierClient')
                                    

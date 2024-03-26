@@ -201,6 +201,7 @@ class AdministratifController extends Controller
     {
         Carbon::setLocale('fr');
         $clients = $this->allClients();
+        
         $consultations = $this->consultationsDisponible();
 
 
@@ -441,9 +442,6 @@ class AdministratifController extends Controller
         }
     }
     
-
-
-
     public function getDossierDocuments($clientId)
     {
         $candidat = Candidat::find($clientId);

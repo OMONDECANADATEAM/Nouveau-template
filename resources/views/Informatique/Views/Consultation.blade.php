@@ -31,7 +31,8 @@
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-
+    <script src={{ asset('assets/js/script/equipe.js') }}></script>
+   
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -177,37 +178,37 @@
         </div>
     </main>
   <script>
-    $(document).ready(function() {
-    $('.delete-consultation').on('click', function(e) {
-        e.preventDefault();
-        var consultationId = $(this).data('id');
-        var formId = '#deleteForm' + consultationId;
+       $('#consultationForm{{$consultation->id}}').on('submit', function (e) {
+        e.preventDefault(); // Empêcher le comportement par défaut du formulaire
+        $('#loading').addClass('show');
 
-        if (confirm('Êtes-vous sûr de vouloir supprimer cette consultation ?')) {
+        var formData = $(this).serialize(); // Rassembler les données du formulaire
 
-            $('#loading').addClass('show'); // Ajoutez la classe 'show' pour afficher le chargement
-
-            $.ajax({
-                url: $(formId).attr('action'),
-                type: 'DELETE',
-                data: $(formId).serialize(),
-                success: function(response) {
-                    // Affichez le message de succès retourné dans la réponse JSON
-                    alert(response.message);
-                    location.reload();
-                },
-                error: function(error) {
-                    console.error('Erreur lors de la suppression de la consultation : ', error);
-                },
-                complete: function() {
-                    $('#loading').removeClass('show'); // Retirez la classe 'show' pour masquer le chargement une fois la requête terminée
-                }
-            });
-        }
+        // Envoyer une requête AJAX au serveur
+        $.ajax({
+            url: $(this).attr('action'), // URL définie dans l'attribut action du formulaire
+            type: $(this).attr('method'), // Méthode définie dans l'attribut method du formulaire
+            data: formData, // Données du formulaire sérialisées
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF Token
+            },
+            success: function (response) {
+                // La requête a réussi, afficher une alerte ou effectuer d'autres actions
+                alert('Enregistrement effectué avec succès !');
+                // Par exemple, vous pouvez rediriger l'utilisateur vers une autre page
+                location.reload();
+            },
+            error: function (error) {
+                // La requête a échoué, afficher une alerte ou effectuer d'autres actions
+                console.error('Erreur lors de la soumission du formulaire: ', error);
+            },
+            complete: function () {
+                $('#loading').removeClass('show');
+            }
+        });
     });
-});
-
 </script>
+
 @include('partials.plugin')
 
 </body>
