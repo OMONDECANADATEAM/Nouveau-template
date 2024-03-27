@@ -177,37 +177,7 @@
 
         </div>
     </main>
-  <script>
-       $('#consultationForm{{$consultation->id}}').on('submit', function (e) {
-        e.preventDefault(); // Empêcher le comportement par défaut du formulaire
-        $('#loading').addClass('show');
 
-        var formData = $(this).serialize(); // Rassembler les données du formulaire
-
-        // Envoyer une requête AJAX au serveur
-        $.ajax({
-            url: $(this).attr('action'), // URL définie dans l'attribut action du formulaire
-            type: $(this).attr('method'), // Méthode définie dans l'attribut method du formulaire
-            data: formData, // Données du formulaire sérialisées
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF Token
-            },
-            success: function (response) {
-                // La requête a réussi, afficher une alerte ou effectuer d'autres actions
-                alert('Enregistrement effectué avec succès !');
-                // Par exemple, vous pouvez rediriger l'utilisateur vers une autre page
-                location.reload();
-            },
-            error: function (error) {
-                // La requête a échoué, afficher une alerte ou effectuer d'autres actions
-                console.error('Erreur lors de la soumission du formulaire: ', error);
-            },
-            complete: function () {
-                $('#loading').removeClass('show');
-            }
-        });
-    });
-</script>
 
 @include('partials.plugin')
 

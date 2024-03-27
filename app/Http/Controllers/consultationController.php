@@ -94,9 +94,7 @@ class consultationController extends Controller
                 'id_consultante' => $request->input('id_consultante')
             ]);
     
-            // Retourner une réponse JSON avec un code 200 pour succès
-            return response()->json(['success' => true, 'message' => 'Consultation mise à jour avec succès']);
-    
+            return redirect()->back();
         } catch (\Exception $e) {
             // Retourner une réponse JSON avec un message d'erreur en cas d'exception
             return response()->json(['error' => false, 'error' => $e->getMessage()], 500);
