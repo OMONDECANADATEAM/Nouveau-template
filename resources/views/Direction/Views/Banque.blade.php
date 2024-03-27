@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
     <title>
-        Omonde Canada - CRM
+        OMONDE CANADA - CRM
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"

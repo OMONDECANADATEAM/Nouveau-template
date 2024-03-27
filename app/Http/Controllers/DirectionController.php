@@ -6,6 +6,7 @@ use App\Models\Candidat;
 use App\Models\consultante;
 use App\Models\Depense;
 use App\Models\Entree;
+use App\Models\InfoConsultation;
 use App\Models\Succursale;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -198,13 +199,30 @@ private function formatChartData($data)
     return $formattedData;
 }
 
-
 public function Consultation(){
 
-    $consultantes = consultante::all();
+    Carbon::setLocale('fr');
+    
+    $consultations = InfoConsultation::with(['consultante', 'candidats'])
+        ->orderBy('date_heure', 'desc')
+        ->get();
 
-    return view('Direction.Views.Consultation', ['data_consultante' => $consultantes]);
+    $consultations->transform(function ($consultation) {
+        if ($consultation->date_heure) {
+            $date_heure = Carbon::parse($consultation->date_heure);
+            $consultation->datePassee = $date_heure->isPast();
+            $consultation->dateFormatee = $date_heure->translatedFormat('l j F Y H:i');
+        } else {
+            $consultation->datePassee = false; // Ou toute autre valeur par défaut que vous souhaitez définir
+            $consultation->dateFormatee = 'N / A';
+        }
+        return $consultation;
+    });
+
+    return view('Direction.Views.Consultation', ['consultations' => $consultations]);
 }
+
+
 
 public function DossierClient(){
 

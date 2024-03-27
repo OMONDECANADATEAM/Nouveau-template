@@ -5,43 +5,6 @@
                 placeholder="Rechercher...">
         </div>
 
-        {{-- <div class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
-            <div class="dropdown">
-                <button class="btn btn-secondary" type="button" id="dropdownTypePaiement" data-toggle="dropdown">
-                    Type de Paiement
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownTypePaiement">
-                    @foreach (\App\Models\TypePaiement::all() as $typePaiement)
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="{{ $typePaiement->label }}"
-                                id="typePaiement{{ $typePaiement->id }}" name="type_paiement" checked>
-                            <label class="form-check-label" for="typePaiement{{ $typePaiement->id }}">
-                                {{ $typePaiement->label }}
-                            </label>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            <div class="dropdown">
-                <button class="btn btn-secondary" type="button" id="dropdownSuccursales" data-toggle="dropdown">
-                    Pays
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownSuccursales">
-                    @foreach (\App\Models\Succursale::all() as $succursale)
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="{{ $succursale->label }}"
-                                id="typePaiement{{ $typePaiement->id }}" name="pays" checked>
-                            <label class="form-check-label" for="typePaiement{{ $succursale->id }}">
-                                {{ $succursale->label }}
-                            </label>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-
-        </div> --}}
     </div>
 
     <div class="card-body px-0">

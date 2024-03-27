@@ -84,7 +84,7 @@
                     if (candidat) {
                         candidatNameElement.textContent = candidat.pays;
                         candidatNomElement.textContent = candidat.nom + " " + candidat.prenom;
-                        candidatIdElement.textContent = "N° " + candidat.id;
+                        candidatIdElement.textContent = "N° " + (currentIndex+1);
                     } else {
                         candidatContainer.innerHTML = 'No more candidats.';
                     }
