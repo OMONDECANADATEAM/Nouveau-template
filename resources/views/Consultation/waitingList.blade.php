@@ -36,11 +36,17 @@
         <div class="col-12 d-flex align-items-top justify-content-center">
 
             <div class="col-8 d-flex align-items-center m-1">
-                <iframe width="1000" height="500"
+                {{-- <iframe width="1000" height="500"
                     src="https://www.youtube.com/embed/NfcpZXCg3Mg?si=NXdEfWlTcesMglIu" title="YouTube video player"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
+                    allowfullscreen></iframe> --}}
+
+                    <iframe width="1000" height="500"
+                    src="https://www.youtube.com/embed/l8PMl7tUDIE?si=FhHDE6K9rHw5XbUe" title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
             </div>
 
@@ -54,7 +60,7 @@
                                 <span class="text-uppercase text-dark text-xl font-weight-bolder opacity-7"
                                     id="candidatName"></span>
                             </div>
-                           
+
 
                             <span class="text- text-center text-dark text-xl font-weight-bolder opacity-7"
                                 id="candidatId"></span>
@@ -69,7 +75,7 @@
 
                 </div>
             </div>
-          
+
             <script>
                 let currentIndex = 0;
                 const candidats = @json($data_candidat);
@@ -84,7 +90,7 @@
                     if (candidat) {
                         candidatNameElement.textContent = candidat.pays;
                         candidatNomElement.textContent = candidat.nom + " " + candidat.prenom;
-                        candidatIdElement.textContent = "N° " + (currentIndex+1);
+                        candidatIdElement.textContent = "N° " + (currentIndex + 1);
                     } else {
                         candidatContainer.innerHTML = 'No more candidats.';
                     }
@@ -100,7 +106,7 @@
             </script>
 
 
-          
+
 
 
 
