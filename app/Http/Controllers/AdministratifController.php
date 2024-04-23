@@ -243,25 +243,33 @@ class AdministratifController extends Controller
         return $clients;
     }
 
-    //Renvoie la liste des consultation disponible
     public function consultationsDisponible()
     {
         Carbon::setLocale('fr');
+    
+        // Récupérer l'heure actuelle
+        $now = Carbon::now();
+    
+        // Sélectionner les consultations disponibles où le nombre de candidats est inférieur au nombre maximum prévu
         $consultations = InfoConsultation::where('nombre_candidats', '>', function ($query) {
             $query->selectRaw('count(*)')
-                ->from('candidat')
-                ->whereColumn('info_consultation.id', 'candidat.id_info_consultation');
-        })->get();
-
+                  ->from('candidat')
+                  ->whereColumn('info_consultation.id', 'candidat.id_info_consultation');
+        })
+        ->where('date_heure', '>', $now) // Ajouter la condition pour ne pas sélectionner les dates passées
+        ->get();
+    
+        // Formater les dates des consultations
         $consultations->transform(function ($consultation) {
             $dateFormatee = Carbon::parse($consultation->date_heure)->translatedFormat('l j F Y H:i');
             $consultation->dateFormatee = ucwords($dateFormatee);
-
+    
             return $consultation;
         });
-
+    
         return $consultations;
     }
+    
 
     public function CreerOuModifierFiche(Request $request, $idCandidat)
     {
