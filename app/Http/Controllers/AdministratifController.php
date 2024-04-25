@@ -248,7 +248,7 @@ class AdministratifController extends Controller
         Carbon::setLocale('fr');
     
         // Récupérer l'heure actuelle
-        $now = Carbon::now();
+        $now = Carbon::yesterday();
     
         // Sélectionner les consultations disponibles où le nombre de candidats est inférieur au nombre maximum prévu
         $consultations = InfoConsultation::where('nombre_candidats', '>', function ($query) {
