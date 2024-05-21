@@ -7,6 +7,7 @@ use App\Models\Document;
 use App\Models\Dossier;
 use App\Models\Procedure;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -202,16 +203,23 @@ class DossierController extends Controller
             // Retourne une réponse JSON avec un message de succès
             return response()->json([
                 'success' => true,
-                'message' => 'Modifié avec succes',
+                'message' => 'Modifié avec succès',
                 'tagId' => $tagId
             ]);
+        } catch (ModelNotFoundException $e) {
+            // Gestion de l'exception si aucun modèle n'est trouvé
+            return response()->json([
+                'success' => false,
+                'message' => 'Aucun enregistrement trouvé pour ce candidat'
+            ]);
         } catch (\Exception $e) {
-            // Gestion des erreurs, retourne une réponse JSON avec un message d'erreur
+            // Gestion des autres erreurs
             return response()->json([
                 'success' => false,
                 'message' => 'Erreur lors de l\'action: ' . $e->getMessage()
             ]);
         }
     }
+    
     
 }
