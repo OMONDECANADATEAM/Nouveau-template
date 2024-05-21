@@ -615,6 +615,7 @@ class AdministratifController extends Controller
                     'id_type_procedure' => $typeProcedureId,
                     'statut_id' => $statutId,
                     'consultante_id' => $consultanteId,
+                    'tag_id' => 1,
                 ]);
                 $procedure->save();
                 $isNewProcedure = true;
