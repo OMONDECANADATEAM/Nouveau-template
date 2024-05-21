@@ -8,7 +8,7 @@
                 <div class="timeline timeline-one-side">
                     <div class="timeline-block mb-3">
                         <span class="timeline-step">
-                            <a href="{{ $consultation->lien_zoom }}" target="">
+                            <a href="{{ $consultation->lien_zoom }}">
                                 <i
                                     class="material-icons {{ today()->isSameDay($consultation->date_heure) ? 'text-danger' : 'text-success' }}">videocam</i>
                             </a>

@@ -257,6 +257,7 @@ class AdministratifController extends Controller
                   ->from('candidat')
                   ->whereColumn('info_consultation.id', 'candidat.id_info_consultation');
         })
+        ->where('date_heure', '>', $now) // Ajouter la condition pour ne pas sélectionner les dates passées
         ->get();
     
         // Formater les dates des consultations
