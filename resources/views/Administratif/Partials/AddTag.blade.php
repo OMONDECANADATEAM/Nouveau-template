@@ -32,35 +32,4 @@
   </div>
   
 
-  <script>
-    $(document).ready(function () {
-        $('#tagChangeForm').submit(function(e) {
-            e.preventDefault(); // Prevent the default form submission
-    
-            var candidatId = $(this).data('candidat-id'); // Assuming candidatId is stored as a data attribute on the form
-            var tagId = $('#tagSelect').val(); // Get the selected tag's ID
-    
-            $.ajax({
-                url: '/Administratif/UpdateTag/' + candidatId + '/' + tagId,
-                type: 'POST',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for Laravel
-                },
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message); // Display success message
-                        window.location.reload(); // Reload the page to reflect changes
-                    } else {
-                        alert(response.message); // Display error message if not successful
-                    }
-                },
-                error: function(xhr, status, error) {
-                    alert('An error occurred: ' + error); // Alert the error if the AJAX call fails
-                }
-            });
-        });
-    });
-    </script>
-    
-
-  </script>
+ 
