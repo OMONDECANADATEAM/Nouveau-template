@@ -92,6 +92,44 @@
             });
         });
     });
+    $(document).ready(function() {
+    $('.procedureCandidat form').submit(function(e) {
+        e.preventDefault(); // Empêcher le comportement par défaut du formulaire
+
+        var form = $(this);
+        var formData = form.serialize(); // Rassembler les données du formulaire
+
+        console.log('Form data:', formData); // Log des données du formulaire pour le débogage
+
+        $('#loading').addClass('show');
+
+        // Envoyer une requête AJAX au serveur
+        $.ajax({
+            url: form.attr('action'), // URL définie dans l'attribut action du formulaire
+            type: form.attr('method'), // Méthode définie dans l'attribut method du formulaire
+            data: formData, // Données du formulaire sérialisées
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF Token
+            },
+            success: function(response) {
+                // La requête a réussi, afficher une alerte ou effectuer d'autres actions
+                alert('Enregistrement effectué avec succès !');
+                location.reload(); // Recharger la page après succès
+
+                // Mettre à jour l'interface utilisateur si nécessaire
+            },
+            error: function(error) {
+                // La requête a échoué, afficher une alerte ou effectuer d'autres actions
+                console.error('Erreur lors de la soumission du formulaire: ', error, 'Si le problème persiste, contactez un agent IT');
+            },
+            complete: function() {
+                $('#loading').removeClass('show');
+            }
+        });
+    });
+});
+
+
     </script>
     
 

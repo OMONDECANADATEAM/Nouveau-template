@@ -1,13 +1,12 @@
 <!-- Modal pour ajouter une entrée -->
-<div class="modal fade z-index-2 procedureCandidat" id="AjouterVisaModal{{ $candidat->id }}" tabindex="-1" role="dialog"
-    aria-labelledby="ajouterEntreeModalLabel" aria-hidden="true">
+<div class="modal fade z-index-2 procedureCandidat" id="AjouterVisaModal{{ $candidat->id }}" tabindex="-1" role="dialog" aria-labelledby="ajouterEntreeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ajouterEntreeModalLabel">Ajouter le Type de Procedure</h5>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Administratif.ModifierTypeVisa', ['id' => $candidat->id]) }}" method="POST">
+                <form id="procedureForm{{ $candidat->id }}" action="{{ route('Administratif.ModifierTypeVisa', ['id' => $candidat->id]) }}" method="POST">
                     @csrf
                     <!-- Champs Candidat -->
                     <input type="hidden" name="candidat_id" value="{{ $candidat->id }}">
@@ -37,9 +36,8 @@
                             <label for="consultante_id">Consultante</label>
                             <select class="form-select ps-2" name="consultante_id" id="consultante_id">
                                 <option value="" selected>Non défini</option>
-                                @foreach (App\Models\consultante::all() as $consultante)
-                                    <option value="{{ $consultante->id }}">{{ $consultante->nom }}
-                                        {{ $consultante->prenoms }}</option>
+                                @foreach (App\Models\Consultante::all() as $consultante)
+                                    <option value="{{ $consultante->id }}">{{ $consultante->nom }} {{ $consultante->prenoms }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -52,4 +50,3 @@
         </div>
     </div>
 </div>
-

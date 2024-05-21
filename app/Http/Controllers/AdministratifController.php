@@ -19,6 +19,7 @@ use App\Notifications\DateConsultationNotification;
 use App\Notifications\ProcedureCreatedNotifications;
 use App\Notifications\StatutNotifications;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -568,25 +569,33 @@ class AdministratifController extends Controller
         return $candidats;
     }
 
+    
     public function ModifierTypeVisa(Request $request, $candidatId)
     {
         try {
             // Validez l'existence du candidat
             $candidat = Candidat::find($candidatId);
             if (!$candidat) {
-                return redirect()->back()->with('error', 'Candidat introuvable.');
+                Log::error("Candidat introuvable avec l'ID : $candidatId");
+                return response()->json(['success' => false, 'message' => 'Candidat introuvable.'], 404);
             }
+    
             // Récupérez les valeurs du formulaire
             $typeProcedureId = $request->input('type_procedure');
             $statutId = $request->input('statut_id');
             $consultanteId = $request->input('consultante_id');
+    
+            // Log des valeurs récupérées
+            Log::info("Valeurs récupérées - typeProcedureId: $typeProcedureId, statutId: $statutId, consultanteId: $consultanteId");
+    
             // Recherchez une procédure existante pour le candidat
             $procedure = Procedure::where('id_candidat', $candidatId)->first();
             $isNewProcedure = false;
             $isStatutChanged = false;
+    
             // Si une procédure existe, vérifiez si le statut a changé
             if ($procedure) {
-                if ($procedure->statut_id != $statutId) { // check if status has changed
+                if ($procedure->statut_id != $statutId) {
                     $isStatutChanged = true;
                     // Si le statut a changé, ne mettez à jour que le statut
                     $procedure->update(['statut_id' => $statutId]);
@@ -598,6 +607,7 @@ class AdministratifController extends Controller
                         'consultante_id' => $consultanteId,
                     ]);
                 }
+                Log::info("Procédure mise à jour - ID procédure : " . $procedure->id);
             } else {
                 // Si une procédure n'existe pas, créez une nouvelle procédure
                 $procedure = new Procedure([
@@ -608,25 +618,30 @@ class AdministratifController extends Controller
                 ]);
                 $procedure->save();
                 $isNewProcedure = true;
+                Log::info("Nouvelle procédure créée - ID procédure : " . $procedure->id);
             }
+    
             // Get the status label
             $statut = StatutProcedure::find($statutId);
             $statutLabel = $statut ? $statut->label : '';
+    
             // Send notifications
             if ($isNewProcedure) {
-                // Get the candidate's first name and last name
                 $nom = $candidat->nom;
                 $prenom = $candidat->prenom;
-                // Send notification about the creation of the procedure
                 Notification::route('mail', $candidat->email)->notify(new ProcedureCreatedNotifications($nom, $prenom));
             } else if ($isStatutChanged) {
-                // Send notification about the update of the procedure
                 Notification::route('mail', $candidat->email)->notify(new StatutNotifications($statutLabel));
             }
-            return redirect()->back()->with('success', 'Procédure enregistrée avec succès.');
+    
+            return response()->json(['success' => true, 'message' => 'Procédure enregistrée avec succès.'], 200);
         } catch (\Exception $e) {
             // Gérez les erreurs, par exemple, en les enregistrant ou en les affichant à l'utilisateur
-            return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de la procédure.');
+            Log::error('Erreur lors de l\'enregistrement de la procédure : ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Une erreur est survenue lors de l\'enregistrement de la procédure.'], 500);
         }
     }
+    
+
+
 }
