@@ -12,7 +12,9 @@
 }
 
 
-
+div.bottom.d-flex.justify-content-center{
+    margin-top: 2rem;
+}
 .modal-title {
     font-weight: bold;
     color: #333;

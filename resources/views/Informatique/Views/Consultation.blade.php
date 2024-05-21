@@ -32,7 +32,7 @@
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
     <script src={{ asset('assets/js/script/equipe.js') }}></script>
-   
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -53,6 +53,15 @@
                                     placeholder="Recherche...">
 
                             </div>
+                            <div
+                                class="col-md-3 col-sm-5 d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                                <button class="btn btn-secondary" onclick="filterConsultations('past')">Passé</button>
+                                <button class="btn btn-secondary" onclick="filterConsultations('upcoming')">A
+                                    venir</button>
+                                <button class="btn btn-secondary" onclick="filterConsultations('all')">Voir
+                                    tout</button>
+                            </div>
+
                             <button class="btn bg-gradient-primary circle" data-bs-toggle="modal"
                                 data-bs-target="#addConsultationModal">
                                 <i class="material-icons text-gradient-dark" style="font-size: 2rem;">add</i>
@@ -76,6 +85,7 @@
                                             class="text-uppercase col-2 text-secondary text-center text-xxs font-weight-bolder opacity-7 ps-2">
                                             DATE
                                         </th>
+                                        
                                         <th
                                             class="text-uppercase col-2 text-secondary  text-center text-xxs font-weight-bolder opacity-7 ps-2">
                                             CONSULTANTE
@@ -93,7 +103,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($consultations as $consultation)
-                                        <tr>
+                                        <tr data-date="{{ $consultation->date_heure }}">
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <h6 class="text-lg">{{ $consultation->label }}</h6>
@@ -179,7 +189,7 @@
     </main>
 
 
-@include('partials.plugin')
+    @include('partials.plugin')
 
 </body>
 

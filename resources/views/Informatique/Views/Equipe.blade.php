@@ -89,10 +89,10 @@
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0" style="max-height: 700px; overflow-y: auto;">
+                            <div class="table-responsive p-0" style="max-height: 700px; min-height: 700px; overflow-y: auto;">
                                 <table class="table align-items-center justify-content-center mb-0 dataTable">
-                                    <thead>
-                                        <tr>
+                                    <thead >
+                                        <tr class="mb-4">
                                             <th
                                                 class="col-4 col-md-1 text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7">
                                                 NOM</th>
@@ -167,6 +167,7 @@
                 "infoEmpty": "",
                 "infoFiltered": "",
                 "paginate": {
+            
                     "first": '<i class="material-icons">first_page</i>',
                     "last": '<i class="material-icons">last_page</i>',
                     "next": '<i class="material-icons">chevron_right</i>',

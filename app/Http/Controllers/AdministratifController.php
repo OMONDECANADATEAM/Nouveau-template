@@ -389,7 +389,7 @@ class AdministratifController extends Controller
                 );
 
                 if ($candidat->consultation_payee && !$entreeExistante) {
-                    $montant = (auth()->user()->id_succursale == 4) ? 200 : 100000;
+                    $montant = (auth()->user()->id_succursale == 4) ? 100 : 50000;
 
                     Entree::create([
                         'id_candidat' => $candidat->id,

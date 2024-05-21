@@ -64,6 +64,7 @@ Route::post('/Administratif/DossierClient/ModifierTypeVisa/{id}', [Administratif
 Route::get('/Administratif/DossierClients', [AdministratifController::class, 'DossierClients'])->name('Administratif.DossierClients');
 Route::get('/Administratif/Banque', [AdministratifController::class, 'Banque'])->name('Administratif.Banque');
 Route::get('/Administratif/Consultation', [AdministratifController::class, 'Consultation'])->name('Administratif.Consultation');
+Route::post('/Administratif/UpdateTag/{candidatId}/{tagId}',[DossierController::class, 'Updatetag'])->name('Administratif.UpdateTag');
 
 //Routes Consultatnte
 Route::get('/Consultante/Dashboard', [ConsultanteController::class, 'Dashboard'])->name('Consultante.Dashboard');

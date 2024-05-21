@@ -101,3 +101,21 @@ $(document).ready(function () {
 
 
 });
+
+function filterConsultations(filter) {
+    const rows = document.querySelectorAll('table tbody tr');
+    const today = new Date().toISOString().split('T')[0]; // Format YYYY-MM-DD
+
+    rows.forEach(row => {
+        const date = row.getAttribute('data-date');
+        if (filter === 'upcoming' && date >= today) {
+            row.style.display = '';
+        } else if (filter === 'past' && date < today) {
+            row.style.display = '';
+        } else if (filter === 'all') {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
