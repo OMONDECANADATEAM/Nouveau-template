@@ -63,7 +63,7 @@
                                 <div class="dropdown-menu d-flex flex-direction-column flex-wrap"
                                     aria-labelledby="dropdownMenuButton">
                                     <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal"
-                                        data-bs-target="#modifierContactModal{{ $candidat->id }}">Ajouter ou modifier
+                                        data-bs-target="#ModifierFicheModal{{ $candidat->id }}">Ajouter ou modifier
                                         Fiche de Consultation</a>
 
                                     <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal"

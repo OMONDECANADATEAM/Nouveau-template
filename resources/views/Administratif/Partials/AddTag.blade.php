@@ -1,6 +1,4 @@
-
-  
-  <!-- Modal Structure -->
+<!-- Modal Structure -->
   <div class="modal fade z-index-1" id="changeTagModal{{ $candidat->id }}" tabindex="-1" aria-labelledby="changeTagModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

@@ -1,4 +1,4 @@
-<div class="modal z-index-1 fade" id="modifierContactModal{{ $candidat->id }}" aria-labelledby="exampleModalLabel"
+<div class="modal z-index-1 fade" id="ModifierFicheModal{{ $candidat->id }}" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -7,10 +7,10 @@
             </div>
             <div class="modal-body">
                 <form action="{{ route('Administratif.CreerOuModifierFiche', $candidat->id) }}" method="POST"
-                    class="text-start consultationForm" id="modifierContactForm{{ $candidat->id }}" enctype="multipart/form-data">
+                    class="text-start ficheCons" id="mdfFiche{{ $candidat->id }}" enctype="multipart/form-data"  data-modal-id="{{ $candidat->id }}">
                     @csrf
-                    @method('PUT')
-                    <!-- Champs Nom et Prénoms sur la même ligne -->
+                    @method('POST')
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="nom" class="form-label">Nom</label>
@@ -591,7 +591,7 @@
                         <h3 class="mb-6 text-center">RESUME DU PROFIL</h3>
 
                         <div class="mb-6 d-flex justify-content-between align-items-center">
-                            <textarea class="form-control" id="remarques" name="remarques"  oninput="handleTextareaInput(this)"
+                            <textarea class="form-control" id="remarques" name="remarques" oninput="handleTextareaInput(this)"
                                 style="height: 8rem">
                                 {{ $candidat->remarque_agent ?? '' }}
                                 </textarea>
@@ -601,17 +601,17 @@
                         <h3 class="mb-6 text-center">QUESTION DU CANDIDAT</h3>
 
                         <div class="mb-6 d-flex justify-content-between align-items-center">
-                            <textarea class="form-control" id="reponse27" name="reponse27"  oninput="handleTextareaInput(this)"
+                            <textarea class="form-control" id="reponse27" name="reponse27" oninput="handleTextareaInput(this)"
                                 style="height: 6rem">
                                 {{ $candidat->ficheConsultation->reponse27 ?? 'Pas de question' }}
                                 </textarea>
 
-                            <textarea class="form-control ms-2 mx-2 " id="reponse28" name="reponse28"  oninput="handleTextareaInput(this)"
+                            <textarea class="form-control ms-2 mx-2 " id="reponse28" name="reponse28" oninput="handleTextareaInput(this)"
                                 style="height: 6rem">
                                 {{ $candidat->ficheConsultation->reponse28 ?? 'Pas de question' }}
                             </textarea>
 
-                            <textarea class="form-control " id="reponse29" name="reponse29"  oninput="handleTextareaInput(this)"
+                            <textarea class="form-control " id="reponse29" name="reponse29" oninput="handleTextareaInput(this)"
                                 style="height: 6rem">
                                 {{ $candidat->ficheConsultation->reponse29 ?? 'Pas de question' }}
                             </textarea>
@@ -656,15 +656,10 @@
                     </div>
 
 
-                    <div class="text-center d-flex align-items-center justify-content-around">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
-                        <button type="submit" class="btn btn-success"
-                            onclick="$('#modifierContactForm{{ $candidat->id }}').submit()">Enregistrer les
-                            modifications</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Sauvegarder les changements</button>
                     </div>
-                   
-                
-
 
             </div>
             <div id="loadingOverlay" class="loading-overlay">
@@ -690,11 +685,10 @@
             $(questionnaireId).show();
         });
 
-        
+
 
 
     });
-
 
     $(document).ready(function() {
         // Cacher la question de la date d'expiration au chargement de la page
@@ -760,5 +754,3 @@
         }
     }
 </script>
-
-

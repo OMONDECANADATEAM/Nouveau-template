@@ -57,7 +57,7 @@ Route::get('/Administratif/Dashboard', [AdministratifController::class, 'Dashboa
 //Route Charts
 Route::get('/Administratif/EntreeChartData', [AdministratifController::class, 'EntreeChartData']);
 Route::get('/Administratif/Clients', [AdministratifController::class, 'Clients'])->name('Administratif.Clients');
-Route::put('/Administratif/Clients/ModifierFicheConsultation/{id}', [AdministratifController::class, 'CreerOuModifierFiche'])->name('Administratif.CreerOuModifierFiche');
+Route::post('/Administratif/Clients/ModifierFicheConsultation/{id}', [AdministratifController::class, 'CreerOuModifierFiche'])->name('Administratif.CreerOuModifierFiche');
 Route::put('/Administratif/Clients/ModifierDateConsultation/{id}', [AdministratifController::class, 'ModifierDateConsultation'])->name('Administratif.CreerOuModifierDateConsultation');
 Route::post('/Administratif/DossierClient/ModifierTypeVisa/{id}', [AdministratifController::class, 'ModifierTypeVisa'])->name('Administratif.ModifierTypeVisa');
 
