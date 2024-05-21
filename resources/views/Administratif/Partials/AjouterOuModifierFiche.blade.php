@@ -658,7 +658,7 @@
 
                     <div class="text-center d-flex align-items-center justify-content-around">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
-                        <button type="button" class="btn btn-success"
+                        <button type="submit" class="btn btn-success"
                             onclick="$('#modifierContactForm{{ $candidat->id }}').submit()">Enregistrer les
                             modifications</button>
                     </div>
