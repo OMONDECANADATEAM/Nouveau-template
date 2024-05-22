@@ -55,7 +55,6 @@
                 
                 var form = $(this);
                 var formData = form.serialize(); // Sérialisez les données du formulaire
-        
                 $.ajax({
                       headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -20,6 +20,8 @@ use App\Notifications\ProcedureCreatedNotifications;
 use App\Notifications\StatutNotifications;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+
 
 
 
@@ -137,12 +139,12 @@ class AdministratifController extends Controller
     public function prochaineConsultation()
     {
         Carbon::setLocale('fr');
-         $consultations = InfoConsultation::where('date_heure', '>=', Carbon::today())
-        ->orderBy('date_heure')
-        ->take(4)
-        ->get();
-        
-          $consultations->transform(function ($consultation) {
+        $consultations = InfoConsultation::where('date_heure', '>=', Carbon::today())
+            ->orderBy('date_heure')
+            ->take(4)
+            ->get();
+
+        $consultations->transform(function ($consultation) {
             $dateFormatee = Carbon::parse($consultation->date_heure)->translatedFormat('l j F Y H:i');
             $consultation->dateFormatee = ucwords($dateFormatee);
 
@@ -202,7 +204,7 @@ class AdministratifController extends Controller
     {
         Carbon::setLocale('fr');
         $clients = $this->allClients();
-        
+
         $consultations = $this->consultationsDisponible();
 
 
@@ -247,62 +249,78 @@ class AdministratifController extends Controller
     public function consultationsDisponible()
     {
         Carbon::setLocale('fr');
-    
+
         // Récupérer l'heure actuelle
         $now = Carbon::yesterday();
-    
+
         // Sélectionner les consultations disponibles où le nombre de candidats est inférieur au nombre maximum prévu
         $consultations = InfoConsultation::where('nombre_candidats', '>', function ($query) {
             $query->selectRaw('count(*)')
-                  ->from('candidat')
-                  ->whereColumn('info_consultation.id', 'candidat.id_info_consultation');
+                ->from('candidat')
+                ->whereColumn('info_consultation.id', 'candidat.id_info_consultation');
         })
-        ->where('date_heure', '>', $now) // Ajouter la condition pour ne pas sélectionner les dates passées
-        ->get();
-    
+            ->where('date_heure', '>', $now) // Ajouter la condition pour ne pas sélectionner les dates passées
+            ->get();
+
         // Formater les dates des consultations
         $consultations->transform(function ($consultation) {
             $dateFormatee = Carbon::parse($consultation->date_heure)->translatedFormat('l j F Y H:i');
             $consultation->dateFormatee = ucwords($dateFormatee);
-    
+
             return $consultation;
         });
-    
+
         return $consultations;
     }
-    
+
+
     public function CreerOuModifierFiche(Request $request, $idCandidat)
-    {
-        try {
-            // Validation du formulaire
-            $this->validateForm($request);
-    
-            // Récupération de l'ID de l'utilisateur connecté
-            $idUtilisateur = Auth::id();
-    
-            // Récupération du candidat à modifier
-            $candidat = Candidat::findOrFail($idCandidat);
-    
-            // Modification des informations du candidat
-            $this->updateCandidatInfo($request, $candidat, $idUtilisateur);
-    
-            // Traitement du fichier CV si présent
-            $cvPath = $this->handleCV($request, $candidat);
-    
-            // Mise à jour ou création de la fiche de consultation et des entrées
-            $this->updateFicheConsultation($request, $candidat, $cvPath);
-    
-            // Redirection vers dossier contact avec un message de succès
-            return redirect()->back()->with('success', 'Formulaire modifié avec succès.');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Gérer les erreurs de validation
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        } catch (\Exception $e) {
-            // Gérer les autres exceptions
-            return redirect()->back()->withErrors(['error' => 'Une erreur inattendue s\'est produite.'])->withInput();
+{
+    try {
+        Log::info('Début du traitement de la fiche de consultation pour le candidat: ' . $idCandidat);
+
+        // Validation du formulaire
+        $this->validateForm($request);
+
+        // Vérification de la présence du champ cv dans la requête
+        if ($request->hasFile('cv')) {
+            Log::info('Le champ cv est présent dans la requête.');
+        } else {
+            Log::warning('Le champ cv n\'est pas présent dans la requête.');
         }
+
+        // Récupération de l'ID de l'utilisateur connecté
+        $idUtilisateur = Auth::id();
+
+        // Récupération du candidat à modifier
+        $candidat = Candidat::findOrFail($idCandidat);
+
+        // Modification des informations du candidat
+        $this->updateCandidatInfo($request, $candidat, $idUtilisateur);
+
+        // Traitement du fichier CV si présent
+        $cvPath = $this->handleCV($request, $candidat);
+
+        // Mise à jour ou création de la fiche de consultation et des entrées
+        $this->updateFicheConsultation($request, $candidat, $cvPath);
+
+        Log::info('Fin du traitement de la fiche de consultation pour le candidat: ' . $idCandidat);
+
+        // Redirection vers dossier contact avec un message de succès
+        return redirect()->back()->with('success', 'Formulaire modifié avec succès.');
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        // Gérer les erreurs de validation
+        Log::error('Erreur de validation : ' . json_encode($e->errors()));
+        return redirect()->back()->withErrors($e->errors())->withInput();
+    } catch (\Exception $e) {
+        // Gérer les autres exceptions
+        Log::error('Erreur inattendue : ' . $e->getMessage());
+        return redirect()->back()->withErrors(['error' => 'Une erreur inattendue s\'est produite.'])->withInput();
     }
+}
+
     
+
     private function validateForm(Request $request)
     {
         $request->validate([
@@ -315,7 +333,7 @@ class AdministratifController extends Controller
             'profession' => 'required|string|max:255',
         ]);
     }
-    
+
     private function updateCandidatInfo(Request $request, $candidat, $idUtilisateur)
     {
         $candidat->update([
@@ -332,41 +350,64 @@ class AdministratifController extends Controller
             'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : 'Sans Objet',
         ]);
     }
-    
     private function handleCV(Request $request, $candidat)
-    {
-        $cvPath = $candidat->ficheConsultation->lien_cv ?? null;
-    
-        if ($request->hasFile('cv') && $request->file('cv')->isValid()) {
-            $nomFichier = 'CV' . $candidat->nom . $candidat->prenom . '.' . $request->file('cv')->extension();
+{
+    Log::info('Début du traitement du CV pour le candidat: ' . $candidat->id);
+    $cvPath = $candidat->ficheConsultation->lien_cv ?? '';
+
+    if ($request->hasFile('cv')) {
+        $file = $request->file('cv');
+        if ($file->isValid()) {
+            Log::info('Fichier CV valide reçu.');
+            Log::info('Nom original du fichier : ' . $file->getClientOriginalName());
+            Log::info('Taille du fichier : ' . $file->getSize());
+            Log::info('Extension du fichier : ' . $file->getClientOriginalExtension());
+
+            $nomFichier = 'CV' . $candidat->nom . $candidat->prenom . '.' . $file->extension();
             $dossierPath = 'dossierClient/' . str_replace(' ', '', $candidat->nom) . str_replace(' ', '', $candidat->prenom) . $candidat->id;
-    
+
             if (!file_exists(storage_path('app/public/' . $dossierPath))) {
+                Log::info('Création du dossier : ' . $dossierPath);
                 mkdir(storage_path('app/public/' . $dossierPath), 0755, true);
+            } else {
+                Log::info('Dossier déjà existant : ' . $dossierPath);
             }
-    
+
             $dossier = Dossier::updateOrCreate(
                 ['id_candidat' => $candidat->id],
                 ['url' => $dossierPath, 'id_agent' => auth()->user()->id]
             );
-    
-            $request->file('cv')->storeAs('public/' . $dossierPath, $nomFichier);
+
+            Log::info('Enregistrement du fichier dans le dossier : ' . $dossierPath);
+            $file->storeAs('public/' . $dossierPath, $nomFichier);
             $cvPath = $dossierPath . '/' . $nomFichier;
-    
+
+            Log::info('Création d\'un enregistrement pour le document.');
             Document::create([
                 'id_dossier' => $dossier->id,
                 'nom' => 'CV',
                 'url' => $cvPath,
             ]);
+        } else {
+            Log::error('Le fichier CV n\'est pas valide.');
         }
-    
-        return $cvPath;
+    } else {
+        Log::info('Aucun fichier CV téléchargé.');
     }
+
+    Log::info('Fin du traitement du CV. Chemin CV: ' . $cvPath);
+    return $cvPath;
+}
+
+    
+    
     
     private function updateFicheConsultation(Request $request, $candidat, $cvPath)
     {
         $entreeExistante = Entree::where('id_candidat', $candidat->id)->where('id_type_paiement', 2)->first();
-    
+
+        $cvPath = $cvPath ?? '';
+
         if ($candidat->consultation_payee || $entreeExistante) {
             FicheConsultation::updateOrCreate(
                 ['id_candidat' => $candidat->id],
@@ -404,10 +445,10 @@ class AdministratifController extends Controller
                     'reponse29' => $request->input('reponse29'),
                 ]
             );
-    
+
             if ($candidat->consultation_payee && !$entreeExistante) {
                 $montant = (auth()->user()->id_succursale == 4) ? 200 : 100000;
-    
+
                 Entree::create([
                     'id_candidat' => $candidat->id,
                     'montant' => $montant,
@@ -421,9 +462,7 @@ class AdministratifController extends Controller
             FicheConsultation::where('id_candidat', $candidat->id)->delete();
         }
     }
-    
-    
-    
+
     public function ModifierDateConsultation(Request $request, $candidatId)
     {
         try {
@@ -431,32 +470,31 @@ class AdministratifController extends Controller
             // Récupérer les données du formulaire
             $consultationId = $request->input('consultation_id');
             $consultation = InfoConsultation::find($consultationId);
-    
+
             $dateConsultation = Carbon::parse($consultation->date_heure)->translatedFormat('l j F ');
             $heureConsultation = Carbon::parse($consultation->date_heure)->translatedFormat('H:i');
-    
+
             $candidat = Candidat::find($candidatId);
-    
+
             $nom = $candidat->nom;
             $prenom = $candidat->prenom;
-    
+
             $firstTime = $candidat->id_info_consultation == null;
-    
+
             // Mettre à jour l'ID de consultation du candidat
             Candidat::where('id', $candidatId)->update(['id_info_consultation' => $consultationId]);
-    
+
             // Envoyer une notification par e-mail
             Notification::route('mail', $candidat->email)->notify(new DateConsultationNotification($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation, $consultation->lien_zoom));
-    
+
             // Retourner une réponse JSON avec un message de succès
             return response()->json(['success' => true, 'message' => 'Consultation mise à jour avec succès']);
-    
         } catch (\Exception $e) {
             // Retourner une réponse JSON avec un message d'erreur en cas d'exception
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
-    
+
     public function getDossierDocuments($clientId)
     {
         $candidat = Candidat::find($clientId);
@@ -576,7 +614,7 @@ class AdministratifController extends Controller
         return $candidats;
     }
 
-    
+
     public function ModifierTypeVisa(Request $request, $candidatId)
     {
         try {
@@ -586,20 +624,20 @@ class AdministratifController extends Controller
                 Log::error("Candidat introuvable avec l'ID : $candidatId");
                 return response()->json(['success' => false, 'message' => 'Candidat introuvable.'], 404);
             }
-    
+
             // Récupérez les valeurs du formulaire
             $typeProcedureId = $request->input('type_procedure');
             $statutId = $request->input('statut_id');
             $consultanteId = $request->input('consultante_id');
-    
+
             // Log des valeurs récupérées
             Log::info("Valeurs récupérées - typeProcedureId: $typeProcedureId, statutId: $statutId, consultanteId: $consultanteId");
-    
+
             // Recherchez une procédure existante pour le candidat
             $procedure = Procedure::where('id_candidat', $candidatId)->first();
             $isNewProcedure = false;
             $isStatutChanged = false;
-    
+
             // Si une procédure existe, vérifiez si le statut a changé
             if ($procedure) {
                 if ($procedure->statut_id != $statutId) {
@@ -628,11 +666,11 @@ class AdministratifController extends Controller
                 $isNewProcedure = true;
                 Log::info("Nouvelle procédure créée - ID procédure : " . $procedure->id);
             }
-    
+
             // Get the status label
             $statut = StatutProcedure::find($statutId);
             $statutLabel = $statut ? $statut->label : '';
-    
+
             // Send notifications
             if ($isNewProcedure) {
                 $nom = $candidat->nom;
@@ -641,7 +679,7 @@ class AdministratifController extends Controller
             } else if ($isStatutChanged) {
                 Notification::route('mail', $candidat->email)->notify(new StatutNotifications($statutLabel));
             }
-    
+
             return response()->json(['success' => true, 'message' => 'Procédure enregistrée avec succès.'], 200);
         } catch (\Exception $e) {
             // Gérez les erreurs, par exemple, en les enregistrant ou en les affichant à l'utilisateur
@@ -649,7 +687,4 @@ class AdministratifController extends Controller
             return response()->json(['success' => false, 'message' => 'Une erreur est survenue lors de l\'enregistrement de la procédure.'], 500);
         }
     }
-    
-
-
 }
