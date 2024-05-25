@@ -34,23 +34,13 @@
         <!-- Navbar -->
         @include('partials.header', ['page' => 'BIENVENUE CHEZ OMONDE CANADA'])
         <div class="col-12 d-flex align-items-top justify-content-center">
-
             <div class="col-8 d-flex align-items-center m-1">
-                {{-- <iframe width="1000" height="500"
-                    src="https://www.youtube.com/embed/NfcpZXCg3Mg?si=NXdEfWlTcesMglIu" title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe> --}}
-
-                    <iframe width="1000" height="500"
-                    src="https://www.youtube.com/embed/l8PMl7tUDIE?si=FhHDE6K9rHw5XbUe" title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
+                <video width="1000" height="500" controls>
+                    <source src="{{ asset('storage/videos/video1.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
-
-
+            
             <div class="col-3">
                 <div class="card my-4 bg-dark">
                     <div class="card-header">
