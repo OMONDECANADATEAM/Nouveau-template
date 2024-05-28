@@ -35,11 +35,31 @@
         @include('partials.header', ['page' => 'BIENVENUE CHEZ OMONDE CANADA'])
         <div class="col-12 d-flex align-items-top justify-content-center">
             <div class="col-8 d-flex align-items-center m-1">
-                <video width="1000" height="500" controls>
+                <video id="videoPlayer" width="1000" height="500" controls>
                     <source src="{{ asset('storage/videos/video1.mp4') }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
+        
+            <script>
+                const videoPlayer = document.getElementById('videoPlayer');
+                const videos = [
+                    "{{ asset('storage/videos/video1.mp4') }}",
+                    "{{ asset('storage/videos/video2.mp4') }}",
+                    "{{ asset('storage/videos/video3.mp4') }}",
+                    "{{ asset('storage/videos/video4.mp4') }}",
+                    "{{ asset('storage/videos/video5.mp4') }}"
+                ];
+                let currentVideoIndex = 0;
+        
+                videoPlayer.addEventListener('ended', function() {
+                    currentVideoIndex++;
+                    if (currentVideoIndex < videos.length) {
+                        videoPlayer.src = videos[currentVideoIndex];
+                        videoPlayer.play();
+                    }
+                });
+            </script>
             
             <div class="col-3">
                 <div class="card my-4 bg-dark">
