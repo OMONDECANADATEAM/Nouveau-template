@@ -23,6 +23,9 @@
                     'Commercial.Dashboard' => 'Dashboard',
                     'Commercial.Contact' => 'Contacts',
                     'Commercial.RendezVous' => 'Rendez-Vous',
+                    'Administratif.Clients' => 'Clients',
+                    'Administratif.Consultation' => 'Consultation',
+
 
                     // Pages Administratif
                     'Administratif.Dashboard' => 'Dashboard',
