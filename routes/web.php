@@ -12,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ConsultanteController;
 use App\Http\Controllers\DirectionController;
+use App\Http\Controllers\FicheDeRenseignementController;
 use App\Http\Controllers\InformatiqueController;
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +66,8 @@ Route::get('/Administratif/DossierClients', [AdministratifController::class, 'Do
 Route::get('/Administratif/Banque', [AdministratifController::class, 'Banque'])->name('Administratif.Banque');
 Route::get('/Administratif/Consultation', [AdministratifController::class, 'Consultation'])->name('Administratif.Consultation');
 Route::post('/Administratif/UpdateTag/{candidatId}/{tagId}',[DossierController::class, 'Updatetag'])->name('Administratif.UpdateTag');
+Route::get('/Administratif/ficheRens/questions', [AdministratifController::class, 'showForm'])->name('questionFiche');
+
 
 //Routes Consultatnte
 Route::get('/Consultante/Dashboard', [ConsultanteController::class, 'Dashboard'])->name('Consultante.Dashboard');
@@ -150,3 +153,5 @@ Route::post('/ajouterFichiersAgent/{userId}', [DossierController::class, 'ajoute
 Route::get('/toggle-consultation/{candidatId}', [consultationController::class, 'toggleConsultation'])->name('toggleConsultation');
 
 Route::get('/waiting-list/{consultation_id}', [ConsultationController::class, 'getConsultationWaitingList'])->name('listedattente');
+
+

@@ -199,6 +199,10 @@
                                             data-bs-target="#changeTagModal{{ $candidat->id }}">
                                             Ajouter / Changer un tag
                                         </a>
+                                        <a class="btn btn-danger col-12 m-1 "data-bs-toggle="modal"
+                                        data-bs-target="#addFicheRens{{ $candidat->id }}">
+                                        Fiche de renseignement
+                                    </a>
 
 
                                     </div>
@@ -210,6 +214,9 @@
                             ])
                             @include('Administratif.Partials.ajoutFichierClient')
                             @include('Administratif.Partials.AddTag', [
+                                'candidat' => $candidat,
+                            ])
+                             @include('Administratif.Partials.AddFicheRens', [
                                 'candidat' => $candidat,
                             ])
 
