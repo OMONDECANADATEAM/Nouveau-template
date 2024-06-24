@@ -69,7 +69,7 @@
         @if (
             ($currentUserRole == 0 && in_array($page, ['Consultante.Dashboard' , 'Consultante.DossierClient'])) ||
 
-            ($currentUserRole == 1 && in_array($page, array_merge(['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'], in_array(auth()->user()->id_poste_occupe, [3,5]) ? ['Administratif.Banque'] : []))) ||
+            ($currentUserRole == 1 && in_array($page, array_merge(['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous',  'Administratif.Clients', 'Administratif.Consultation' ], in_array(auth()->user()->id_poste_occupe, [3,5]) ? ['Administratif.Banque'] : []))) ||
     ($currentUserRole == 2 &&
         in_array($page, [
             'Administratif.Dashboard',
