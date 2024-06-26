@@ -75,6 +75,7 @@ Route::post('/Administratif/ficheRens/{candidatId}', [FicheRenseignementControll
 Route::get('/Consultante/Dashboard', [ConsultanteController::class, 'Dashboard'])->name('Consultante.Dashboard');
 Route::get('/Consultante/DossierClient', [ConsultanteController::class, 'DossierClient'])->name('Consultante.DossierClient');
 Route::post('/Consultante/DossierClient/AjouterFichiersCandidat/{candidatId}', [DossierController::class, 'ajouterFichiersConsultante'])->name('ajoutFichiersConsultante');
+Route::get('/Consultante/DossierClient/ficheRens/{candidatId}/view', [FicheRenseignementController::class, 'view'])->name('fiche.renseignement.view');
 
 //Route Direction
 Route::get('/Direction/Dashboard', [DirectionController::class, 'Dashboard'])->name('Direction.Dashboard');

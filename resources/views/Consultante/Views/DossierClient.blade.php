@@ -220,6 +220,11 @@
                                                             Ajouter des documents
                                                         </a>
 
+                                                        <a class="dropdown-item" href="{{ route('fiche.renseignement.view', ['candidatId' => $candidat->id]) }}">
+                                                            Fiche de renseignement
+                                                        </a>
+
+
                                                     </div>
                                                 </div>
                                                 @include('Administratif.Partials.AddVisa', [
