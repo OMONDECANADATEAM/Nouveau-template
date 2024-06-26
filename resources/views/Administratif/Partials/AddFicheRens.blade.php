@@ -18,6 +18,7 @@
                                     <div class="form-group">
                                         <label>{{ $question->question }}</label>
                                         <input type="text" name="answers[{{ $category->id }}][{{ $question->id }}]" class="form-control" required>
+                                        <span class="text-danger error-message" style="display: none;"></span>
                                     </div>
                                 @endforeach
                             </div>
@@ -63,7 +64,27 @@
         });
 
         $('#submitBtn{{ $candidat->id }}').click(function() {
-            $('#categoryForm{{ $candidat->id }}').submit();
+            $.ajax({
+                url: "{{ route('fiche.renseignement.store', $candidat->id) }}",
+                type: "POST",
+                data: $('#categoryForm{{ $candidat->id }}').serialize(),
+                success: function(response) {
+                    alert(response.message);
+                    $('#addFicheRens{{ $candidat->id }}').modal('hide');
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        const errors = xhr.responseJSON.errors;
+                        $('.error-message').hide();
+                        for (let field in errors) {
+                            const fieldError = errors[field];
+                            $(`[name="${field}"]`).next('.error-message').text(fieldError).show();
+                        }
+                    } else {
+                        alert('Erreur lors de l\'enregistrement de la fiche de renseignement.');
+                    }
+                }
+            });
         });
 
         showCategory{{ $candidat->id }}(currentCategoryIndex{{ $candidat->id }});

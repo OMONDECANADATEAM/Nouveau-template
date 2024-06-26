@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ConsultanteController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\FicheDeRenseignementController;
+use App\Http\Controllers\FicheRenseignementController;
 use App\Http\Controllers\InformatiqueController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,6 +68,7 @@ Route::get('/Administratif/Banque', [AdministratifController::class, 'Banque'])-
 Route::get('/Administratif/Consultation', [AdministratifController::class, 'Consultation'])->name('Administratif.Consultation');
 Route::post('/Administratif/UpdateTag/{candidatId}/{tagId}',[DossierController::class, 'Updatetag'])->name('Administratif.UpdateTag');
 Route::get('/Administratif/ficheRens/questions', [AdministratifController::class, 'showForm'])->name('questionFiche');
+Route::post('/Administratif/ficheRens/{candidatId}', [FicheRenseignementController::class, 'store'])->name('fiche.renseignement.store');
 
 
 //Routes Consultatnte

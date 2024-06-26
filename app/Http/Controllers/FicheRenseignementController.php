@@ -17,9 +17,6 @@ class FicheRenseignementController extends Controller
         $validated = $request->validate([
             'answers' => 'required|array',
             'answers.*.*' => 'required|string',
-        ], [
-            'answers.required' => 'Les réponses sont requises.',
-            'answers.*.*.required' => 'Chaque réponse est requise.',
         ]);
 
         // Créer une fiche de consultation
@@ -40,6 +37,7 @@ class FicheRenseignementController extends Controller
 
         return response()->json(['message' => 'Fiche de renseignement enregistrée avec succès.']);
     }
+
 
     public function view($candidatId)
     {
