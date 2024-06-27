@@ -15,6 +15,7 @@ use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\FicheDeRenseignementController;
 use App\Http\Controllers\FicheRenseignementController;
 use App\Http\Controllers\InformatiqueController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -158,3 +159,5 @@ Route::get('/toggle-consultation/{candidatId}', [consultationController::class, 
 Route::get('/waiting-list/{consultation_id}', [ConsultationController::class, 'getConsultationWaitingList'])->name('listedattente');
 
 
+//Route Documents
+Route::get('/transactions/{id}/print', [TransactionController::class, 'print'])->name('transactions.print');
