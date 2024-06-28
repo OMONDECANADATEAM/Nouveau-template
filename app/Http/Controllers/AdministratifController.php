@@ -320,7 +320,7 @@ class AdministratifController extends Controller
     }
 }
 
-    
+
 
     private function validateForm(Request $request)
     {
@@ -400,9 +400,7 @@ class AdministratifController extends Controller
     return $cvPath;
 }
 
-    
-    
-    
+
     private function updateFicheConsultation(Request $request, $candidat, $cvPath)
     {
         $entreeExistante = Entree::where('id_candidat', $candidat->id)->where('id_type_paiement', 2)->first();
@@ -456,6 +454,7 @@ class AdministratifController extends Controller
                     'date' => now(),
                     'id_utilisateur' => auth()->id(),
                     'id_type_paiement' => 2,
+                    'id_moyen_paiement' => $request->input('modePaiement'),
                 ]);
             }
         } else {
@@ -692,7 +691,7 @@ class AdministratifController extends Controller
             return response()->json(['success' => false, 'message' => 'Une erreur est survenue lors de l\'enregistrement de la procédure.'], 500);
         }
     }
-    
-   
+
+
 
 }

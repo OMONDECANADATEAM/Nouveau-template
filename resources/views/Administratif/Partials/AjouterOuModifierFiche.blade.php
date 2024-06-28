@@ -77,6 +77,16 @@
                                 {{ $candidat->consultation_payee ? 'checked' : '' }}>
                         </div>
 
+                        <div class="mb-3 p-2">
+                            <label for="modePaiement" class="form-label">Mode de paiement :</label>
+                            <select name="modePaiement" id="modePaiement" class="form-control" required>
+                                <option value="" disabled selected>Choisissez un moyen de paiement</option>
+                                <!-- Boucle PHP pour récupérer et afficher les modes de paiement -->
+                                @foreach(\App\Models\ModePaiement::get() as $modePaiement)
+                                    <option value="{{ $modePaiement->id }}">{{ $modePaiement->label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                     </div>
 
@@ -664,8 +674,8 @@
                            >Enregistrer les
                             modifications</button>
                     </div>
-                   
-                
+
+
 
 
             </div>
@@ -692,7 +702,7 @@
             $(questionnaireId).show();
         });
 
-        
+
 
 
     });
