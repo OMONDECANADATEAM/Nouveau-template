@@ -2,80 +2,86 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Candidat; 
 use Illuminate\Http\Request;
-use App\Models\Entree;
-use App\Notifications\VersementNotification;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Models\Entree;
+use App\Models\Candidat;
+use App\Models\User;
+use App\Notifications\VersementNotification;
 
 class EntreeController extends Controller
+
+
 {
     public function ajoutEntree(Request $request)
     {
+        $request->validate([
+            'montant' => 'required|numeric',
+            'datetime' => 'required|date_format:Y-m-d\TH:i',
+            'modePaiement' => 'required|numeric',
+            'candidat' => 'required|exists:candidat,id',
+
+        ]);
+
         try {
-            // Validate the form data
-            $request->validate([
-                'montant' => 'required|numeric',
-                'datetime' => 'required|date_format:Y-m-d\TH:i',
-                'candidat' => 'required|exists:candidat,id',
-                // ... other validation rules
-            ]);
-    
-            // Récupérez l'ID du candidat à partir du champ 'candidat'
+
+            info('Validation des données du formulaire réussie.');
+
             $candidatId = $request->input('candidat');
             $formattedDateTime = date('Y-m-d H:i:s', strtotime($request->input('datetime')));
-    
-            // Récupérez l'ID de l'utilisateur (ajoutez cette ligne si vous avez un champ 'id_utilisateur' dans votre formulaire)
-            $utilisateurId = auth()->user()->id; // Assurez-vous que votre utilisateur est authentifié
-    
-            // Créez une nouvelle entrée
-            Entree::create([
+            $utilisateurId = auth()->user()->id;
+
+            info('Données récupérées : Candidat ID = ' . $candidatId . ', Date formatée = ' . $formattedDateTime);
+
+            $entree = Entree::create([
                 'montant' => $request->input('montant'),
-                'date' => $formattedDateTime, // Use the formatted datetime
+                'date' => $formattedDateTime,
                 'id_utilisateur' => $utilisateurId,
                 'id_candidat' => $candidatId,
-                'id_type_paiement' => 1
+                'id_moyen_paiement' => $request->input('modePaiement'),
+                'id_type_paiement' => 1, // Vous pouvez ajuster cette valeur selon votre logique d'application
             ]);
-    
-            $candidat = Candidat::find($candidatId);
-    
-            // Si c'est un versement, mettez à jour la colonne 'versement_effectue' à vrai si ce n'est pas déjà le cas
+
+            info('Entrée créée avec succès : ID = ' . $entree->id);
+
+            // Mise à jour de la colonne 'versement_effectue' du candidat si nécessaire
             if ($request->input('type') == 1) {
-                if (!$candidat->versement_effectuee) {
-                    $candidat->update(['versement_effectuee' => 1]);
+                $candidat = Candidat::find($candidatId);
+                if ($candidat && !$candidat->versement_effectue) {
+                    $candidat->update(['versement_effectue' => true]);
+                    info('Versement effectué pour le candidat : ' . $candidat->id);
                 }
             }
-    
+
             $montant = number_format($request->input('montant'), 0, '.', ' ');
             $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
-    
-            // Utilisez la fonction pour récupérer les utilisateurs par rôle
-            $utilisateursNotifies = $this->getUsersByRole(3);
-    
-            // Utilisez une transaction pour garantir la cohérence de la base de données lors de l'envoi des notifications
-            DB::transaction(function () use ($utilisateursNotifies, $montant, $agent) {
-                foreach ($utilisateursNotifies as $utilisateur) {
-                    $utilisateur->notify(new VersementNotification($montant, $agent));
-                }
-            });
-    
+
+            info('Notification envoyée pour le montant : ' . $montant);
+
+            // Récupération des utilisateurs à notifier (exemple : utilisateurs avec un rôle spécifique)
+            $utilisateursNotifies = $this->getUsersByRole(4);
+
+            foreach ($utilisateursNotifies as $utilisateur) {
+                $utilisateur->notify(new VersementNotification($montant, $agent));
+                info('Notification envoyée à : ' . $utilisateur->email);
+            }
+
+
+            info('Transaction terminée avec succès.');
+
             return redirect()->back()->with('success', 'Entrée enregistrée avec succès.');
-    
+
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            DB::rollback();
+            info('Erreur lors de l\'enregistrement de l\'entrée : ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Une erreur est survenue : ' . $e->getMessage());
         }
     }
-    
-    
-    
-    
-    public function getUsersByRole($roleId)
+
+
+    // Méthode pour récupérer les utilisateurs par rôle
+    private function getUsersByRole($roleId)
     {
-        // Utilisez Eloquent pour récupérer les utilisateurs ayant le rôle spécifié
-        $utilisateurs = User::where('id_role_utilisateur', $roleId)->get();
-    
-        return $utilisateurs;
+        return User::where('id_role_utilisateur', $roleId)->get();
     }
-    
 }

@@ -12,13 +12,13 @@ class Entree extends Model
 
     protected $table = 'entree'; // Assurez-vous de définir le nom de votre table si ce n'est pas le modèle Laravel par défaut
 
-    protected $fillable = [ 'montant' ,	'date' ,	'id_utilisateur' ,	'id_candidat' 	,'id_type_paiement' 	]; // Liste des colonnes que vous pouvez remplir
+    protected $fillable = [ 'montant' ,	'date' ,	'id_utilisateur' ,	'id_candidat' 	,'id_type_paiement' , 'id_moyen_paiement'	]; // Liste des colonnes que vous pouvez remplir
 
      // Méthode pour obtenir la somme de tous les montants des entrées
     public static function sommeEntrees()
     {
         $totalEntrees = Entree::sum('montant');
-    
+
         return view('partials.caisse', ['total' => $totalEntrees]);
     }
 
@@ -37,9 +37,8 @@ class Entree extends Model
             'montant' => $montant,
             // 'date' => $date,
             // 'id_utilisateur' => $id_utilisateur,
-            // 'id_candidat' => $id_candidat, 
+            // 'id_candidat' => $id_candidat,
             // 'id_type_paiement'=> $id_type_paiement,
-           
         ]);
     }
 
@@ -80,5 +79,9 @@ class Entree extends Model
     public function typePaiement()
     {
         return $this->belongsTo(TypePaiement::class, 'id_type_paiement');
+    }
+    public function ModePaiement()
+    {
+        return $this->belongsTo(ModePaiement::class, 'id_moyen_paiement');
     }
 }

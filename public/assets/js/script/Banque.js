@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  
+
     // Capturer l'événement de soumission du formulaire
     $('#ajouterDepenseModal form').submit(function (e) {
         e.preventDefault(); // Empêcher le comportement par défaut du formulaire
@@ -34,9 +34,9 @@ $(document).ready(function () {
     $('#ajouterEntreeModal form').submit(function(e) {
         e.preventDefault(); // Empêcher le comportement par défaut du formulaire
         $('#loading').addClass('show');
-    
+
         var formData = $(this).serialize(); // Rassembler les données du formulaire
-    
+
         // Envoyer une requête AJAX au serveur
         $.ajax({
             url: $(this).attr('action'), // URL définie dans l'attribut action du formulaire
@@ -45,12 +45,11 @@ $(document).ready(function () {
             success: function(response) {
                 // La requête a réussi, afficher une alerte ou effectuer d'autres actions
                 alert('Paiement ajouté avec succès!');
-    
+
                 // Réinitialiser le formulaire si nécessaire
                 $('#ajouterEntreeModal form')[0].reset();
-    
-                // Fermer le modal
-                $('#ajouterEntreeModal').modal('hide');
+
+               location.reload()
             },
             error: function(error) {
                 // La requête a échoué, afficher une alerte ou effectuer d'autres actions
@@ -61,5 +60,5 @@ $(document).ready(function () {
             }
         });
     });
-    
+
 });
