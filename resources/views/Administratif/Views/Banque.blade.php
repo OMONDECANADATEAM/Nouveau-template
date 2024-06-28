@@ -23,14 +23,16 @@
     </title>
     <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
 
-    <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css"
+     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-    <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-   
+  
+    <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
+    <script src={{ asset('assets/js/script/Banque.js') }}></script>
+     <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+ 
 
 </head>
 
@@ -44,10 +46,10 @@
            @if ($hasPoste)
            <div class="col-lg-12">
 
-            <div class="row d-flex justify-content-around mb-4">
+            <div class="row d-flex justify-content-around mb-4 p-3">
                 <div class="col-xl-4 mb-4 ">
                     <div class="card">
-                        <div class="card-header mx-2 p-3 text-center d-flex align-items-center justify-content-between">
+                        <div class="card-header  p-3 text-center d-flex align-items-center justify-content-between">
                             <div
                                 class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
                                 <i class="material-icons opacity-10">payments</i>
@@ -69,7 +71,7 @@
 
                 <div class="col-xl-4">
                     <div class="card">
-                        <div class="card-header mx-4 p-3 text-center d-flex align-items-center justify-content-between">
+                        <div class="card-header  p-3 text-center d-flex align-items-center justify-content-between">
                             <div
                                 class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
                                 <i class="material-icons opacity-10">wallet</i>
@@ -95,7 +97,7 @@
 
                 <div class="col-xl-4">
                     <div class="card">
-                        <div class="card-header mx-4 p-3 text-center d-flex align-items-center justify-content-between">
+                        <div class="card-header  p-3 text-center d-flex align-items-center justify-content-between">
                             <div
                                 class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
                                 <i class="material-icons opacity-10">account_balance</i>
@@ -124,6 +126,10 @@
                 @include('Administratif.Partials.TablePaiement')
             </div>
         </div>
+        <div id="loading" class="loading-overlay">
+            <div class="loading-spinner"></div>
+        </div>
+        
 
     </main>
     @include('partials.plugin')

@@ -15,7 +15,7 @@
         <ul class="navbar-nav">
             @php
                 $pages = [
-                    // Pages Commerciaux
+                    // Pages Consultante
                     'Consultante.Dashboard' => 'Dashboard',
                     'Consultante.DossierClient' => 'Dossier Client',
 
@@ -23,6 +23,9 @@
                     'Commercial.Dashboard' => 'Dashboard',
                     'Commercial.Contact' => 'Contacts',
                     'Commercial.RendezVous' => 'Rendez-Vous',
+                    'Administratif.Clients' => 'Clients',
+                    'Administratif.Consultation' => 'Consultation',
+
 
                     // Pages Administratif
                     'Administratif.Dashboard' => 'Dashboard',
@@ -31,7 +34,7 @@
                     'Administratif.Banque' => 'Banque',
                     'Administratif.Consultation' => 'Consultation',
 
-                    //Pages DIrection
+                    //Pages Direction
                     'Direction.Dashboard' => 'Dashboard',
                     'Direction.DossierClient' => 'Dossier Client',
                     'Direction.Banque' => 'Banque',
@@ -41,7 +44,10 @@
 
                     //Pages IT
                     'Informatique.Dashboard' => 'Dashboard',
+                    'Informatique.Client' => 'Clients',
                     'Informatique.Equipe' => 'L\'equipe',
+
+
                     // Other Pages
                     'DossierContacts' => 'Contacts',
                     'DossierClients' => 'Dossier Clients',
@@ -53,14 +59,17 @@
                     'equipeView' => "L'equipe",
                     'documentAgent' => 'Document Agent',
                 ];
-                $currentRoute = \Request::route()->getName();
-                $currentUserRole = auth()->user()->getRole();
-            @endphp
 
-@foreach ($pages as $page => $pageTitle)
-@if (
-    ($currentUserRole == 0 && in_array($page, ['Consultante.Dashboard' , 'Consultante.DossierClient'])) ||
-    ($currentUserRole == 1 && in_array($page, array_merge(['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous'], in_array(auth()->user()->id_poste_occupe, [3,5]) ? ['Administratif.Banque'] : []))) ||
+                $currentRoute = \Request::route()->getName();
+                $currentUserRole = auth()->user()->getRole() ;
+      
+     @endphp
+
+    @foreach ($pages as $page => $pageTitle)
+        @if (
+            ($currentUserRole == 0 && in_array($page, ['Consultante.Dashboard' , 'Consultante.DossierClient'])) ||
+
+            ($currentUserRole == 1 && in_array($page, array_merge(['Commercial.Dashboard', 'Commercial.Contact', 'Commercial.RendezVous',  'Administratif.Clients', 'Administratif.Consultation' ], in_array(auth()->user()->id_poste_occupe, [3,5]) ? ['Administratif.Banque'] : []))) ||
     ($currentUserRole == 2 &&
         in_array($page, [
             'Administratif.Dashboard',
@@ -72,6 +81,7 @@
     ($currentUserRole == 3 &&
         in_array($page, [
             'Informatique.Dashboard',
+            'Informatique.Client',
             'Informatique.Equipe'
         ])) ||
     ($currentUserRole == 4 &&
@@ -107,6 +117,7 @@
                                         @break
 
                                         @case('Administratif.DossierClients')
+                                        @case('Informatique.Client')
                                         @case('DossierClients')
                                         @case('Consultante.DossierClient')
                                    

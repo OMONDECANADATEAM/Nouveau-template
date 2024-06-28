@@ -6,7 +6,7 @@
             <div class="icon icon-md icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl mt-n4">
                 <i class="material-icons opacity-10">handshake</i>
             </div>
-            <p class="text-xl text-bold mb-0 text-capitalize">Consultation - {{$moisEnCours}}</p>
+            <p class="text-xl text-bold mb-0 text-capitalize">Consultations - {{$moisEnCours}}</p>
 
         </div>
         <div class="card-body">

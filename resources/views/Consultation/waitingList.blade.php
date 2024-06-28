@@ -34,17 +34,33 @@
         <!-- Navbar -->
         @include('partials.header', ['page' => 'BIENVENUE CHEZ OMONDE CANADA'])
         <div class="col-12 d-flex align-items-top justify-content-center">
-
             <div class="col-8 d-flex align-items-center m-1">
-                <iframe width="1000" height="500"
-                    src="https://www.youtube.com/embed/NfcpZXCg3Mg?si=NXdEfWlTcesMglIu" title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-
+                <video id="videoPlayer" width="1000" height="500" controls>
+                    <source src="{{ asset('storage/videos/video1.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
-
-
+        
+            <script>
+                const videoPlayer = document.getElementById('videoPlayer');
+                const videos = [
+                    "{{ asset('storage/videos/video1.mp4') }}",
+                    "{{ asset('storage/videos/video2.mp4') }}",
+                    "{{ asset('storage/videos/video3.mp4') }}",
+                    "{{ asset('storage/videos/video4.mp4') }}",
+                    "{{ asset('storage/videos/video5.mp4') }}"
+                ];
+                let currentVideoIndex = 0;
+        
+                videoPlayer.addEventListener('ended', function() {
+                    currentVideoIndex++;
+                    if (currentVideoIndex < videos.length) {
+                        videoPlayer.src = videos[currentVideoIndex];
+                        videoPlayer.play();
+                    }
+                });
+            </script>
+            
             <div class="col-3">
                 <div class="card my-4 bg-dark">
                     <div class="card-header">
@@ -54,6 +70,8 @@
                                 <span class="text-uppercase text-dark text-xl font-weight-bolder opacity-7"
                                     id="candidatName"></span>
                             </div>
+
+
                             <span class="text- text-center text-dark text-xl font-weight-bolder opacity-7"
                                 id="candidatId"></span>
                         </div>
@@ -82,7 +100,7 @@
                     if (candidat) {
                         candidatNameElement.textContent = candidat.pays;
                         candidatNomElement.textContent = candidat.nom + " " + candidat.prenom;
-                        candidatIdElement.textContent = "N° " + candidat.id;
+                        candidatIdElement.textContent = "N° " + (currentIndex + 1);
                     } else {
                         candidatContainer.innerHTML = 'No more candidats.';
                     }
@@ -98,7 +116,7 @@
             </script>
 
 
-          
+
 
 
 

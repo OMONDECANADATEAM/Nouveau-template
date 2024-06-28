@@ -34,4 +34,8 @@ class Procedure extends Model
     {
         return $this->belongsTo(StatutProcedure::class);
     }
+    public function tag()
+    {
+        return $this->hasOne(Tags::class, 'id', 'tag_id');
+    }
 }

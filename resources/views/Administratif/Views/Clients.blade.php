@@ -16,74 +16,23 @@
 <html lang="FR">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>
-        Omonde Canada - CRM | DOSSIER CONTACTS
-    </title>
-    <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
-    <link rel="stylesheet" type="text/css"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omonde Canada - CRM | DOSSIER CONTACTS</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/logos/logo-icon.png') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-    <script src={{ asset('assets/js/script/dossierContact.js') }}></script>
+    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet">
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-
+    <script src="{{ asset('assets/js/script/dossierContact.js') }}"></script>
+    <script src="{{ asset('assets/js/script/ClientDashboard.js') }}"></script>
+   
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 </head>
-<style>
-    /* Styles pour le formulaire d'ajout de prospect */
-
-    .modal-content {
-        border-radius: 20px;
-    }
-
-    .modal-header {
-        border-bottom: none;
-    }
-
-    .modal-title {
-        font-weight: bold;
-        color: #333;
-    }
-
-    .modal-body {
-        padding: 2rem;
-    }
-
-    .form-label {
-        font-weight: bold;
-    }
-
-    .form-control {
-        border-radius: 10px;
-        color: #333; /* Changement de couleur du texte */
-        background-color: #fff; /* Changement de couleur de fond */
-        border: 1px solid #000; /* Bordure fine noire */
-        padding: 12px; /* Padding dans le champ de texte */
-    }
-
-    .form-control:focus {
-        border-color: #de3163; /* Changement de couleur de la bordure au focus */
-    }
-
-    .btn-primary {
-        background-color: #de3163; /* Couleur rose */
-        border: none;
-        border-radius: 10px;
-        transition: background-color 0.3s; /* Transition pour le changement de couleur au survol */
-    }
-
-    .btn-primary:hover {
-        background-color: #111; /* Changement de couleur au survol */
-    }
-
-    .btn-primary:active {
-        background-color: #1a2b3c; /* Changement de couleur au clic */
-    }
-</style>
 
 
-<body class="g-sidenav-show  bg-gray-200">
+
+<body class="g-sidenav-show  bg-gray-200 loading-body">
     @include('partials.navbar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
@@ -100,19 +49,26 @@
                                     class="form-control text-dark  text-lg bg-transparent border-0 p-1"
                                     placeholder="Rechercher un candidat...">
                             </div>
-                            
+
                         </div>
 
 
                         @include('Administratif.Partials.TableCandidats')
 
                     </div>
+
+                    <div id="loading" class="loading-overlay">
+                        <div class="loading-spinner"></div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
+        
 
     </main>
     @include('partials.plugin')
+
 </body>
 
 

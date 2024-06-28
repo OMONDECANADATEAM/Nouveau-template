@@ -7,12 +7,11 @@
             <div class="icon icon-md icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl mt-n4">
                 <i class="material-icons opacity-10">wallet</i>
             </div>
-            <p class="text-xl text-bold mb-0 text-capitalize">Entree - {{$moisEnCours}}</p>
+            <p class="text-xl text-bold mb-0 text-capitalize">Entrées - {{$moisEnCours}}</p>
 
         </div>
         <div class="card-body">
             <div class="text-end">
-                
                 <h3 class="mb-0 pt-2">{{ $entreeMensuel ? number_format($entreeMensuel, 0, '.', ' ') : '0' }} {{$devise}}
                 </h3>
             </div>

@@ -38,13 +38,13 @@ class consultationController extends Controller
     
     public function getConsultationWaitingList($consultationId)
     {
-        $consultationInfo = InfoConsultation::with(['candidats' => function ($query) {
-            // Ajoutez une condition pour filtrer les candidats avec un statut différent de 1
-            $query->where('consultation_effectuee', '!==', 1);
-        }])->find($consultationId);
+       // Récupérer la consultation par son ID
+       $info_consultation = InfoConsultation::find($consultationId);
+
+   
         
     
-        return view('Consultation.waitingList', ['data_candidat' => $consultationInfo->candidats]);
+        return view('Consultation.waitingList', ['data_candidat' =>  $info_consultation->candidats]);
     }
 
     public function creerConsultation(Request $request)
@@ -69,4 +69,48 @@ class consultationController extends Controller
         return redirect()->back();
     }
 
+
+    public function ModifierConsultation(Request $request, $id)
+    {
+        // Valider les données du formulaire
+        $request->validate([
+            'lien_zoom' => 'required',
+            'lien_zoom_demarrer' => 'required',
+            'date_heure' => 'required|date',
+            'nombre_candidats' => 'required|integer',
+            'id_consultante' => 'required|integer',
+        ]);
+    
+        try {
+            // Récupérer la consultation à modifier
+            $consultation = InfoConsultation::findOrFail($id);
+    
+            // Mettre à jour les champs de la consultation avec les données du formulaire
+            $consultation->update([
+                'lien_zoom' => $request->input('lien_zoom'),
+                'lien_zoom_demarrer' => $request->input('lien_zoom_demarrer'),
+                'date_heure' => $request->input('date_heure'),
+                'nombre_candidats' => $request->input('nombre_candidats'),
+                'id_consultante' => $request->input('id_consultante')
+            ]);
+    
+            return redirect()->back();
+        } catch (\Exception $e) {
+            // Retourner une réponse JSON avec un message d'erreur en cas d'exception
+            return response()->json(['error' => false, 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function SupprimerConsultation($id)
+    {
+        // Trouver la consultation à supprimer
+        $consultation = InfoConsultation::findOrFail($id);
+    
+        // Supprimer la consultation
+        $consultation->delete();
+    
+        // Retourner une réponse JSON indiquant le succès de la suppression
+        return response()->json(['message' => 'La consultation a été supprimée avec succès.'], 200);
+    }
+    
 }

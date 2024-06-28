@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     borderRadius: 4,
                     borderSkipped: false,
                     backgroundColor: "rgba(255, 255, 255, .8)",
-                    data: data.map(entry => entry.nombre_visites),
+                    data: data.map(entry => entry.nombre_visite ),
                     maxBarThickness: 6
                 }],
             },

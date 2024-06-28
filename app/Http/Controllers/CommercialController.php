@@ -33,31 +33,25 @@ class CommercialController extends Controller
         Carbon::setLocale('fr');
         $jourActuel = Carbon::now()->translatedFormat('d F Y');
         $moisActuel = Carbon::now()->monthName;
-
         // Récupère l'utilisateur connecté
         $utilisateurConnecte = auth()->user();
-
-        // Calcule le nombre de candidats de l'utilisateur dans le jour actuel
-        $totalAppelDeCeJour = Candidat::whereDay('date_enregistrement', Carbon::now()->day)
-            ->whereMonth('date_enregistrement', Carbon::now()->month)
-            ->whereYear('date_enregistrement', Carbon::now()->year)
-            ->whereHas('utilisateur', function ($query) use ($utilisateurConnecte) {
-                $query->where('id', $utilisateurConnecte->id);
-            })
+        // Calcule le nombre de rendez-vous de l'utilisateur dans le jour actuel
+        $totalAppelDeCeJour = RendezVous::whereDate('date_enregistrement_appel', Carbon::now())
+            ->where('commercial_id' , $utilisateurConnecte->id )
             ->count();
-
         return compact('totalAppelDeCeJour', 'jourActuel', 'moisActuel');
     }
-
+    
+    
     private function visiteCount()
     {
         // Récupère l'utilisateur connecté
         $utilisateurConnecte = auth()->user();
 
         // Calcule le nombre de candidats de l'utilisateur avec une date de rendez-vous non vide pour le mois et l'année actuels
-        $totalVisiteAujourdhui = Candidat::where('id_utilisateur', $utilisateurConnecte->id)
+        $totalVisiteAujourdhui = RendezVous::whereDate('date_enregistrement_appel', Carbon::now())
+        ->where('commercial_id' , $utilisateurConnecte->id )
         ->whereNotNull('date_rdv')
-        ->whereDate('date_rdv', Carbon::now())  
         ->count();
     
         return compact('totalVisiteAujourdhui');
@@ -101,31 +95,38 @@ class CommercialController extends Controller
     {
         // Obtenez l'utilisateur connecté
         $utilisateurConnecte = Auth::user();
-
+    
         // Obtenez la date de début et de fin de la semaine actuelle
-        $debutSemaine = Carbon::now()->locale('fr')->startOfWeek();
-        $finSemaine = Carbon::now()->locale('fr')->endOfWeek();
-
+        $debutSemaine = Carbon::now()->startOfWeek();
+        $finSemaine = Carbon::now()->endOfWeek();
+    
         // Récupérez les données de la base de données pour la semaine actuelle
-        $data = Candidat::whereBetween('date_enregistrement', [$debutSemaine, $finSemaine])
-            ->whereHas('utilisateur', function ($query) use ($utilisateurConnecte) {
-                // Filtrer par l'id de succursale de l'utilisateur connecté
-                $query->where('id_succursale', $utilisateurConnecte->id_succursale);
-            })
-            ->selectRaw('DATE_FORMAT(date_enregistrement, "%W") as jour_semaine, COUNT(*) as nombre_visites')
-            ->groupBy('jour_semaine')
+        $data = RendezVous::whereBetween('date_enregistrement_appel', [$debutSemaine, $finSemaine])
+            ->where('commercial_id', $utilisateurConnecte->id)
+            ->orderBy('date_enregistrement_appel')
             ->get();
-
+    
         // Convertir les noms des jours en français
         $jours = ['Monday' => 'Lundi', 'Tuesday' => 'Mardi', 'Wednesday' => 'Mercredi', 'Thursday' => 'Jeudi', 'Friday' => 'Vendredi', 'Saturday' => 'Samedi', 'Sunday' => 'Dimanche'];
+    
         $data->transform(function ($item, $key) use ($jours) {
-            $item->jour_semaine = $jours[$item->jour_semaine];
+            $dateEnregistrement = Carbon::parse($item->date_enregistrement_appel);
+            $jourSemaineAnglais = $dateEnregistrement->format('l');
+            $item->jour_semaine = $jours[$jourSemaineAnglais];
             return $item;
         });
-
+    
+        // Grouper les données par jour de la semaine et obtenir le compte pour chaque jour
+        $data = $data->groupBy('jour_semaine')->map(function ($item, $key) {
+            return ['jour_semaine' => $key, 'nombre_visite' => $item->count()];
+        })->values();
+        
+    
         // Retournez les données au format JSON
         return response()->json($data);
     }
+    
+    
 
     public function consultationChartData()
     {
@@ -246,13 +247,11 @@ class CommercialController extends Controller
 
     public function allCandiatWithRendezVous()
     {
-         // Obtenir l'utilisateur connecté
-         $idSuccursaleUtilisateur = auth()->user()->id_succursale;
+       
 
          // Obtenir les données des candidats liés à la succursale de l'utilisateur
-         $candidats = Candidat::whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
-             $query->where('id_succursale', $idSuccursaleUtilisateur);
-         })-> whereNotNull('date_rdv')
+         $candidats = Candidat::where('id_utilisateur', auth()->user()->id) 
+            -> whereNotNull('date_rdv')
             ->orderBy('date_rdv', 'desc')
             ->get();
     

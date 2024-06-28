@@ -30,10 +30,13 @@ class UtilisateurController extends Controller
             'photo_profil' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Traitement de la photo de profil
         if ($request->hasFile('photo_profil')) {
+            // Enlevez les espaces du nom et du prénom
+            $nom = str_replace(' ', '_', $request->input('nom'));
+            $prenom = str_replace(' ', '_', $request->input('prenom'));
+        
             // Enregistrez le fichier sur le serveur
-            $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $request->input('nom') . $request->input('prenom') . '.png', 'public');
+            $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $nom . $prenom . '.png', 'public');
         }
 
         // Créez l'utilisateur avec le lien de la photo de profil
@@ -45,16 +48,19 @@ class UtilisateurController extends Controller
             'id_poste_occupe' => $request->input('poste_occupe'),
             'id_role_utilisateur' => $request->input('id_role_utilisateur'),
             'id_succursale' => $request->input('id_succursale'),
-            'lien_photo' => $path, // Utilisez le chemin du fichier s'il existe, sinon null
+            'lien_photo' => $path,
         ]);
 
         if ($request->input('id_role_utilisateur') == 0) {
-            consultante::create([
-                'nom' => $request->input('nom'),
-                'prenoms' => $request->input('prenom'),
-                'id_utilisateur' => $utilisateur->id,
-            ]);
+            Consultante::updateOrCreate(
+                ['id_utilisateur' => $utilisateur->id],
+                [
+                    'nom' => $request->input('nom'),
+                    'prenoms' => $request->input('prenom'),
+                ]
+            );
         }
+        
 
         return $utilisateur
             ? redirect()->back()
@@ -65,8 +71,6 @@ class UtilisateurController extends Controller
     public function modifier(Request $request, $id)
 
     {
-
-        // Validez les données du formulaire
 
         $request->validate([
 
@@ -103,12 +107,12 @@ class UtilisateurController extends Controller
         // Traitement de la photo de profil
 
         if ($request->hasFile('photo_profil')) {
-
+            // Enlevez les espaces du nom et du prénom
+            $nom = str_replace(' ', '_', $request->input('nom'));
+            $prenom = str_replace(' ', '_', $request->input('prenom'));
+        
             // Enregistrez le fichier sur le serveur
-
-            $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $request->input('nom') . $request->input('prenom') . '.png', 'public');
-   
-            // Mettez à jour le lien de la photo de profil dans la base de données
+            $path = $request->file('photo_profil')->storeAs('photo', 'photo' . $nom . $prenom . '.png', 'public');
 
             $utilisateur->update(['lien_photo' => $path]);
         }
@@ -126,13 +130,16 @@ class UtilisateurController extends Controller
         ]);
 
         // Vérifiez si l'utilisateur est un consultante
-        if ($utilisateur->id_role_utilisateur == 0) {
-            consultante::create([
-                'nom' => $request->input('nom'),
-                'prenoms' => $request->input('prenom'),
-                'id_utilisateur' => $utilisateur->id,
-            ]);
+        if ($request->input('id_role_utilisateur') == 0) {
+            Consultante::updateOrCreate(
+                ['id_utilisateur' => $utilisateur->id],
+                [
+                    'nom' => $request->input('nom'),
+                    'prenoms' => $request->input('prenom'),
+                ]
+            );
         }
+        
 
         // Mettez à jour le mot de passe s'il est fourni
 

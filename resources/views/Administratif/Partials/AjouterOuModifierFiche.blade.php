@@ -1,4 +1,4 @@
-<div class="modal z-index-1 fade" id="modifierContactModal{{ $candidat->id }}" aria-labelledby="exampleModalLabel"
+<div class="modal z-index-1 fade" id="ModifierFicheModal{{ $candidat->id }}" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -7,10 +7,12 @@
             </div>
             <div class="modal-body">
                 <form action="{{ route('Administratif.CreerOuModifierFiche', $candidat->id) }}" method="POST"
-                    class="text-start" id="modifierContactForm{{ $candidat->id }}" enctype="multipart/form-data">
+                    class="text-start ficheCons" id="modifierContactForm{{ $candidat->id }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <!-- Champs Nom et Prénoms sur la même ligne -->
+                    <input type="hidden" name="idCandidat" value="{{$candidat->id}}">
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="nom" class="form-label">Nom</label>
@@ -25,12 +27,13 @@
                     </div>
 
                     <div class="row">
-        
+
                         <div class="col-md-6 mb-3">
                             <label for="pays" class="form-label">Pays</label>
-                            <select name="pays"  id="pays"  class="form-control" required>
-                                @foreach(App\Models\Succursale::all() as $succursale)
-                                    <option value="{{ $succursale->label }}" {{ ($candidat->pays == $succursale->label) ? 'selected' : '' }}>
+                            <select name="pays" id="pays" class="form-control" required>
+                                @foreach (App\Models\Succursale::all() as $succursale)
+                                    <option value="{{ $succursale->label }}"
+                                        {{ $candidat->pays == $succursale->label ? 'selected' : '' }}>
                                         {{ $succursale->label }}
                                     </option>
                                 @endforeach
@@ -77,8 +80,8 @@
 
                     </div>
 
-                    <div class="row">
-                        <div class="btn btn-dark afficherQuestionnaire"  id="consultation-payee-{{ $candidat->id }}">
+                    <div class="row mb-3">
+                        <div class="btn btn-dark afficherQuestionnaire" id="consultation-payee-{{ $candidat->id }}">
                             Modifier ou remplir la fiche de consultation
                         </div>
                     </div>
@@ -374,7 +377,7 @@
                         <!-- Question 14 -->
                         <div class="d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>14- Avez-vous un diplôme d'études (secondaire, professionnel, universitaire) ?</h5>
+                                <h5>14- Avez-vous un diplôme d'études (secondaire, professionnel..) ?</h5>
                             </label>
                             <div>
                                 <div class="form-check form-check-inline">
@@ -394,15 +397,15 @@
 
                         </div>
                         <div class="question-diplome-etudes"
-                            style="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? '' : 'display:none;' }}">
+                            style="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? 'display:block;' : 'display:none;' }}">
                             <div class="mb-3 d-flex justify-content-between">
                                 <label for="annee_obtention_diplome" class="form-label text-xl text-dark">
-                                    <h5>Si oui, quelle est l'année d'obtention du diplôme ?</h5>
+                                    <h5>15 - Si oui, quelle est l'année d'obtention du diplôme ?</h5>
                                 </label>
                                 <div>
                                     <input type="text" name="annee_obtention_diplome" id="annee_obtention_diplome"
                                         class="form-control"
-                                        value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse15 ?? null : null }}">
+                                        value="{{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse14 === 'oui' ? $candidat->ficheConsultation->reponse15 : 'Pas de diplomes' }}">
                                 </div>
                             </div>
                         </div>
@@ -410,19 +413,19 @@
                         <!-- Question 15 -->
                         <div class="mb-3 d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>15- Avez-vous un membre de votre famille déjà au Canada ?</h5>
+                                <h5>16- Avez-vous un membre de votre famille déjà au Canada ?</h5>
                             </label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="membre_famille_canada"
                                         id="membre_famille_canada_oui" value="oui"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse15 === 'oui' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse16 === 'oui' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="membre_famille_canada_oui">Oui</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="membre_famille_canada"
                                         id="membre_famille_canada_non" value="non"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse15 === 'non' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse16 === 'non' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="membre_famille_canada_non">Non</label>
                                 </div>
                             </div>
@@ -432,19 +435,19 @@
                         <!-- Question 16 -->
                         <div class="mb-3 d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>16- Comptez-vous immigrer seul(e) ou en famille ?</h5>
+                                <h5>17- Comptez-vous immigrer seul(e) ou en famille ?</h5>
                             </label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="immigrer_seul_ou_famille"
                                         id="immigrer_seul" value="seul"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse16 === 'seul' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse17 === 'seul' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="immigrer_seul">Seul(e)</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="immigrer_seul_ou_famille"
                                         id="immigrer_en_famille" value="famille"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse16 === 'famille' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse17 === 'famille' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="immigrer_en_famille">En famille</label>
                                 </div>
                             </div>
@@ -453,19 +456,19 @@
                         <!-- Question 17 -->
                         <div class="mb-3 d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>17- Parlez-vous d'autres langues à part le français ?</h5>
+                                <h5>18- Parlez-vous d'autres langues à part le français ?</h5>
                             </label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="langues_parlees"
                                         id="langues_parlees_oui" value="oui"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse17 === 'oui' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse18 === 'oui' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="langues_parlees_oui">Oui</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="langues_parlees"
                                         id="langues_parlees_non" value="non"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse17 === 'non' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse18 === 'non' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="langues_parlees_non">Non</label>
                                 </div>
                             </div>
@@ -474,14 +477,14 @@
                         <!-- Question 18 -->
                         <div class="mb-3 d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>18- Avez-vous fait un test de connaissances linguistiques ?</h5>
+                                <h5>19- Avez-vous fait un test de connaissances linguistiques ?</h5>
                             </label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio"
                                         name="test_connaissances_linguistiques"
                                         id="test_connaissances_linguistiques_oui" value="oui"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse18 === 'oui' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse19 === 'oui' ? 'checked' : '' }}>
                                     <label class="form-check-label"
                                         for="test_connaissances_linguistiques_oui">Oui</label>
                                 </div>
@@ -489,7 +492,7 @@
                                     <input class="form-check-input" type="radio"
                                         name="test_connaissances_linguistiques"
                                         id="test_connaissances_linguistiques_non" value="non"
-                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse18 === 'non' ? 'checked' : '' }}>
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->reponse19 === 'non' ? 'checked' : '' }}>
                                     <label class="form-check-label"
                                         for="test_connaissances_linguistiques_non">Non</label>
                                 </div>
@@ -503,11 +506,14 @@
                         <!-- Question 1 -->
                         <div class="mb-3 d-flex justify-content-between">
                             <label class="form-label text-xl text-dark">
-                                <h5>1- Quel est son niveau de scolarité ?</h5>
+                                <h5>20 - Quel est son niveau de scolarité ?</h5>
                             </label>
                             <div>
                                 <input type="text" name="niveau_scolarite_conjoint" id="niveau_scolarite_conjoint"
-                                    class="form-control">
+                                    class="form-control"
+                                    value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse20 ?? null : null }}">
+
+
                             </div>
                         </div>
 
@@ -518,7 +524,10 @@
                             </label>
                             <div>
                                 <input type="text" name="domaine_formation_conjoint"
-                                    id="domaine_formation_conjoint" class="form-control">
+                                    id="domaine_formation_conjoint" class="form-control"
+                                    value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse21 ?? null : null }}">
+
+
                             </div>
                         </div>
 
@@ -528,7 +537,9 @@
                                 <h5>3- Quel est votre âge ?</h5>
                             </label>
                             <div>
-                                <input type="text" name="age_conjoint" id="age_conjoint" class="form-control">
+                                <input type="text" name="age_conjoint" id="age_conjoint" class="form-control"
+                                    value="{{ $candidat->ficheConsultation ? $candidat->ficheConsultation->reponse22 ?? null : null }}">
+
                             </div>
                         </div>
 
@@ -542,7 +553,7 @@
                             </label>
                             <div>
                                 <input type="text" name="niveau_francais" id="niveau_francais"
-                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse22 ?? '' }}">
+                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse23 ?? '' }}">
                             </div>
                         </div>
 
@@ -553,7 +564,7 @@
                             </label>
                             <div>
                                 <input type="text" name="niveau_anglais" id="niveau_anglais" class="form-control"
-                                    value="{{ $candidat->ficheConsultation->reponse23 ?? '' }}">
+                                    value="{{ $candidat->ficheConsultation->reponse24 ?? '' }}">
                             </div>
                         </div>
 
@@ -564,7 +575,7 @@
                             </label>
                             <div>
                                 <input type="text" name="age_enfants_linguistique" id="age_enfants_linguistique"
-                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse24 ?? '' }}">
+                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse25 ?? '' }}">
                             </div>
                         </div>
 
@@ -575,10 +586,44 @@
                             </label>
                             <div>
                                 <input type="text" name="niveau_scolarite_enfants" id="niveau_scolarite_enfants"
-                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse25 ?? '' }}">
+                                    class="form-control" value="{{ $candidat->ficheConsultation->reponse26 ?? '' }}">
                             </div>
                         </div>
 
+                        <h3 class="mb-6 text-center">RESUME DU PROFIL</h3>
+
+                        <div class="mb-6 d-flex justify-content-between align-items-center">
+                            <textarea class="form-control" id="remarques" name="remarques"  oninput="handleTextareaInput(this)"
+                                style="height: 8rem">
+                                {{ $candidat->remarque_agent ?? '' }}
+                                </textarea>
+
+                        </div>
+
+                        <h3 class="mb-6 text-center">QUESTION DU CANDIDAT</h3>
+
+                        <div class="mb-6 d-flex justify-content-between align-items-center">
+                            <textarea class="form-control" id="reponse27" name="reponse27"  oninput="handleTextareaInput(this)"
+                                style="height: 6rem">
+                                {{ $candidat->ficheConsultation->reponse27 ?? 'Pas de question' }}
+                                </textarea>
+
+                            <textarea class="form-control ms-2 mx-2 " id="reponse28" name="reponse28"  oninput="handleTextareaInput(this)"
+                                style="height: 6rem">
+                                {{ $candidat->ficheConsultation->reponse28 ?? 'Pas de question' }}
+                            </textarea>
+
+                            <textarea class="form-control " id="reponse29" name="reponse29"  oninput="handleTextareaInput(this)"
+                                style="height: 6rem">
+                                {{ $candidat->ficheConsultation->reponse29 ?? 'Pas de question' }}
+                            </textarea>
+
+                        </div>
+
+
+
+
+                        <h3 class="mb-6 text-center">CV</h3>
 
                         <div class="d-flex justify-content-between mb-2 mt-5 border rounded p-2">
 
@@ -610,30 +655,22 @@
 
                         </div>
 
-
-
-                        <div class="mb-6 mt-6 d-flex justify-content-between align-items-center">
-                            <label class="form-label text-xl text-dark">
-                                <h5>Remarques de l'agent :</h5>
-                            </label>
-                            <div>
-                                <textarea class="form-control" id="remarques" name="remarques" rows="12" oninput="handleTextareaInput(this)">
-                           {{ $candidat->remarque_agent ?? '' }}
-                           </textarea>
-                            </div>
-                        </div>
-
-
                     </div>
 
 
                     <div class="text-center d-flex align-items-center justify-content-around">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
-                        <button type="button" class="btn btn-success"
-                            onclick="$('#modifierContactForm{{ $candidat->id }}').submit()">Enregistrer les
+                        <button type="submit" class="btn btn-success"
+                           >Enregistrer les
                             modifications</button>
                     </div>
+                   
+                
 
+
+            </div>
+            <div id="loadingOverlay" class="loading-overlay">
+                <div class="loading-spinner"></div>
             </div>
 
             </form>
@@ -643,21 +680,22 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        // Écouter le clic sur le bouton afficherQuestionnaire
+        $('.afficherQuestionnaire').click(function() {
+            // Récupérer l'ID unique du candidat
+            // Vous devrez ajuster cette ligne en fonction de la manière dont l'ID du candidat est stocké dans le bouton
+            var candidatId = $(this).attr('id').split('-')[2];
+            // Construire l'ID unique de la section du questionnaire
+            var questionnaireId = '#questionnaire-form-' + candidatId;
+            // Afficher le questionnaire
+            $(questionnaireId).show();
+        });
 
-  $(document).ready(function() {
-    // Écouter le clic sur le bouton afficherQuestionnaire
-    $('.afficherQuestionnaire').click(function() {
-        // Récupérer l'ID unique du candidat
-        // Vous devrez ajuster cette ligne en fonction de la manière dont l'ID du candidat est stocké dans le bouton
-        var candidatId = $(this).attr('id').split('-')[2];
-        // Construire l'ID unique de la section du questionnaire
-        var questionnaireId = '#questionnaire-form-' + candidatId;
-        // Afficher le questionnaire
-        $(questionnaireId).show();
+        
+
+
     });
-
-    
-});
 
 
     $(document).ready(function() {

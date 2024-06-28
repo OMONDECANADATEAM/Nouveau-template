@@ -21,7 +21,7 @@
 
     <link rel="icon" type="image/png" href={{ asset('assets/img/logos/logo-icon.png') }}>
     <title>
-        Omonde Canada - CRM
+        OMONDE CANADA - CRM
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
@@ -128,10 +128,10 @@
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <h6 class="p-2 text-xl">
-                                                        {{ $user->rendezVous()->where('consultation_payee', 1)->whereMonth('date_rdv', date('m'))->whereYear('date_rdv', date('Y'))->count() }}
+                                                        {{ $user->rendezVous()->where('date_rdv', today())->count() }}
                                                         /
-                                                        {{ $user->rendezVous()->where('consultation_payee', 1)->whereYear('date_rdv', date('Y'))->count() }}
-
+                                                        {{ $user->rendezVous()->whereMonth('date_rdv', date('m'))->whereYear('date_rdv', date('Y'))->count() }}
+                                                  
                                                     </h6>
                                                 </td>
 

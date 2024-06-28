@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidat;
+use App\Models\Category;
 use App\Models\Depense;
 use App\Models\Procedure;
 use App\Models\StatutProcedure;
@@ -15,15 +16,20 @@ use App\Models\FicheConsultation;
 use App\Models\RendezVous;
 use Carbon\Carbon;
 use App\Models\InfoConsultation;
+use App\Notifications\DateConsultationNotification;
 use App\Notifications\ProcedureCreatedNotifications;
 use App\Notifications\StatutNotifications;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+
 
 
 
 class AdministratifController extends Controller
 {
-    function utilisateurHasPoste($postes) {
+    function utilisateurHasPoste($postes)
+    {
         $utilisateurConnecte = auth()->user();
         return in_array($utilisateurConnecte->id_poste_occupe, $postes);
     }
@@ -67,30 +73,29 @@ class AdministratifController extends Controller
         return ['entreeMensuel' => $entreeMensuel, 'moisEnCours' => $moisEnCours];
     }
 
-     //Ramene le montant du mois pour l'utilisateur connecté
-     private function caisseMensuel()
-     {
-         Carbon::setLocale('fr');
-         $moisEnCours = Carbon::now()->monthName;
-     
-         // Calculez la somme des entrées pour le mois actuel et l'année actuelle en utilisant le modèle Entree
-         $entreeMensuel = Entree::where('id_utilisateur', auth()->user()->id)
-             ->whereMonth('date', now()->month)
-             ->whereYear('date', now()->year)
-             ->sum('montant');
-     
-         // Calculez la somme des dépenses pour le mois actuel et l'année actuelle en utilisant le modèle Depense
-         $depenseMensuel = Depense::where('id_utilisateur', auth()->user()->id)
-             ->whereMonth('date', now()->month)
-             ->whereYear('date', now()->year)
-             ->sum('montant');
-     
-         // Calculez la différence entre les entrées et les dépenses
-         $difference = $entreeMensuel - $depenseMensuel;
-     
-         return ['caisseMensuel' => $difference];
-     }
-     
+    //Ramene le montant du mois pour l'utilisateur connecté
+    private function caisseMensuel()
+    {
+        Carbon::setLocale('fr');
+        $moisEnCours = Carbon::now()->monthName;
+
+        // Calculez la somme des entrées pour le mois actuel et l'année actuelle en utilisant le modèle Entree
+        $entreeMensuel = Entree::where('id_utilisateur', auth()->user()->id)
+            ->whereMonth('date', now()->month)
+            ->whereYear('date', now()->year)
+            ->sum('montant');
+
+        // Calculez la somme des dépenses pour le mois actuel et l'année actuelle en utilisant le modèle Depense
+        $depenseMensuel = Depense::where('id_utilisateur', auth()->user()->id)
+            ->whereMonth('date', now()->month)
+            ->whereYear('date', now()->year)
+            ->sum('montant');
+
+        // Calculez la différence entre les entrées et les dépenses
+        $difference = $entreeMensuel - $depenseMensuel;
+
+        return ['caisseMensuel' => $difference];
+    }
 
     //Ramene le nombre de consultations pour l'utilisateur connecté
     private function nombreConsultationMensuel()
@@ -134,10 +139,22 @@ class AdministratifController extends Controller
     //Ramene les 3 prochaines consultations
     public function prochaineConsultation()
     {
-        $consultations = InfoConsultation::latest('date_heure')->take(4)->get();
+        Carbon::setLocale('fr');
+        $consultations = InfoConsultation::where('date_heure', '>=', Carbon::today())
+            ->orderBy('date_heure')
+            ->take(4)
+            ->get();
+
+        $consultations->transform(function ($consultation) {
+            $dateFormatee = Carbon::parse($consultation->date_heure)->translatedFormat('l j F Y H:i');
+            $consultation->dateFormatee = ucwords($dateFormatee);
+
+            return $consultation;
+        });
 
         return $consultations;
     }
+
     //Ramene la somme des entrées par mois pendant l'année en cours
     public function EntreeChartData()
     {
@@ -188,6 +205,7 @@ class AdministratifController extends Controller
     {
         Carbon::setLocale('fr');
         $clients = $this->allClients();
+
         $consultations = $this->consultationsDisponible();
 
 
@@ -229,16 +247,23 @@ class AdministratifController extends Controller
         return $clients;
     }
 
-    //Renvoie la liste des consultation disponible
     public function consultationsDisponible()
     {
         Carbon::setLocale('fr');
+
+        // Récupérer l'heure actuelle
+        $now = Carbon::yesterday();
+
+        // Sélectionner les consultations disponibles où le nombre de candidats est inférieur au nombre maximum prévu
         $consultations = InfoConsultation::where('nombre_candidats', '>', function ($query) {
             $query->selectRaw('count(*)')
                 ->from('candidat')
                 ->whereColumn('info_consultation.id', 'candidat.id_info_consultation');
-        })->get();
+        })
+            ->where('date_heure', '>', $now) // Ajouter la condition pour ne pas sélectionner les dates passées
+            ->get();
 
+        // Formater les dates des consultations
         $consultations->transform(function ($consultation) {
             $dateFormatee = Carbon::parse($consultation->date_heure)->translatedFormat('l j F Y H:i');
             $consultation->dateFormatee = ucwords($dateFormatee);
@@ -249,166 +274,228 @@ class AdministratifController extends Controller
         return $consultations;
     }
 
+
     public function CreerOuModifierFiche(Request $request, $idCandidat)
+{
+    try {
+        Log::info('Début du traitement de la fiche de consultation pour le candidat: ' . $idCandidat);
+
+        // Validation du formulaire
+        $this->validateForm($request);
+
+        // Vérification de la présence du champ cv dans la requête
+        if ($request->hasFile('cv')) {
+            Log::info('Le champ cv est présent dans la requête.');
+        } else {
+            Log::warning('Le champ cv n\'est pas présent dans la requête.');
+        }
+
+        // Récupération de l'ID de l'utilisateur connecté
+        $idUtilisateur = Auth::id();
+
+        // Récupération du candidat à modifier
+        $candidat = Candidat::findOrFail($idCandidat);
+
+        // Modification des informations du candidat
+        $this->updateCandidatInfo($request, $candidat, $idUtilisateur);
+
+        // Traitement du fichier CV si présent
+        $cvPath = $this->handleCV($request, $candidat);
+
+        // Mise à jour ou création de la fiche de consultation et des entrées
+        $this->updateFicheConsultation($request, $candidat, $cvPath);
+
+        Log::info('Fin du traitement de la fiche de consultation pour le candidat: ' . $idCandidat);
+
+        // Redirection vers dossier contact avec un message de succès
+        return redirect()->back()->with('success', 'Formulaire modifié avec succès.');
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        // Gérer les erreurs de validation
+        Log::error('Erreur de validation : ' . json_encode($e->errors()));
+        return redirect()->back()->withErrors($e->errors())->withInput();
+    } catch (\Exception $e) {
+        // Gérer les autres exceptions
+        Log::error('Erreur inattendue : ' . $e->getMessage());
+        return redirect()->back()->withErrors(['error' => 'Une erreur inattendue s\'est produite.'])->withInput();
+    }
+}
+
+    
+
+    private function validateForm(Request $request)
     {
-        try {
-            // Validation du formulaire
-            $request->validate([
-                'nom' => 'required|string|max:255',
-                'prenoms' => 'required|string|max:255',
-                'pays' => 'required|string|max:255',
-                'ville' => 'required|string|max:255',
-                'numero_telephone' => 'required|string|max:20',
-                'email' => 'required|email|max:255',
-                'profession' => 'required|string|max:255',
-            ]);
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'prenoms' => 'required|string|max:255',
+            'pays' => 'required|string|max:255',
+            'ville' => 'required|string|max:255',
+            'numero_telephone' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+            'profession' => 'required|string|max:255',
+        ]);
+    }
 
-            // Récupération de l'ID de l'utilisateur connecté
-            $idUtilisateur = Auth::id();
+    private function updateCandidatInfo(Request $request, $candidat, $idUtilisateur)
+    {
+        $candidat->update([
+            'nom' => ucwords(strtolower($request->input('nom'))),
+            'prenom' => ucwords(strtolower($request->input('prenoms'))),
+            'pays' => ucwords(strtolower($request->input('pays'))),
+            'ville' => ucwords(strtolower($request->input('ville'))),
+            'numero_telephone' => $request->input('numero_telephone'),
+            'email' => $request->input('email'),
+            'profession' => ucwords(strtolower($request->input('profession'))),
+            'consultation_payee' => $request->has('consultation_payee'),
+            'id_utilisateur' => $idUtilisateur,
+            'date_naissance' => $request->input('date_naissance'),
+            'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : 'Sans Objet',
+        ]);
+    }
+    private function handleCV(Request $request, $candidat)
+{
+    Log::info('Début du traitement du CV pour le candidat: ' . $candidat->id);
+    $cvPath = $candidat->ficheConsultation->lien_cv ?? '';
 
-            // Récupération du candidat à modifier
-            $candidat = Candidat::findOrFail($idCandidat);
+    if ($request->hasFile('cv')) {
+        $file = $request->file('cv');
+        if ($file->isValid()) {
+            Log::info('Fichier CV valide reçu.');
+            Log::info('Nom original du fichier : ' . $file->getClientOriginalName());
+            Log::info('Taille du fichier : ' . $file->getSize());
+            Log::info('Extension du fichier : ' . $file->getClientOriginalExtension());
 
-            // Modification des informations du candidat
-            $candidat->update([
-                'nom' => ucwords(strtolower($request->input('nom'))),
-                'prenom' => ucwords(strtolower($request->input('prenoms'))),
-                'pays' => ucwords(strtolower($request->input('pays'))),
-                'ville' => ucwords(strtolower($request->input('ville'))),
-                'numero_telephone' => $request->input('numero_telephone'),
-                'email' => $request->input('email'),
-                'profession' => ucwords(strtolower($request->input('profession'))),
-                'consultation_payee' => $request->has('consultation_payee'),
-                'id_utilisateur' => $idUtilisateur,
-                'date_naissance' => $request->input('date_naissance'),
-                'remarque_agent' => $request->has('consultation_payee') ? $request->input('remarques') : 'Sans Objet',
-            ]);
+            $nomFichier = 'CV' . $candidat->nom . $candidat->prenom . '.' . $file->extension();
+            $dossierPath = 'dossierClient/' . str_replace(' ', '', $candidat->nom) . str_replace(' ', '', $candidat->prenom) . $candidat->id;
 
-            // Récupération du chemin du CV existant
-            $cvPath = $candidat->ficheConsultation->lien_cv ?? null;
-
-            // Traitement du nouveau fichier CV s'il est présent et valide
-            if ($request->hasFile('cv') && $request->file('cv')->isValid()) {
-                // Générez un nom de fichier unique (par exemple, en utilisant le timestamp)
-                $nomFichier = 'CV' . $candidat->nom .  $candidat->prenom . '.' . $request->file('cv')->extension();
-
-                //NOM+PRENOMS+ID
-                $dossierPath = 'dossierClient/' . $candidat->nom . $candidat->prenom . $candidat->id;
-
-                if (!file_exists(storage_path('app/public/' . $dossierPath))) {
-                    mkdir(storage_path('app/public/' . $dossierPath), 0755, true);
-                }
-
-                $dossier = Dossier::updateOrCreate(
-                    [
-                        'id_candidat' => $candidat->id,
-                    ],
-                    [
-                        'url' => $dossierPath,
-                        'id_agent' => auth()->user()->id,
-                    ]
-                );
-
-                // Enregistrez le CV dans le dossier spécifique du candidat avec un nom de fichier unique
-                $request->file('cv')->storeAs('public/' . $dossierPath, $nomFichier);
-
-                // Mettez à jour le chemin du CV dans la base de données
-                $cvPath = $dossierPath . '/' . $nomFichier;
-
-                // Ajoutez un document associé à ce dossier
-                Document::create([
-                    'id_dossier' => $dossier->id,
-                    'nom' => 'CV',
-                    'url' => $cvPath,
-                ]);
-
-                       }
-
-
-            // Si la consultation est payée, mettez à jour ou créez une entrée et une fiche de consultation
-            if ($candidat->consultation_payee) {
-                $montant = (auth()->user()->id_succursale == 4) ? 200 : 100000;
-            
-                $entree = Entree::updateOrCreate(
-                    ['id_candidat' => $candidat->id],
-                    [
-                        'montant' => $montant,
-                        'date' => now(),
-                        'id_utilisateur' => $idUtilisateur,
-                        'id_type_paiement' => 2,
-                    ]
-                );
-            
-            
-
-                FicheConsultation::updateOrCreate(
-                    [
-                        'id_candidat' => $candidat->id,
-                    ],
-                    [
-                        'lien_cv' => $cvPath,
-                        'type_visa' => $request->input('type_visa'),
-                        'reponse1' => $request->input('statut_matrimonial'),
-                        'reponse2' => $request->input('passeport_valide'),
-                        'reponse3' => $request->input('passeport_valide') == 'oui' ? $request->input('date_expiration_passeport') : 'Pas de Passeport valide',
-                        'reponse4' => $request->input('casier_judiciaire'),
-                        'reponse5' => $request->input('soucis_sante'),
-                        'reponse6' => $request->input('enfants'),
-                        'reponse7' => $request->input('enfants') == 'oui' ? $request->input('age_enfants') : "Pas d'enfant",
-                        'reponse8' => $request->input('profession_domaine_travail'),
-                        'reponse9' => $request->input('temps_travail_actuel'),
-                        'reponse10' => $request->input('documents_emploi'),
-                        'reponse11' => $request->input('procedure_immigration'),
-                        'reponse12' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration1') : 'Pas de procedure deja tentee',
-                        'reponse13' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration2') : 'Pas de procedure deja tentee',
-                        'reponse14' => $request->input('diplome_etudes'),
-                        'reponse15' => $request->input('annee_obtention_diplome'),
-                        'reponse16' => $request->input('membre_famille_canada'),
-                        'reponse17' => $request->input('immigrer_seul_ou_famille'),
-                        'reponse18' => $request->input('langues_parlees'),
-                        'reponse19' => $request->input('test_connaissances_linguistiques'),
-                        'reponse20' => $request->input('niveau_scolarite_conjoint'),
-                        'reponse21' => $request->input('domaine_formation_conjoint'),
-                        'reponse22' => $request->input('age_conjoint'),
-                        'reponse23' => $request->input('niveau_francais'),
-                        'reponse24' => $request->input('niveau_anglais'),
-                        'reponse25' => $request->input('age_enfants_linguistique'),
-                        'reponse26' => $request->input('niveau_scolarite_enfants'),
-                    ]
-                );
-            } 
-            else {
-                // Si la consultation n'est pas payée, vérifiez s'il existe une entrée et supprimez-la
-                Entree::where('id_candidat', $candidat->id)->delete();
-
-                // Supprimez également la fiche de consultation s'il en existe une
-                FicheConsultation::where('id_candidat', $candidat->id)->delete();
+            if (!file_exists(storage_path('app/public/' . $dossierPath))) {
+                Log::info('Création du dossier : ' . $dossierPath);
+                mkdir(storage_path('app/public/' . $dossierPath), 0755, true);
+            } else {
+                Log::info('Dossier déjà existant : ' . $dossierPath);
             }
 
-            // Redirection vers dossier contact avec un message de succès
-            return redirect()->back()->with('success', 'Formulaire modifié avec succès.');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Gérer les erreurs de validation
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        } catch (\Exception $e) {
-            // Gérer les autres exceptions
-            return redirect()->back()->withErrors(['error' => 'Une erreur inattendue s\'est produite.'])->withInput();
+            $dossier = Dossier::updateOrCreate(
+                ['id_candidat' => $candidat->id],
+                ['url' => $dossierPath, 'id_agent' => auth()->user()->id]
+            );
+
+            Log::info('Enregistrement du fichier dans le dossier : ' . $dossierPath);
+            $file->storeAs('public/' . $dossierPath, $nomFichier);
+            $cvPath = $dossierPath . '/' . $nomFichier;
+
+            Log::info('Création d\'un enregistrement pour le document.');
+            Document::create([
+                'id_dossier' => $dossier->id,
+                'nom' => 'CV',
+                'url' => $cvPath,
+            ]);
+        } else {
+            Log::error('Le fichier CV n\'est pas valide.');
+        }
+    } else {
+        Log::info('Aucun fichier CV téléchargé.');
+    }
+
+    Log::info('Fin du traitement du CV. Chemin CV: ' . $cvPath);
+    return $cvPath;
+}
+
+    
+    
+    
+    private function updateFicheConsultation(Request $request, $candidat, $cvPath)
+    {
+        $entreeExistante = Entree::where('id_candidat', $candidat->id)->where('id_type_paiement', 2)->first();
+
+        $cvPath = $cvPath ?? '';
+
+        if ($candidat->consultation_payee || $entreeExistante) {
+            FicheConsultation::updateOrCreate(
+                ['id_candidat' => $candidat->id],
+                [
+                    'lien_cv' => $cvPath,
+                    'type_visa' => $request->input('type_visa'),
+                    'reponse1' => $request->input('statut_matrimonial'),
+                    'reponse2' => $request->input('passeport_valide'),
+                    'reponse3' => $request->input('passeport_valide') == 'oui' ? $request->input('date_expiration_passeport') : 'Pas de Passeport valide',
+                    'reponse4' => $request->input('casier_judiciaire'),
+                    'reponse5' => $request->input('soucis_sante'),
+                    'reponse6' => $request->input('enfants'),
+                    'reponse7' => $request->input('enfants') == 'oui' ? $request->input('age_enfants') : "Pas d'enfant",
+                    'reponse8' => $request->input('profession_domaine_travail'),
+                    'reponse9' => $request->input('temps_travail_actuel'),
+                    'reponse10' => $request->input('documents_emploi'),
+                    'reponse11' => $request->input('procedure_immigration'),
+                    'reponse12' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration1') : 'Pas de procedure deja tentee',
+                    'reponse13' => $request->input('procedure_immigration') == 'oui' ? $request->input('questions-procedure-immigration2') : 'Pas de procedure deja tentee',
+                    'reponse14' => $request->input('diplome_etudes'),
+                    'reponse15' => $request->input('annee_obtention_diplome'),
+                    'reponse16' => $request->input('membre_famille_canada'),
+                    'reponse17' => $request->input('immigrer_seul_ou_famille'),
+                    'reponse18' => $request->input('langues_parlees'),
+                    'reponse19' => $request->input('test_connaissances_linguistiques'),
+                    'reponse20' => $request->input('niveau_scolarite_conjoint'),
+                    'reponse21' => $request->input('domaine_formation_conjoint'),
+                    'reponse22' => $request->input('age_conjoint'),
+                    'reponse23' => $request->input('niveau_francais'),
+                    'reponse24' => $request->input('niveau_anglais'),
+                    'reponse25' => $request->input('age_enfants_linguistique'),
+                    'reponse26' => $request->input('niveau_scolarite_enfants'),
+                    'reponse27' => $request->input('reponse27'),
+                    'reponse28' => $request->input('reponse28'),
+                    'reponse29' => $request->input('reponse29'),
+                ]
+            );
+
+            if ($candidat->consultation_payee && !$entreeExistante) {
+                $montant = (auth()->user()->id_succursale == 4) ? 100 : 50000;
+
+                Entree::create([
+                    'id_candidat' => $candidat->id,
+                    'montant' => $montant,
+                    'date' => now(),
+                    'id_utilisateur' => auth()->id(),
+                    'id_type_paiement' => 2,
+                ]);
+            }
+        } else {
+            Entree::where('id_candidat', $candidat->id)->delete();
+            FicheConsultation::where('id_candidat', $candidat->id)->delete();
         }
     }
 
     public function ModifierDateConsultation(Request $request, $candidatId)
     {
-        // Récupérer les données du formulaire
-        $consultationId = $request->input('consultation_id');
+        try {
+            Carbon::setLocale('fr');
+            // Récupérer les données du formulaire
+            $consultationId = $request->input('consultation_id');
+            $consultation = InfoConsultation::find($consultationId);
 
-        // Mettre à jour le champ id_info_consultation du candidat
-        Candidat::where('id', $candidatId)->update(['id_info_consultation' => $consultationId]);
+            $dateConsultation = Carbon::parse($consultation->date_heure)->translatedFormat('l j F ');
+            $heureConsultation = Carbon::parse($consultation->date_heure)->translatedFormat('H:i');
 
-        // Rediriger ou retourner la réponse en fonction de vos besoins
-        return redirect()->back()->with('success', 'Consultation mise à jour avec succès');
+            $candidat = Candidat::find($candidatId);
+
+            $nom = $candidat->nom;
+            $prenom = $candidat->prenom;
+
+            $firstTime = $candidat->id_info_consultation == null;
+
+            // Mettre à jour l'ID de consultation du candidat
+            Candidat::where('id', $candidatId)->update(['id_info_consultation' => $consultationId]);
+
+            // Envoyer une notification par e-mail
+            Notification::route('mail', $candidat->email)->notify(new DateConsultationNotification($nom, $prenom, $firstTime, $dateConsultation, $heureConsultation, $consultation->lien_zoom));
+
+            // Retourner une réponse JSON avec un message de succès
+            return response()->json(['success' => true, 'message' => 'Consultation mise à jour avec succès']);
+        } catch (\Exception $e) {
+            // Retourner une réponse JSON avec un message d'erreur en cas d'exception
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
 
-    
     public function getDossierDocuments($clientId)
     {
         $candidat = Candidat::find($clientId);
@@ -436,81 +523,83 @@ class AdministratifController extends Controller
 
     public function allClient()
     {
-        // Récupérer l'id de la succursale de l'utilisateur en cours
         $idSuccursaleUtilisateur = auth()->user()->id_succursale;
-    
-        // Récupérer la liste des entrees de type 2 liées à la succursale de l'utilisateur
+
         $entreesType2 = Entree::with('utilisateur')
             ->where('id_type_paiement', 2)
             ->whereHas('utilisateur', function ($query) use ($idSuccursaleUtilisateur) {
                 $query->where('id_succursale', $idSuccursaleUtilisateur);
             })
             ->get();
-    
-        // Récupérer les candidats liés à ces entrées
+
         $candidats = Candidat::whereIn('id', $entreesType2->pluck('id_candidat'))->get();
-    
-        // Créer un tableau associatif pour stocker la date de paiement correspondante à chaque candidat
+
         $datesPaiement = $entreesType2->pluck('date', 'id_candidat')->all();
-    
-        // Trier les candidats par date de paiement (de la plus récente à la plus ancienne)
+
         $candidats = $candidats->sortByDesc(function ($candidat) use ($datesPaiement) {
             return $datesPaiement[$candidat->id];
         });
-    
-        
+
         return ['data_client' => $candidats, 'dates_paiement' => $datesPaiement];
     }
-    
+
+    public function showForm()
+    {
+        $categories = Category::with('questions')->get();
+        return ['categories' => $categories];
+    }
+
     public function DossierClients()
     {
-        // Appeler la fonction allClient pour récupérer les données
         $donneesClients = $this->allClient();
-    
-        // Utiliser la méthode view pour rendre la vue avec les données
-        return view('Administratif.Views.DossierClients', $donneesClients);
+        $categories = $this->showForm();
+
+        return view('Administratif.Views.DossierClients', [
+            'data_client' => $donneesClients['data_client'],
+            'dates_paiement' => $donneesClients['dates_paiement'],
+            'categories' => $categories['categories']
+        ]);
     }
-    
+
+
     public function Banque()
     {
         $utilisateurConnecte = Auth::user();
         // Vérifie si le poste de l'utilisateur est 134 ou 5
         $hasPoste = in_array($utilisateurConnecte->id_poste_occupe, [3, 5]);
         $entries = Entree::where('id_utilisateur', $utilisateurConnecte->id)
-        ->orderBy('date', 'desc')
-        ->get();
+            ->orderBy('date', 'desc')
+            ->get();
         $entreeMensuelData = $this->entreeMensuel();
         // Définir $moisEnCours
         $moisEnCours = $entreeMensuelData['moisEnCours'];
 
         $entreeMensuelSuccursale = Entree::whereMonth('date', now()->month)
-        ->whereYear('date', now()->year)
-        ->sum('montant');
+            ->whereYear('date', now()->year)
+            ->sum('montant');
 
         $depenseMensuelSuccursale = Depense::whereMonth('date', now()->month)
-             ->whereYear('date', now()->year)
-             ->sum('montant');
-     
+            ->whereYear('date', now()->year)
+            ->sum('montant');
+
         $devise = $this->devise();
 
 
         $transactionController = new Controller();
         $transactions = $transactionController->getAllTransactions($utilisateurConnecte->id);
-        
+
         // Passe la variable $hasPoste à la vue
-        return view('Administratif.Views.Banque', compact('entries', 'hasPoste', 'moisEnCours' , 'entreeMensuelSuccursale' ,'devise' , 'depenseMensuelSuccursale' , 'transactions'));
+        return view('Administratif.Views.Banque', compact('entries', 'hasPoste', 'moisEnCours', 'entreeMensuelSuccursale', 'devise', 'depenseMensuelSuccursale', 'transactions'));
     }
-    
+
     public function Consultation()
     {
         Carbon::setLocale('fr');
-        $consultations = InfoConsultation::all();
-
+        $consultations = InfoConsultation::orderBy('date_heure', 'desc')->get();
         foreach ($consultations as $consultation) {
             $formattedDate = Carbon::parse($consultation->date_heure)->translatedFormat('l j F Y');
             $consultation->date_heure_formatee = ucwords($formattedDate);
         }
-
         return view('Administratif.Views.Consultation', compact('consultations'));
     }
 
@@ -518,7 +607,7 @@ class AdministratifController extends Controller
     {
         // Récupérez l'ID de l'utilisateur actuel
         $userId = Auth::id();
-    
+
         // Utilisez Eloquent pour récupérer les candidats enregistrés par l'utilisateur actuel
         $candidats = Candidat::where('id_utilisateur', $userId)
             ->whereDoesntHave('entrees', function ($query) {
@@ -526,65 +615,84 @@ class AdministratifController extends Controller
                 $query->where('type_entree', 2);
             })
             ->get();
-    
+
         return $candidats;
     }
-   
+
+
     public function ModifierTypeVisa(Request $request, $candidatId)
     {
         try {
             // Validez l'existence du candidat
             $candidat = Candidat::find($candidatId);
             if (!$candidat) {
-                return redirect()->back()->with('error', 'Candidat introuvable.');
+                Log::error("Candidat introuvable avec l'ID : $candidatId");
+                return response()->json(['success' => false, 'message' => 'Candidat introuvable.'], 404);
             }
+
             // Récupérez les valeurs du formulaire
             $typeProcedureId = $request->input('type_procedure');
             $statutId = $request->input('statut_id');
             $consultanteId = $request->input('consultante_id');
+
+            // Log des valeurs récupérées
+            Log::info("Valeurs récupérées - typeProcedureId: $typeProcedureId, statutId: $statutId, consultanteId: $consultanteId");
+
             // Recherchez une procédure existante pour le candidat
             $procedure = Procedure::where('id_candidat', $candidatId)->first();
             $isNewProcedure = false;
-            // Si une procédure existe, mettez à jour les champs
+            $isStatutChanged = false;
+
+            // Si une procédure existe, vérifiez si le statut a changé
             if ($procedure) {
-                $procedure->update([
-                    'id_type_procedure' => $typeProcedureId,
-                    'statut_id' => $statutId,
-                    'consultante_id' => $consultanteId,
-                ]);
+                if ($procedure->statut_id != $statutId) {
+                    $isStatutChanged = true;
+                    // Si le statut a changé, ne mettez à jour que le statut
+                    $procedure->update(['statut_id' => $statutId]);
+                } else {
+                    // Si le statut n'a pas changé, mettez à jour tous les champs
+                    $procedure->update([
+                        'id_type_procedure' => $typeProcedureId,
+                        'statut_id' => $statutId,
+                        'consultante_id' => $consultanteId,
+                    ]);
+                }
+                Log::info("Procédure mise à jour - ID procédure : " . $procedure->id);
             } else {
-                // Sinon, créez une nouvelle instance de la classe Procedure
+                // Si une procédure n'existe pas, créez une nouvelle procédure
                 $procedure = new Procedure([
                     'id_candidat' => $candidatId,
                     'id_type_procedure' => $typeProcedureId,
                     'statut_id' => $statutId,
                     'consultante_id' => $consultanteId,
+                    'tag_id' => 1,
                 ]);
-                // Sauvegardez la nouvelle procédure dans la base de données
                 $procedure->save();
                 $isNewProcedure = true;
+                Log::info("Nouvelle procédure créée - ID procédure : " . $procedure->id);
             }
+
             // Get the status label
             $statut = StatutProcedure::find($statutId);
             $statutLabel = $statut ? $statut->label : '';
+
             // Send notifications
             if ($isNewProcedure) {
-                // Get the candidate's first name and last name
                 $nom = $candidat->nom;
                 $prenom = $candidat->prenom;
-            
-                // Send notification about the creation of the procedure
                 Notification::route('mail', $candidat->email)->notify(new ProcedureCreatedNotifications($nom, $prenom));
-            }
-             else {
-                // Send notification about the update of the procedure
+            } else if ($isStatutChanged) {
                 Notification::route('mail', $candidat->email)->notify(new StatutNotifications($statutLabel));
             }
-            return redirect()->back()->with('success', 'Procédure enregistrée avec succès.');
+
+            return response()->json(['success' => true, 'message' => 'Procédure enregistrée avec succès.'], 200);
         } catch (\Exception $e) {
             // Gérez les erreurs, par exemple, en les enregistrant ou en les affichant à l'utilisateur
-            return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de la procédure.');
+            Log::error('Erreur lors de l\'enregistrement de la procédure : ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Une erreur est survenue lors de l\'enregistrement de la procédure.'], 500);
         }
     }
-     
+    
+   
+
 }

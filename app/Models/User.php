@@ -103,7 +103,10 @@ class User extends Authenticatable
         }
     }
 
-
+    public function poste_occupe()
+    {
+        return $this->belongsTo(PosteOccupe::class, 'id_poste_occupe');
+    }
 
     /**
      * Récupère le rôle de l'utilisateur (0, 1, 2).

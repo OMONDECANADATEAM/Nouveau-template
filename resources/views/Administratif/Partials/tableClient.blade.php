@@ -24,7 +24,7 @@
                         @endforeach
                     </div>
                 </div>
-                
+
                 <div class="dropdown">
                     <button class="btn btn-secondary" type="button" id="dropdownConsultante" data-toggle="dropdown">
                         Consultante
@@ -32,16 +32,19 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownConsultante">
                         @foreach (\App\Models\consultante::all() as $consultante)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="{{ $consultante->nom }} {{ $consultante->prenoms }}" id="consultante{{ $consultante->id }}" name="consultante" checked>
+                                <input class="form-check-input" type="checkbox"
+                                    value="{{ $consultante->nom }} {{ $consultante->prenoms }}"
+                                    id="consultante{{ $consultante->id }}" name="consultante" checked>
                                 <label class="form-check-label" for="consultante{{ $consultante->id }}">
-                                    {{ $consultante->nom }}    {{ $consultante->prenoms }}
+                                    {{ $consultante->nom }} {{ $consultante->prenoms }}
                                 </label>
                             </div>
                         @endforeach
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="consultante{{ $consultante->id }}" name="consultante" checked>
+                            <input class="form-check-input" type="checkbox" value=""
+                                id="consultante{{ $consultante->id }}" name="consultante" checked>
                             <label class="form-check-label" for="consultante{{ $consultante->id }}">
-                               N / A
+                                N / A
                             </label>
                         </div>
                     </div>
@@ -54,7 +57,8 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownStatut">
                         @foreach (\App\Models\StatutProcedure::all() as $statut)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="{{ $statut->label }}" id="statut{{ $statut->id }}" name="statut" checked>
+                                <input class="form-check-input" type="checkbox" value="{{ $statut->label }}"
+                                    id="statut{{ $statut->id }}" name="statut" checked>
                                 <label class="form-check-label" for="statut{{ $statut->id }}">
                                     {{ $statut->label }}
                                 </label>
@@ -62,7 +66,7 @@
                         @endforeach
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -71,6 +75,10 @@
             <table class="table align-items-center justify-content-center mb-0 dataTable">
                 <thead>
                     <tr>
+                        <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                            TAG
+                        </th>
+
                         <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                             NOM
                         </th>
@@ -79,21 +87,20 @@
                             class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             TYPE VISA
                         </th>
-                       
+
                         <th
                             class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             STATUT
                         </th>
                         <th
-                        class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                        CONSULTANTE
-                    </th>
-                      
+                            class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                            CONSULTANTE
+                        </th>
+
                         <th
                             class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                             VOIR DOSSIER
                         </th>
-
 
                         <th
                             class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
@@ -106,6 +113,20 @@
                         <tr>
                             <td>
                                 <div class="d-flex px-2">
+                                    <h6 class="p-2 text-md">
+                                        @if ($candidat->proceduresDemandees)
+                                            <span class="badge bg-primary rounded-pill">
+                                                {{ $candidat->proceduresDemandees->tag->label ?? '' }}
+                                            </span>
+                                        @else
+                                            N / A
+                                        @endif
+                                    </h6>
+                                </div>
+
+                            </td>
+                            <td>
+                                <div class="d-flex px-2">
                                     <h6 class="p-2 text-md">{{ $candidat->nom }} {{ $candidat->prenom }}</h6>
                                 </div>
                             </td>
@@ -116,7 +137,7 @@
                                     @if ($candidat->proceduresDemandees)
                                         {{ $candidat->proceduresDemandees->typeProcedure->label }}
                                     @else
-                                    N / A
+                                        N / A
                                     @endif
                                 </span>
 
@@ -127,7 +148,7 @@
                                     @if ($candidat->proceduresDemandees)
                                         {{ $candidat->proceduresDemandees->statut->label ?? 'null' }}
                                     @else
-                                    N / A
+                                        N / A
                                     @endif
                                 </span>
 
@@ -137,8 +158,8 @@
 
                                 <span class="text-md ">
                                     @if ($candidat->proceduresDemandees)
-                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'N /' }} {{ $candidat->proceduresDemandees->consultante->prenoms ?? 'A' }}
-                         
+                                        {{ $candidat->proceduresDemandees->consultante->nom ?? 'N /' }}
+                                        {{ $candidat->proceduresDemandees->consultante->prenoms ?? 'A' }}
                                     @else
                                         N / A
                                     @endif
@@ -158,35 +179,47 @@
 
                             <td class="align-middle text-center">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary" type="button" id="dropdownMenuButton"
+                                    <button class="btn btn-dark" type="button" id="dropdownMenuButton"
                                         data-bs-toggle="dropdown">
                                         <i class="material-icons">more_vert</i>
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                       
-                                     
-    
-                                        <a class="dropdown-item"data-bs-toggle="modal"
+                                    <div class="dropdown-menu d-flex flex-direction-column flex-wrap"
+                                        aria-labelledby="dropdownMenuButton">
+
+                                        <a class="btn btn-danger col-12 m-1 "data-bs-toggle="modal"
                                             data-bs-target="#AjouterVisaModal{{ $candidat->id }}">
                                             Ajouter le Type de Visa
                                         </a>
 
-                                        <a class="dropdown-item"data-bs-toggle="modal"
-                                        data-bs-target="#ajouterFichierModal{{ $candidat->id }}">
-                                        Ajouter des documents
+                                        <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal"
+                                            data-bs-target="#ajouterFichierModal{{ $candidat->id }}">
+                                            Ajouter des documents
+                                        </a>
+                                        <a class="btn btn-danger col-12 m-1 "data-bs-toggle="modal"
+                                            data-bs-target="#changeTagModal{{ $candidat->id }}">
+                                            Ajouter / Changer un tag
+                                        </a>
+                                        <a class="btn btn-danger col-12 m-1 "data-bs-toggle="modal"
+                                        data-bs-target="#addFicheRens{{ $candidat->id }}">
+                                        Fiche de renseignement
                                     </a>
-                                        
-                                        
+
+
                                     </div>
                                 </div>
                             </td>
-                          
-                             @include('Administratif.Partials.AddVisa', [
+
+                            @include('Administratif.Partials.AddVisa', [
                                 'candidat' => $candidat,
                             ])
-                              @include('Administratif.Partials.ajoutFichierClient')
+                            @include('Administratif.Partials.ajoutFichierClient')
+                            @include('Administratif.Partials.AddTag', [
+                                'candidat' => $candidat,
+                            ])
+                             @include('Administratif.Partials.AddFicheRens', [
+                                'candidat' => $candidat,
+                            ])
 
-                            
 
                         </tr>
                     @endforeach
@@ -201,73 +234,72 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-    var table = $('.dataTable').DataTable({
-        "language": {
-            "search": "",
-            "lengthMenu": "",
-            "zeroRecords": "",
-            "info": "",
-            "infoEmpty": "",
-            "infoFiltered": "",
-            "paginate": {
-                "first": '<i class="material-icons">first_page</i>',
-                "last": '<i class="material-icons">last_page</i>',
-                "next": '<i class="material-icons">chevron_right</i>',
-                "previous": '<i class="material-icons">chevron_left</i>'
+    $(document).ready(function() {
+        var table = $('.dataTable').DataTable({
+            "language": {
+                "search": "",
+                "lengthMenu": "",
+                "zeroRecords": "",
+                "info": "",
+                "infoEmpty": "",
+                "infoFiltered": "",
+                "paginate": {
+                    "first": '<i class="material-icons">first_page</i>',
+                    "last": '<i class="material-icons">last_page</i>',
+                    "next": '<i class="material-icons">chevron_right</i>',
+                    "previous": '<i class="material-icons">chevron_left</i>'
+                }
+            },
+            "dom": '<"top"i>rt<"bottom"lp><"clear">',
+            "drawCallback": function() {
+                // Ajouter les classes de Bootstrap pour centrer horizontalement
+                $('.dataTables_paginate.paging_simple_numbers').addClass(
+                    'd-flex justify-content-center');
+                $('.bottom').addClass('d-flex justify-content-center');
             }
-        },
-        "dom": '<"top"i>rt<"bottom"lp><"clear">',
-        "drawCallback": function () {
-            // Ajouter les classes de Bootstrap pour centrer horizontalement
-            $('.dataTables_paginate.paging_simple_numbers').addClass('d-flex justify-content-center');
-            $('.bottom').addClass('d-flex justify-content-center');
-        }
-    });
-
-   
-    $('#searchInput').on('keyup', function() {
-  table.search(this.value).draw();
-});
-   // Filtre pour le type de visa
-   $('input:checkbox[name="type_visa"]').on('change', function () {
-        var types = $('input:checkbox[name="type_visa"]:checked').map(function () {
-            return this.value; // Match partial value
-        }).get().join('|'); // Join all values with OR operator
-        console.log(types)
-        table.column(1).search(types, true, false).draw(); // Apply filter to column 1 (Type de visa)
-    });
-
-    $('input:checkbox[name="consultante"]').on('change', function () {
-    console.log('Checkbox changed'); // Ajoutez cette ligne
-
-    var consultante = $('input:checkbox[name="consultante"]:checked').map(function () {
-        return this.value;
-    }).get().join('|');
-
-    console.log(consultante);
-    table.column(3).search(consultante, true, false).draw();
-});
-
-$('input[name="statut"]').on('click', function () {
-        // Récupérez tous les statuts cochés
-        var statuts = [];
-        $('input[name="statut"]:checked').each(function () {
-            statuts.push(this.value);
         });
 
-        // Joignez les statuts avec un pipe (|), qui est utilisé comme un opérateur OR dans la méthode `search` de DataTables
-        var regex = statuts.join('|');
 
-        // Filtrez votre table basée sur les statuts cochés
-        // Ici, j'assume que le statut est dans la 3ème colonne de votre table (index 2)
-        table.column(2).search(regex, true, false).draw();
+        $('#searchInput').on('keyup', function() {
+            table.search(this.value).draw();
+        });
+        // Filtre pour le type de visa
+        $('input:checkbox[name="type_visa"]').on('change', function() {
+            var types = $('input:checkbox[name="type_visa"]:checked').map(function() {
+                return this.value; // Match partial value
+            }).get().join('|'); // Join all values with OR operator
+            console.log(types)
+            table.column(2).search(types, true, false)
+        .draw(); // Apply filter to column 1 (Type de visa)
+        });
+
+        $('input:checkbox[name="consultante"]').on('change', function() {
+            console.log('Checkbox changed'); // Ajoutez cette ligne
+
+            var consultante = $('input:checkbox[name="consultante"]:checked').map(function() {
+                return this.value;
+            }).get().join('|');
+
+            console.log(consultante);
+            table.column(4).search(consultante, true, false).draw();
+        });
+
+        $('input[name="statut"]').on('click', function() {
+            // Récupérez tous les statuts cochés
+            var statuts = [];
+            $('input[name="statut"]:checked').each(function() {
+                statuts.push(this.value);
+            });
+
+            // Joignez les statuts avec un pipe (|), qui est utilisé comme un opérateur OR dans la méthode `search` de DataTables
+            var regex = statuts.join('|');
+
+            // Filtrez votre table basée sur les statuts cochés
+            // Ici, j'assume que le statut est dans la 3ème colonne de votre table (index 2)
+            table.column(3).search(regex, true, false).draw();
+        });
+
+
+
     });
-
-
-   
-});
-
-
-
 </script>

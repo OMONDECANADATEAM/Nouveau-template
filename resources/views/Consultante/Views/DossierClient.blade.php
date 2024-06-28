@@ -20,17 +20,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logos/logo-icon.png') }}">
 
+
+
     <title>Omonde Canada - CRM</title>
 
     <!-- Inclure les polices Google -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
 
-    <!-- Nucleo Icons -->
-    <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+
 
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
@@ -51,6 +50,7 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <script src="https://kit.fontawesome.com/bf8b55f4b1.js" crossorigin="anonymous"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
 </head>
 
@@ -75,65 +75,67 @@
 
                             </div>
 
-                         <div class="d-flex align-items-center justify-content-around col-4">
-                            <div class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
-                                <div class="dropdown">
-                                    <div class="btn btn-secondary" type="button" id="dropdownTypeVisa"
-                                        data-toggle="dropdown">
-                                        Type de visa
-                                </div>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownTypeVisa">
-                                        @foreach (\App\Models\TypeProcedure::all() as $typeVisa)
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    value="{{ $typeVisa->label }}" id="typeVisa{{ $typeVisa->id }}"
-                                                    name="type_visa" checked>
-                                                <label class="form-check-label" for="typeVisa{{ $typeVisa->id }}">
-                                                    {{ $typeVisa->label }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
-
-                                <div class="dropdown">
-
-                                    <div class="btn btn-secondary" type="button" id="dropdownStatut"
-                                        data-toggle="dropdown">
-
-                                        Statut
-
-                                </div>
-
-                                    <div class="dropdown-menu" aria-labelledby="dropdownStatut">
-
-                                        @foreach (\App\Models\StatutProcedure::all() as $statut)
-                                            <div class="form-check">
-
-                                                <input class="form-check-input" type="checkbox"
-                                                    value="{{ $statut->label }}" id="statut{{ $statut->id }}"
-                                                    name="statut" checked>
-
-                                                <label class="form-check-label" for="statut{{ $statut->id }}">
-
-                                                    {{ $statut->label }}
-
-                                                </label>
-
-                                            </div>
-                                        @endforeach
-
+                            <div class="d-flex align-items-center justify-content-around col-4">
+                                <div
+                                    class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
+                                    <div class="dropdown">
+                                        <div class="btn btn-secondary" type="button" id="dropdownTypeVisa"
+                                            data-toggle="dropdown">
+                                            Type de visa
+                                        </div>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownTypeVisa">
+                                            @foreach (\App\Models\TypeProcedure::all() as $typeVisa)
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        value="{{ $typeVisa->label }}" id="typeVisa{{ $typeVisa->id }}"
+                                                        name="type_visa" checked>
+                                                    <label class="form-check-label" for="typeVisa{{ $typeVisa->id }}">
+                                                        {{ $typeVisa->label }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
 
                                 </div>
+                                <div
+                                    class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
+
+                                    <div class="dropdown">
+
+                                        <div class="btn btn-secondary" type="button" id="dropdownStatut"
+                                            data-toggle="dropdown">
+
+                                            Statut
+
+                                        </div>
+
+                                        <div class="dropdown-menu" aria-labelledby="dropdownStatut">
+
+                                            @foreach (\App\Models\StatutProcedure::all() as $statut)
+                                                <div class="form-check">
+
+                                                    <input class="form-check-input" type="checkbox"
+                                                        value="{{ $statut->label }}" id="statut{{ $statut->id }}"
+                                                        name="statut" checked>
+
+                                                    <label class="form-check-label" for="statut{{ $statut->id }}">
+
+                                                        {{ $statut->label }}
+
+                                                    </label>
+
+                                                </div>
+                                            @endforeach
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
 
                             </div>
-
-
-                         </div>
 
 
 
@@ -209,10 +211,27 @@
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                                         <a class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#AjouterVisaModal{{ $candidat->id }}">Ajouter
-                                                            le Type de Visa</a>
+                                                            data-bs-target="#AjouterVisaModal{{ $candidat->id }}">
+                                                            Changer le statut
+                                                        </a>
+
+                                                        <a class="dropdown-item"data-bs-toggle="modal"
+                                                            data-bs-target="#ajouterFichierModal{{ $candidat->id }}">
+                                                            Ajouter des documents
+                                                        </a>
+
+                                                        <a class="dropdown-item" href="{{ route('fiche.renseignement.view', ['candidatId' => $candidat->id]) }}">
+                                                            Fiche de renseignement
+                                                        </a>
+
+
                                                     </div>
                                                 </div>
+                                                @include('Administratif.Partials.AddVisa', [
+                                                    'candidat' => $candidat,
+                                                ])
+                                                @include('Consultante.Partials.AddFichierConsultante')
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -224,6 +243,7 @@
                 </div>
             </div>
         </div>
+        
         <script>
             $(document).ready(function() {
                 var table = $('#candidatsTable').DataTable({
@@ -275,11 +295,8 @@
                     table.column(2).search(statuts, true, false).draw(); // Apply filter to column 2 (Statut)
                 });
 
-
-
             });
-        </script>
-        <script>
+       
             $(document).ready(function() {
                 $('.delete-document').on('click', function(e) {
                     e.preventDefault();
@@ -308,6 +325,43 @@
                     }
                 });
             });
+
+            function ajouterFichiersConsultante(candidatId) {
+        var form = $('#ajouterFichierForm' + candidatId)[0];
+        var formData = new FormData(form);
+
+        // Log the form data to the console
+        console.log("Form Data:", formData);
+
+        $.ajax({
+            type: 'POST',
+            url: '/Consultante/DossierClient/AjouterFichiersCandidat/' + candidatId,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response && response.message) {
+                    alert(response.message);
+
+                    // Fermer le modal après un ajout réussi
+                    $('#ajouterFichierModal' + candidatId).modal('hide');
+
+                    // Actualiser la page pour afficher les changements
+                    location.reload();
+                } else {
+                    console.error('Erreur lors de l\'ajout des fichiers: ' + (response ? response.message :
+                        'Réponse non valide'));
+                }
+            },
+
+            error: function (xhr, status, error) {
+                console.error('Erreur AJAX: ' + status + ', ' + error);
+
+                // Ajouter une gestion d'erreur supplémentaire si nécessaire
+                alert('Erreur lors de la communication avec le serveur. Veuillez réessayer plus tard.');
+            }
+        });
+    }
         </script>
 
         <script async defer src="https://buttons.github.io/buttons.js"></script>

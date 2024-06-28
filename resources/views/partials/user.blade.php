@@ -1,53 +1,54 @@
 <!-- Affichage des informations de l'utilisateur -->
-<li class="nav-item dropdown pe-2 d-flex align-items-center bold cursor-pointer">
+<li class="nav-item dropdown pe-2 d-flex align-items-center font-weight-bold cursor-pointer align-items-center justify-content-between">
     <!-- Avatar de l'utilisateur -->
-    <div style="width: 32px; height: 32px; overflow: hidden; border-radius: 50%; margin-right: 8px;">
-       <!-- Assurez-vous que $utilisateur contient les données de l'utilisateur connecté -->
-@if (auth()->user() && auth()->user()->lien_photo)
-<img src="{{ asset('storage/'. auth()->user()->lien_photo) }}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
-@else
-<!-- Si l'utilisateur n'a pas de photo, affichez une image par défaut ou un espace réservé -->
-<img src='{{ asset('assets/img/logos/logo-icon.png')  }}' alt="Avatar par défaut" style="width: 100%; height: 100%; object-fit: cover;">
-@endif   </div>
-
+    <div class="rounded-circle overflow-hidden d-inline-block" style="width: 40px; height: 40px;">
+        @isset(auth()->user()->lien_photo)
+            <img src="{{ asset('storage/' . auth()->user()->lien_photo) }}" alt="Avatar" class="w-100 h-100 object-cover">
+        @else
+            <img src="{{ asset('assets/img/logos/logo-icon.png') }}" alt="Avatar par défaut" class="w-100 h-100 object-cover">
+        @endisset
+    </div>
     <!-- Informations textuelles de l'utilisateur -->
-    <div class="d-flex flex-column justify-content-around">
+    <div class="d-flex flex-column justify-content-around ms-2">
         <!-- Nom et prénom de l'utilisateur -->
-        <span style="font-weight: bold;">{{ auth()->user()->name }} {{ auth()->user()->last_name }}</span>
-
-        <!-- Récupération du poste occupé par l'utilisateur -->
-        @php
-            $userPoste = \DB::table('poste_occupe')->where('id', auth()->user()->id_poste_occupe)->first();
-        @endphp
-
+        <span>{{ auth()->user()->name }} {{ auth()->user()->last_name }}</span>
         <!-- Affichage du label du poste -->
-        <span>{{ $userPoste->label}}</span>
+        <span>{{ auth()->user()->poste_occupe->label }}</span>
     </div>
 </li>
-
 <!-- Dropdown pour les paramètres -->
 <li class="nav-item dropdown pe-2 d-flex align-items-center">
-    <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+    <a href="#" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
         <span class="material-icons fs-4">settings</span>
     </a>
-
     <!-- Menu déroulant des paramètres -->
-    <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+    <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+
+
+        <!-- Bouton pour modifier le profil -->
+        <li class="mb-2">
+            <div class="btn btn-dark d-flex align-items-center justify-content-around p-2" data-bs-toggle="modal" data-bs-target="#modifierUtilisateurModal{{ Auth()->user()->id }}">
+                <span class="material-icons fs-2">person</span>
+                <span class="text-md text-bold text-white">
+                    MODIFIER
+                </span>
+            </div>
+        </li>
         <!-- Bouton de déconnexion -->
         <li class="mb-2">
             <form action="{{ route('logout') }}" method="post">
                 @csrf
-                <!-- Bouton stylisé avec l'icône de déconnexion -->
                 <button type="submit" class="dropdown-item border-radius-md bg-danger">
                     <div class="d-flex align-items-center justify-content-between">
                         <span class="material-icons fs-2">logout</span>
-                        <!-- Texte "Déconnexion" -->
-                        <h6 class="text-sm font-weight-normal">
-                            <span class="font-weight-bold">DECONNEXION</span>
-                        </h6>
+                        <span class=" text-bold text-white">
+                            DECONNEXION
+                        </span>
                     </div>
                 </button>
             </form>
         </li>
-    </ul>
+        
+    </ul> 
 </li>
+@include('Informatique.Partials.ModifierUser', ['user' => Auth::user()])

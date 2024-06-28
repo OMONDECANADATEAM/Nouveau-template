@@ -19,7 +19,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Liste des candidats - Omonde Canada - CRM
+    <title>LISTE DES CANDIDATS - Omonde Canada - CRM
     </title>
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -41,7 +41,7 @@
     @include('partials.navbar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        @include('partials.header', ['page' => 'Consultante'])
+        @include('partials.header', ['page' => 'CANDIDATS'])
         <!-- End Navbar -->
 
         <div class="row">
@@ -52,10 +52,11 @@
 
                         <div
                             class="bg-gradient-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
-                            <h3 class="text-white text-capitalize p-2">Consultation du
-                                {{ ucfirst(\Carbon\Carbon::parse($info_consultation->date_heure)->translatedFormat('d F Y')) }}
-
-                            </h3>
+                            <div class="p-2 border-radius-lg w-40 bg-white">
+                                <input type="text " id="searchInput"
+                                    class="form-control text-dark text-lg bg-transparent border-0 p-1"
+                                    placeholder="Recherche...">
+                            </div>
                         </div>
                     </div>
 
@@ -87,13 +88,9 @@
                             </thead>
                             <tbody>
                                 @foreach ($info_consultation->candidats as $candidat)
-                                    @php
-                                        $consultationStatusClass = $candidat->consultation_effectuee ? 'table-success' : '';
-                                    @endphp
-
                                     <tr data-candidat-id="{{ $candidat->id }}">
                                         <td class="text-md text-bold ps-4" style="width: 5%;">
-                                            N° {{ $candidat->id }}
+                                            N° {{ $loop->iteration }}
                                         </td>
                                         <td class="text-md  ps-4" style="width: 15%;">
                                             {{ $candidat->nom }}
@@ -106,7 +103,7 @@
                                         </td>
                                         <td style="width: 20%;">
                                             <a href="{{ $info_consultation->id }}/{{ $candidat->id }}">
-                                                <button class="btn bg-gradient-primary">
+                                                <button class="btn bg-dark text-white">
                                                     Voir fiche de consultation
                                                 </button>
                                             </a>
@@ -141,9 +138,6 @@
         </div>
         </div>
 
-        <script async defer src="https://buttons.github.io/buttons.js"></script>
-        <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-        <script src="{{ asset('/assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
         <script src="{{ asset('/assets/js/core/popper.min.js') }}"></script>
         <script src="{{ asset('/assets/js/core/bootstrap.min.js') }}"></script>
         <script src="{{ asset('/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>

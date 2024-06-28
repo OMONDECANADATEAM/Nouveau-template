@@ -1,4 +1,4 @@
-<div class="modal z-index-1 fade" id="AjouterOuModifierConsultationModal{{ $candidat->id }}"
+<div class="modal z-index-1 fade procedureClient " id="AjouterOuModifierConsultationModal{{ $candidat->id }}"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -6,14 +6,15 @@
                 <h4 class="modal-title" id="exampleModalLabel">Ajouter ou Modifier la Consultation</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Administratif.CreerOuModifierDateConsultation', $candidat->id) }}" method="POST" class="text-start"
-                    id="modifierContactForm{{ $candidat->id }}" enctype="multipart/form-data">
+                <form action="{{ route('Administratif.CreerOuModifierDateConsultation', $candidat->id) }}" method="POST"
+                    class="text-start DateConsForm" id="modifierDateCons{{ $candidat->id }}" enctype="multipart/form-data"
+                    data-modal-id="{{ $candidat->id }}">
                     @csrf
                     @method('PUT')
 
                     <label for="consultation_id"><h3>
                         </h3></label>
-                    
+
                     <div class=" d-flex flex-wrap ">
                         <!-- Boucle sur la liste des consultations à venir -->
                         @foreach ($consultationsDisponible as $consultation)
@@ -30,6 +31,8 @@
                             </div>
                         @endforeach
                     </div>
+                    
+                    
 
                     <div class="text-center mt-3  d-flex align-items-center justify-content-around">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>

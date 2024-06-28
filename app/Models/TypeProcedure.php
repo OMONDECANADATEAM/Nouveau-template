@@ -17,7 +17,7 @@ class TypeProcedure extends Model
         'id',
         'label',
         'montant',
-        // Ajoutez d'autres colonnes fillables si nécessaire
+       
     ];
 
 

@@ -6,6 +6,7 @@ use App\Models\Candidat;
 use App\Models\consultante;
 use App\Models\Depense;
 use App\Models\Entree;
+use App\Models\InfoConsultation;
 use App\Models\Succursale;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -49,6 +50,45 @@ public function getAllCandidatsData()
 
     return $candidatsPagines;
 }
+
+public function dataSuccursale()
+{
+    // Obtenez le mois actuel
+    $moisActuel = now()->format('m');
+    // Obtenez la liste des succursales
+    $succursales = Succursale::all();
+    $donneesSuccursales = [];
+    // Itérez sur chaque succursale
+    foreach ($succursales as $succursale) {
+        // Obtenez le total du mois en cours pour la succursale actuelle (entrées)
+        $totalEntrant = Entree::whereMonth('date', $moisActuel)
+            ->whereHas('utilisateur', function ($query) use ($succursale) {
+                $query->where('id_succursale', $succursale->id);
+            })
+            ->sum('montant');
+        // Obtenez le total du mois en cours pour les dépenses de la succursale actuelle
+        $totalDepenses = Depense::whereMonth('date', $moisActuel)
+            ->whereHas('utilisateur', function ($query) use ($succursale) {
+                $query->where('id_succursale', $succursale->id);
+            })
+            ->sum('montant');
+        // Déterminez la devise en fonction de la succursale
+        $devise = ($succursale->id == 4) ? '$' : 'FCFA';
+        // Stockez les totaux dans le tableau associatif
+        $donneesSuccursales[] = [
+            'id' => $succursale->id, // Ajoutez l'ID de la succursale ici
+            'label' => $succursale->label,
+            'totalEntrant' => $totalEntrant ,
+            'totalDepenses' => $totalDepenses ,
+            'totalCaisse' => $totalEntrant - $totalDepenses ,
+            'devise' => $devise ,
+            // Ajoutez d'autres données si nécessaire
+        ];
+    }
+    // Retournez le tableau sous forme de JSON
+    return response()->json($donneesSuccursales);
+}
+
 
 
 private function allSuccursalle()
@@ -159,13 +199,30 @@ private function formatChartData($data)
     return $formattedData;
 }
 
-
 public function Consultation(){
 
-    $consultantes = consultante::all();
+    Carbon::setLocale('fr');
+    
+    $consultations = InfoConsultation::with(['consultante', 'candidats'])
+        ->orderBy('date_heure', 'desc')
+        ->get();
 
-    return view('Direction.Views.Consultation', ['data_consultante' => $consultantes]);
+    $consultations->transform(function ($consultation) {
+        if ($consultation->date_heure) {
+            $date_heure = Carbon::parse($consultation->date_heure);
+            $consultation->datePassee = $date_heure->isPast();
+            $consultation->dateFormatee = $date_heure->translatedFormat('l j F Y H:i');
+        } else {
+            $consultation->datePassee = false; // Ou toute autre valeur par défaut que vous souhaitez définir
+            $consultation->dateFormatee = 'N / A';
+        }
+        return $consultation;
+    });
+
+    return view('Direction.Views.Consultation', ['consultations' => $consultations]);
 }
+
+
 
 public function DossierClient(){
 
