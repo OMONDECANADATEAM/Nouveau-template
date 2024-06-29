@@ -15,6 +15,7 @@ use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\FicheDeRenseignementController;
 use App\Http\Controllers\FicheRenseignementController;
 use App\Http\Controllers\InformatiqueController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -161,3 +162,7 @@ Route::get('/waiting-list/{consultation_id}', [ConsultationController::class, 'g
 
 //Route Documents
 Route::get('/transactions/{id}/print', [TransactionController::class, 'print'])->name('transactions.print');
+Route::get('/generate-pdf', [PdfController::class, 'generatePDF']);
+Route::get('/print/devis/{id}', [PDFController::class, 'printDevis'])->name('print.devis');
+Route::get('/print/serviceContract/{id}', [PDFController::class, 'printServiceContract'])->name('print.serviceContract');
+Route::get('/print/professionalServiceContract/{id}', [PDFController::class, 'printProfessionalServiceContract'])->name('print.professionalServiceContract');

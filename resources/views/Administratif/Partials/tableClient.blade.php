@@ -1,10 +1,8 @@
 <div class="card my-4">
     <div class="card-header p-0 position-relative mt-n4 mx-3">
-        <div
-            class="bg-gradient-dark shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
+        <div class="bg-gradient-dark shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between p-4">
             <div class="p-2 border-radius-lg w-40 bg-white">
-                <input type="text" id="searchInput" class="form-control   text-lg bg-transparent border-0 p-1"
-                    placeholder="Rechercher...">
+                <input type="text" id="searchInput" class="form-control text-lg bg-transparent border-0 p-1" placeholder="Rechercher...">
             </div>
 
             <div class="p-2 d-flex align-items-center w-30 justify-content-around flex-direction-row">
@@ -15,8 +13,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownTypeVisa">
                         @foreach (\App\Models\TypeProcedure::all() as $typeVisa)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="{{ $typeVisa->label }}"
-                                    id="typeVisa{{ $typeVisa->id }}" name="type_visa" checked>
+                                <input class="form-check-input" type="checkbox" value="{{ $typeVisa->label }}" id="typeVisa{{ $typeVisa->id }}" name="type_visa" checked>
                                 <label class="form-check-label" for="typeVisa{{ $typeVisa->id }}">
                                     {{ $typeVisa->label }}
                                 </label>
@@ -30,19 +27,16 @@
                         Consultante
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownConsultante">
-                        @foreach (\App\Models\consultante::all() as $consultante)
+                        @foreach (\App\Models\Consultante::all() as $consultante)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox"
-                                    value="{{ $consultante->nom }} {{ $consultante->prenoms }}"
-                                    id="consultante{{ $consultante->id }}" name="consultante" checked>
+                                <input class="form-check-input" type="checkbox" value="{{ $consultante->nom }} {{ $consultante->prenoms }}" id="consultante{{ $consultante->id }}" name="consultante" checked>
                                 <label class="form-check-label" for="consultante{{ $consultante->id }}">
                                     {{ $consultante->nom }} {{ $consultante->prenoms }}
                                 </label>
                             </div>
                         @endforeach
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value=""
-                                id="consultante{{ $consultante->id }}" name="consultante" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="consultante{{ $consultante->id }}" name="consultante" checked>
                             <label class="form-check-label" for="consultante{{ $consultante->id }}">
                                 N / A
                             </label>
@@ -57,8 +51,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownStatut">
                         @foreach (\App\Models\StatutProcedure::all() as $statut)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="{{ $statut->label }}"
-                                    id="statut{{ $statut->id }}" name="statut" checked>
+                                <input class="form-check-input" type="checkbox" value="{{ $statut->label }}" id="statut{{ $statut->id }}" name="statut" checked>
                                 <label class="form-check-label" for="statut{{ $statut->id }}">
                                     {{ $statut->label }}
                                 </label>
@@ -66,7 +59,6 @@
                         @endforeach
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -75,37 +67,14 @@
             <table class="table align-items-center justify-content-center mb-0 dataTable">
                 <thead>
                     <tr>
-                        <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            TAG
-                        </th>
-
-                        <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            NOM
-                        </th>
-
-                        <th
-                            class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            TYPE VISA
-                        </th>
-
-                        <th
-                            class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            STATUT
-                        </th>
-                        <th
-                            class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            CONSULTANTE
-                        </th>
-
-                        <th
-                            class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            VOIR DOSSIER
-                        </th>
-
-                        <th
-                            class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                            ACTIONS
-                        </th>
+                        <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TAG</th>
+                        <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NOM</th>
+                        <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">TYPE VISA</th>
+                        <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">STATUT</th>
+                        <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">CONSULTANTE</th>
+                        <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">VOIR DOSSIER</th>
+                        <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">ACTIONS</th>
+                        <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">IMPRIMER</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,16 +92,13 @@
                                         @endif
                                     </h6>
                                 </div>
-
                             </td>
                             <td>
                                 <div class="d-flex px-2">
                                     <h6 class="p-2 text-md">{{ $candidat->nom }} {{ $candidat->prenom }}</h6>
                                 </div>
                             </td>
-
                             <td class="align-middle text-center">
-
                                 <span class="text-md ">
                                     @if ($candidat->proceduresDemandees)
                                         {{ $candidat->proceduresDemandees->typeProcedure->label }}
@@ -140,10 +106,8 @@
                                         N / A
                                     @endif
                                 </span>
-
                             </td>
                             <td class="align-middle text-center">
-
                                 <span class="text-md ">
                                     @if ($candidat->proceduresDemandees)
                                         {{ $candidat->proceduresDemandees->statut->label ?? 'null' }}
@@ -151,11 +115,8 @@
                                         N / A
                                     @endif
                                 </span>
-
                             </td>
-
                             <td class="align-middle text-center">
-
                                 <span class="text-md ">
                                     @if ($candidat->proceduresDemandees)
                                         {{ $candidat->proceduresDemandees->consultante->nom ?? 'N /' }}
@@ -164,74 +125,64 @@
                                         N / A
                                     @endif
                                 </span>
-
                             </td>
-
                             <td class="align-middle text-center">
-                                <button class="btn bg-dark text-white" data-bs-toggle="modal"
-                                    data-bs-target="#voirDossierModal{{ $candidat->id }}">
+                                <button class="btn bg-dark text-white" data-bs-toggle="modal" data-bs-target="#voirDossierModal{{ $candidat->id }}">
                                     Voir Le Dossier
                                 </button>
-
                                 @include('Administratif.Partials.VoirDocuments')
                             </td>
-
-
                             <td class="align-middle text-center">
                                 <div class="dropdown">
-                                    <button class="btn btn-dark" type="button" id="dropdownMenuButton"
-                                        data-bs-toggle="dropdown">
+                                    <button class="btn btn-dark" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
                                         <i class="material-icons">more_vert</i>
                                     </button>
-                                    <div class="dropdown-menu d-flex flex-direction-column flex-wrap"
-                                        aria-labelledby="dropdownMenuButton">
-
-                                        <a class="btn btn-danger col-12 m-1 "data-bs-toggle="modal"
-                                            data-bs-target="#AjouterVisaModal{{ $candidat->id }}">
+                                    <div class="dropdown-menu d-flex flex-direction-column flex-wrap" aria-labelledby="dropdownMenuButton">
+                                        <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal" data-bs-target="#AjouterVisaModal{{ $candidat->id }}">
                                             Ajouter le Type de Visa
                                         </a>
-
-                                        <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal"
-                                            data-bs-target="#ajouterFichierModal{{ $candidat->id }}">
+                                        <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal" data-bs-target="#ajouterFichierModal{{ $candidat->id }}">
                                             Ajouter des documents
                                         </a>
-                                        <a class="btn btn-danger col-12 m-1 "data-bs-toggle="modal"
-                                            data-bs-target="#changeTagModal{{ $candidat->id }}">
+                                        <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal" data-bs-target="#changeTagModal{{ $candidat->id }}">
                                             Ajouter / Changer un tag
                                         </a>
-                                        <a class="btn btn-danger col-12 m-1 "data-bs-toggle="modal"
-                                        data-bs-target="#addFicheRens{{ $candidat->id }}">
-                                        Fiche de renseignement
-                                    </a>
-
-
+                                        <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal" data-bs-target="#addFicheRens{{ $candidat->id }}">
+                                            Fiche de renseignement
+                                        </a>
                                     </div>
                                 </div>
                             </td>
-
-                            @include('Administratif.Partials.AddVisa', [
-                                'candidat' => $candidat,
-                            ])
+                            <td class="align-middle text-center">
+                                <div class="dropdown">
+                                    <button class="btn btn-dark" type="button" id="dropdownPrintButton" data-bs-toggle="dropdown">
+                                        <i class="material-icons">print</i>
+                                    </button>
+                                    <div class="dropdown-menu d-flex flex-direction-column flex-wrap" aria-labelledby="dropdownPrintButton">
+                                        <a class="btn btn-secondary col-12 m-1" href="{{ route('print.devis', $candidat->id) }}">
+                                            Devis
+                                        </a>
+                                        <a class="btn btn-secondary col-12 m-1" href="{{ route('print.serviceContract', $candidat->id) }}">
+                                            Contrat de service
+                                        </a>
+                                        <a class="btn btn-secondary col-12 m-1" href="{{ route('print.professionalServiceContract', $candidat->id) }}">
+                                            Contrat de service professionnel
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            @include('Administratif.Partials.AddVisa', ['candidat' => $candidat])
                             @include('Administratif.Partials.ajoutFichierClient')
-                            @include('Administratif.Partials.AddTag', [
-                                'candidat' => $candidat,
-                            ])
-                             @include('Administratif.Partials.AddFicheRens', [
-                                'candidat' => $candidat,
-                            ])
-
-
+                            @include('Administratif.Partials.AddTag', ['candidat' => $candidat])
+                            @include('Administratif.Partials.AddFicheRens', ['candidat' => $candidat])
                         </tr>
                     @endforeach
-
-
                 </tbody>
             </table>
-
         </div>
     </div>
-
 </div>
+
 
 <script>
     $(document).ready(function() {
