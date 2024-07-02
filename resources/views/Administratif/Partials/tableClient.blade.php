@@ -27,7 +27,7 @@
                         Consultante
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownConsultante">
-                        @foreach (\App\Models\Consultante::all() as $consultante)
+                        @foreach (\App\Models\consultante::all() as $consultante)
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="{{ $consultante->nom }} {{ $consultante->prenoms }}" id="consultante{{ $consultante->id }}" name="consultante" checked>
                                 <label class="form-check-label" for="consultante{{ $consultante->id }}">
