@@ -18,7 +18,7 @@
               </button>
             @endif
           </div>
-             @include('Administratif.Partials.AddDepense')
+             @include('partials.Banque.addDepenses')
         @include('Administratif.Partials.AddEntree')
         </div>
 

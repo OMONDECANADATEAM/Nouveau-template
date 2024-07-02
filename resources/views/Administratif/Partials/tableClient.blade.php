@@ -67,12 +67,10 @@
             <table class="table align-items-center justify-content-center mb-0 dataTable">
                 <thead>
                     <tr>
-                        <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TAG</th>
                         <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NOM</th>
                         <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">TYPE VISA</th>
                         <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">STATUT</th>
                         <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">CONSULTANTE</th>
-                        <th class="col-md-2 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">VOIR DOSSIER</th>
                         <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">ACTIONS</th>
                         <th class="col-md-1 text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">IMPRIMER</th>
                     </tr>
@@ -80,19 +78,7 @@
                 <tbody>
                     @foreach ($data_client->sortByDesc('date') as $candidat)
                         <tr>
-                            <td>
-                                <div class="d-flex px-2">
-                                    <h6 class="p-2 text-md">
-                                        @if ($candidat->proceduresDemandees)
-                                            <span class="badge bg-primary rounded-pill">
-                                                {{ $candidat->proceduresDemandees->tag->label ?? '' }}
-                                            </span>
-                                        @else
-                                            N / A
-                                        @endif
-                                    </h6>
-                                </div>
-                            </td>
+
                             <td>
                                 <div class="d-flex px-2">
                                     <h6 class="p-2 text-md">{{ $candidat->nom }} {{ $candidat->prenom }}</h6>
@@ -126,12 +112,7 @@
                                     @endif
                                 </span>
                             </td>
-                            <td class="align-middle text-center">
-                                <button class="btn bg-dark text-white" data-bs-toggle="modal" data-bs-target="#voirDossierModal{{ $candidat->id }}">
-                                    Voir Le Dossier
-                                </button>
-                                @include('Administratif.Partials.VoirDocuments')
-                            </td>
+
                             <td class="align-middle text-center">
                                 <div class="dropdown">
                                     <button class="btn btn-dark" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
@@ -150,6 +131,11 @@
                                         <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal" data-bs-target="#addFicheRens{{ $candidat->id }}">
                                             Fiche de renseignement
                                         </a>
+                                        <a class="btn btn-danger col-12 m-1" data-bs-toggle="modal"  data-bs-target="#voirDossierModal{{ $candidat->id }}">
+                                            Voir dossier
+                                        </a>
+
+                                        @include('Administratif.Partials.VoirDocuments')
                                     </div>
                                 </div>
                             </td>

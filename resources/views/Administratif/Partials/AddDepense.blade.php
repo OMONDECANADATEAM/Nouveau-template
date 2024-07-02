@@ -24,7 +24,7 @@
                             <input type="date" name="date" id="date" class="form-control" value="{{ now()->format('Y-m-d') }}" required>
 
                         </div>
-                </div>
+                    </div>
 
                     <!-- Champ Raison -->
                     <div class=" mb-3 p-2">
