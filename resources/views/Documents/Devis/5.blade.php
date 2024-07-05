@@ -72,14 +72,28 @@
 <body>
     <div class="container">
         <div class="content">
+            @php
+                // Calculer la somme des montants des entrées pour ce candidat
+               $montantPaye = \App\Models\Entree::where('id_candidat', $candidat->id)->where('id_type_paiement', 1)->sum('montant');
+                
+                // Calculer le montant payé en fonction du type de procédure
+                $totalMontant  = $candidat->proceduresDemandees->montant ;
+                
+                // Calculer le montant restant
+                $reste = $totalMontant - $montantPaye;
+
+                $recuPrefix = 'RC';
+    $datePart = \Carbon\Carbon::parse($candidat->date_versement)->format('Ymd');
+    $numeroRecu = "{$recuPrefix}-{$datePart}-{$candidat->id}";
+
+            @endphp
             <p>Versement pour la demande du visa de résidence permanente au Canada – <strong>OMONDE CANADA</strong></p>
             <p>Effectué par <strong>ESPÈCES</strong></p>
             <p>à l’institution « <strong>OMONDE CANADA – CÔTE D’IVOIRE</strong> »</p>
             <p>En date du <strong>{{ \Carbon\Carbon::parse($candidat->date_versement)->format('d/m/Y') }}</strong></p>
-            <p>Le montant est de <strong class="highlight">{{ number_format($candidat->montant, 0, ',', ' ') }} F CFA</strong></p>
-            <p>Il reste donc <strong class="highlight">{{ number_format($candidat->reste, 0, ',', ' ') }} F CFA</strong></p>
-            <p>Le numéro du reçu de versement est <strong>{{ $candidat->numero_recu }}</strong></p>
-            <p>Le client reconnaît que ces frais ne sont pas remboursables car ils serviront pour le traitement de sa demande d’immigration au Canada.</p>
+            <p>Le montant est de <strong class="highlight">{{ number_format($totalMontant, 0, ',', ' ') }} F CFA</strong></p>
+            <p>Il reste donc <strong class="highlight">{{ number_format($reste, 0, ',', ' ') }} F CFA</strong></p>
+            <p>Le numéro du reçu de versement est <strong>{{ $numeroRecu }}</strong></p>  <p>Le client reconnaît que ces frais ne sont pas remboursables car ils serviront pour le traitement de sa demande d’immigration au Canada.</p>
             <h3>ACCEPTATION DU DEVIS</h3>
             <p class="highlight">Ce document doit être signé avec la mention : Lu et approuvé (en 2 exemplaires). Le cas échéant ce document sera envoyé par voie électronique. Nous attestons que nos signatures garderont la même force et validité que si elles avaient été signées sur une même copie papier du contrat.</p>
         </div>
@@ -101,3 +115,4 @@
     </div>
 </body>
 </html>
+

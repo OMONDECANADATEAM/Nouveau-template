@@ -36,7 +36,7 @@ class PdfController extends Controller
         try {
             $firstPagePdf = PDF::loadView('Documents.Devis.1', compact('candidat'))->output();
             $secondPagePdf = PDF::loadView('Documents.Devis.2')->output();
-            $thirdPagePdf = PDF::loadView('Documents.Devis.3')->output();
+            $thirdPagePdf = PDF::loadView('Documents.Devis.3' , compact('candidat'))->output();
             $fourthPagePdf = PDF::loadView('Documents.Devis.4')->output(); // Nouvelle vue pour la 4e page
             $lastPagePdf = PDF::loadView('Documents.Devis.5', compact('candidat'))->output();
         } catch (\Exception $e) {
@@ -121,7 +121,74 @@ class PdfController extends Controller
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'inline; filename="modified_document.pdf"');
     }
+
+
+    public function printContrat($id)
+    {
+        // Récupérer l'objet candidat par son identifiant
+        $candidat = Candidat::findOrFail($id);
+
+        // Préparer les données pour les vues
+        $contrat = (object) [
+            'num_dossier' => substr($candidat->nom, 0, 1) . substr($candidat->prenom, 0, 1) . \Carbon\Carbon::parse($candidat->date_naissance)->format('dmy'),
+            'dossier_anterieur' => 'SANS OBJET',
+            'date' => now()->format('d/m/Y'),
+        ];
+
+        $agent = (object) [
+            'nom' => $candidat->utilisateur->name  . ' '. $candidat->utilisateur->last_name,
+            'email' =>  $candidat->utilisateur->email,
+            'tel' => '+1(819) 489-0355',
+        ];
+
+        $client = (object) [
+            'nom' =>  $candidat->nom,
+            'prenom' =>  $candidat->prenom,
+            'citoyennete' => 'IVOIRIENNE',
+            'pays' => $candidat->pays,
+            'ville' => $candidat->ville,
+            'date_naissance' => $candidat->date_naissance,
+            'email' => $candidat->email,
+            'tel' => $candidat->numero_telephone,
+            'occupation' => $candidat->profession,
+            'statut_matrimonial' => 'CONJOINT DE FAIT',
+            'nbre_enfant' => 4,
+        ];
+
+        // Générer les pages
+        $firstPagePdf = PDF::loadView('Documents.Contrat.1', compact('contrat', 'agent', 'client'))->output();
+        $secondPagePdf = PDF::loadView('Documents.Contrat.2', compact('contrat', 'agent', 'client'))->output();
+        $thirdPagePdf = PDF::loadView('Documents.Contrat.3', compact('contrat', 'agent', 'client'))->output();
+
+        // Initialiser FPDI
+        $pdf = new FPDI();
+
+        // Ajouter la première page générée
+        $pdf->AddPage();
+        $tplIdx = $pdf->setSourceFile(StreamReader::createByString($firstPagePdf));
+        $pdf->useTemplate($pdf->importPage(1));
+
+        // Ajouter la deuxième page générée
+        $pdf->AddPage();
+        $tplIdx = $pdf->setSourceFile(StreamReader::createByString($secondPagePdf));
+        $pdf->useTemplate($pdf->importPage(1));
+
+        // Ajouter la troisième page générée
+        $pdf->AddPage();
+        $tplIdx = $pdf->setSourceFile(StreamReader::createByString($thirdPagePdf));
+        $pdf->useTemplate($pdf->importPage(1,));
+
+        $pdf->AddPage();
+        $tplIdx = $pdf->setSourceFile(StreamReader::createByString($thirdPagePdf));
+        $pdf->useTemplate($pdf->importPage(2));
+
+        // Générer le PDF final
+        return response($pdf->Output('S'), 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="contrat_service.pdf"');
+    }
 }
+
 
 
 
