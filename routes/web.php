@@ -166,3 +166,5 @@ Route::get('/generate-pdf', [PdfController::class, 'generatePDF']);
 Route::get('/print/devis/{id}', [PDFController::class, 'printDevis'])->name('print.devis');
 Route::get('/print/serviceContract/{id}', [PDFController::class, 'printContrat'])->name('print.serviceContract');
 Route::get('/print/professionalServiceContract/{id}', [PDFController::class, 'printProfessionalServiceContract'])->name('print.professionalServiceContract');
+
+Route::get('/print-professional-service-contract/{id}', [PdfController::class, 'printProfessionalServiceContract'])->name('print.professionalServiceContract');

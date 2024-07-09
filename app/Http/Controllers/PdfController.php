@@ -187,6 +187,25 @@ class PdfController extends Controller
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'inline; filename="contrat_service.pdf"');
     }
+
+    public function printProfessionalServiceContract($id)
+    {
+        // Récupérer l'objet candidat par son identifiant
+        $candidat = Candidat::findOrFail($id);
+
+        // Chemin vers le fichier PDF existant
+        $pdfPath = storage_path('app/public/Doc.pdf');
+
+        if (!file_exists($pdfPath)) {
+            abort(404, "Le fichier PDF n'existe pas!");
+        }
+
+        // Retourner le PDF comme réponse
+        return response()->file($pdfPath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="Devis.pdf"',
+        ]);
+    }
 }
 
 

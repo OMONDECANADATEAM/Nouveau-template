@@ -154,6 +154,7 @@
                                         <a class="btn btn-secondary col-12 m-1" href="{{ route('print.professionalServiceContract', $candidat->id) }}">
                                             Contrat de service professionnel
                                         </a>
+
                                     </div>
                                 </div>
                             </td>
