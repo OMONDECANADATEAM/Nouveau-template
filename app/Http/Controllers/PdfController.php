@@ -204,7 +204,7 @@ class PdfController extends Controller
         return response()->file($pdfPath, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="Devis.pdf"',
-        ]); 
+        ]);
     }
 }
 
