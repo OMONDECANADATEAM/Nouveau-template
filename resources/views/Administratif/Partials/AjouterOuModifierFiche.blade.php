@@ -127,6 +127,18 @@
                                         {{ $candidat->ficheConsultation && $candidat->ficheConsultation->type_visa === 'visiteur' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="visiteur">Visiteur</label>
                                 </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="type_visa" id="Permanent"
+                                        value="Permanent"
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->type_visa === 'Permanent' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="Permanent">Permanent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="type_visa" id="Famille"
+                                        value="Famille"
+                                        {{ $candidat->ficheConsultation && $candidat->ficheConsultation->type_visa === 'Famille' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="Famille">Famille</label>
+                                </div>
                             </div>
                         </div>
 
