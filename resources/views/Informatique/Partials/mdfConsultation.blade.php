@@ -11,7 +11,6 @@
                     @csrf
                     @method('PUT')
 
-
                     <div class=" mb-3 p-2">
                         <label for="lien_zoom" class="form-label">Lien Zoom</label>
                         <input type="text" name="lien_zoom" id="lien_zoom" class="form-control"
@@ -39,29 +38,20 @@
 
                         <div class="col-4 mb-3 p-2">
                             <label for="id_consultante" class="form-label">Nom de la Consultante</label>
-                            <select name="id_consultante" id="id_consultante" class="form-select p-2" placeholder=""
-                                required>
-                                @foreach ($data_consultante as $consultante)
-                                    <option value="{{ $consultante->id }}">{{ $consultante->nom }}
-                                        {{ $consultante->prenoms }}</option>
+                            <select name="id_consultante" id="id_consultante" class="form-select p-2" required>
+                                @foreach($data_consultante as $consultante)
+                                    <option value="{{ $consultante->id }}" {{ $consultation->id_consultante == $consultante->id ? 'selected' : '' }}>
+                                        {{ $consultante->nom }} {{ $consultante->prenoms }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
-
                     <div class="text-end d-flex justify-content-around">
-                        <button type="button" class="btn btn-danger"
-                            data-bs-dismiss="modal">FERMER
-                        </button>
-
-                        <button type="submit" class="btn btn-success"
-                            >ENREGISTRER
-                        </button>
-                       
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FERMER</button>
+                        <button type="submit" class="btn btn-success">ENREGISTRER</button>
                     </div>
-
-
                 </form>
             </div>
         </div>
