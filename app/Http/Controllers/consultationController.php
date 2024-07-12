@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidat;
-use App\Models\consultante;
+use App\Models\Consultante;
 use App\Models\InfoConsultation;
 use App\Models\User;
 use App\Notifications\ConsultationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
-class consultationController extends Controller
+class ConsultationController extends Controller
 {
-
     public function toggleConsultation($candidatId)
     {
         $candidat = Candidat::find($candidatId);
@@ -32,22 +32,17 @@ class consultationController extends Controller
 
     public function listeConsultantes()
     {
-
         $consultantes = Consultante::all();
-
         return view('Consultation.Consultation', ['data_consultante' => $consultantes]);
     }
 
     public function getConsultationWaitingList($consultationId)
     {
-       // Récupérer la consultation par son ID
-       $info_consultation = InfoConsultation::find($consultationId);
-
-
-
-
-        return view('Consultation.waitingList', ['data_candidat' =>  $info_consultation->candidats]);
+        // Récupérer la consultation par son ID
+        $info_consultation = InfoConsultation::find($consultationId);
+        return view('Consultation.waitingList', ['data_candidat' => $info_consultation->candidats]);
     }
+
     public function creerConsultation(Request $request)
     {
         // Valider les données du formulaire
@@ -68,21 +63,7 @@ class consultationController extends Controller
             'id_consultante' => $request->input('id_consultante')
         ]);
 
-        $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
-        $lien_zoom = $request->input('lien_zoom');
-        $lien_zoom_demarrer = $request->input('lien_zoom_demarrer');
-        $date_heure = $request->input('date_heure');
-        $nombre_candidats = $request->input('nombre_candidats');
-        $consultante = $consultation->consultante->nom . ' ' . $consultation->consultante->prenoms;
-
-        // Utilisez la fonction pour récupérer les utilisateurs par rôle
-        $utilisateursNotifies = $this->getUsersByRole(4); // Remplacez 4 par l'ID du rôle que vous souhaitez
-
-        DB::transaction(function () use ($utilisateursNotifies, $consultation, $agent, $lien_zoom, $lien_zoom_demarrer, $date_heure, $nombre_candidats, $consultante) {
-            foreach ($utilisateursNotifies as $utilisateur) {
-                $utilisateur->notify(new ConsultationNotification($consultation, 'créée'));
-            }
-        });
+        $this->sendNotification($consultation, 'créée');
 
         return redirect()->back();
     }
@@ -109,21 +90,7 @@ class consultationController extends Controller
                 'id_consultante' => $request->input('id_consultante')
             ]);
 
-            $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
-            $lien_zoom = $request->input('lien_zoom');
-            $lien_zoom_demarrer = $request->input('lien_zoom_demarrer');
-            $date_heure = $request->input('date_heure');
-            $nombre_candidats = $request->input('nombre_candidats');
-            $consultante = $consultation->consultante->nom . ' ' . $consultation->consultante->prenoms;
-
-            // Utilisez la fonction pour récupérer les utilisateurs par rôle
-            $utilisateursNotifies = $this->getUsersByRole(4); // Remplacez 4 par l'ID du rôle que vous souhaitez
-
-            DB::transaction(function () use ($utilisateursNotifies, $consultation, $agent, $lien_zoom, $lien_zoom_demarrer, $date_heure, $nombre_candidats, $consultante) {
-                foreach ($utilisateursNotifies as $utilisateur) {
-                    $utilisateur->notify(new ConsultationNotification($consultation, 'modifiée'));
-                }
-            });
+            $this->sendNotification($consultation, 'modifiée');
 
             return redirect()->back();
         } catch (\Exception $e) {
@@ -136,23 +103,28 @@ class consultationController extends Controller
         $consultation = InfoConsultation::findOrFail($id);
         $consultation->delete();
 
-        $agent = auth()->user()->name . ' ' . auth()->user()->last_name;
-        $lien_zoom = $consultation->lien_zoom;
-        $lien_zoom_demarrer = $consultation->lien_zoom_demarrer;
-        $date_heure = $consultation->date_heure;
-        $nombre_candidats = $consultation->nombre_candidats;
-        $consultante = $consultation->consultante->nom . ' ' . $consultation->consultante->prenoms;
-
-        // Utilisez la fonction pour récupérer les utilisateurs par rôle
-        $utilisateursNotifies = $this->getUsersByRole(4); // Remplacez 4 par l'ID du rôle que vous souhaitez
-
-        DB::transaction(function () use ($utilisateursNotifies, $consultation, $agent, $lien_zoom, $lien_zoom_demarrer, $date_heure, $nombre_candidats, $consultante) {
-            foreach ($utilisateursNotifies as $utilisateur) {
-                $utilisateur->notify(new ConsultationNotification($consultation, 'supprimée'));
-            }
-        });
+        $this->sendNotification($consultation, 'supprimée');
 
         return response()->json(['message' => 'La consultation a été supprimée avec succès.'], 200);
+    }
+
+    protected function sendNotification($consultation, $action)
+    {
+        // Predefined email addresses
+        $emails = ['info@omondecanada.com', 'doh.tosseta@omondecanada.com', 'andreamelissaf@gmail.com'];
+
+        // Users with role type 3
+        $roleBasedUsers = $this->getUsersByRole(3);
+
+        // Send email to predefined email addresses
+        foreach ($emails as $email) {
+            Mail::to($email)->send(new \App\Mail\ConsultationMail($consultation, $action));
+        }
+
+        // Notify users with role type 3
+        foreach ($roleBasedUsers as $user) {
+            Mail::to($user->email)->send(new \App\Mail\ConsultationMail($consultation, $action));
+        }
     }
 
     public function getUsersByRole($roleId)
